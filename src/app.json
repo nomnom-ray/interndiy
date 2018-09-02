@@ -1,0 +1,29 @@
+{
+  "pages": [
+    "pages/mentee/main",
+    "pages/mentor/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#EA5149",
+    "navigationBarTitleText": "InternDIY",
+    "navigationBarTextStyle": "light"
+  },
+  "tabBar": {
+    "selectedColor": "#EA5149",
+    "list": [
+      {
+      "pagePath": "pages/mentee/main",
+      "text": "map",
+      "iconPath": "/static/img/mentee.png",
+      "selectedIconPath": "/static/img/mentee-active.png"
+    },
+    {
+      "pagePath": "pages/mentor/main",
+      "text": "mentor",
+      "iconPath": "/static/img/mentor.png",
+      "selectedIconPath": "/static/img/mentor-active.png"
+    }
+  ]
+  }
+}
