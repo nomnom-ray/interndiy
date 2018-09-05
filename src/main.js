@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import App from './App';
+import Store from './store/store';
+
+Vue.prototype.$store = Store;
 
 Vue.config.productionTip = false;
 App.mpType = 'app';

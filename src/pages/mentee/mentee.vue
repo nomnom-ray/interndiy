@@ -11,6 +11,9 @@ export default {
   components: {
     appConceptmap: Conceptmap,
   },
+  created() {
+    this.$store.dispatch('subjectsInit');
+  },
 };
 </script>
 
