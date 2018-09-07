@@ -16,6 +16,24 @@ const mutations = {
     state.conceptsSelected.splice(index, 1);
   },
   // eslint-disable-next-line
+  CONCEPTS_ADD(state, payload) {
+    if (payload.position === 'top') {
+      state.subjects[payload.subjectIndex].concepts
+        .splice(payload.concept.id, 0, payload.concept);
+    } else if (payload.position === 'bottom') {
+      state.subjects[payload.subjectIndex].concepts
+        .splice(payload.concept.id - 1, 0, payload.concept);
+    }
+  },
+  // eslint-disable-next-line
+  CONCEPTS_DEL(state, index) {
+    state.conceptsSelected.splice(index, 1);
+  },
+  // eslint-disable-next-line
+  CONCEPTS_ID(state, payload) {
+    state.subjects[payload.subjectIndex].concepts[payload.idNew].id = payload.idNew;
+  },
+  // eslint-disable-next-line
   CONCEPTS_CLEAR(state) {
     state.conceptsSelected.length = 0;
   },
@@ -23,16 +41,24 @@ const mutations = {
   SUBJECTS_SET(state, subjects) {
     state.subjects = subjects;
   },
+  // eslint-disable-next-line
+  SUBJECTS_ADD(state, payload) {
+    state.subjects.splice(payload.subjectIndex + 1, 0, payload.subject);
+  },
 };
 
 const actions = {
   conceptsSelect: ({ commit }, concept) => {
-    // if (state.conceptsSelected.length <= 2) {
     commit('CONCEPTS_SEL', concept);
-    // }
   },
   conceptsDeselect: ({ commit }, index) => {
     commit('CONCEPTS_DESEL', index);
+  },
+  conceptsAdd: ({ commit }, payload) => {
+    commit('CONCEPTS_ADD', payload);
+  },
+  conceptsId: ({ commit }, payload) => {
+    commit('CONCEPTS_ID', payload);
   },
   conceptClear: ({ commit }) => {
     commit('CONCEPTS_CLEAR');
@@ -40,10 +66,12 @@ const actions = {
   subjectsInit: ({ commit }) => {
     commit('SUBJECTS_SET', DBSubjects);
   },
+  subjectsAdd: ({ commit }, payload) => {
+    commit('SUBJECTS_ADD', payload);
+  },
 };
 
 const getters = {
-  concepts: () => state.concepts,
   subjects: () => state.subjects,
   conceptsSelected: () => state.conceptsSelected,
 };

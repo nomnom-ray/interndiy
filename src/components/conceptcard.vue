@@ -24,7 +24,7 @@
         conceptsDeselect: 'conceptsDeselect',
       }),
       cardClicked(idClicked, subjectClicked) {
-        const obj = { id: idClicked, subject: subjectClicked };
+        const obj = { conceptId: idClicked, subjectId: subjectClicked };
         if (!this.conceptIsClicked) {
           if (this.conceptsSelected.length < 2) {
             this.conceptIsClicked = true;
@@ -33,7 +33,7 @@
         } else {
           this.conceptIsClicked = false;
           // delete it from array if the same card is clicked again
-          const index = this.conceptsSelected.map(element => element.id).indexOf(idClicked);
+          const index = this.conceptsSelected.map(element => element.conceptId).indexOf(idClicked);
           this.conceptsDeselect(index);
         }
       },

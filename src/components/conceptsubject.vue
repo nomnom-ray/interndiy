@@ -35,7 +35,6 @@
     },
     computed: {
       ...mapGetters({
-        concepts: 'concepts',
         subjects: 'subjects',
       }),
       subjectSelector() {

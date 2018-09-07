@@ -1,73 +1,70 @@
 export default [
   {
-    id: 1,
-    length: 0,
+    id: 0,
     summary: 'blank',
     concepts: [],
   },
   {
-    id: 2,
+    id: 1,
     length: 5,
-    summary: 'summary1',
+    summary: 'summary',
     concepts: [
       {
+        id: 0,
+        type: 'step',
+        behavior: 'behavior',
+      },
+      {
         id: 1,
-        type: 'trigger',
-        behavior: 'behavior1',
+        type: 'step',
+        behavior: 'behavior',
       },
       {
         id: 2,
-        type: 'result',
-        behavior: 'behavior5',
+        type: 'step',
+        behavior: 'behavior',
       },
       {
         id: 3,
         type: 'step',
-        behavior: 'behavior2',
+        behavior: 'behavior',
       },
       {
         id: 4,
         type: 'step',
-        behavior: 'behavior3',
+        behavior: 'behavior',
+      },
+    ],
+  },
+  {
+    id: 2,
+    summary: 'summary',
+    concepts: [
+      {
+        id: 0,
+        type: 'step',
+        behavior: 'behavior',
       },
       {
-        id: 5,
+        id: 1,
         type: 'step',
-        behavior: 'behavior4',
+        behavior: 'behavior',
+      },
+      {
+        id: 2,
+        type: 'step',
+        behavior: 'behavior',
       },
     ],
   },
   {
     id: 3,
-    length: 3,
-    summary: 'summary2',
+    summary: 'summary',
     concepts: [
       {
-        id: 1,
+        id: 0,
         type: 'step',
-        behavior: 'behavior5',
-      },
-      {
-        id: 2,
-        type: 'step',
-        behavior: 'behavior6',
-      },
-      {
-        id: 3,
-        type: 'step',
-        behavior: 'behavior7',
-      },
-    ],
-  },
-  {
-    id: 4,
-    length: 1,
-    summary: 'summary3',
-    concepts: [
-      {
-        id: 1,
-        type: 'step',
-        behavior: 'behavior8',
+        behavior: 'behavior',
       },
     ],
   },

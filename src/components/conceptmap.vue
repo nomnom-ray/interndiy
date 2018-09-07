@@ -53,7 +53,6 @@
         },
         subject: {
           id: 0,
-          length: 0,
           summary: '',
           concepts: [],
         },
@@ -68,57 +67,73 @@
     methods: {
       ...mapActions({
         conceptClear: 'conceptClear',
+        conceptsAdd: 'conceptsAdd',
+        subjectsAdd: 'subjectsAdd',
+        conceptsId: 'conceptsId',
       }),
       conceptAddTop() {
         if (this.conceptsSelected.length === 1) {
           const subjectIndex = this.subjects.map(element => element.id)
-            .indexOf(this.conceptsSelected[0].subject);
+            .indexOf(this.conceptsSelected[0].subjectId);
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
-            .indexOf(this.conceptsSelected[0].id);
+            .indexOf(this.conceptsSelected[0].conceptId);
           const concept = { ...this.concept };
-          concept.id = conceptIndex + 1;
-          this.subjects[subjectIndex].concepts.splice(conceptIndex, 0, concept);
-          // TODO: reassign original ID including and after selected
+          concept.id = conceptIndex;
+          this.conceptsAdd({ subjectIndex, position: 'top', concept });
+          // reassign original ID including and after selected
+          for (let i = conceptIndex; i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
+            this.conceptsId({ subjectIndex, idNew: i });
+          }
           this.selectClear();
         }
       },
       conceptAddBottom() {
         if (this.conceptsSelected.length === 1) {
           const subjectIndex = this.subjects.map(element => element.id)
-            .indexOf(this.conceptsSelected[0].subject);
+            .indexOf(this.conceptsSelected[0].subjectId);
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
-            .indexOf(this.conceptsSelected[0].id);
+            .indexOf(this.conceptsSelected[0].conceptId);
           const concept = { ...this.concept };
-          // placeholder until when concepts are added for new subjects
           concept.id = conceptIndex + 2;
-          this.subjects[subjectIndex].concepts.splice(conceptIndex + 1, 0, concept);
+          this.conceptsAdd({ subjectIndex, position: 'bottom', concept });
+          // reassign original ID including and after selected
+          for (let i = conceptIndex + 1;
+            i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
+            this.conceptsId({ subjectIndex, idNew: i });
+          }
           this.selectClear();
         }
       },
       conceptDelete() {
         if (this.conceptsSelected.length === 1) {
           const subjectIndex = this.subjects.map(element => element.id)
-            .indexOf(this.conceptsSelected[0].subject);
+            .indexOf(this.conceptsSelected[0].subjectId);
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
-            .indexOf(this.conceptsSelected[0].id);
+            .indexOf(this.conceptsSelected[0].conceptId);
           this.subjects[subjectIndex].concepts.splice(conceptIndex, 1);
+          // reassign original ID including and after deselected
+          for (let i = conceptIndex;
+            i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
+            this.conceptsId({ subjectIndex, idNew: i });
+          }
           this.selectClear();
         }
       },
       subjectNew() {
         if (this.conceptsSelected.length === 1) {
           const subjectIndex = this.subjects.map(element => element.id)
-            .indexOf(this.conceptsSelected[0].subject);
+            .indexOf(this.conceptsSelected[0].subjectId);
           const subject = { ...this.subject };
           // add a new subject column to the left of the selected card
-          this.subjects.splice(subjectIndex + 1, 0, subject);
           // start subject with 3 types of concepts: blanks, the selected one, and a new concept
-          // TODO: add blanks here
-          this.subjects[subjectIndex + 1].concepts.push(this.conceptsSelected[0]);
-          // const concept = { ...this.concept };
-          // FIXME: correct new concept
-          // concept.id = 0;
-          // this.subjects[subjectIndex + 1].concepts.push(concept);
+          subject.id = subjectIndex + 1;
+          subject.concepts.push(this.subjects[subjectIndex]
+            .concepts[this.conceptsSelected[0].conceptId]);
+          // TODO: add blanks &  new concept above and below
+          this.subjectsAdd({
+            subjectIndex,
+            subject,
+          });
           this.selectClear();
         }
       },
@@ -128,7 +143,6 @@
       },
     },
   };
-
 </script>
 
 <style lang='scss'>
