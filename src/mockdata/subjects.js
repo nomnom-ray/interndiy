@@ -1,14 +1,12 @@
 export default [
   {
     id: 1,
-    column: 1,
     length: 0,
     summary: 'blank',
     concepts: [],
   },
   {
     id: 2,
-    column: 2,
     length: 5,
     summary: 'summary1',
     concepts: [
@@ -41,22 +39,21 @@ export default [
   },
   {
     id: 3,
-    column: 3,
     length: 3,
     summary: 'summary2',
     concepts: [
       {
-        id: 6,
+        id: 1,
         type: 'step',
         behavior: 'behavior5',
       },
       {
-        id: 7,
+        id: 2,
         type: 'step',
         behavior: 'behavior6',
       },
       {
-        id: 8,
+        id: 3,
         type: 'step',
         behavior: 'behavior7',
       },
@@ -64,7 +61,6 @@ export default [
   },
   {
     id: 4,
-    column: 4,
     length: 1,
     summary: 'summary3',
     concepts: [

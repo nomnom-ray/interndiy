@@ -2,9 +2,9 @@
   <div 
     class='card'
     :class='{red: conceptIsClicked}'
-    @click='handlerCardClicked(propConcept.id)'
+    @click='cardClicked(propConcept.id, propSubject)'
   >
-    CARD: {{ propConcept.id }}
+    id: {{ propConcept.id }}
   </div>
 </template>
 
@@ -12,7 +12,7 @@
   import { mapGetters, mapActions } from 'vuex';
 
   export default {
-    props: ['propConcept'],
+    props: ['propConcept', 'propSubject', 'propConceptClickReset'],
     data() {
       return {
         conceptIsClicked: false,
@@ -23,16 +23,17 @@
         conceptsSelect: 'conceptsSelect',
         conceptsDeselect: 'conceptsDeselect',
       }),
-      handlerCardClicked(idClicked) {
+      cardClicked(idClicked, subjectClicked) {
+        const obj = { id: idClicked, subject: subjectClicked };
         if (!this.conceptIsClicked) {
           if (this.conceptsSelected.length < 2) {
             this.conceptIsClicked = true;
-            this.conceptsSelect(idClicked);
+            this.conceptsSelect(obj);
           }
         } else {
           this.conceptIsClicked = false;
           // delete it from array if the same card is clicked again
-          const index = this.conceptsSelected.indexOf(idClicked);
+          const index = this.conceptsSelected.map(element => element.id).indexOf(idClicked);
           this.conceptsDeselect(index);
         }
       },
@@ -41,6 +42,11 @@
       ...mapGetters({
         conceptsSelected: 'conceptsSelected',
       }),
+    },
+    watch: {
+      propConceptClickReset() {
+        this.conceptIsClicked = false;
+      },
     },
   };
 

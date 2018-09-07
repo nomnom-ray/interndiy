@@ -2,7 +2,6 @@
 import DBSubjects from '../../mockdata/subjects';
 
 const state = {
-  concepts: [],
   conceptsSelected: [],
   subjects: [],
 };
@@ -15,6 +14,10 @@ const mutations = {
   // eslint-disable-next-line
   CONCEPTS_DESEL(state, index) {
     state.conceptsSelected.splice(index, 1);
+  },
+  // eslint-disable-next-line
+  CONCEPTS_CLEAR(state) {
+    state.conceptsSelected.length = 0;
   },
   // eslint-disable-next-line
   SUBJECTS_SET(state, subjects) {
@@ -30,6 +33,9 @@ const actions = {
   },
   conceptsDeselect: ({ commit }, index) => {
     commit('CONCEPTS_DESEL', index);
+  },
+  conceptClear: ({ commit }) => {
+    commit('CONCEPTS_CLEAR');
   },
   subjectsInit: ({ commit }) => {
     commit('SUBJECTS_SET', DBSubjects);

@@ -1,16 +1,18 @@
 <template>
   <div>
     <van-col
-      :key='index'
-      v-for='(subject, index) in subjectSelector'
-      :custom-class="'subjectCSSCS-' + ((index % 3) + 1)"
-      :span='(index % 2)* 6 + 6'
+      :key='subjectIndex'
+      v-for='(subject, subjectIndex) in subjectSelector'
+      :custom-class="'subjectCSSCS-' + ((subjectIndex % 3) + 1)"
+      :span='(subjectIndex % 2)* 6 + 6'
     >
-      {{(index % 2)* 6 + 6}}
+      {{subject.id}}
       <app-cards
-      :key='index1'
-      v-for='(concept, index1) in subject.concepts'
+      :key='conceptIndex'
+      v-for='(concept, conceptIndex) in subject.concepts'
       :propConcept='concept'
+      :propSubject='subject.id'
+      :propConceptClickReset='propConceptClickReset'
       >
       </app-cards>
     </van-col>
@@ -25,7 +27,10 @@
     components: {
       appCards: Cards,
     },
-    props: ['propSubjectsOnScreen'],
+    props: [
+      'propSubjectsOnScreen',
+      'propConceptClickReset',
+    ],
     data() {
     },
     computed: {
@@ -34,9 +39,14 @@
         subjects: 'subjects',
       }),
       subjectSelector() {
-        // 3 is the smallest "range of 3 coumns" subjects to be displayed
-        return this.subjects.filter(subject => subject.column <= this.propSubjectsOnScreen
-        && subject.column >= this.propSubjectsOnScreen - 2);
+        // keeps 3 subjects on screen by the subject array index
+        const subjectsOnScreen = this.subjects
+          .slice(this.propSubjectsOnScreen - 1, this.propSubjectsOnScreen + 2);
+        // assign subjects index to each on-screen subject
+        for (let i = 0; i <= subjectsOnScreen.length - 1; i += 1) {
+          subjectsOnScreen[i].id = this.propSubjectsOnScreen + (i - 1);
+        }
+        return subjectsOnScreen;
       },
     },
   };
