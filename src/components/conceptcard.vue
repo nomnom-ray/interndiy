@@ -1,6 +1,6 @@
 <template>
   <div 
-    class='card'
+    class='cardCSSCC'
     :class='{red: conceptIsClicked}'
     @click='cardClicked(propConcept.id, propSubject)'
   >
@@ -53,7 +53,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .card {
+  .cardCSSCC {
     width: 100px;
     height: auto;
     margin: 0 auto;

@@ -26,12 +26,17 @@ const mutations = {
     }
   },
   // eslint-disable-next-line
-  CONCEPTS_DEL(state, index) {
-    state.conceptsSelected.splice(index, 1);
+  CONCEPTS_DEL(state, payload) {
+    state.subjects[payload.subjectIndex].concepts.splice(payload.conceptIndex, 1);
+    if (state.subjects[payload.subjectIndex].concepts.length <= 0) {
+      // will glitch with only first blank placeholding subject
+      state.subjects.splice(payload.subjectIndex, 1);
+    }
   },
   // eslint-disable-next-line
   CONCEPTS_ID(state, payload) {
-    state.subjects[payload.subjectIndex].concepts[payload.idNew].id = payload.idNew;
+    state.subjects[payload.subjectIndex]
+      .concepts[payload.idNew - payload.blanksCount].id = payload.idNew;
   },
   // eslint-disable-next-line
   CONCEPTS_CLEAR(state) {
@@ -56,6 +61,9 @@ const actions = {
   },
   conceptsAdd: ({ commit }, payload) => {
     commit('CONCEPTS_ADD', payload);
+  },
+  conceptsDel: ({ commit }, payload) => {
+    commit('CONCEPTS_DEL', payload);
   },
   conceptsId: ({ commit }, payload) => {
     commit('CONCEPTS_ID', payload);

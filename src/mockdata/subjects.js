@@ -2,7 +2,13 @@ export default [
   {
     id: 0,
     summary: 'blank',
-    concepts: [],
+    concepts: [
+      {
+        id: 0,
+        type: 'blank',
+        behavior: 'behavior',
+      },
+    ],
   },
   {
     id: 1,
