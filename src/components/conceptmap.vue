@@ -5,6 +5,7 @@
           <van-button
             type='default'
             @click='conceptAddTop'
+            :disabled='conceptsSelected.length != 1 | conceptsSelected[0].conceptId === 0'
           >T
           </van-button>
         </van-col>
@@ -13,6 +14,7 @@
           <van-button
             type='default'
             @click='conceptAddBottom'
+            :disabled="conceptsSelected.length != 1 | conceptsSelected[0].conceptType === 'result'"
           >B
           </van-button>
         </van-col>
@@ -21,6 +23,7 @@
           <van-button
             type='default'
             @click='conceptDelete'
+            :disabled="conceptsSelected.length != 1 | conceptsSelected[0].conceptType === 'trigger' | conceptsSelected[0].conceptType === 'result'"
           >D
           </van-button>
         </van-col>
@@ -29,6 +32,7 @@
           <van-button 
             type='default'
             @click='subjectNew'
+            :disabled="conceptsSelected.length != 1 | conceptsSelected[0].conceptType === 'trigger' | conceptsSelected[0].conceptType === 'result'"
           >S
           </van-button>
         </van-col>
@@ -37,6 +41,7 @@
           <van-button
             type='default'
             @click='subjectsOnScreen += 1'
+            :disabled='subjectsOnScreen >= subjects.length - 1 ? true : false'
           >L
           </van-button>
         </van-col>
@@ -45,6 +50,7 @@
           <van-button
             type='default'
             @click='subjectsOnScreen -= 1'
+            :disabled='subjectsOnScreen <= 1 ? true : false'
           >R
           </van-button>
         </van-col>
@@ -100,7 +106,8 @@
         conceptClickReset: false,
         subjectIndex: 0,
         conceptIndex: 0,
-        conceptFirst: 3,
+        subjectRelations: [],
+        conceptRelations: [],
         concept: {
           id: 0,
           type: '',
@@ -110,6 +117,14 @@
           id: 0,
           summary: '',
           concepts: [],
+        },
+        subjectKin: {
+          parentId: {},
+          kidsIds: [],
+        },
+        conceptMarriage: {
+          spouse1: '',
+          spouse2: '',
         },
       };
     },
@@ -128,19 +143,9 @@
         }
         return subjectsOnScreen;
       },
-      // disableNewSTop() {
-      //   if (this.conceptsSelected.length === 1) {
-      //     const subjectIndex = this.subjects.map(element => element.id)
-      //       .indexOf(this.conceptsSelected[0].subjectId);
-      //     const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
-      //       .indexOf(this.conceptsSelected[0].conceptId);
-      //     if (this.subjects[subjectIndex].concepts[conceptIndex].type === 'copy') {
-      //       return true;
-      //     }
-      //     return false;
-      //   }
-      //   return true;
-      // },
+      disableNewSTop() {
+
+      },
     },
     methods: {
       ...mapActions({
@@ -149,6 +154,7 @@
         subjectsAdd: 'subjectsAdd',
         conceptsId: 'conceptsId',
         conceptsDel: 'conceptsDel',
+        subjectsId: 'subjectsId',
       }),
       conceptAddTop() {
         if (this.conceptsSelected.length === 1) {
@@ -157,12 +163,16 @@
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
           const concept = { ...this.concept };
+          // [CAUTION] .type must come before .id for some reason for html to behave correctly
+          concept.type = 'step';
           concept.id = conceptIndex;
           this.conceptsAdd({ subjectIndex, position: 'top', concept });
-          // reassign original ID including and after selected
           // [CAUTION] without reassignment, there is no binding between index and id
-          for (let i = conceptIndex; i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
-            this.conceptsId({ subjectIndex, idNew: i });
+          // reassign original ID including and after selected
+          const blanksCount = this.subjects[subjectIndex].concepts[0].id;
+          for (let i = conceptIndex;
+            i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
+            this.conceptsId({ subjectIndex, idNew: i + blanksCount, blanksCount });
           }
           this.selectClear();
         }
@@ -174,6 +184,7 @@
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
           const concept = { ...this.concept };
+          concept.type = 'step';
           concept.id = conceptIndex + 2;
           this.conceptsAdd({ subjectIndex, position: 'bottom', concept });
           // reassign original ID including and after selected
@@ -191,12 +202,20 @@
             .indexOf(this.conceptsSelected[0].subjectId);
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
-          // this.subjects[subjectIndex].concepts.splice(conceptIndex, 1);
+          // const parentRecord = this.subjectRelations
+          //   .find(element => element.parentId === subjectIndex);
+          // if (parentRecord && parentRecord.parentId !== '') {
+          //   console.log('delete children of');
+          // }
           this.conceptsDel({ subjectIndex, conceptIndex });
           // reassign original ID including and after deselected
-          for (let i = conceptIndex;
-            i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
-            this.conceptsId({ subjectIndex, idNew: i });
+          // checks whether the last concept is deleted by lookin at current index vs mapped index
+          if ((this.subjects.length - 1) === subjectIndex) {
+            const blanksCount = this.subjects[subjectIndex].concepts[0].id;
+            for (let i = conceptIndex;
+              i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
+              this.conceptsId({ subjectIndex, idNew: i + blanksCount, blanksCount });
+            }
           }
           this.selectClear();
         }
@@ -209,18 +228,39 @@
           // add a new subject column to the left of the selected card
           // start subject with 3 types of concepts: blanks, the selected one, and a new concept
           subject.id = subjectIndex + 1;
+          subject.summary = 'test summary';
           // [CAUTION] using .push() for .concepts will introduce binding between them...
           // ...even after JSON .parse & .stringify
           // [CAUTION] the copied concept is binded to the originally selected concept; this is good
+          const blanksCount = this.subjects[subjectIndex].concepts[0].id;
           subject.concepts = [this.subjects[subjectIndex]
-            .concepts[this.conceptsSelected[0].conceptId]];
+            .concepts[this.conceptsSelected[0].conceptId - blanksCount]];
           this.subjectsAdd({
             subjectIndex,
             subject,
           });
-          // TODO: add blanks &  new concept above and below
-          this.subjectIndex = subject.id;
-          this.conceptIndex = this.conceptsSelected[0].conceptId;
+          // screen always updates to the newly generated subject
+          this.subjectsOnScreen += 1;
+          // create kinship between subjects for better deletion control
+          // each array element is 1 kinship with 1 parent and multiple kids
+          const parentRecord = this.subjectRelations
+            .find(element => element.parentId === subjectIndex);
+          if (parentRecord) {
+            // spread because e.g. 'the different .kids are not all pushing to the same array'
+            parentRecord.kidsIds = [...parentRecord.kidsIds, this.subjects[subject.id]];
+            // reassign all subjects index
+            for (let i = subjectIndex + 1; i <= this.subjects.length - 1; i += 1) {
+              this.subjectsId({ idNew: i });
+            }
+          } else {
+            const subjectKin = { ...this.subjectKin };
+            subjectKin.parentId = { ...this.conceptsSelected[0] };
+            subjectKin.kidsIds = [this.subjects[subject.id]];
+            // having only 1 push allows the subjectKin arrays to be separate from mutual binding
+            this.subjectRelations.push(subjectKin);
+          }
+          // eslint-disable-next-line
+          console.log(this.subjectRelations);
           this.selectClear();
         }
       },

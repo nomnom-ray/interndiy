@@ -2,9 +2,9 @@
   <div 
     class='cardCSSCC'
     :class='{red: conceptIsClicked}'
-    @click='cardClicked(propConcept.id, propSubject)'
+    @click='cardClicked(propConcept.id, propConcept.type, propSubject)'
   >
-    id: {{ propConcept.id }}
+    {{ propConcept.id }}: {{propConcept.type}}
   </div>
 </template>
 
@@ -23,8 +23,8 @@
         conceptsSelect: 'conceptsSelect',
         conceptsDeselect: 'conceptsDeselect',
       }),
-      cardClicked(idClicked, subjectClicked) {
-        const obj = { conceptId: idClicked, subjectId: subjectClicked };
+      cardClicked(idClicked, typeClicked, subjectClicked) {
+        const obj = { conceptId: idClicked, subjectId: subjectClicked, conceptType: typeClicked };
         if (!this.conceptIsClicked) {
           if (this.conceptsSelected.length < 2) {
             this.conceptIsClicked = true;

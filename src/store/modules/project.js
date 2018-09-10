@@ -50,6 +50,10 @@ const mutations = {
   SUBJECTS_ADD(state, payload) {
     state.subjects.splice(payload.subjectIndex + 1, 0, payload.subject);
   },
+  // eslint-disable-next-line
+  SUBJECTS_ID(state, payload) {
+    state.subjects[payload.idNew].id = payload.idNew;
+  },
 };
 
 const actions = {
@@ -76,6 +80,9 @@ const actions = {
   },
   subjectsAdd: ({ commit }, payload) => {
     commit('SUBJECTS_ADD', payload);
+  },
+  subjectsId: ({ commit }, payload) => {
+    commit('SUBJECTS_ID', payload);
   },
 };
 
