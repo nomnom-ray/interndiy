@@ -120,7 +120,7 @@
         },
         subjectKin: {
           parentId: {},
-          kidsIds: [],
+          kids: [],
         },
         conceptMarriage: {
           spouse1: '',
@@ -198,15 +198,27 @@
       },
       conceptDelete() {
         if (this.conceptsSelected.length === 1) {
+          const parentRecord = this.subjectRelations
+            .find(element => element.parentId.subjectId ===
+              this.conceptsSelected[0].subjectId &&
+                element.parentId.conceptId === this.conceptsSelected[0].conceptId);
+          if (parentRecord) {
+            // eslint-disable-next-line
+            console.log('please delete children first');
+            this.selectClear();
+            return;
+          }
           const subjectIndex = this.subjects.map(element => element.id)
             .indexOf(this.conceptsSelected[0].subjectId);
+          if (this.subjects[subjectIndex].concepts.length > 1 &&
+          this.conceptsSelected[0].conceptId === this.subjects[subjectIndex].concepts[0].id) {
+            // eslint-disable-next-line
+            console.log('please delete concepts first');
+            this.selectClear();
+            return;
+          }
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
-          // const parentRecord = this.subjectRelations
-          //   .find(element => element.parentId === subjectIndex);
-          // if (parentRecord && parentRecord.parentId !== '') {
-          //   console.log('delete children of');
-          // }
           this.conceptsDel({ subjectIndex, conceptIndex });
           // reassign original ID including and after deselected
           // checks whether the last concept is deleted by lookin at current index vs mapped index
@@ -217,6 +229,19 @@
               this.conceptsId({ subjectIndex, idNew: i + blanksCount, blanksCount });
             }
           }
+          const record = this.subjectRelations.find(kin => kin.kids
+            .find(kid => kid.kidsIds.id === subjectIndex));
+
+          const parentIndex = this.subjectRelations
+            .findIndex(kin => kin.parentId.subjectId === record.parentId.subjectId);
+
+          const kidIndex = this.subjectRelations[parentIndex].kids
+            .findIndex(kid => kid.kidsIds.id === subjectIndex);
+
+          this.subjectRelations[parentIndex].kids.splice(kidIndex, 1);
+
+          // console.log('in del SR: ', kidIndex);
+          console.log('in del: ', this.subjectRelations);
           this.selectClear();
         }
       },
@@ -242,25 +267,28 @@
           // screen always updates to the newly generated subject
           this.subjectsOnScreen += 1;
           // create kinship between subjects for better deletion control
-          // each array element is 1 kinship with 1 parent and multiple kids
-          const parentRecord = this.subjectRelations
-            .find(element => element.parentId === subjectIndex);
+          // each array element is 1 kinship with 1 parent concept and multiple kids subject
+          const parentRecord = this.subjectRelations.find(element => element.parentId.subjectId ===
+            this.conceptsSelected[0].subjectId &&
+            element.parentId.conceptId === this.conceptsSelected[0].conceptId);
           if (parentRecord) {
             // spread because e.g. 'the different .kids are not all pushing to the same array'
-            parentRecord.kidsIds = [...parentRecord.kidsIds, this.subjects[subject.id]];
-            // reassign all subjects index
+            parentRecord.kids = [...parentRecord.kids,
+              { parentId: { ...this.conceptsSelected[0] }, kidsIds: this.subjects[subject.id] }];
+            // reassign all subjects index within the subjects []
             for (let i = subjectIndex + 1; i <= this.subjects.length - 1; i += 1) {
               this.subjectsId({ idNew: i });
             }
           } else {
             const subjectKin = { ...this.subjectKin };
             subjectKin.parentId = { ...this.conceptsSelected[0] };
-            subjectKin.kidsIds = [this.subjects[subject.id]];
+            subjectKin.kids = [
+              { parentId: { ...this.conceptsSelected[0] }, kidsIds: this.subjects[subject.id] },
+            ];
             // having only 1 push allows the subjectKin arrays to be separate from mutual binding
             this.subjectRelations.push(subjectKin);
           }
-          // eslint-disable-next-line
-          console.log(this.subjectRelations);
+          console.log('in sub: ', this.subjectRelations);
           this.selectClear();
         }
       },
