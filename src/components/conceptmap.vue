@@ -78,6 +78,7 @@
         :propConcept='concept'
         :propSubject='subject.id'
         :propConceptClickReset='conceptClickReset'
+        :propSubjectRelations='subjectRelations'
         >
         </app-cards>
       </van-col>
@@ -202,6 +203,7 @@
             .find(element => element.parentId.subject.id ===
               this.conceptsSelected[0].subjectId &&
                 element.parentId.concept.id === this.conceptsSelected[0].conceptId);
+          // is the clicked concept a parent?
           if (parentRecord) {
             // eslint-disable-next-line
             console.log('please delete children first');
@@ -219,9 +221,17 @@
           }
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
+          // delete the subjectRelation object if the concept-kids[] is 0
+          const subjectParentCheckIndex = this.subjectRelations
+            .findIndex(kinship => kinship.kids.find(kid => kid.id ===
+              this.conceptsSelected[0].subjectId));
+          if (this.subjects[subjectIndex].concepts.length <= 1) {
+            // will glitch with only first blank placeholding subject
+            this.subjectRelations.splice(subjectParentCheckIndex, 1);
+          }
           this.conceptsDel({ subjectIndex, conceptIndex });
           // reassign original ID including and after deselected
-          // TODO: to reassign, check whether the concept deleted is the last one in the subject
+          // to reassign, check whether the concept deleted is the last one in the subject
           if (this.subjects[subjectIndex]) {
             const blanksCount = this.subjects[subjectIndex].concepts[0].id;
             for (let i = conceptIndex;
@@ -234,49 +244,118 @@
       },
       subjectNew() {
         if (this.conceptsSelected.length === 1) {
+          // condition to limit actionable concepts
           const subjectIndex = this.subjects.map(element => element.id)
             .indexOf(this.conceptsSelected[0].subjectId);
+
           const subject = { ...this.subject };
-          // add a new subject column to the left of the selected card
-          // start subject with 3 types of concepts: blanks, the selected one, and a new concept
-          subject.id = subjectIndex + 1;
-          subject.summary = 'test summary';
           // [CAUTION] using .push() for .concepts will introduce binding between them...
           // ...even after JSON .parse & .stringify
           // [CAUTION] the copied concept is binded to the originally selected concept; this is good
           const blanksCount = this.subjects[subjectIndex].concepts[0].id;
           subject.concepts = [this.subjects[subjectIndex]
             .concepts[this.conceptsSelected[0].conceptId - blanksCount]];
-          this.subjectsAdd({
-            subjectIndex,
-            subject,
-          });
-          // screen always updates to the newly generated subject
-          this.subjectsOnScreen += 1;
+
           // create kinship between subjects for better deletion control
           // each array element is 1 kinship with 1 parent concept and multiple kids subject
+          const subjectKin = { ...this.subjectKin };
+          subjectKin.parentId = {
+            subject: this.subjects[subjectIndex],
+            concept: this.subjects[subjectIndex]
+              .concepts[this.conceptsSelected[0].conceptId - blanksCount],
+          };
+          // The selected concept is both a subjectParent && conceptParent
           const parentRecord = this.subjectRelations.find(element => element.parentId.subject.id ===
             this.conceptsSelected[0].subjectId &&
             element.parentId.concept.id === this.conceptsSelected[0].conceptId);
+
           if (parentRecord) {
+            // if as both sub & con parent, then the new subject is adjacent to an existing kid
+            // console.log('both con/sub parent');
+            // look for the lowest subject.id and splice it
+            const subjectMin = parentRecord.kids
+              .reduce((min, current) => (min < current.id ? min : current.id), parentRecord
+                .kids[0].id);
+            subject.id = subjectMin;
+            this.subjectsAdd({ indexNew: subject.id, subject });
             // spread because e.g. 'the different .kids are not all pushing to the same array'
             parentRecord.kids = [...parentRecord.kids, this.subjects[subject.id]];
-            // reassign all subjects index within the subjects []
-            for (let i = subjectIndex + 1; i <= this.subjects.length - 1; i += 1) {
-              this.subjectsId({ idNew: i });
-            }
           } else {
-            const subjectKin = { ...this.subjectKin };
-            subjectKin.parentId = {
-              subject: this.subjects[subjectIndex],
-              concept: this.subjects[subjectIndex].concepts[this.conceptsSelected[0].conceptId],
-            };
-            subjectKin.kids = [this.subjects[subject.id]];
-            // having only 1 push allows the subjectKin arrays to be separate from mutual binding
-            this.subjectRelations.push(subjectKin);
+            // There is at least one parent with the same subject as the selected concept
+            const subjectRecord = this.subjectRelations
+              .find(element => element.parentId.subject.id === this.conceptsSelected[0].subjectId);
+
+            if (subjectRecord) {
+              // if at least one parent in this subject, then there must be kids to rearrange
+              // the to-be subject asks: "does the next subject eventually...
+              // ...lead to the same subjectParent as me? If it does, i ...
+              // can either be in front or behind it depends on concept[0].id"
+              // console.log('only sub parent');
+              for (let i = subjectRecord.parentId.subject.id + 1;
+                i <= this.subjects.length - 1; i += 1) {
+                // TODO: maybe there is a case after i++ from if() that i...
+                // ...points to empty subjects[] and then error out at subjects[i].id
+                // iterratively look for the previous parentSubject starting from subject[i]
+                const subjectParentCheck = this.subjectRelations
+                  .find(kinship => kinship.kids.find(kid => kid.id === this.subjects[i].id));
+                let parentLookBack = subjectParentCheck;
+                while (parentLookBack.parentId.subject.id >= subjectRecord.parentId.subject.id) {
+                  if (!parentLookBack || parentLookBack.parentId.subject.id ===
+                    subjectRecord.parentId.subject.id) {
+                    break;
+                  }
+                  parentLookBack = this.parentLookBackHelper(parentLookBack);
+                }
+                // subject[i] either has a parent matched to the subject of the selected concept...
+                // ...or subject[i] is undefined cuz it passed the subjectID of aforementioned parent
+                if (parentLookBack) {
+                  if (subject.concepts[0].id < this.subjects[i].concepts[0].id) {
+                    // i+ to try whether the next this.subjects[] will have a smaller concept[0].id
+                    // console.log('i++');
+                  } else {
+                    // subject.concepts[0].id is at the its top most position...
+                    // ...within this parent-kids chain
+                    // console.log('add');
+                    subject.id = i;
+                    this.subjectsAdd({ indexNew: subject.id, subject });
+                    subjectKin.kids = [this.subjects[subject.id]];
+                    // only push when ceating new subjectKin relation
+                    this.subjectRelations.push(subjectKin);
+                    break;
+                  }
+                } else {
+                  // console.log('last');
+                  //  subjects[i].id either reached a different subject parent
+                  subject.id = i;
+                  this.subjectsAdd({ indexNew: subject.id, subject });
+                  subjectKin.kids = [this.subjects[subject.id]];
+                  // only push when ceating new subjectKin relation
+                  this.subjectRelations.push(subjectKin);
+                  break;
+                }
+              }
+            } else {
+              // condition for no matching subjectParent nor conceptParent (i.e. init)
+              // create a new subject on the immediate right of original
+              // console.log('no con/sub parent');
+              subject.id = subjectIndex + 1;
+              this.subjectsAdd({ indexNew: subject.id, subject });
+              subjectKin.kids = [this.subjects[subject.id]];
+              // only push when ceating new subjectKin relation
+              this.subjectRelations.push(subjectKin);
+            }
           }
+          // reassign all subjects index within the subjects []
+          for (let i = subjectIndex + 1; i <= this.subjects.length - 1; i += 1) {
+            this.subjectsId({ idNew: i });
+          }
+          // this.subjectsOnScreen += 1;
           this.selectClear();
         }
+      },
+      parentLookBackHelper(helper) {
+        return this.subjectRelations.find(kinship => kinship.kids.find(kid => kid.id ===
+          helper.parentId.subject.id));
       },
       selectClear() {
         this.conceptClear();

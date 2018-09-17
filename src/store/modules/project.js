@@ -48,7 +48,7 @@ const mutations = {
   },
   // eslint-disable-next-line
   SUBJECTS_ADD(state, payload) {
-    state.subjects.splice(payload.subjectIndex + 1, 0, payload.subject);
+    state.subjects.splice(payload.indexNew, 0, payload.subject);
   },
   // eslint-disable-next-line
   SUBJECTS_ID(state, payload) {
