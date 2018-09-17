@@ -383,7 +383,7 @@
 .subjectCSSCM-2 {
   text-align: center;
   background-clip: content-box;
-  background-color: rgb(102, 250, 134);;
+  background-color: rgb(102, 250, 134);
 }
 .subjectCSSCM-3 {
   text-align: left;

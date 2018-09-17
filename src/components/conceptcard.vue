@@ -1,10 +1,16 @@
 <template>
-  <div 
-    class='bubbleB bubbleT'
-    :class='{red: conceptIsClicked}'
-    @click='cardClicked(propConcept.id, propConcept.type, propSubject)'
-  >
-    {{ propConcept.id }}: {{propConcept.type}}
+  <div class='containerCSSCC'>
+    <div class='arrowrightCSSCC' v-if='conceptArrowRight'></div>
+    <div class='arrowleftCSSCC' v-if='conceptArrowLeft'></div>
+    <div class='arrowbottomCSSCC' v-if='arrowBottomShow'></div>
+    <div class='arrowtopCSSCC' v-if='conceptArrowTop'></div>
+    <div 
+      class='cardCSSCC'
+      :class='{red: conceptIsClicked}'
+      @click='cardClicked(propConcept.id, propConcept.type, propSubject)'
+    >
+      {{ propConcept.id }}: {{propConcept.type}}
+    </div>
   </div>
 </template>
 
@@ -15,7 +21,10 @@
     props: ['propConcept', 'propSubject', 'propConceptClickReset', 'propSubjectRelations'],
     data() {
       return {
-        conceptIsClicked: false,
+        conceptArrowLeft: false,
+        conceptArrowRight: false,
+        conceptArrowTop: false,
+        // conceptArrowBottom: false,
       };
     },
     methods: {
@@ -43,16 +52,31 @@
         subjects: 'subjects',
         conceptsSelected: 'conceptsSelected',
       }),
-      conceptStyleSelect() {
+      arrowBottomShow() {
+        // for conceptArrowBottom
+        // console.log(this.propConcept.id, this.subjects[this.propSubject]
+        //   .concepts[this.subjects[this.propSubject].concepts.length - 1].id);
+        if (this.propConcept.id !== this.subjects[this.propSubject]
+          .concepts[this.subjects[this.propSubject].concepts.length - 1].id) {
+          return true;
+        }
+        return false;
         // smallest concept ID in any subject: first concept
-        // largest concept ID in any subject: last concept
+        // ...BOT arrow
         // in-between concept ID in any subject: mid concept
-        // a parent concept with an in-between concept ID: mid-concept w kids
-        //
-        // concepts[0] of kid with biggest subject ID = concepts.len: last kid
-        // concepts[0] of kid with non-biggest subject ID = concepts.len: mid kid
+        // ...TOP, BOT arrow
         // concepts[0] of kid with non-biggest subject ID < concepts.len: mid-kid w concept
+        // ...LEFT, BOT, RIGHT arrow
         // concepts[0] of kid with biggest subject ID < concepts.len: last-kid w concept
+        // ...LEFT, BOT arrow
+        // a parent concept with an in-between concept ID: mid-concept w kids
+        // ...TOP, BOT, RIGHT arrow
+        // largest concept ID in any subject: last concept
+        // ...TOP arrow
+        // concepts[0] of kid with biggest subject ID = concepts.len: last kid
+        // ...RIGHT arrow
+        // concepts[0] of kid with non-biggest subject ID = concepts.len: mid kid
+        // ...LEFT, RIGHT arrow
       },
     },
     watch: {
@@ -65,112 +89,160 @@
 </script>
 
 <style lang="scss" scoped>
-  .cardCSSCC {
-    width: 100px;
-    height: auto;
-    margin: 0 auto;
-    text-align: center;
-    margin-bottom: 10px;
-    position: relative;
-    background-clip: content-box;
-    background-color: rgb(255, 187, 180);
-  }
   .red{
     border: 2px solid rgb(190, 0, 165);
   }
-  .bubble {
-    width: 100px;
-    height: 75px;
-    text-align: center;
-    margin: 0 auto;
-    margin-bottom: 15px;
-    padding: 2px;
+  .containerCSSCC {
     position: relative;
-    // background-clip: content-box;
-    background-color: rgb(255, 187, 180);
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-    // border: #343F53 solid 2px;
-  }
-  .bubble:after {
-    content: '';
-    position: absolute;
-    border-style: solid;
-    border-width: 24px 0 24px 14px;
-    border-color: transparent rgb(255, 187, 180);
-    display: block;
-    width: 0;
-    z-index: 1;
-    margin-top: -24px;
-    right: -8px;
-    top: 50%;
-  }
-  .bubble:before {
-    content: '';
-    position: absolute;
-    border-style: solid;
-    border-width: 26px 0 26px 15px;
-    border-color: transparent #343F53;
-    display: block;
-    width: 0;
     z-index: 0;
-    margin-top: -26px;
-    right: -11px;
+    width: 150px;
+    height: 100px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 14px;
+
+    .cardCSSCC {
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-clip: content-box;
+      background-color: rgb(255, 187, 180);
+      -webkit-border-radius: 12px;
+      -moz-border-radius: 12px;
+      border-radius: 12px;
+    }
+
+    .arrowrightCSSCC {
+    position: absolute;
     top: 50%;
-  }
+    z-index: 2;
+    width: 100%;
+    }
+    .arrowrightCSSCC:after {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 24px 0 24px 14px;
+      border-color: transparent rgb(255, 187, 180);
+      display: block;
+      width: 0;
+      z-index: 3;
+      margin-top: -24px;
+      right: -8px;
+      top: 50%;
+    }
+    .arrowrightCSSCC:before {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 26px 0 26px 15px;
+      border-color: transparent #343F53;
+      display: block;
+      width: 0;
+      z-index: 2;
+      margin-top: -26px;
+      right: -11px;
+      top: 50%;
+    }
 
-  .bubbleB
-  {
-    width: 100px;
-    height: 50px;
-    text-align: center;
-    margin: 0 auto;
-    margin-bottom: 15px;
-    padding: 2px;
-    position: relative;
-    background: #FFFFFF;
-  }
-
-  .bubbleB:after 
-  {
-    content: '';
+    .arrowleftCSSCC {
     position: absolute;
-    border-style: solid;
-    border-width: 15px 15px 0;
-    border-color: rgb(212, 12, 12) transparent;
-    display: block;
-    width: 0;
-    z-index: 1;
-    margin-left: -15px;
-    bottom: -7px;
-    left: 50%;
-  }
+    top: 50%;
+    z-index: 2;
+    width: 100%;
+    }
+    .arrowleftCSSCC:after {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 24px 0 24px 14px;
+      border-color: transparent rgb(102, 250, 134);
+      display: block;
+      width: 0;
+      z-index: 3;
+      margin-top: -24px;
+      left: -8px;
+      top: 50%;
+    }
+    .arrowleftCSSCC:before {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 26px 0 26px 15px;
+      border-color: transparent #343F53;
+      display: block;
+      width: 0;
+      z-index: 2;
+      margin-top: -26px;
+      left: -5px;
+      top: 50%;
+    }
 
-  .bubbleT
-  {
-    width: 100px;
-    height: 50px;
-    text-align: center;
-    margin: 0 auto;
-    margin-bottom: 15px;
-    padding: 2px;
-    position: relative;
-    background: #FFFFFF;
-  }
-
-  .bubbleT:after 
-  {
-    content: '';
+    .arrowtopCSSCC {
     position: absolute;
-    border-style: solid;
-    border-width: 15px 15px 0;
-    border-color: rgb(212, 12, 12) transparent;
-    display: block;
-    width: 0;
-    z-index: 1;
-    margin-left: -15px;
-    top: -7px;
     left: 50%;
+    z-index: 2;
+    height: 100%;
+    }
+    .arrowtopCSSCC:after {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 14px 24px 0;
+      border-color: rgb(102, 250, 134) transparent;
+      display: block;
+      width: 0;
+      z-index: 3;
+      margin-left: -24px;
+      top: -8px;
+      left: 50%;
+    }
+    .arrowtopCSSCC:before {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 15px 26px 0;
+      border-color: #343F53 transparent;
+      display: block;
+      width: 0;
+      z-index: 2;
+      margin-left: -26px;
+      top: -5px;
+      left: 50%;
+    }
+
+    .arrowbottomCSSCC {
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    height: 100%;
+    }
+    .arrowbottomCSSCC:after {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 14px 24px 0;
+      border-color: rgb(255, 187, 180) transparent;
+      display: block;
+      width: 0;
+      z-index: 4;
+      margin-left: -24px;
+      bottom: -8px;
+      left: 50%;
+    }
+    .arrowbottomCSSCC:before {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 15px 26px 0;
+      border-color: #343F53 transparent;
+      display: block;
+      width: 0;
+      z-index: 3;
+      margin-left: -26px;
+      bottom: -11px;
+      left: 50%;
+    }
   }
 </style>
