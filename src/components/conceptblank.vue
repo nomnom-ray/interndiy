@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class='containerCSSCB'
-  >
-  BLANK
+  <div class='containerCSSCB'>
   </div>
 </template>
 
@@ -13,7 +10,7 @@ export default {
 
 
 <style lang="scss" scoped>
-  .containerCSSCC {
+  .containerCSSCB {
     position: relative;
     z-index: 0;
     width: 150px;

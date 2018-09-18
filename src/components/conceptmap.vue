@@ -221,13 +221,21 @@
           }
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
+
           // delete the subjectRelation object if the concept-kids[] is 0
           const subjectParentCheckIndex = this.subjectRelations
             .findIndex(kinship => kinship.kids.find(kid => kid.id ===
               this.conceptsSelected[0].subjectId));
-          if (this.subjects[subjectIndex].concepts.length <= 1) {
-            // will glitch with only first blank placeholding subject
-            this.subjectRelations.splice(subjectParentCheckIndex, 1);
+          const subjectParentCheck = this.subjectRelations[subjectParentCheckIndex];
+          if (subjectParentCheck) {
+            const kidIdIndex = subjectParentCheck.kids.findIndex(kid => kid.id ===
+              this.conceptsSelected[0].subjectId);
+            if (subjectParentCheck.kids.length <= 1 &&
+              this.subjects[subjectIndex].concepts.length <= 1) {
+              // will glitch with only first blank placeholding subject
+              this.subjectRelations.splice(subjectParentCheckIndex, 1);
+            }
+            subjectParentCheck.kids.splice(kidIdIndex, 1);
           }
           this.conceptsDel({ subjectIndex, conceptIndex });
           // reassign original ID including and after deselected
@@ -292,9 +300,18 @@
               // can either be in front or behind it depends on concept[0].id"
               // console.log('only sub parent');
               for (let i = subjectRecord.parentId.subject.id + 1;
-                i <= this.subjects.length - 1; i += 1) {
-                // TODO: maybe there is a case after i++ from if() that i...
-                // ...points to empty subjects[] and then error out at subjects[i].id
+                i <= this.subjects.length - 0; i += 1) {
+                // TODO: a case after i++, where i points to empty subjects[]
+                if (!this.subjects[i]) {
+                  // console.log('last by empty []');
+                  //  subjects[i].id reached the end of subjects
+                  subject.id = i;
+                  this.subjectsAdd({ indexNew: subject.id, subject });
+                  subjectKin.kids = [this.subjects[subject.id]];
+                  // only push when ceating new subjectKin relation
+                  this.subjectRelations.push(subjectKin);
+                  break;
+                }
                 // iterratively look for the previous parentSubject starting from subject[i]
                 const subjectParentCheck = this.subjectRelations
                   .find(kinship => kinship.kids.find(kid => kid.id === this.subjects[i].id));
@@ -311,7 +328,7 @@
                 if (parentLookBack) {
                   if (subject.concepts[0].id < this.subjects[i].concepts[0].id) {
                     // i+ to try whether the next this.subjects[] will have a smaller concept[0].id
-                    // console.log('i++');
+                    // console.log('i++', i);
                   } else {
                     // subject.concepts[0].id is at the its top most position...
                     // ...within this parent-kids chain
@@ -324,8 +341,8 @@
                     break;
                   }
                 } else {
-                  // console.log('last');
-                  //  subjects[i].id either reached a different subject parent
+                  // console.log('last by parent');
+                  //  subjects[i].id reached a different subject parent
                   subject.id = i;
                   this.subjectsAdd({ indexNew: subject.id, subject });
                   subjectKin.kids = [this.subjects[subject.id]];

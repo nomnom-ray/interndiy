@@ -1,9 +1,11 @@
 <template>
-  <div class='containerCSSCC'>
-    <div class='arrowrightCSSCC' v-if='conceptArrowRight'></div>
+  <div 
+    class='containerCSSCC'
+  >
+    <div class='arrowrightCSSCC' v-if='arrowRightShow'></div>
     <div class='arrowleftCSSCC' v-if='conceptArrowLeft'></div>
     <div class='arrowbottomCSSCC' v-if='arrowBottomShow'></div>
-    <div class='arrowtopCSSCC' v-if='conceptArrowTop'></div>
+    <div class='arrowtopCSSCC' v-if='arrowTopShow'></div>
     <div 
       class='cardCSSCC'
       :class='{red: conceptIsClicked}'
@@ -21,10 +23,8 @@
     props: ['propConcept', 'propSubject', 'propConceptClickReset', 'propSubjectRelations'],
     data() {
       return {
+        conceptIsClicked: false,
         conceptArrowLeft: false,
-        conceptArrowRight: false,
-        conceptArrowTop: false,
-        // conceptArrowBottom: false,
       };
     },
     methods: {
@@ -52,31 +52,89 @@
         subjects: 'subjects',
         conceptsSelected: 'conceptsSelected',
       }),
+      // smallest concept ID in any subject: first concept
+      // ...BOT arrow
+      // largest concept ID in any subject: last concept
+      // ...TOP arrow
+      // in-between concept ID in any subject: mid concept
+      // ...TOP, BOT arrow
+      // a parent concept with an in-between concept ID: mid-concept w kids
+      // ...TOP, BOT, RIGHT arrow
+      // concepts[0] of kid with biggest subject ID = concepts.len: last kid
+      // ...LEFT arrow
+      // concepts[0] of kid with biggest subject ID < concepts.len: last-kid w concept
+      // ...LEFT, BOT arrow
+      // concepts[0] of kid with non-biggest subject ID < concepts.len: mid-kid w concept
+      // ...LEFT, BOT, RIGHT arrow
+      // concepts[0] of kid with non-biggest subject ID = concepts.len: mid kid
+      // ...LEFT, RIGHT arrow
       arrowBottomShow() {
-        // for conceptArrowBottom
-        // console.log(this.propConcept.id, this.subjects[this.propSubject]
-        //   .concepts[this.subjects[this.propSubject].concepts.length - 1].id);
-        if (this.propConcept.id !== this.subjects[this.propSubject]
+        // botton arrow is visible when: 1) concept id not last concept in a subject
+        if (!this.conceptLast) {
+          return true;
+        }
+        return false;
+      },
+      arrowTopShow() {
+        // top arrow is visible when: 1) concept id is not the first concept in a subject;
+        // ...2) does not have index of 0;
+        if ((this.conceptLast || this.conceptMid) && !this.conceptFirst) {
+          return true;
+        }
+        return false;
+      },
+      arrowRightShow() {
+        // right arrow is visible when: 1) concept id is a parent; 2) id is of a mid concept
+        if (this.conceptParent) {
+          return true;
+        }
+        return false;
+      },
+      conceptLast() {
+        // largest concept ID in any subject: last concept
+        if (this.subjects[this.propSubject] && this.propConcept.id >= this.subjects[this.propSubject]
           .concepts[this.subjects[this.propSubject].concepts.length - 1].id) {
           return true;
         }
         return false;
+      },
+      conceptFirst() {
         // smallest concept ID in any subject: first concept
-        // ...BOT arrow
+        // console.log(this.propSubject, 'conceptFirst', this.subjects[this.propSubject]);
+        if (this.subjects[this.propSubject] &&
+          this.propConcept.id <= this.subjects[this.propSubject].concepts[0].id) {
+          return true;
+        }
+        return false;
+      },
+      conceptMid() {
         // in-between concept ID in any subject: mid concept
-        // ...TOP, BOT arrow
-        // concepts[0] of kid with non-biggest subject ID < concepts.len: mid-kid w concept
-        // ...LEFT, BOT, RIGHT arrow
-        // concepts[0] of kid with biggest subject ID < concepts.len: last-kid w concept
-        // ...LEFT, BOT arrow
-        // a parent concept with an in-between concept ID: mid-concept w kids
-        // ...TOP, BOT, RIGHT arrow
-        // largest concept ID in any subject: last concept
-        // ...TOP arrow
+        if (this.subjects[this.propSubject] && (this.propConcept.id <= this.subjects[this.propSubject]
+          .concepts[this.subjects[this.propSubject].concepts.length - 1].id) &&
+          (this.propConcept.id >= this.subjects[this.propSubject].concepts[0].id)) {
+          return true;
+        }
+        return false;
+      },
+      conceptParent() {
+        // a parent concept: concept w kids
+        const parentRecord = this.propSubjectRelations
+          .find(element => element.parentId.subject.id === this.propSubject &&
+          element.parentId.concept.id === this.propConcept.id);
+        // console.log(this.propSubject, ': ', this.propConcept.id, ': ', this.propSubjectRelations);
+        if (parentRecord) {
+          return true;
+        }
+        return false;
+      },
+      conceptLastKid() {
         // concepts[0] of kid with biggest subject ID = concepts.len: last kid
-        // ...RIGHT arrow
-        // concepts[0] of kid with non-biggest subject ID = concepts.len: mid kid
-        // ...LEFT, RIGHT arrow
+        for (let i = 0; i <= this.propSubjectRelations.length - 1; i += 1) {
+          if (this.propSubject.id === this.propSubjectRelations[i].kids[0].id) {
+            return true;
+          }
+        }
+        return false;
       },
     },
     watch: {
@@ -89,7 +147,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .red{
+  .red {
     border: 2px solid rgb(190, 0, 165);
   }
   .containerCSSCC {
