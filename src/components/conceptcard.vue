@@ -3,7 +3,7 @@
     class='containerCSSCC'
   >
     <div class='arrowrightCSSCC' v-if='arrowRightShow'></div>
-    <div class='arrowleftCSSCC' v-if='conceptArrowLeft'></div>
+    <div class='arrowleftCSSCC' v-if='arrowLeftShow'></div>
     <div class='arrowbottomCSSCC' v-if='arrowBottomShow'></div>
     <div class='arrowtopCSSCC' v-if='arrowTopShow'></div>
     <div 
@@ -24,7 +24,6 @@
     data() {
       return {
         conceptIsClicked: false,
-        conceptArrowLeft: false,
       };
     },
     methods: {
@@ -84,8 +83,16 @@
         return false;
       },
       arrowRightShow() {
-        // right arrow is visible when: 1) concept id is a parent; 2) id is of a mid concept
-        if (this.conceptParent) {
+        // right arrow is visible when: 1) concept id is a parent; 2) id is of a mid subject
+        if (this.conceptParent ||
+          (this.conceptFirst && (this.conceptIncludeKid && !this.conceptLastKid))) {
+          return true;
+        }
+        return false;
+      },
+      arrowLeftShow() {
+        // left arrow is visible when: 1) concept id of a last kid; 2) id is of a mid subject
+        if (this.conceptFirst && (this.conceptIncludeKid && !this.conceptParent)) {
           return true;
         }
         return false;
@@ -101,6 +108,7 @@
       conceptFirst() {
         // smallest concept ID in any subject: first concept
         // console.log(this.propSubject, 'conceptFirst', this.subjects[this.propSubject]);
+        // console.log(this.subjects[this.propSubject].concepts[0].id);
         if (this.subjects[this.propSubject] &&
           this.propConcept.id <= this.subjects[this.propSubject].concepts[0].id) {
           return true;
@@ -129,10 +137,21 @@
       },
       conceptLastKid() {
         // concepts[0] of kid with biggest subject ID = concepts.len: last kid
+        // concepts[0] of kid with biggest subject ID < concepts.len: last-kid w concept
         for (let i = 0; i <= this.propSubjectRelations.length - 1; i += 1) {
-          if (this.propSubject.id === this.propSubjectRelations[i].kids[0].id) {
+          if (this.propSubject === this.propSubjectRelations[i].kids[0].id) {
             return true;
           }
+        }
+        return false;
+      },
+      conceptIncludeKid() {
+        // concepts[0] of kid with non-biggest subject ID < concepts.len: mid-kid w concept
+        // concepts[0] of kid with non-biggest subject ID = concepts.len: mid kid
+        const kidCheck = this.propSubjectRelations
+          .find(kinship => kinship.kids.find(kid => kid.id === this.propSubject));
+        if (kidCheck) {
+          return true;
         }
         return false;
       },

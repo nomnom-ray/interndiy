@@ -170,10 +170,12 @@
           this.conceptsAdd({ subjectIndex, position: 'top', concept });
           // [CAUTION] without reassignment, there is no binding between index and id
           // reassign original ID including and after selected
-          const blanksCount = this.subjects[subjectIndex].concepts[0].id;
-          for (let i = conceptIndex;
-            i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
-            this.conceptsId({ subjectIndex, idNew: i + blanksCount, blanksCount });
+          for (let j = subjectIndex; j <= this.subjects.length - 1; j += 1) {
+            const blanksCount = this.subjects[j].concepts[0].id;
+            for (let i = conceptIndex;
+              i <= this.subjects[j].concepts.length - 1; i += 1) {
+              this.conceptsId({ subjectIndex: j, idNew: i + blanksCount, blanksCount });
+            }
           }
           this.selectClear();
         }
@@ -189,10 +191,13 @@
           concept.id = conceptIndex + 2;
           this.conceptsAdd({ subjectIndex, position: 'bottom', concept });
           // reassign original ID including and after selected
-          const blanksCount = this.subjects[subjectIndex].concepts[0].id;
-          for (let i = conceptIndex + 1;
-            i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
-            this.conceptsId({ subjectIndex, idNew: i + blanksCount, blanksCount });
+          for (let j = subjectIndex; j <= this.subjects.length - 1; j += 1) {
+            const blanksCount = this.subjects[j].concepts[0].id;
+            for (let i = conceptIndex + 1;
+              i <= this.subjects[j].concepts.length - 1; i += 1) {
+              this.conceptsId({ subjectIndex: j, idNew: i + blanksCount, blanksCount });
+              // console.log('j: ', j, 'idNew: ', i + blanksCount, 'blanksCount: ', blanksCount);
+            }
           }
           this.selectClear();
         }
@@ -221,7 +226,6 @@
           }
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
-
           // delete the subjectRelation object if the concept-kids[] is 0
           const subjectParentCheckIndex = this.subjectRelations
             .findIndex(kinship => kinship.kids.find(kid => kid.id ===
@@ -235,16 +239,20 @@
               // will glitch with only first blank placeholding subject
               this.subjectRelations.splice(subjectParentCheckIndex, 1);
             }
-            subjectParentCheck.kids.splice(kidIdIndex, 1);
+            if (this.subjects[subjectIndex].concepts.length <= 1) {
+              subjectParentCheck.kids.splice(kidIdIndex, 1);
+            }
           }
           this.conceptsDel({ subjectIndex, conceptIndex });
           // reassign original ID including and after deselected
           // to reassign, check whether the concept deleted is the last one in the subject
           if (this.subjects[subjectIndex]) {
-            const blanksCount = this.subjects[subjectIndex].concepts[0].id;
-            for (let i = conceptIndex;
-              i <= this.subjects[subjectIndex].concepts.length - 1; i += 1) {
-              this.conceptsId({ subjectIndex, idNew: i + blanksCount, blanksCount });
+            for (let j = subjectIndex; j <= this.subjects.length - 1; j += 1) {
+              const blanksCount = this.subjects[j].concepts[0].id;
+              for (let i = conceptIndex;
+                i <= this.subjects[j].concepts.length - 1; i += 1) {
+                this.conceptsId({ subjectIndex: j, idNew: i + blanksCount, blanksCount });
+              }
             }
           }
           this.selectClear();
