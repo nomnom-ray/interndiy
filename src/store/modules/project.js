@@ -91,9 +91,19 @@ const getters = {
   conceptsSelected: () => state.conceptsSelected,
 };
 
+const autosavePlugin = (store) => {
+  // store.commit('UPDATE_CONTENT', api.load());
+  // eslint-disable-next-line
+  store.subscribe((mutation, state) => {
+    console.log(mutation.type);
+    console.log(mutation.payload);
+  });
+};
+
 export default {
   state,
   mutations,
   actions,
   getters,
+  autosavePlugin,
 };

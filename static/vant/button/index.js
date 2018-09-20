@@ -1,75 +1,44 @@
-const buttonBehaviors = require('../behaviors/button');
-const classnames = require('../common/classnames');
+import { create } from '../common/create';
+import { button } from '../mixins/button';
 
-const observer = function() {
-  this.setClasses();
-};
+create({
+  mixins: [button],
 
-Component({
-  options: {
-    addGlobalClass: true
-  },
-
-  externalClasses: ['custom-class', 'loading-class'],
-
-  behaviors: [buttonBehaviors],
-
-  properties: {
+  props: {
+    plain: Boolean,
+    block: Boolean,
+    square: Boolean,
+    loading: Boolean,
+    disabled: Boolean,
     type: {
       type: String,
-      value: 'default',
-      observer
+      value: 'default'
     },
     size: {
       type: String,
-      value: 'normal',
-      observer
-    },
-    plain: {
-      type: Boolean,
-      observer
-    },
-    disabled: {
-      type: Boolean,
-      observer
-    },
-    loading: {
-      type: Boolean,
-      observer
-    },
-    block: {
-      type: Boolean,
-      observer
-    },
-    square: {
-      type: Boolean,
-      observer
+      value: 'normal'
     }
   },
 
-  attached() {
-    this.setClasses();
+  computed: {
+    classes() {
+      const { type, size, plain, disabled, loading, square, block } = this.data;
+      return this.classNames(`van-button--${type}`, `van-button--${size}`, {
+        'van-button--block': block,
+        'van-button--plain': plain,
+        'van-button--square': square,
+        'van-button--loading': loading,
+        'van-button--disabled': disabled,
+        'van-button--unclickable': disabled || loading
+      });
+    }
   },
 
   methods: {
     onClick() {
       if (!this.data.disabled && !this.data.loading) {
-        this.triggerEvent('click');
+        this.$emit('click');
       }
-    },
-
-    setClasses() {
-      const { type, size, plain, disabled, loading, square, block } = this.data;
-      this.setData({
-        classes: classnames(`van-button--${type}`, `van-button--${size}`, {
-          'van-button--block': block,
-          'van-button--plain': plain,
-          'van-button--square': square,
-          'van-button--loading': loading,
-          'van-button--disabled': disabled,
-          'van-button--unclickable': disabled || loading
-        })
-      });
     }
   }
 });

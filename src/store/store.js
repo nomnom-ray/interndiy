@@ -9,6 +9,7 @@ const store = new Vuex.Store({
   modules: {
     Project,
   },
+  plugins: [Project.autosavePlugin],
 });
 
 export default store;
