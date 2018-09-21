@@ -2,19 +2,19 @@
   <van-cell-group>
     <input 
       class="originfieldsCSSCO"
-      v-model='jobTitle'
+      v-model='jobTitleGETSET'
       :maxlength="200"
       placeholder="Job Title"
     >
     <input
       class="originfieldsCSSCO"
-      v-model='organizationName'
+      v-model='organizationNameGETSET'
       :maxlength="200"
       placeholder="Company name"
     >
     <input
       class="originfieldsCSSCO"
-      v-model='jobLocation'
+      v-model='jobLocationGETSET'
       :maxlength="200"
       placeholder="Job Location"
     >
@@ -23,71 +23,77 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   data() {
     return {
-      organizationName: '',
-      jobTitle: '',
-      jobLocation: '',
       encouragements: ['some encouraging words'],
     };
   },
-  mounted() {
-    const that = this;
-    wx.getStorage({
-      key: 'organizationName',
-      success(res) {
-        that.organizationName = res.data;
-      },
-    });
-    wx.getStorage({
-      key: 'jobTitle',
-      success(res) {
-        that.jobTitle = res.data;
-      },
-    });
-    wx.getStorage({
-      key: 'jobLocation',
-      success(res) {
-        that.jobLocation = res.data;
-      },
-    });
-  },
   computed: {
+    ...mapGetters({
+      jobTitle: 'jobTitle',
+      organizationName: 'organizationName',
+      jobLocation: 'jobLocation',
+    }),
+    jobTitleGETSET: {
+      get() {
+        return this.jobTitle;
+      },
+      set(jobTitle) {
+        return this.jobTitleUpdate(jobTitle);
+      },
+    },
+    organizationNameGETSET: {
+      get() {
+        return this.organizationName;
+      },
+      set(organizationName) {
+        return this.organizationNameUpdate(organizationName);
+      },
+    },
+    jobLocationGETSET: {
+      get() {
+        return this.jobLocation;
+      },
+      set(jobLocation) {
+        return this.jobLocationUpdate(jobLocation);
+      },
+    },
     randomEncouragements() {
-      // sart at a random [] index
+      // start at a random [] index
       // constant timed loop
       return this.encouragements[0];
     },
   },
-  watch: {
-    organizationName() {
-      wx.setStorage({
-        key: 'organizationName',
-        data: this.organizationName,
-        success(res) {
-          console.log('set success', res);
-        },
-      });
-    },
-    jobTitle() {
-      wx.setStorage({
-        key: 'jobTitle',
-        data: this.jobTitle,
-        success(res) {
-          console.log('set success', res);
-        },
-      });
-    },
-    jobLocation() {
-      wx.setStorage({
-        key: 'jobLocation',
-        data: this.jobLocation,
-        success(res) {
-          console.log('set success', res);
-        },
-      });
-    },
+  methods: {
+    ...mapActions({
+      jobTitleUpdate: 'jobTitleUpdate',
+      organizationNameUpdate: 'organizationNameUpdate',
+      jobLocationUpdate: 'jobLocationUpdate',
+    }),
+  },
+  mounted() {
+    const that = this;
+    wx.getStorage({
+      key: 'JOBTITLE_UPDATE',
+      success(res) {
+        that.jobTitleUpdate(res.data);
+      },
+    });
+    wx.getStorage({
+      key: 'ORGANIZATIONNAME_UPDATE',
+      success(res) {
+        that.organizationNameUpdate(res.data);
+      },
+    });
+    wx.getStorage({
+      key: 'JOBLOCATION_UPDATE',
+      success(res) {
+        that.jobLocationUpdate(res.data);
+      },
+    });
   },
 };
 </script>
