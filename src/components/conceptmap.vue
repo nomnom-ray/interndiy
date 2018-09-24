@@ -88,7 +88,6 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
-  // import Subjects from './conceptsubject';
   import Cards from './conceptcard';
   import Blanks from './conceptblank';
 
@@ -96,7 +95,6 @@
   export default {
     components: {
       appCards: Cards,
-      // appSubjects: Subjects,
       appBlanks: Blanks,
     },
     data() {

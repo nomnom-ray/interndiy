@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/mentee/main",
-    "pages/mentor/main"
+    "pages/mentor/main",
+    "pages/qualificationdetail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
