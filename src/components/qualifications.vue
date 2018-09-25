@@ -29,12 +29,15 @@ export default {
   computed: {
     ...mapGetters({
       qualifications: 'qualifications',
+      qualificationsCount: 'qualificationsCount',
     }),
   },
   methods: {
     ...mapActions({
       qualificationsAdd: 'qualificationsAdd',
       qualificationsDel: 'qualificationsDel',
+      qualificationsCountAdd: 'qualificationsCountAdd',
+      qualificationsCountDel: 'qualificationsCountDel',
     }),
     qualificationAdd() {
       const qualificationId = this.qualifications.length;
@@ -44,14 +47,21 @@ export default {
     },
   },
   mounted() {
-    // const that = this;
-    // wx.getStorage({
-    //   key: 'QUALIFICATIONS',
-    //   success(res) {
-    //     // TODO: can't push all the time cuz array will contain arrays
-    //     that.qualificationsAdd(JSON.parse(res.data));
-    //   },
-    // });
+    const that = this;
+    wx.getStorage({
+      key: 'QUALIFICATIONSCOUNT',
+      success(resCount) {
+        that.qualificationsCountAdd(resCount.data);
+        for (let i = 0; i <= that.qualificationsCount - 1; i += 1) {
+          wx.getStorage({
+            key: `QUALIFICATIONS_${i}`,
+            success(resQual) {
+              that.qualificationsAdd(JSON.parse(resQual.data));
+            },
+          });
+        }
+      },
+    });
   },
 };
 </script>

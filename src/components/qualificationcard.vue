@@ -1,8 +1,9 @@
 <template>
-  <!-- provide link to details -->
-  <div>
-    propQualification: {{propQualification}}
-  </div>
+  <a :href="detailURL">
+    <div>
+      propQualification: {{propQualification.title}}
+    </div>
+  </a>
 </template>
 
 <script>
@@ -18,6 +19,9 @@ export default {
     ...mapGetters({
       qualifications: 'qualifications',
     }),
+    detailURL() {
+      return `/pages/qualificationdetail/main?id=${this.propQualification.id}`;
+    },
   },
   methods: {
     ...mapActions({

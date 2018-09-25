@@ -6,6 +6,7 @@ const state = {
   jobLocation: '',
   picsPostings: [],
   qualifications: [],
+  qualificationsCount: 0,
 };
 
 const mutations = {
@@ -36,6 +37,17 @@ const mutations = {
   // eslint-disable-next-line
   QUALIFICATIONS_DEL(state, payload) {
     state.qualifications.splice(payload, 1);
+    for (let i = Number(payload); i <= state.qualifications.length - 1; i += 1) {
+      state.qualifications[i].id = i;
+    }
+  },
+  // eslint-disable-next-line
+  QUALIFICATIONSCOUNT_ADD(state, payload) {
+    state.qualificationsCount += payload;
+  },
+  // eslint-disable-next-line
+  QUALIFICATIONSCOUNT_DEL(state) {
+    state.qualificationsCount -= 1;
   },
 };
 
@@ -61,6 +73,12 @@ const actions = {
   qualificationsDel: ({ commit }, payload) => {
     commit('QUALIFICATIONS_DEL', payload);
   },
+  qualificationsCountAdd: ({ commit }, payload) => {
+    commit('QUALIFICATIONSCOUNT_ADD', payload);
+  },
+  qualificationsCountDel: ({ commit }) => {
+    commit('QUALIFICATIONSCOUNT_DEL');
+  },
 };
 
 const getters = {
@@ -69,6 +87,7 @@ const getters = {
   jobLocation: () => state.jobLocation,
   picsPostings: () => state.picsPostings,
   qualifications: () => state.qualifications,
+  qualificationsCount: () => state.qualificationsCount,
 };
 
 const localStorageAPI = {
@@ -78,6 +97,13 @@ const localStorageAPI = {
       data: payload,
       // success(res) {
       //   console.log('set', type, ': ', res);
+      // },
+    });
+  },
+  remove(type) {
+    wx.removeStorage({
+      key: type,
+      // success(res) {
       // },
     });
   },
@@ -98,10 +124,22 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'PICSPOSTINGS_ADD' || mutation.type === 'PICSPOSTINGS_DEL') {
       localStorageAPI.save(JSON.stringify(state.picsPostings), 'PICSPOSTINGS');
     }
-    // if (mutation.type === 'QUALIFICATIONS_ADD' || mutation.type === 'QUALIFICATIONS_DEL') {
-    //   // console.log(state.qualifications);
-    //   localStorageAPI.save(JSON.stringify(state.qualifications), 'QUALIFICATIONS');
-    // }
+    if (mutation.type === 'QUALIFICATIONS_ADD') {
+      localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
+      localStorageAPI.save(JSON.stringify(state
+        .qualifications[mutation.payload.id]), `QUALIFICATIONS_${mutation.payload.id}`);
+    }
+    if (mutation.type === 'QUALIFICATIONSCOUNT_ADD') {
+      localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
+    }
+    if (mutation.type === 'QUALIFICATIONSCOUNT_DEL') {
+      for (let i = 0; i <= state.qualifications.length - 1; i += 1) {
+        localStorageAPI.save(JSON.stringify(state
+          .qualifications[i]), `QUALIFICATIONS_${i}`);
+      }
+      localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}`);
+      localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
+    }
     // eslint-disable-next-line
     return;
   });
