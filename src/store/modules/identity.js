@@ -9,6 +9,7 @@ const state = {
   // to store qualifications as individual objects, but track array manually
   qualificationsCount: 0,
   narrativeMore: '',
+  projectStory: '',
 };
 
 const mutations = {
@@ -69,6 +70,10 @@ const mutations = {
   NARRATIVEMORE_UPDATE(state, payload) {
     state.narrativeMore = payload;
   },
+  // eslint-disable-next-line
+  PROJECTSTORY_UPDATE(state, payload) {
+    state.projectStory = payload;
+  },
 };
 
 const actions = {
@@ -105,6 +110,9 @@ const actions = {
   narrativeMoreUpdate: ({ commit }, payload) => {
     commit('NARRATIVEMORE_UPDATE', payload);
   },
+  projectStoryUpdate: ({ commit }, payload) => {
+    commit('PROJECTSTORY_UPDATE', payload);
+  },
 };
 
 const getters = {
@@ -115,6 +123,7 @@ const getters = {
   qualifications: () => state.qualifications,
   qualificationsCount: () => state.qualificationsCount,
   narrativeMore: () => state.narrativeMore,
+  projectStory: () => state.projectStory,
 };
 
 const localStorageAPI = {
@@ -179,6 +188,9 @@ const autosavePlugin = (store) => {
     }
     if (mutation.type === 'NARRATIVEMORE_UPDATE') {
       localStorageAPI.save(mutation.payload, 'NARRATIVEMORE');
+    }
+    if (mutation.type === 'PROJECTSTORY_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'PROJECTSTORY');
     }
     // eslint-disable-next-line
     return;
