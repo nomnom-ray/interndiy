@@ -59,6 +59,9 @@ export default {
     },
   },
   watch: {
+    // watch local data to to avoid have both a shared object...
+    // ...and shared array with the same objects
+    // this structure is used for storage for consistency and future implementation off local
     title() {
       this.qualificationUpdate({ index: this.id, type: 'title', content: this.title });
     },
@@ -95,6 +98,7 @@ export default {
     // width: 730rpx;
     // height: 50rpx;
     // background: rgb(253, 111, 111);
+    border: 2px solid rgb(190, 0, 165);
     padding: 50rpx;
   }
 </style>

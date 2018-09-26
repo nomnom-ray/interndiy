@@ -1,14 +1,20 @@
 <template>
-  <van-tabs>
-    <van-tab title="Career Origin">
+  <van-tabs class='tabsCSSM'>
+    <van-tab class='tabCSSM' title="Career Origin">
       <app-careerorigin></app-careerorigin>
     </van-tab>
-    <van-tab title="Qualifications">
+    <van-tab class='tabCSSM' title="Qualifications">
       <app-qualifications></app-qualifications>
     </van-tab>
-    <van-tab title="Story Protrayal">
+    <van-tab class='tabCSSM' title="Job Narrative">
+      <app-narrative-more></app-narrative-more>
+    </van-tab>
+    <van-tab class='tabCSSM' title="Story Protrayal">
       Story Protrayal
       <!-- <app-conceptmap></app-conceptmap> -->
+    </van-tab>
+    <van-tab class='tabCSSM' title="Job Identity">
+      Job Identity
     </van-tab>
   </van-tabs>
 </template>
@@ -17,12 +23,14 @@
 import Conceptmap from '../../components/conceptmap';
 import Careerorigin from '../../components/careerorigin';
 import Qualifications from '../../components/qualifications';
+import NarrativeMore from '../../components/careernarrativemore';
 
 export default {
   components: {
     appConceptmap: Conceptmap,
     appCareerorigin: Careerorigin,
     appQualifications: Qualifications,
+    appNarrativeMore: NarrativeMore,
   },
   created() {
     // this.$store.dispatch('subjectsInit');
@@ -30,6 +38,10 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.tabsCSSM{
+  white-space: nowrap;
+}
+  .tabCSSM{
+  }
 </style>

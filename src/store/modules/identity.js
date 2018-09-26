@@ -8,6 +8,7 @@ const state = {
   qualifications: [],
   // to store qualifications as individual objects, but track array manually
   qualificationsCount: 0,
+  narrativeMore: '',
 };
 
 const mutations = {
@@ -64,6 +65,10 @@ const mutations = {
   QUALIFICATIONSCOUNT_DEL(state) {
     state.qualificationsCount -= 1;
   },
+  // eslint-disable-next-line
+  NARRATIVEMORE_UPDATE(state, payload) {
+    state.narrativeMore = payload;
+  },
 };
 
 const actions = {
@@ -97,6 +102,9 @@ const actions = {
   qualificationsCountDel: ({ commit }) => {
     commit('QUALIFICATIONSCOUNT_DEL');
   },
+  narrativeMoreUpdate: ({ commit }, payload) => {
+    commit('NARRATIVEMORE_UPDATE', payload);
+  },
 };
 
 const getters = {
@@ -106,6 +114,7 @@ const getters = {
   picsPostings: () => state.picsPostings,
   qualifications: () => state.qualifications,
   qualificationsCount: () => state.qualificationsCount,
+  narrativeMore: () => state.narrativeMore,
 };
 
 const localStorageAPI = {
@@ -167,6 +176,9 @@ const autosavePlugin = (store) => {
     }
     if (mutation.type === 'QUALIFICATIONSCOUNT_ADD') {
       localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
+    }
+    if (mutation.type === 'NARRATIVEMORE_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'NARRATIVEMORE');
     }
     // eslint-disable-next-line
     return;
