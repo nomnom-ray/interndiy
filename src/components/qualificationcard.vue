@@ -1,37 +1,40 @@
 <template>
   <a :href="detailURL">
-    <div>
-      propQualification: {{propQualification.title}}
+    <div class="cardCSSQC">
+      <div class="titleCSSQC">
+      Title: {{propQualification.title}}
+      </div>
+      <div class="descriptionCSSQC">
+        <p>Description: {{propQualification.description}}</p>
+      </div>
     </div>
   </a>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-
 export default {
   props: ['propQualification'],
-  data() {
-    return {
-    };
-  },
   computed: {
-    ...mapGetters({
-      qualifications: 'qualifications',
-    }),
     detailURL() {
       return `/pages/qualificationdetail/main?id=${this.propQualification.id}`;
     },
   },
-  methods: {
-    ...mapActions({
-      qualificationsAdd: 'qualificationsAdd',
-      qualificationsDel: 'qualificationsDel',
-    }),
-  },
 };
 </script>
 
-
 <style lang="scss" scoped>
+.cardCSSQC {
+  padding:5px;
+  overflow: hidden;
+  margin-top:5px;
+  margin-bottom:5px;
+  font-size:14px;
+  .titleCSSQC{
+    padding: 5px;
+  }
+  .descriptionCSSQC{
+    padding: 5px;
+    white-space: pre;
+  }
+}
 </style>

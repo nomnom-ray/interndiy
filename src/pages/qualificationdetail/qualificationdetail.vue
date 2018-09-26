@@ -2,24 +2,21 @@
   <div>
     <input 
       class="qualfieldsCSSQD"
-      v-model='qualificationDetail.title'
+      v-model='title'
       :maxlength="200"
       placeholder="Qualification Title"
     >
-    <input
+    <textarea
       class="qualfieldsCSSQD"
-      v-model='qualificationDetail.description'
+      v-model='description'
       :maxlength="200"
       placeholder="Qualification Description"
     >
-    <van-button
-      type='default'
-      @click='qualificationSave'
-    >Save
-    </van-button>
+    </textarea>
     <van-button
       type='default'
       @click='qualificationDelete'
+      :disabled="clicked"
     >delete
     </van-button>
   </div>
@@ -31,11 +28,10 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   data() {
     return {
-      qualificationDetail: {
-        id: '',
-        title: '',
-        description: '',
-      },
+      id: '',
+      title: '',
+      description: '',
+      clicked: false,
     };
   },
   computed: {
@@ -43,22 +39,6 @@ export default {
       qualifications: 'qualifications',
       qualificationsCount: 'qualificationsCount',
     }),
-    // jobTitleGETSET: {
-    //   get() {
-    //     return this.jobTitle;
-    //   },
-    //   set(jobTitle) {
-    //     return this.jobTitleUpdate(jobTitle);
-    //   },
-    // },
-    // qualDescriptionGETSET: {
-    //   get() {
-    //     return this.organizationName;
-    //   },
-    //   set(organizationName) {
-    //     return this.organizationNameUpdate(organizationName);
-    //   },
-    // },
   },
   methods: {
     ...mapActions({
@@ -66,23 +46,44 @@ export default {
       qualificationsDel: 'qualificationsDel',
       qualificationsCountAdd: 'qualificationsCountAdd',
       qualificationsCountDel: 'qualificationsCountDel',
+      qualificationUpdate: 'qualificationUpdate',
     }),
-    qualificationSave() {
-      const qualification = { ...this.qualificationDetail };
-      this.qualificationsAdd(qualification);
-      this.qualificationsCountAdd(1);
-    },
     qualificationDelete() {
-      this.qualificationsDel(this.qualificationDetail.id);
-      // TODO: for loop to reassign id
+      if (this.clicked) {
+        return;
+      }
+      this.clicked = true;
+      this.qualificationsDel(this.id);
       this.qualificationsCountDel();
+      wx.navigateBack();
+    },
+  },
+  watch: {
+    title() {
+      this.qualificationUpdate({ index: this.id, type: 'title', content: this.title });
+    },
+    description() {
+      this.qualificationUpdate({ index: this.id, type: 'description', content: this.description });
     },
   },
   mounted() {
-    // console.log(this.$root.$mp.query.id);
-    this.qualificationDetail.id = this.$root.$mp.query.id;
-    // TODO: find qualification in qualifications using qualificationId
-    // TODO: compare id to length to see whether it's a new quality
+    // the id passed to this page by wx.navigateTo()
+    this.id = this.$root.$mp.query.id;
+    this.clicked = false;
+    // id is 1 smaller than length; if equal, id must be new: create new object
+    // very important that id= this.id, because the update must find the object using id
+    if (this.id >= this.qualifications.length) {
+      const qualificationDetail = {
+        id: this.id,
+        title: '',
+        description: '',
+      };
+      this.qualificationsAdd(qualificationDetail);
+      this.qualificationsCountAdd(1);
+    }
+    // existing entries gets the data from localstorage
+    this.title = this.qualifications[this.id].title || '';
+    this.description = this.qualifications[this.id].description || '';
   },
 };
 </script>

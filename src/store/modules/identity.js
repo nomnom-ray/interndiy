@@ -6,6 +6,7 @@ const state = {
   jobLocation: '',
   picsPostings: [],
   qualifications: [],
+  // to store qualifications as individual objects, but track array manually
   qualificationsCount: 0,
 };
 
@@ -35,14 +36,28 @@ const mutations = {
     state.qualifications.push(payload);
   },
   // eslint-disable-next-line
+  QUALIFICATION_UPDATE(state, payload) {
+    if (payload.type === 'id') {
+      state.qualifications[payload.index].id = payload.content;
+    }
+    if (payload.type === 'title') {
+      state.qualifications[payload.index].title = payload.content;
+    }
+    if (payload.type === 'description') {
+      state.qualifications[payload.index].description = payload.content;
+    }
+  },
+  // eslint-disable-next-line
   QUALIFICATIONS_DEL(state, payload) {
     state.qualifications.splice(payload, 1);
+    // after deleting element, the array is reorganized to keep continuous id
     for (let i = Number(payload); i <= state.qualifications.length - 1; i += 1) {
       state.qualifications[i].id = i;
     }
   },
   // eslint-disable-next-line
   QUALIFICATIONSCOUNT_ADD(state, payload) {
+    // += payload because of the initial startup count from localstorage
     state.qualificationsCount += payload;
   },
   // eslint-disable-next-line
@@ -72,6 +87,9 @@ const actions = {
   },
   qualificationsDel: ({ commit }, payload) => {
     commit('QUALIFICATIONS_DEL', payload);
+  },
+  qualificationUpdate: ({ commit }, payload) => {
+    commit('QUALIFICATION_UPDATE', payload);
   },
   qualificationsCountAdd: ({ commit }, payload) => {
     commit('QUALIFICATIONSCOUNT_ADD', payload);
@@ -124,20 +142,30 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'PICSPOSTINGS_ADD' || mutation.type === 'PICSPOSTINGS_DEL') {
       localStorageAPI.save(JSON.stringify(state.picsPostings), 'PICSPOSTINGS');
     }
-    if (mutation.type === 'QUALIFICATIONS_ADD') {
-      localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
-      localStorageAPI.save(JSON.stringify(state
-        .qualifications[mutation.payload.id]), `QUALIFICATIONS_${mutation.payload.id}`);
-    }
-    if (mutation.type === 'QUALIFICATIONSCOUNT_ADD') {
+    if (mutation.type === 'QUALIFICATION_UPDATE') {
+      const qualObject = state.qualifications[mutation.payload.index];
+      const qualId = qualObject.id;
+      if (mutation.payload.type === 'title') {
+        const qualTitle = qualObject.title;
+        localStorageAPI.save(qualTitle, `QUALIFICATIONS_${qualId}_TITLE`);
+      }
+      if (mutation.payload.type === 'description') {
+        const qualDescription = qualObject.description;
+        localStorageAPI.save(qualDescription, `QUALIFICATIONS_${qualId}_DESCRIPTION`);
+      }
       localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
     }
     if (mutation.type === 'QUALIFICATIONSCOUNT_DEL') {
+      // replace all qualification properties in localstorage after splice, and remove the spliced
       for (let i = 0; i <= state.qualifications.length - 1; i += 1) {
-        localStorageAPI.save(JSON.stringify(state
-          .qualifications[i]), `QUALIFICATIONS_${i}`);
+        localStorageAPI.save(state.qualifications[i].title, `QUALIFICATIONS_${i}_TITLE`);
+        localStorageAPI.save(state.qualifications[i].description, `QUALIFICATIONS_${i}_DESCRIPTION`);
       }
-      localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}`);
+      localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}_TITLE`);
+      localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}_DESCRIPTION`);
+      localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
+    }
+    if (mutation.type === 'QUALIFICATIONSCOUNT_ADD') {
       localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
     }
     // eslint-disable-next-line
