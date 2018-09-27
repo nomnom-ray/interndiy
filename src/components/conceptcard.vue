@@ -9,7 +9,7 @@
     <div 
       class='cardCSSCC'
       :class='{red: conceptIsClicked}'
-      @click='cardClicked(propConcept.id, propConcept.type, propSubject)'
+      @click='cardClicked(propConcept.id, propConcept.type, propSubject, propSubjectIndex)'
     >
       {{ propConcept.id }}: {{propConcept.type}}
     </div>
@@ -20,7 +20,13 @@
   import { mapGetters, mapActions } from 'vuex';
 
   export default {
-    props: ['propConcept', 'propSubject', 'propConceptClickReset', 'propSubjectRelations'],
+    props: [
+      'propConcept',
+      'propSubject',
+      'propConceptClickReset',
+      'propSubjectRelations',
+      'propSubjectIndex',
+    ],
     data() {
       return {
         conceptIsClicked: false,
@@ -31,7 +37,10 @@
         conceptsSelect: 'conceptsSelect',
         conceptsDeselect: 'conceptsDeselect',
       }),
-      cardClicked(idClicked, typeClicked, subjectClicked) {
+      cardClicked(idClicked, typeClicked, subjectClicked, subjectIndex) {
+        if (subjectIndex === 0 || subjectIndex === 2) {
+          return;
+        }
         const obj = { conceptId: idClicked, subjectId: subjectClicked, conceptType: typeClicked };
         if (!this.conceptIsClicked) {
           if (this.conceptsSelected.length < 2) {
@@ -171,7 +180,7 @@
   }
   .containerCSSCC {
     position: relative;
-    z-index: 0;
+    z-index: 1;
     width: 150px;
     height: 100px;
     margin: 0 auto;
@@ -182,7 +191,7 @@
     .cardCSSCC {
       width: 100%;
       height: 100%;
-      z-index: 1;
+      z-index: 2;
       background-clip: content-box;
       background-color: rgb(255, 187, 180);
       -webkit-border-radius: 12px;

@@ -12,8 +12,11 @@
     <van-tab title="Project Story">
       <app-project-story></app-project-story>
     </van-tab>
-    <van-tab title="Story Protrayal">
+    <van-tab title="Project Behavior">
       <app-conceptmap></app-conceptmap>
+    </van-tab>
+    <van-tab title="Project Structure">
+      <app-presentation></app-presentation>
     </van-tab>
   </van-tabs>
 </template>
@@ -25,6 +28,7 @@ import Careerorigin from '../../components/careerorigin';
 import Qualifications from '../../components/qualifications';
 import NarrativeMore from '../../components/careernarrativemore';
 import ProjectStory from '../../components/projectstory';
+import Presentation from '../../components/presentation';
 
 export default {
   components: {
@@ -33,6 +37,7 @@ export default {
     appQualifications: Qualifications,
     appNarrativeMore: NarrativeMore,
     appProjectStory: ProjectStory,
+    appPresentation: Presentation,
   },
   created() {
     this.$store.dispatch('subjectsInit');

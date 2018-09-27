@@ -5,7 +5,7 @@
           <van-button
             type='default'
             @click='conceptAddTop'
-            :disabled='conceptsSelected.length != 1 | conceptsSelected[0].conceptId === 0'
+            :disabled='conceptsSelected.length != 1 | conceptsSelected[0].conceptId === 0 | topAddDisable'
           >T
           </van-button>
         </van-col>
@@ -36,53 +36,38 @@
           >S
           </van-button>
         </van-col>
-        
-        <van-col custom-class='subjectCSSCM' span='4'>
-          <van-button
-            type='default'
-            @click='subjectsOnScreen += 1'
-            :disabled='subjectsOnScreen >= subjects.length - 1 ? true : false'
-          >L
-          </van-button>
-        </van-col>
-        
-        <van-col custom-class='subjectCSSCM' span='4'>
-          <van-button
-            type='default'
-            @click='subjectsOnScreen -= 1'
-            :disabled='subjectsOnScreen <= 1 ? true : false'
-          >R
-          </van-button>
-        </van-col>
     </van-row>
 
-    <van-row>
-      <van-col
+    <wux-row>
+      <wux-col
         :key='subjectIndex'
         v-for='(subject, subjectIndex) in subjectSelector'
-        :custom-class="'subjectCSSCM-' + ((subjectIndex % 3) + 1)"
-        :span='(subjectIndex % 2)* 6 + 6'
+        :span='(subjectIndex % 2)* 3 + 3'
+        @click='colClickedHandler(subjectIndex)'
       >
-        Subject: {{subject.id}}
+        <view :class="'subjectCSSCM-' + ((subjectIndex % 3) + 1)">
+          Subject: {{subject.id}}
 
-        <app-blanks
-        :key='blankIndex'
-        v-for='(blank, blankIndex) in subject.concepts[0].id'
-        >
-        </app-blanks>
+          <app-blanks
+          :key='blankIndex'
+          v-for='(blank, blankIndex) in subject.concepts[0].id'
+          >
+          </app-blanks>
 
-        <app-cards
-        :key='conceptIndex'
-        v-if='subject.id != 0'
-        v-for='(concept, conceptIndex) in subject.concepts'
-        :propConcept='concept'
-        :propSubject='subject.id'
-        :propConceptClickReset='conceptClickReset'
-        :propSubjectRelations='subjectRelations'
-        >
-        </app-cards>
-      </van-col>
-    </van-row>
+          <app-cards
+          :key='conceptIndex'
+          v-if='subject.id != 0'
+          v-for='(concept, conceptIndex) in subject.concepts'
+          :propConcept='concept'
+          :propSubject='subject.id'
+          :propConceptClickReset='conceptClickReset'
+          :propSubjectRelations='subjectRelations'
+          :propSubjectIndex='subjectIndex'
+          >
+          </app-cards>
+        </view>
+      </wux-col>
+    </wux-row>
   </div>
 </template>
 
@@ -103,10 +88,7 @@
         // there is no appended blank reserve subject
         subjectsOnScreen: 1,
         conceptClickReset: false,
-        subjectIndex: 0,
-        conceptIndex: 0,
         subjectRelations: [],
-        conceptRelations: [],
         concept: {
           id: 0,
           type: '',
@@ -120,10 +102,6 @@
         subjectKin: {
           parentId: {},
           kids: [],
-        },
-        conceptMarriage: {
-          spouse1: '',
-          spouse2: '',
         },
       };
     },
@@ -142,8 +120,16 @@
         }
         return subjectsOnScreen;
       },
-      disableNewSTop() {
-
+      topAddDisable() {
+        if (this.conceptsSelected[0] &&
+          this.subjects[this.conceptsSelected[0].subjectId].concepts) {
+          const conceptFirst = this.subjects[this.conceptsSelected[0].subjectId].concepts
+            .findIndex(element => element.id === this.conceptsSelected[0].conceptId);
+          if (conceptFirst === 0) {
+            return true;
+          }
+        }
+        return false;
       },
     },
     methods: {
@@ -155,18 +141,19 @@
         conceptsDel: 'conceptsDel',
         subjectsId: 'subjectsId',
       }),
-      // colClicked(colClicked) {
-      // // @click='colClicked(subjectIndex)'
-      // if (colClicked === 1) {
-      //   return;
-      // }
-      // if (colClicked === 0) {
-      //   this.subjectsOnScreen -= 1;
-      // }
-      // if (colClicked === 2) {
-      //   this.subjectsOnScreen += 1;
-      // }
-      // },
+      colClickedHandler(colClicked) {
+        if (colClicked === 1) {
+          return;
+        }
+        if (colClicked === 0) {
+          this.subjectsOnScreen -= 1;
+          this.selectClear();
+        }
+        if (colClicked === 2) {
+          this.subjectsOnScreen += 1;
+          this.selectClear();
+        }
+      },
       conceptAddTop() {
         if (this.conceptsSelected.length === 1) {
           const subjectIndex = this.subjects.map(element => element.id)

@@ -6,6 +6,8 @@
     "van-tab": "../../../static/vant/tab/index",
     "van-tabs": "../../../static/vant/tabs/index",
     "van-cell-group": "../../../static/vant/cell-group/index",
-    "van-popup": "../../../static/vant/popup/index"
+    "van-popup": "../../../static/vant/popup/index",
+    "wux-row": "../../../static/wux/row/index",
+    "wux-col": "../../../static/wux/col/index"
   }
 }
