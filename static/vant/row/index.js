@@ -1,29 +1,29 @@
-import { create } from '../common/create';
+const COL_PATH = '../col/index';
 
-create({
+Component({
+  options: {
+    addGlobalClass: true
+  },
+
+  externalClasses: ['custom-class'],
+
   relations: {
-    '../col/index': {
-      type: 'descendant',
+    [COL_PATH]: {
+      type: 'descendant'
+    }
+  },
 
-      linked(target) {
-        if (this.data.gutter) {
-          target.setGutter(this.data.gutter);
-        }
+  properties: {
+    gutter: {
+      type: Number,
+      observer() {
+        this.setGutter();
       }
     }
   },
 
-  props: {
-    gutter: {
-      type: Number,
-      observer: 'setGutter'
-    }
-  },
-
   ready() {
-    if (this.data.gutter) {
-      this.setGutter();
-    }
+    this.setGutter();
   },
 
   methods: {
@@ -33,7 +33,7 @@ create({
       const style = gutter ? `margin-right: ${margin}; margin-left: ${margin};` : '';
 
       this.setData({ style });
-      this.getRelationNodes('../col/index').forEach((col) => {
+      this.getRelationNodes(COL_PATH).forEach((col) => {
         col.setGutter(this.data.gutter);
       });
     }

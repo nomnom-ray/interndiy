@@ -1,5 +1,5 @@
 <template>
-  <!-- <van-tabs :active="pageActive || 0" @change="pageChange">
+  <van-tabs :active="pageActive || 0" @change="pageChange">
     <van-tab title="Career Origin">
       <app-careerorigin></app-careerorigin>
     </van-tab>
@@ -15,8 +15,7 @@
     <van-tab title="Story Protrayal">
       <app-conceptmap></app-conceptmap>
     </van-tab>
-  </van-tabs> -->
-        <app-conceptmap></app-conceptmap>
+  </van-tabs>
 </template>
 
 <script>
