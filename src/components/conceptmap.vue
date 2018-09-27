@@ -155,6 +155,18 @@
         conceptsDel: 'conceptsDel',
         subjectsId: 'subjectsId',
       }),
+      // colClicked(colClicked) {
+      // // @click='colClicked(subjectIndex)'
+      // if (colClicked === 1) {
+      //   return;
+      // }
+      // if (colClicked === 0) {
+      //   this.subjectsOnScreen -= 1;
+      // }
+      // if (colClicked === 2) {
+      //   this.subjectsOnScreen += 1;
+      // }
+      // },
       conceptAddTop() {
         if (this.conceptsSelected.length === 1) {
           const subjectIndex = this.subjects.map(element => element.id)

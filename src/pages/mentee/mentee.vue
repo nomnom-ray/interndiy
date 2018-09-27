@@ -1,22 +1,22 @@
 <template>
-  <van-tabs :active="pageActive || 0" @change="pageChange" class='tabsCSSM'>
-    <van-tab class='tabCSSM' title="Career Origin">
+  <!-- <van-tabs :active="pageActive || 0" @change="pageChange">
+    <van-tab title="Career Origin">
       <app-careerorigin></app-careerorigin>
     </van-tab>
-    <van-tab class='tabCSSM' title="Qualifications">
+    <van-tab title="Qualifications">
       <app-qualifications></app-qualifications>
     </van-tab>
-    <van-tab class='tabCSSM' title="Job Narrative">
+    <van-tab title="Job Narrative">
       <app-narrative-more></app-narrative-more>
     </van-tab>
-    <van-tab class='tabCSSM' title="Project Story">
+    <van-tab title="Project Story">
       <app-project-story></app-project-story>
     </van-tab>
-    <van-tab class='tabCSSM' title="Story Protrayal">
-      Story Protrayal
-      <!-- <app-conceptmap></app-conceptmap> -->
+    <van-tab title="Story Protrayal">
+      <app-conceptmap></app-conceptmap>
     </van-tab>
-  </van-tabs>
+  </van-tabs> -->
+        <app-conceptmap></app-conceptmap>
 </template>
 
 <script>
@@ -36,7 +36,7 @@ export default {
     appProjectStory: ProjectStory,
   },
   created() {
-    // this.$store.dispatch('subjectsInit');
+    this.$store.dispatch('subjectsInit');
   },
   computed: {
     ...mapGetters({
@@ -64,9 +64,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tabsCSSM{
-  white-space: nowrap;
-}
-  .tabCSSM{
-  }
 </style>
