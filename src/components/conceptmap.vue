@@ -1,11 +1,32 @@
 <template>
   <div>
-    <van-row gutter='15'>
+    <van-popup
+    :show="conceptPopupShow"
+    @close="popupCloseHandler()"
+    position='top'
+    >
+      <div class='popupCSSCM'>
+        <input 
+          class="popupinputCSSCM"
+          v-model='conceptQuestion'
+          :maxlength="200"
+          placeholder="Qualification Title"
+        >
+        <textarea
+          class="popupfieldsCSSCM"
+          v-model='conceptDescription'
+          :maxlength="200"
+          placeholder="Qualification Description"
+        >
+        </textarea>
+      </div>
+      
+      <van-row gutter='15'>
         <van-col custom-class='subjectCSSCM' span='4'>
           <van-button
             type='default'
             @click='conceptAddTop'
-            :disabled='conceptsSelected.length != 1 | conceptsSelected[0].conceptId === 0 | topAddDisable'
+            :disabled='conceptsSelected.length != 1 | topAddDisable'
           >T
           </van-button>
         </van-col>
@@ -14,7 +35,7 @@
           <van-button
             type='default'
             @click='conceptAddBottom'
-            :disabled="conceptsSelected.length != 1 | conceptsSelected[0].conceptType === 'result'"
+            :disabled="conceptsSelected.length != 1"
           >B
           </van-button>
         </van-col>
@@ -23,21 +44,34 @@
           <van-button
             type='default'
             @click='conceptDelete'
-            :disabled="conceptsSelected.length != 1 | conceptsSelected[0].conceptType === 'trigger' | conceptsSelected[0].conceptType === 'result'"
+            :disabled="conceptsSelected.length != 1"
           >D
           </van-button>
         </van-col>
-        
+
         <van-col custom-class='subjectCSSCM' span='4'>
           <van-button 
             type='default'
             @click='subjectNew'
-            :disabled="conceptsSelected.length != 1 | conceptsSelected[0].conceptType === 'trigger' | conceptsSelected[0].conceptType === 'result'"
-          >S
+            :disabled="conceptsSelected.length != 1 | topAddDisable"
+          >{{ topAddDisable ? 'P' : 'S' }}
           </van-button>
         </van-col>
     </van-row>
-
+    </van-popup>
+    <van-popup
+      :show="subjectPopupShow"
+      @close="popupCloseHandler()"
+      position='top'
+    >
+      <input 
+        class="popupCSSCM popupinputCSSCM"
+        v-model='subjectSummary'
+        :maxlength="200"
+        placeholder="Subject Summary"
+      >
+    </van-popup>
+    {{subjectSelected}}
     <wux-row>
       <wux-col
         :key='subjectIndex'
@@ -46,7 +80,11 @@
         @click='colClickedHandler(subjectIndex)'
       >
         <view :class="'subjectCSSCM-' + ((subjectIndex % 3) + 1)">
-          Subject: {{subject.id}}
+          <div
+          @click='subjectPopupShow=true, subjectSelected=subject.id'
+          >
+            Subject: {{subject.id}}
+          </div>
 
           <app-blanks
           :key='blankIndex'
@@ -89,20 +127,12 @@
         subjectsOnScreen: 1,
         conceptClickReset: false,
         subjectRelations: [],
-        concept: {
-          id: 0,
-          type: '',
-          behavior: '',
-        },
-        subject: {
-          id: 0,
-          summary: '',
-          concepts: [],
-        },
-        subjectKin: {
-          parentId: {},
-          kids: [],
-        },
+        conceptPopupShow: false,
+        subjectPopupShow: false,
+        conceptQuestion: '',
+        conceptDescription: '',
+        subjectSummary: '',
+        subjectSelected: 0,
       };
     },
     computed: {
@@ -132,6 +162,62 @@
         return false;
       },
     },
+    created() {
+      this.$root.$on('conceptPopupShow', (state) => {
+        this.conceptPopupShow = state;
+      });
+    },
+    mounted() {
+      // effective after getting from lcoaltorage
+      // if (this.subjects && this.subjects.length === 0) {
+      //   this.subjectsInit();
+      //   return;
+      // }
+      this.subjectsInit();
+    },
+    watch: {
+      //  same logic used in 'qualificationdetial'
+      conceptQuestion() {
+        if (this.conceptsSelected[0]) {
+          const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
+          this.subjectsUpdate({
+            subjectIndex: this.conceptsSelected[0].subjectId,
+            conceptIndex: this.conceptsSelected[0].conceptId - blanksCount,
+            type: 'question',
+            content: this.conceptQuestion,
+          });
+        }
+      },
+      conceptDescription() {
+        if (this.conceptsSelected[0]) {
+          const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
+          this.subjectsUpdate({
+            subjectIndex: this.conceptsSelected[0].subjectId,
+            conceptIndex: this.conceptsSelected[0].conceptId - blanksCount,
+            type: 'description',
+            content: this.conceptDescription,
+          });
+        }
+      },
+      subjectSummary() {
+        // may need a if to catch empty subjectselected
+        this.subjectsUpdate({
+          subjectIndex: this.subjectSelected,
+          conceptIndex: '',
+          type: 'summary',
+          content: this.subjectSummary,
+        });
+      },
+      conceptPopupShow() {
+        if (this.conceptPopupShow === true) {
+          const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
+          const conceptObject = this.subjects[this.conceptsSelected[0]
+            .subjectId].concepts[this.conceptsSelected[0].conceptId - blanksCount];
+          this.conceptQuestion = conceptObject.question;
+          this.conceptDescription = conceptObject.description;
+        }
+      },
+    },
     methods: {
       ...mapActions({
         conceptClear: 'conceptClear',
@@ -140,6 +226,8 @@
         conceptsId: 'conceptsId',
         conceptsDel: 'conceptsDel',
         subjectsId: 'subjectsId',
+        subjectsInit: 'subjectsInit',
+        subjectsUpdate: 'subjectsUpdate',
       }),
       colClickedHandler(colClicked) {
         if (colClicked === 1) {
@@ -154,19 +242,32 @@
           this.selectClear();
         }
       },
+      popupCloseHandler() {
+        // important that clear is before setting data to '' because of watch
+        this.selectClear();
+        this.conceptQuestion = '';
+        this.conceptDescription = '';
+        this.subjectSummary = '';
+        this.conceptPopupShow = false;
+        this.subjectPopupShow = false;
+      },
       conceptAddTop() {
         if (this.conceptsSelected.length === 1) {
           const subjectIndex = this.subjects.map(element => element.id)
             .indexOf(this.conceptsSelected[0].subjectId);
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
-          const concept = { ...this.concept };
-          // [CAUTION] .type must come before .id for some reason for html to behave correctly
-          concept.type = 'step';
+          const concept = {
+            id: 0,
+            question: '',
+            description: '',
+          };
           concept.id = conceptIndex;
           this.conceptsAdd({ subjectIndex, position: 'top', concept });
           // [CAUTION] without reassignment, there is no binding between index and id
           // reassign original ID including and after selected
+          // there is a double for, because [0].id determines # of blank cards...
+          // ...thie height of all subjects depends on these for loops
           for (let j = subjectIndex; j <= this.subjects.length - 1; j += 1) {
             const blanksCount = this.subjects[j].concepts[0].id;
             for (let i = conceptIndex;
@@ -174,7 +275,7 @@
               this.conceptsId({ subjectIndex: j, idNew: i + blanksCount, blanksCount });
             }
           }
-          this.selectClear();
+          this.popupCloseHandler();
         }
       },
       conceptAddBottom() {
@@ -183,8 +284,11 @@
             .indexOf(this.conceptsSelected[0].subjectId);
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
             .indexOf(this.conceptsSelected[0].conceptId);
-          const concept = { ...this.concept };
-          concept.type = 'step';
+          const concept = {
+            id: 0,
+            question: '',
+            description: '',
+          };
           concept.id = conceptIndex + 2;
           this.conceptsAdd({ subjectIndex, position: 'bottom', concept });
           // reassign original ID including and after selected
@@ -193,10 +297,9 @@
             for (let i = conceptIndex + 1;
               i <= this.subjects[j].concepts.length - 1; i += 1) {
               this.conceptsId({ subjectIndex: j, idNew: i + blanksCount, blanksCount });
-              // console.log('j: ', j, 'idNew: ', i + blanksCount, 'blanksCount: ', blanksCount);
             }
           }
-          this.selectClear();
+          this.popupCloseHandler();
         }
       },
       conceptDelete() {
@@ -209,7 +312,7 @@
           if (parentRecord) {
             // eslint-disable-next-line
             console.log('please delete children first');
-            this.selectClear();
+            this.popupCloseHandler();
             return;
           }
           const subjectIndex = this.subjects.map(element => element.id)
@@ -218,7 +321,7 @@
           this.conceptsSelected[0].conceptId === this.subjects[subjectIndex].concepts[0].id) {
             // eslint-disable-next-line
             console.log('please delete concepts first');
-            this.selectClear();
+            this.popupCloseHandler();
             return;
           }
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
@@ -240,7 +343,16 @@
               subjectParentCheck.kids.splice(kidIdIndex, 1);
             }
           }
-          this.conceptsDel({ subjectIndex, conceptIndex });
+          const conceptLastIndex = (this.subjects[subjectIndex]
+            .concepts.length) - 1;
+          const conceptLastId = this.subjects[subjectIndex]
+            .concepts[conceptLastIndex].id;
+          this.conceptsDel({
+            subjectIndex,
+            conceptIndex,
+            conceptLastIndex,
+            conceptLastId,
+          });
           // reassign original ID including and after deselected
           // to reassign, check whether the concept deleted is the last one in the subject
           if (this.subjects[subjectIndex]) {
@@ -252,7 +364,7 @@
               }
             }
           }
-          this.selectClear();
+          this.popupCloseHandler();
         }
       },
       subjectNew() {
@@ -261,7 +373,11 @@
           const subjectIndex = this.subjects.map(element => element.id)
             .indexOf(this.conceptsSelected[0].subjectId);
 
-          const subject = { ...this.subject };
+          const subject = {
+            id: 0,
+            summary: '',
+            concepts: [],
+          };
           // [CAUTION] using .push() for .concepts will introduce binding between them...
           // ...even after JSON .parse & .stringify
           // [CAUTION] the copied concept is binded to the originally selected concept; this is good
@@ -271,7 +387,10 @@
 
           // create kinship between subjects for better deletion control
           // each array element is 1 kinship with 1 parent concept and multiple kids subject
-          const subjectKin = { ...this.subjectKin };
+          const subjectKin = {
+            parentId: {},
+            kids: [],
+          };
           subjectKin.parentId = {
             subject: this.subjects[subjectIndex],
             concept: this.subjects[subjectIndex]
@@ -371,8 +490,8 @@
           for (let i = subjectIndex + 1; i <= this.subjects.length - 1; i += 1) {
             this.subjectsId({ idNew: i });
           }
-          // this.subjectsOnScreen += 1;
-          this.selectClear();
+          // TODO: jump to new subject
+          this.popupCloseHandler();
         }
       },
       parentLookBackHelper(helper) {
@@ -412,5 +531,21 @@
   direction: ltr;
   background-clip: content-box;
   background-color: rgb(162, 253, 182);
+}
+.popupCSSCM {
+  font-size: 13px;
+  line-height: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  z-index: 999;
+  .popupinputCSSCM{
+    margin-top: 5px;
+    border: 2px solid rgb(190, 0, 165);
+  }
+  .popupfieldsCSSCM{
+    overflow:scroll;
+    margin-top: 5px;
+    border: 2px solid rgb(190, 0, 165);
+  }
 }
 </style>

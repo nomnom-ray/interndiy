@@ -13,7 +13,7 @@ const store = new Vuex.Store({
     Identity,
     Metrics,
   },
-  plugins: [Identity.autosavePlugin, Metrics.autosavePlugin],
+  plugins: [Identity.autosavePlugin, Metrics.autosavePlugin, Project.autosavePlugin],
 });
 
 export default store;

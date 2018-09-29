@@ -39,9 +39,6 @@ export default {
     appProjectStory: ProjectStory,
     appPresentation: Presentation,
   },
-  created() {
-    this.$store.dispatch('subjectsInit');
-  },
   computed: {
     ...mapGetters({
       pageActive: 'pageActive',
