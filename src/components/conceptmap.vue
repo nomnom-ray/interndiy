@@ -71,7 +71,6 @@
         placeholder="Subject Summary"
       >
     </van-popup>
-    {{subjectSelected}}
     <wux-row>
       <wux-col
         :key='subjectIndex'
@@ -166,14 +165,86 @@
       this.$root.$on('conceptPopupShow', (state) => {
         this.conceptPopupShow = state;
       });
+      // on start up, localstorage data populates vuex states
+      const that = this;
+      wx.getStorage({
+        key: 'CONCEPTSCOUNT',
+        success(resCount) {
+          const subjectsStored = [];
+          for (let i = 0; i <= resCount.data.length - 1; i += 1) {
+            const subject = {
+              id: i,
+              summary: '',
+              concepts: [],
+            };
+            for (let j = 0; j <= resCount.data[i] - 1; j += 1) {
+              const concept = {
+                id: 0,
+                question: '',
+                description: '',
+              };
+              try {
+                const resId = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${j}_ID`);
+                if (resId) {
+                  // console.log(resId);
+                  concept.id = resId;
+                }
+                const resQuestion = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${resId}_QUESTION`);
+                concept.question = resQuestion;
+                const resDescription = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${resId}_DESCRIPTION`);
+                concept.description = resDescription;
+                subject.concepts.push(concept);
+                // console.log(i, j, concept);
+              } catch (err) {
+                // eslint-disable-next-line
+                console.log('err @ ID: ', `SUBJECTS_${i}_CONCEPTS_${j}_ID`, err);
+              }
+            }
+            subjectsStored.push(subject);
+          }
+
+          try {
+            const resShips = wx.getStorageSync('RELATIONS');
+            if (resShips) {
+              const subjectRelationsString = JSON.parse(resShips);
+              const subjectRelationsStored = [];
+              for (let i = 0; i <= subjectRelationsString.length - 1; i += 1) {
+                const blanksCount = subjectsStored[subjectRelationsString[i].parent.subject]
+                  .concepts[0].id;
+                const subjectKin = {
+                  parentId: {},
+                  kids: [],
+                };
+                subjectKin.parentId = {
+                  subject: subjectsStored[subjectRelationsString[i].parent.subject],
+                  concept: subjectsStored[subjectRelationsString[i].parent.subject]
+                    .concepts[subjectRelationsString[i].parent.concept - blanksCount],
+                };
+                for (let j = 0; j <= subjectRelationsString[i].kids.length - 1; j += 1) {
+                  subjectsStored[subjectRelationsString[i].kids[j]].concepts
+                    .splice(0, 1, subjectsStored[subjectRelationsString[i].parent.subject]
+                      .concepts[subjectRelationsString[i].parent.concept - blanksCount]);
+                  const kid = subjectsStored[subjectRelationsString[i].kids[j]];
+                  subjectKin.kids.push(kid);
+                }
+                subjectRelationsStored.push(subjectKin);
+              }
+              that.subjectRelations = subjectRelationsStored;
+            }
+          } catch (err) {
+            // eslint-disable-next-line
+            console.log('err @ ships: ', err);
+          }
+          that.subjectsInit({ type: 'localstored', content: subjectsStored });
+          // console.log(that.subjectRelations);
+          // console.log(subjectsStored);
+        },
+        fail() {
+          that.subjectsInit({ type: 'new', content: '' });
+        },
+      });
     },
     mounted() {
-      // effective after getting from lcoaltorage
-      // if (this.subjects && this.subjects.length === 0) {
-      //   this.subjectsInit();
-      //   return;
-      // }
-      this.subjectsInit();
     },
     watch: {
       //  same logic used in 'qualificationdetial'
@@ -229,6 +300,31 @@
         subjectsInit: 'subjectsInit',
         subjectsUpdate: 'subjectsUpdate',
       }),
+      subjectRelationsStore() {
+        const relations = [];
+        for (let i = 0; i <= this.subjectRelations.length - 1; i += 1) {
+          const kin = {
+            parent: {
+              subject: 0,
+              concept: 0,
+            },
+            kids: [],
+          };
+          kin.parent.subject = this.subjectRelations[i].parentId.subject.id;
+          kin.parent.concept = this.subjectRelations[i].parentId.concept.id;
+          for (let j = 0; j <= this.subjectRelations[i].kids.length - 1; j += 1) {
+            kin.kids.push(this.subjectRelations[i].kids[j].id);
+          }
+          relations.push(kin);
+        }
+        wx.setStorage({
+          key: 'RELATIONS',
+          data: JSON.stringify(relations),
+          // success(res) {
+          //   console.log('set', type, ': ', res);
+          // },
+        });
+      },
       colClickedHandler(colClicked) {
         if (colClicked === 1) {
           return;
@@ -490,7 +586,9 @@
           for (let i = subjectIndex + 1; i <= this.subjects.length - 1; i += 1) {
             this.subjectsId({ idNew: i });
           }
+          this.subjectRelationsStore();
           // TODO: jump to new subject
+          // console.log(this.subjects);
           this.popupCloseHandler();
         }
       },
