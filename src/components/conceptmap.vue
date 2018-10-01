@@ -141,6 +141,7 @@
       }),
       subjectSelector() {
         // keeps 3 subjects on screen by the subject array index
+        // console.log(this.subjectRelations);
         const subjectsOnScreen = this.subjects
           .slice(this.subjectsOnScreen - 1, this.subjectsOnScreen + 2);
         // assign subjects index to each on-screen subject
@@ -170,6 +171,7 @@
       wx.getStorage({
         key: 'CONCEPTSCOUNT',
         success(resCount) {
+          that.conceptsCountInit(resCount.data);
           const subjectsStored = [];
           for (let i = 0; i <= resCount.data.length - 1; i += 1) {
             const subject = {
@@ -296,6 +298,7 @@
         subjectsAdd: 'subjectsAdd',
         conceptsId: 'conceptsId',
         conceptsDel: 'conceptsDel',
+        conceptsCountInit: 'conceptsCountInit',
         subjectsId: 'subjectsId',
         subjectsInit: 'subjectsInit',
         subjectsUpdate: 'subjectsUpdate',
@@ -460,6 +463,7 @@
               }
             }
           }
+          this.subjectRelationsStore();
           this.popupCloseHandler();
         }
       },

@@ -35,6 +35,9 @@ const mutations = {
       // will glitch with only first blank placeholding subject
       state.subjects.splice(payload.subjectIndex, 1);
       state.conceptsCount.splice(payload.subjectIndex, 1);
+      for (let i = 0; i <= state.subjects.length - 1; i += 1) {
+        state.subjects[i].id = i;
+      }
     }
   },
   // eslint-disable-next-line
@@ -45,6 +48,10 @@ const mutations = {
   // eslint-disable-next-line
   CONCEPTS_CLEAR(state) {
     state.conceptsSelected.length = 0;
+  },
+  // eslint-disable-next-line
+  CONCEPTSCOUNT_INIT(state, payload) {
+    state.conceptsCount = payload;
   },
   // eslint-disable-next-line
   SUBJECTS_SET(state, payload) {
@@ -84,6 +91,7 @@ const mutations = {
     if (payload.type === 'localstored') {
       state.subjects = payload.content;
     }
+    // console.log('subjectset', state.conceptsCount);
   },
   // eslint-disable-next-line
   SUBJECTS_ADD(state, payload) {
@@ -130,8 +138,8 @@ const actions = {
   conceptClear: ({ commit }) => {
     commit('CONCEPTS_CLEAR');
   },
-  conceptsCountInit: ({ commit }) => {
-    commit('CONCEPTSCOUNT_INIT');
+  conceptsCountInit: ({ commit }, payload) => {
+    commit('CONCEPTSCOUNT_INIT', payload);
   },
   subjectsInit: ({ commit }, payload) => {
     commit('SUBJECTS_SET', payload);
@@ -192,6 +200,7 @@ const autosavePlugin = (store) => {
             localStorageAPI.save(subjectSummary, `SUBJECTS_${j}_SUMMARY`);
           }
         }
+        // console.log('subjectset mutation', state.conceptsCount);
         localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
       }
     }
@@ -214,6 +223,7 @@ const autosavePlugin = (store) => {
         // const subjectSummary = state.subjects[mutation.payload.idNew].summary;
         // localStorageAPI.save(subjectSummary, `SUBJECTS_${subjectId}_SUMMARY`);
       }
+      // console.log('subjectid mutation', state.conceptsCount);
       localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
     }
     if (mutation.type === 'CONCEPTS_ID') {
@@ -233,21 +243,25 @@ const autosavePlugin = (store) => {
         .save(conceptDescription, `SUBJECTS_${subjectId}_CONCEPTS_${conceptId}_DESCRIPTION`);
       // const subjectSummary = state.subjects[subjectId].summary;
       // localStorageAPI.save(subjectSummary, `SUBJECTS_${subjectId}_SUMMARY`);
+      // console.log('conceptid mutation', state.conceptsCount);
       localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
     }
     if (mutation.type === 'CONCEPTS_DEL') {
       localStorageAPI.remove(`SUBJECTS_${mutation
-        .payload.subjectIndex}_CONCEPTS_${mutation.payload.conceptIndex}_ID`);
+        .payload.subjectIndex}_CONCEPTS_${mutation.payload.conceptLastIndex}_ID`);
       localStorageAPI.remove(`SUBJECTS_${mutation
         .payload.subjectIndex}_CONCEPTS_${mutation.payload.conceptLastId}_QUESTION`);
       localStorageAPI.remove(`SUBJECTS_${mutation
-        .payload.subjectIndex}_CONCEPTS_${mutation.payload.conceptIndex}_DESCRIPTION`);
+        .payload.subjectIndex}_CONCEPTS_${mutation.payload.conceptLastId}_DESCRIPTION`);
       // localStorageAPI.remove(`SUBJECTS_${mutation.payload.subjectIndex}_SUMMARY`);
       if (mutation.payload.conceptLastIndex === 0) {
         const subjectLastIndex = (state.subjects.length) - 1;
         for (let i = 0; i <= state.subjects[subjectLastIndex].concepts.length - 1; i += 1) {
           const conceptId = state.subjects[subjectLastIndex].concepts[i].id;
+          localStorageAPI.remove(`SUBJECTS_${subjectLastIndex + 1}_CONCEPTS_${mutation
+            .payload.conceptLastIndex}_ID`);
           localStorageAPI.remove(`SUBJECTS_${subjectLastIndex + 1}_CONCEPTS_${conceptId}_QUESTION`);
+          localStorageAPI.remove(`SUBJECTS_${subjectLastIndex + 1}_CONCEPTS_${conceptId}_DESCRIPTION`);
         }
       }
       localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
@@ -273,7 +287,8 @@ const autosavePlugin = (store) => {
         const subjectSummary = subjectObject.summary;
         localStorageAPI.save(subjectSummary, `SUBJECTS_${subjectId}_SUMMARY`);
       }
-      localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
+      // console.log('subupdate mutation', state.conceptsCount);
+      // localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
     }
     // eslint-disable-next-line
     return;
