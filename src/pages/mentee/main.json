@@ -7,6 +7,7 @@
     "van-tabs": "../../../static/vant/tabs/index",
     "van-popup": "../../../static/vant/popup/index",
     "wux-row": "../../../static/wux/row/index",
-    "wux-col": "../../../static/wux/col/index"
+    "wux-col": "../../../static/wux/col/index",
+    "wux-gallery": "../../../static/wux/gallery/index"
   }
 }

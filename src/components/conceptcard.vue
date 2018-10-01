@@ -12,7 +12,12 @@
       :class='{red: conceptIsClicked, conceptChild: arrowLeftShow}'
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
-      {{ propConcept.id }}
+        <div class="questionCSSCC">
+        Title: {{propConcept.question}}
+        </div>
+        <div class="descriptionCSSCC">
+          <p>Description: {{propConcept.description}}</p>
+        </div>
     </div>
   </div>
 </template>
@@ -185,6 +190,13 @@
       -webkit-border-radius: 12px;
       -moz-border-radius: 12px;
       border-radius: 12px;
+      .questionCSSCC{
+        padding: 5px;
+      }
+      .descriptionCSSCC{
+        padding: 5px;
+        white-space: pre;
+      }
     }
 
     .arrowrightCSSCC {

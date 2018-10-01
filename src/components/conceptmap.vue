@@ -11,12 +11,14 @@
           v-model='conceptQuestion'
           :maxlength="200"
           placeholder="Qualification Title"
+          :disabled='topAddDisable && !triggerTopDisable'
         >
         <textarea
           class="popupfieldsCSSCM"
           v-model='conceptDescription'
           :maxlength="200"
           placeholder="Qualification Description"
+          :disabled='topAddDisable && !triggerTopDisable'
         >
         </textarea>
       </div>
@@ -35,7 +37,7 @@
           <van-button
             type='default'
             @click='conceptAddBottom'
-            :disabled="conceptsSelected.length != 1"
+            :disabled="conceptsSelected.length != 1 | resultBottomDisable"
           >B
           </van-button>
         </van-col>
@@ -44,7 +46,7 @@
           <van-button
             type='default'
             @click='conceptDelete'
-            :disabled="conceptsSelected.length != 1"
+            :disabled="conceptsSelected.length != 1 | resultBottomDisable | triggerTopDisable"
           >D
           </van-button>
         </van-col>
@@ -53,7 +55,7 @@
           <van-button 
             type='default'
             @click='subjectNew'
-            :disabled="conceptsSelected.length != 1 | topAddDisable"
+            :disabled="conceptsSelected.length != 1 | topAddDisable | resultBottomDisable"
           >{{ topAddDisable ? 'P' : 'S' }}
           </van-button>
         </van-col>
@@ -161,6 +163,26 @@
         }
         return false;
       },
+      resultBottomDisable() {
+        if (this.conceptsSelected[0] &&
+          this.subjects[this.conceptsSelected[0].subjectId].concepts) {
+          const resultIndex = this.subjects[this.conceptsSelected[0].subjectId].concepts.length - 1;
+          if (this.conceptsSelected[0].subjectId === 1 &&
+            this.conceptsSelected[0].conceptId === resultIndex) {
+            return true;
+          }
+        }
+        return false;
+      },
+      triggerTopDisable() {
+        if (this.conceptsSelected[0] &&
+          this.subjects[this.conceptsSelected[0].subjectId].concepts) {
+          if (this.conceptsSelected[0].subjectId === 1 && this.conceptsSelected[0].conceptId === 0) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     created() {
       this.$root.$on('conceptPopupShow', (state) => {
@@ -245,8 +267,6 @@
           that.subjectsInit({ type: 'new', content: '' });
         },
       });
-    },
-    mounted() {
     },
     watch: {
       //  same logic used in 'qualificationdetial'

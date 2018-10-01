@@ -88,17 +88,22 @@ export default {
       // TODO: unused fail and complete cases
       wx.chooseImage({
         count: 1,
-        sizeType: ['original', 'compressed'],
+        sizeType: ['compressed'],
         sourceType: ['album', 'camera'],
-        success(res) {
+        success(resTemp) {
+          wx.saveFile({
+            tempFilePath: resTemp.tempFilePaths[0],
+            success(resSaved) {
+              that.picsPostingsAdd(resSaved.savedFilePath);
+            },
+          });
           // res.tempFilePaths is an array cuz there can be multiple pictures chosen
-          that.picsPostingsAdd(res.tempFilePaths);
+          // that.picsPostingsAdd(resTemp.tempFilePaths);
         },
         fail() {
         },
-        complete() {
-        },
       });
+      this.storageRemainGet();
     },
     previewImage(e) {
       wx.previewImage({
@@ -108,10 +113,25 @@ export default {
     },
     deleteImg(e) {
       const picsPostingId = this.picsPostings.indexOf(e.currentTarget.id);
+      wx.removeSavedFile({
+        filePath: this.picsPostings[picsPostingId],
+        complete(res) {
+          // eslint-disable-next-line
+          console.log(res);
+        },
+      });
       this.picsPostingsDel(picsPostingId);
     },
+    storageRemainGet() {
+      wx.getStorageInfo({
+        success(res) {
+          // eslint-disable-next-line
+          console.log(res.currentSize);
+        },
+      });
+    },
   },
-  mounted() {
+  created() {
     // TODO: limit getstorage if the vuex state already filled
     const that = this;
     wx.getStorage({

@@ -52,7 +52,7 @@ export default {
       this.pageActiveUpdate(event.mp.detail.index);
     },
   },
-  mounted() {
+  created() {
     const that = this;
     wx.getStorage({
       key: 'PAGEACTIVE',
