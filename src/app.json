@@ -2,7 +2,8 @@
   "pages": [
     "pages/mentee/main",
     "pages/mentor/main",
-    "pages/qualificationdetail/main"
+    "pages/qualificationdetail/main",
+    "pages/structuredetail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
