@@ -2,6 +2,7 @@
   <a :href="detailURL">
     <div class="cardCSSQC">
       <div class="titleCSSQC">
+        {{propQualification.id}}
       Title: {{propQualification.title}}
       </div>
       <div class="descriptionCSSQC">

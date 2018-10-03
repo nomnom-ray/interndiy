@@ -158,7 +158,7 @@ const autosavePlugin = (store) => {
       localStorageAPI.save(mutation.payload, 'JOBLOCATION');
     }
     if (mutation.type === 'PICSPOSTINGS_ADD' || mutation.type === 'PICSPOSTINGS_DEL') {
-      localStorageAPI.save(JSON.stringify(state.picsPostings), 'PICSPOSTINGS');
+      localStorageAPI.save(state.picsPostings, 'PICSPOSTINGS');
     }
     if (mutation.type === 'QUALIFICATION_UPDATE') {
       const qualObject = state.qualifications[mutation.payload.index];

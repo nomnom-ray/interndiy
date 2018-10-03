@@ -21,6 +21,7 @@
     <div>
       <div>Upload Picture</div>
       <div>{{picsPostings.length}}/4</div>
+      <div v-if='picsTotal != 0'>{{picsRemaining}}</div>
       <div v-for="(picsPosting, index) in picsPostings" :key="index">
         <div class="thumbContainer">
           <image class="weui-uploader__img" :src="picsPosting" mode="aspectFill" @click="previewImage" :id="picsPosting" />
@@ -39,6 +40,12 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
+  data() {
+    return {
+      picsRemaining: 0,
+      picsTotal: 0,
+    };
+  },
   computed: {
     ...mapGetters({
       jobTitle: 'jobTitle',
@@ -83,18 +90,17 @@ export default {
     }),
     chooseImage() {
       const that = this;
-      // count limits how many pictures can be chosen at once
-      // TODO: figure out how sizetype and sourceType functions in UX on phone
-      // TODO: unused fail and complete cases
       wx.chooseImage({
+        // count limits how many pictures can be chosen at once
         count: 1,
-        sizeType: ['compressed'],
+        sizeType: ['original', 'compressed'],
         sourceType: ['album', 'camera'],
         success(resTemp) {
           wx.saveFile({
             tempFilePath: resTemp.tempFilePaths[0],
             success(resSaved) {
               that.picsPostingsAdd(resSaved.savedFilePath);
+              that.storageRemainGet();
             },
           });
           // res.tempFilePaths is an array cuz there can be multiple pictures chosen
@@ -103,7 +109,6 @@ export default {
         fail() {
         },
       });
-      this.storageRemainGet();
     },
     previewImage(e) {
       wx.previewImage({
@@ -112,21 +117,29 @@ export default {
       });
     },
     deleteImg(e) {
+      const that = this;
       const picsPostingId = this.picsPostings.indexOf(e.currentTarget.id);
       wx.removeSavedFile({
         filePath: this.picsPostings[picsPostingId],
-        complete(res) {
-          // eslint-disable-next-line
-          console.log(res);
+        success() {
+          that.storageRemainGet();
         },
       });
       this.picsPostingsDel(picsPostingId);
     },
     storageRemainGet() {
-      wx.getStorageInfo({
+      const that = this;
+      wx.getSavedFileList({
         success(res) {
-          // eslint-disable-next-line
-          console.log(res.currentSize);
+          let picsSizeTotal = 0;
+          that.picsTotal = res.fileList.length;
+          for (let i = 0; i <= res.fileList.length - 1; i += 1) {
+            picsSizeTotal += res.fileList[i].size;
+          }
+          if (picsSizeTotal !== 0) {
+            const picAvgSize = picsSizeTotal / that.picsTotal;
+            that.picsRemaining = Math.round((10000000 - picsSizeTotal) / picAvgSize);
+          }
         },
       });
     },
@@ -155,7 +168,20 @@ export default {
     wx.getStorage({
       key: 'PICSPOSTINGS',
       success(res) {
-        that.picsPostingsAdd(JSON.parse(res.data));
+        that.picsPostingsAdd(res.data);
+      },
+    });
+    wx.getSavedFileList({
+      success(res) {
+        let picsSizeTotal = 0;
+        that.picsTotal = res.fileList.length;
+        for (let i = 0; i <= res.fileList.length - 1; i += 1) {
+          picsSizeTotal += res.fileList[i].size;
+        }
+        if (picsSizeTotal !== 0) {
+          const picAvgSize = picsSizeTotal / that.picsTotal;
+          that.picsRemaining = Math.round((10000000 - picsSizeTotal) / picAvgSize);
+        }
       },
     });
   },

@@ -230,7 +230,7 @@
           try {
             const resShips = wx.getStorageSync('RELATIONS');
             if (resShips) {
-              const subjectRelationsString = JSON.parse(resShips);
+              const subjectRelationsString = resShips;
               const subjectRelationsStored = [];
               for (let i = 0; i <= subjectRelationsString.length - 1; i += 1) {
                 const blanksCount = subjectsStored[subjectRelationsString[i].parent.subject]
@@ -342,7 +342,7 @@
         }
         wx.setStorage({
           key: 'RELATIONS',
-          data: JSON.stringify(relations),
+          data: relations,
           // success(res) {
           //   console.log('set', type, ': ', res);
           // },

@@ -45,7 +45,7 @@ export default {
       });
     },
   },
-  mounted() {
+  created() {
     // on start up, localstorage data populates vuex states
     const that = this;
     wx.getStorage({

@@ -8,6 +8,11 @@
     "van-popup": "../../../static/vant/popup/index",
     "wux-row": "../../../static/wux/row/index",
     "wux-col": "../../../static/wux/col/index",
-    "wux-gallery": "../../../static/wux/gallery/index"
+    "wux-gallery": "../../../static/wux/gallery/index",
+    "wux-floating-button": "../../../static/wux/floating-button/index",
+    "wux-cell-group": "../../../static/wux/cell-group/index",
+    "wux-cell": "../../../static/wux/cell/index",
+    "wux-select": "../../../static/wux/select/index",
+    "wux-icon": "../../../static/wux/icon/index"
   }
 }
