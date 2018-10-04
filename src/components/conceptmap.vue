@@ -23,43 +23,51 @@
         </textarea>
       </div>
       
-      <van-row gutter='15'>
-        <van-col custom-class='subjectCSSCM' span='4'>
-          <van-button
-            type='default'
+      <wux-row gutter='15'>
+        <wux-col span='2'>
+          <wux-button
+            block
+            outline
+            type="assertive"
             @click='conceptAddTop'
             :disabled='conceptsSelected.length != 1 | topAddDisable'
           >T
-          </van-button>
-        </van-col>
-        
-        <van-col custom-class='subjectCSSCM' span='4'>
-          <van-button
-            type='default'
+          </wux-button>
+        </wux-col>
+
+        <wux-col span='2'>
+          <wux-button
+            block
+            outline
+            type="assertive"
             @click='conceptAddBottom'
             :disabled="conceptsSelected.length != 1 | resultBottomDisable"
           >B
-          </van-button>
-        </van-col>
+          </wux-button>
+        </wux-col>
         
-        <van-col custom-class='subjectCSSCM' span='4'>
-          <van-button
-            type='default'
+        <wux-col span='2'>
+          <wux-button
+            block
+            outline
+            type="assertive"
             @click='conceptDelete'
             :disabled="conceptsSelected.length != 1 | resultBottomDisable | triggerTopDisable"
           >D
-          </van-button>
-        </van-col>
+          </wux-button>
+        </wux-col>
 
-        <van-col custom-class='subjectCSSCM' span='4'>
-          <van-button 
-            type='default'
+        <wux-col span='2'>
+          <wux-button
+            block
+            outline
+            type="assertive"
             @click='subjectNew'
             :disabled="conceptsSelected.length != 1 | topAddDisable | resultBottomDisable"
           >{{ topAddDisable ? 'P' : 'S' }}
-          </van-button>
-        </van-col>
-    </van-row>
+          </wux-button>
+        </wux-col>
+    </wux-row>
     </van-popup>
     <van-popup
       :show="subjectPopupShow"
@@ -114,7 +122,6 @@
   import { mapGetters, mapActions } from 'vuex';
   import Cards from './conceptcard';
   import Blanks from './conceptblank';
-
 
   export default {
     components: {
@@ -629,14 +636,6 @@
 </script>
 
 <style lang='scss'>
-.subjectCSSCM {
-  font-size: 13px;
-  line-height: 30px;
-  margin-bottom: 10px;
-  text-align: center;
-  background-clip: content-box;
-  background-color: rgb(162, 253, 182);
-}
 .subjectCSSCM-1 {
   text-align: right;
   direction: rtl;

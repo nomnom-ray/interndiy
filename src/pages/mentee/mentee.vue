@@ -1,6 +1,8 @@
 <template>
   <!-- search for flex in tabs css; there are 2 enteries changed to 30% width -->
-  <van-tabs :active="pageActive || 5" @change="pageChange">
+  <van-tabs :active="pageActive || 7" @change="pageChange">
+    <van-tab title=" " :disabled="true">
+    </van-tab>
     <van-tab title="Career Origin">
       <app-careerorigin></app-careerorigin>
     </van-tab>
@@ -19,6 +21,11 @@
     <van-tab title="Project Structure">
       <app-structure></app-structure>
     </van-tab>
+    <van-tab title="Project Tasks">
+      <app-tasks></app-tasks>
+    </van-tab>
+    <van-tab title=" " :disabled="true">
+    </van-tab>
   </van-tabs>
 </template>
 
@@ -30,6 +37,7 @@ import Qualifications from '../../components/qualifications';
 import NarrativeMore from '../../components/careernarrativemore';
 import ProjectStory from '../../components/projectstory';
 import Structure from '../../components/structure';
+import Tasks from '../../components/tasks';
 
 export default {
   components: {
@@ -39,6 +47,7 @@ export default {
     appNarrativeMore: NarrativeMore,
     appProjectStory: ProjectStory,
     appStructure: Structure,
+    appTasks: Tasks,
   },
   computed: {
     ...mapGetters({

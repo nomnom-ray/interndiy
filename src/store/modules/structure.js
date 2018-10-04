@@ -110,6 +110,14 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'STRUCTURESCOUNT_ADD') {
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
     }
+    if (mutation.type === 'STRUCTURESCOUNT_DEL') {
+      // replace all structures properties in localstorage after splice, and remove the spliced
+      for (let i = 0; i <= state.structures.length - 1; i += 1) {
+        localStorageAPI.save(state.structures[i].title, `STRUCTURES_${i}_TITLE`);
+      }
+      localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TITLE`);
+      localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
+    }
     // eslint-disable-next-line
     return;
   });

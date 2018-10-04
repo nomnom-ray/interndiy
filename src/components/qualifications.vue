@@ -6,12 +6,14 @@
       :propQualification='qualification'
     >
     </app-qualification-card>
-    <van-button
+    <wux-button
+      block
+      outline
+      type="assertive"
       class="buttonCSSQ"
-      type='default'
       @click='qualificationAdd'
     >add qualification
-    </van-button>
+    </wux-button>
   </div>
 </template>
 

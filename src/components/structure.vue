@@ -1,5 +1,15 @@
 <template>
   <div class="containerCSSS">
+    <div
+      v-if='!structuresLocal.length'
+    >
+    when there are no boards, show instruction.
+    </div>
+    <icon
+      v-if='!structuresLocal.length'
+      type="info"
+      size="40"
+      color='rbg(0, 255, 255)'/>
     <app-structure-card
       :key='structureIndex'
       v-for='(structure, structureIndex) in structures'
@@ -7,16 +17,6 @@
       :propStructureIndex='structureIndex'
     >
     </app-structure-card>
-    <!-- <input 
-      v-model='picker'
-      placeholder="picker"
-    > -->
-    <!-- <van-button
-      class="buttonCSSS"
-      type='default'
-      @click='onClick1'
-    >add structure
-    </van-button> -->
     <wux-select id="wux-select1" />
     <wux-floating-button 
       position="bottomRight"
@@ -37,7 +37,6 @@ export default {
   },
   data() {
     return {
-      picker: 0,
       boardPicked: 0,
       structuresLocal: [],
     };
@@ -68,21 +67,6 @@ export default {
       structuresCountDel: 'structuresCountDel',
       structuresUpdate: 'structuresUpdate',
     }),
-    // onClick1() {
-    //   $wuxSelect('#wux-select1').open({
-    //     options: this.structuresLocal,
-    //     toolbar: {
-    //       title: 'Add a new board under...',
-    //       cancelText: 'cancel',
-    //       confirmText: 'confirm',
-    //     },
-    //     onConfirm: (value) => {
-    //       console.log(value);
-    //       this.boardPicked = value;
-    //       this.structureAdd();
-    //     },
-    //   });
-    // },
     structureAdd() {
       let structuresId = 0;
       const structureDetail = {

@@ -1,12 +1,12 @@
 <template>
   <div>
     <input 
-      class="qualfieldsCSSSD"
+      class="titleCSSSD"
       v-model='title'
       :maxlength="100"
       placeholder="Board Title"
     >
-    <wux-icon type='ios-help-circlr-outline' size='32' />
+    <icon type="info" size="23" color='rbg(0, 255, 255)'/>
     <van-button
       type='default'
       @click='presentationDelete'
@@ -71,4 +71,12 @@ export default {
 
 
 <style lang="scss" scoped>
+  .titleCSSSD {
+    position: relative;
+    // width: 730rpx;
+    // height: 50rpx;
+    // background: rgb(253, 111, 111);
+    border: 2px solid rgb(190, 0, 165);
+    padding: 50rpx;
+  }
 </style>

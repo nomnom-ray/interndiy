@@ -22,22 +22,31 @@
       <div>Upload Picture</div>
       <div>{{picsPostings.length}}/4</div>
       <div v-if='picsTotal != 0'>{{picsRemaining}}</div>
-      <div v-for="(picsPosting, index) in picsPostings" :key="index">
-        <div class="thumbContainer">
-          <image class="weui-uploader__img" :src="picsPosting" mode="aspectFill" @click="previewImage" :id="picsPosting" />
-          <div class="delete-icon" @click="deleteImg" :id="picsPosting"></div>
-        </div>
+    </div>
+    <wux-gallery id="wux-gallery"></wux-gallery>
+    <div
+      :key='index'
+      v-for="(url,index) in picsPostings"
+    >
+      <div class="thumbContainer">
+        <img
+          class="weui-uploader__img"
+          :src="url" mode="aspectFill"
+          @click="showGallery(url,index)"
+          :id="picsPosting"
+        />
       </div>
-      <!-- picsPostings.length < 4 cuz it runs v-for before v-if -->
-      <div v-if='picsPostings.length < 4' class="weui-uploader__input-box">
-        <div class="weui-uploader__input" @click="chooseImage"></div>
-      </div>
-    </div>  
+    </div>
+    <!-- picsPostings.length < 4 cuz it runs v-for before v-if -->
+    <div v-if='picsPostings.length < 4' class="weui-uploader__input-box">
+      <div class="weui-uploader__input" @click="chooseImage"></div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { $wuxGallery } from '../util/wux';
 
 export default {
   data() {
@@ -103,29 +112,10 @@ export default {
               that.storageRemainGet();
             },
           });
-          // res.tempFilePaths is an array cuz there can be multiple pictures chosen
-          // that.picsPostingsAdd(resTemp.tempFilePaths);
         },
         fail() {
         },
       });
-    },
-    previewImage(e) {
-      wx.previewImage({
-        current: e.currentTarget.id,
-        urls: this.picsPostings,
-      });
-    },
-    deleteImg(e) {
-      const that = this;
-      const picsPostingId = this.picsPostings.indexOf(e.currentTarget.id);
-      wx.removeSavedFile({
-        filePath: this.picsPostings[picsPostingId],
-        success() {
-          that.storageRemainGet();
-        },
-      });
-      this.picsPostingsDel(picsPostingId);
     },
     storageRemainGet() {
       const that = this;
@@ -141,6 +131,41 @@ export default {
             that.picsRemaining = Math.round((10000000 - picsSizeTotal) / picAvgSize);
           }
         },
+      });
+    },
+    setData(data) {
+      Object.keys(data).forEach((key) => {
+        this[key] = data[key];
+      });
+    },
+    showGallery(url, current) {
+      const urls = this.picsPostings;
+      this.$wuxGallery = $wuxGallery();
+      this.$wuxGallery.show({
+        current,
+        urls,
+        delete: (currentDel, urlsDel) => {
+          const that = this;
+          wx.removeSavedFile({
+            filePath: this.picsPostings[currentDel],
+            success() {
+              that.storageRemainGet();
+            },
+          });
+          this.picsPostingsDel(currentDel);
+          this.setData({
+            urlsDel,
+          });
+          return true;
+        },
+        onTap() {
+          // console.log(currentTap, urlsTap);
+          return true;
+        },
+        // doesn't work
+        // indicatorDots: true,
+        // indicatorColor: '#fff',
+        // indicatorActiveColor: '#04BE02',
       });
     },
   },
@@ -206,26 +231,6 @@ export default {
     margin-right: 9px;
     margin-bottom: 9px;
   }
-  .delete-icon {
-    position: absolute;
-    width: 40rpx;
-    height: 40rpx;
-    background: #f43530;
-    right: 0;
-    top: -20rpx;
-    border-radius: 40rpx;
-    z-index: 5;
-  }
-  .delete-icon::before {
-    content: '';
-    width: 26rpx;
-    height: 4rpx;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-      background: #fff;
-    }
   .weui-uploader__img {
     display: block;
     width: 79px;
