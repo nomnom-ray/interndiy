@@ -1,32 +1,21 @@
 /* eslint "no-param-reassign": 0 */
 const state = {
   structures: [],
+  structurePics: [],
+  conceptList: [],
   structuresCount: 0,
 };
 
 const mutations = {
   // eslint-disable-next-line
   STRUCTURE_ADD(state, payload) {
-    // console.log(payload.structuresId, state.structures.length - 1);
-    // if (payload.structuresId === state.structures.length - 1) {
-    //   console.log('pushed');
-    //   state.structures.push(payload.structureDetail);
-    //   return;
-    // }
-    // console.log('spliced');
     state.structures.splice(payload.structuresId, 0, payload.structureDetail);
   },
   // eslint-disable-next-line
   STRUCTURE_UPDATE(state, payload) {
-    // if (payload.type === 'id') {
-    //   state.qualifications[payload.index].id = payload.content;
-    // }
     if (payload.type === 'title') {
       state.structures[payload.index].title = payload.content;
     }
-    // if (payload.type === 'description') {
-    //   state.qualifications[payload.index].description = payload.content;
-    // }
   },
   // eslint-disable-next-line
   STRUCTURE_DEL(state, payload) {
@@ -34,13 +23,35 @@ const mutations = {
   },
   // eslint-disable-next-line
   STRUCTURESCOUNT_ADD(state, payload) {
-    // += payload because of the initial startup count from localstorage
     state.structuresCount += payload;
-    // console.log(state.structures);
   },
   // eslint-disable-next-line
   STRUCTURESCOUNT_DEL(state) {
     state.structuresCount -= 1;
+  },
+  // eslint-disable-next-line
+  STRUCTUREPICS_ADD(state, payload) {
+    // console.log('payload.boardId', payload.boardId);
+    // console.log('length', state.structurePics.length);
+
+    if (payload.boardId >= state.structurePics.length) {
+      state.structurePics.push(payload.urls);
+    } else {
+      state.structurePics[payload.boardId] = state.structurePics[payload.boardId]
+        .concat(payload.urls);
+    }
+  },
+  // eslint-disable-next-line
+  STRUCTUREPICS_DEL(state, payload) {
+    state.structurePics[payload.boardIndex].splice(payload.currentDel, 1);
+  },
+  // eslint-disable-next-line
+  CONCEPTLIST_ADD(state, payload) {
+    state.conceptList.push(payload);
+  },
+  // eslint-disable-next-line
+  CONCEPTLIST_DEL(state, payload) {
+    state.conceptList.splice(payload, 1);
   },
 };
 
@@ -60,11 +71,25 @@ const actions = {
   structuresCountDel: ({ commit }) => {
     commit('STRUCTURESCOUNT_DEL');
   },
+  structurePicsAdd: ({ commit }, payload) => {
+    commit('STRUCTUREPICS_ADD', payload);
+  },
+  structurePicsDel: ({ commit }, payload) => {
+    commit('STRUCTUREPICS_DEL', payload);
+  },
+  conceptListAdd: ({ commit }, payload) => {
+    commit('CONCEPTLIST_ADD', payload);
+  },
+  conceptListDel: ({ commit }, payload) => {
+    commit('CONCEPTLIST_DEL', payload);
+  },
 };
 
 const getters = {
   structures: () => state.structures,
   structuresCount: () => state.structuresCount,
+  structurePics: () => state.structurePics,
+  conceptList: () => state.conceptList,
 };
 
 const localStorageAPI = {
@@ -100,9 +125,7 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'STRUCTURE_UPDATE') {
       const strucObject = state.structures[mutation.payload.index];
       const strucId = mutation.payload.index;
-      // console.log('STRUCTURE_UPDATE');
       if (mutation.payload.type === 'title') {
-        // console.log('title');
         const strucTitle = strucObject.title;
         localStorageAPI.save(strucTitle, `STRUCTURES_${strucId}_TITLE`);
       }
@@ -111,12 +134,17 @@ const autosavePlugin = (store) => {
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
     }
     if (mutation.type === 'STRUCTURESCOUNT_DEL') {
-      // replace all structures properties in localstorage after splice, and remove the spliced
       for (let i = 0; i <= state.structures.length - 1; i += 1) {
         localStorageAPI.save(state.structures[i].title, `STRUCTURES_${i}_TITLE`);
       }
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TITLE`);
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
+    }
+    if (mutation.type === 'STRUCTUREPICS_ADD' || mutation.type === 'STRUCTUREPICS_DEL') {
+      localStorageAPI.save(state.structurePics, 'STRUCTUREPICS');
+    }
+    if (mutation.type === 'CONCEPTLIST_ADD' || mutation.type === 'CONCEPTLIST_DEL') {
+      localStorageAPI.save(state.conceptList, 'CONCEPTLIST');
     }
     // eslint-disable-next-line
     return;

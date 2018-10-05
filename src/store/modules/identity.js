@@ -4,7 +4,7 @@ const state = {
   jobTitle: '',
   organizationName: '',
   jobLocation: '',
-  picsPostings: [],
+  jobPics: [],
   qualifications: [],
   // to store qualifications as individual objects, but track array manually
   qualificationsCount: 0,
@@ -26,12 +26,12 @@ const mutations = {
     state.jobLocation = payload;
   },
   // eslint-disable-next-line
-  PICSPOSTINGS_ADD(state, payload) {
-    state.picsPostings = state.picsPostings.concat(payload);
+  JOBPICS_ADD(state, payload) {
+    state.jobPics = state.jobPics.concat(payload);
   },
   // eslint-disable-next-line
-  PICSPOSTINGS_DEL(state, payload) {
-    state.picsPostings.splice(payload, 1);
+  JOBPICS_DEL(state, payload) {
+    state.jobPics.splice(payload, 1);
   },
   // eslint-disable-next-line
   QUALIFICATIONS_ADD(state, payload) {
@@ -86,11 +86,11 @@ const actions = {
   jobLocationUpdate: ({ commit }, payload) => {
     commit('JOBLOCATION_UPDATE', payload);
   },
-  picsPostingsAdd: ({ commit }, payload) => {
-    commit('PICSPOSTINGS_ADD', payload);
+  jobPicsAdd: ({ commit }, payload) => {
+    commit('JOBPICS_ADD', payload);
   },
-  picsPostingsDel: ({ commit }, payload) => {
-    commit('PICSPOSTINGS_DEL', payload);
+  jobPicsDel: ({ commit }, payload) => {
+    commit('JOBPICS_DEL', payload);
   },
   qualificationsAdd: ({ commit }, payload) => {
     commit('QUALIFICATIONS_ADD', payload);
@@ -119,7 +119,7 @@ const getters = {
   jobTitle: () => state.jobTitle,
   organizationName: () => state.organizationName,
   jobLocation: () => state.jobLocation,
-  picsPostings: () => state.picsPostings,
+  jobPics: () => state.jobPics,
   qualifications: () => state.qualifications,
   qualificationsCount: () => state.qualificationsCount,
   narrativeMore: () => state.narrativeMore,
@@ -157,8 +157,8 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'JOBLOCATION_UPDATE') {
       localStorageAPI.save(mutation.payload, 'JOBLOCATION');
     }
-    if (mutation.type === 'PICSPOSTINGS_ADD' || mutation.type === 'PICSPOSTINGS_DEL') {
-      localStorageAPI.save(state.picsPostings, 'PICSPOSTINGS');
+    if (mutation.type === 'JOBPICS_ADD' || mutation.type === 'JOBPICS_DEL') {
+      localStorageAPI.save(state.jobPics, 'JOBPICS');
     }
     if (mutation.type === 'QUALIFICATION_UPDATE') {
       const qualObject = state.qualifications[mutation.payload.index];

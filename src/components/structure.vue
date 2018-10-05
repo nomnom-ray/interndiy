@@ -66,6 +66,7 @@ export default {
       structuresCountAdd: 'structuresCountAdd',
       structuresCountDel: 'structuresCountDel',
       structuresUpdate: 'structuresUpdate',
+      structurePicsAdd: 'structurePicsAdd',
     }),
     structureAdd() {
       let structuresId = 0;
@@ -122,6 +123,14 @@ export default {
               that.structuresUpdate({ index: i, type: 'title', content: resStruc.data });
             },
           });
+        }
+      },
+    });
+    wx.getStorage({
+      key: 'STRUCTUREPICS',
+      success(res) {
+        for (let i = 0; i <= res.data.length - 1; i += 1) {
+          that.structurePicsAdd({ boardId: i, urls: res.data[i] });
         }
       },
     });

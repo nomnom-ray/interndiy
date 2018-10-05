@@ -20,25 +20,25 @@
     >
     <div>
       <div>Upload Picture</div>
-      <div>{{picsPostings.length}}/4</div>
+      <div>{{jobPics.length}}/4</div>
       <div v-if='picsTotal != 0'>{{picsRemaining}}</div>
     </div>
-    <wux-gallery id="wux-gallery"></wux-gallery>
+    <wux-gallery v-if='pageActive === 1' id="wux-gallery"></wux-gallery>
     <div
       :key='index'
-      v-for="(url,index) in picsPostings"
+      v-for="(url,index) in jobPics"
     >
       <div class="thumbContainer">
         <img
           class="weui-uploader__img"
           :src="url" mode="aspectFill"
           @click="showGallery(url,index)"
-          :id="picsPosting"
+          :id="index"
         />
       </div>
     </div>
-    <!-- picsPostings.length < 4 cuz it runs v-for before v-if -->
-    <div v-if='picsPostings.length < 4' class="weui-uploader__input-box">
+    <!-- jobPics.length < 4 cuz it runs v-for before v-if -->
+    <div v-if='jobPics.length < 4' class="weui-uploader__input-box">
       <div class="weui-uploader__input" @click="chooseImage"></div>
     </div>
   </div>
@@ -60,7 +60,8 @@ export default {
       jobTitle: 'jobTitle',
       organizationName: 'organizationName',
       jobLocation: 'jobLocation',
-      picsPostings: 'picsPostings',
+      jobPics: 'jobPics',
+      pageActive: 'pageActive',
     }),
     // here, only string uses the get/set technique for working with vuex...
     // ...because v-model needs it
@@ -94,8 +95,8 @@ export default {
       jobTitleUpdate: 'jobTitleUpdate',
       organizationNameUpdate: 'organizationNameUpdate',
       jobLocationUpdate: 'jobLocationUpdate',
-      picsPostingsAdd: 'picsPostingsAdd',
-      picsPostingsDel: 'picsPostingsDel',
+      jobPicsAdd: 'jobPicsAdd',
+      jobPicsDel: 'jobPicsDel',
     }),
     chooseImage() {
       const that = this;
@@ -108,7 +109,7 @@ export default {
           wx.saveFile({
             tempFilePath: resTemp.tempFilePaths[0],
             success(resSaved) {
-              that.picsPostingsAdd(resSaved.savedFilePath);
+              that.jobPicsAdd(resSaved.savedFilePath);
               that.storageRemainGet();
             },
           });
@@ -139,7 +140,7 @@ export default {
       });
     },
     showGallery(url, current) {
-      const urls = this.picsPostings;
+      const urls = this.jobPics;
       this.$wuxGallery = $wuxGallery();
       this.$wuxGallery.show({
         current,
@@ -147,19 +148,18 @@ export default {
         delete: (currentDel, urlsDel) => {
           const that = this;
           wx.removeSavedFile({
-            filePath: this.picsPostings[currentDel],
+            filePath: this.jobPics[currentDel],
             success() {
               that.storageRemainGet();
             },
           });
-          this.picsPostingsDel(currentDel);
+          this.jobPicsDel(currentDel);
           this.setData({
             urlsDel,
           });
           return true;
         },
         onTap() {
-          // console.log(currentTap, urlsTap);
           return true;
         },
         // doesn't work
@@ -170,7 +170,6 @@ export default {
     },
   },
   created() {
-    // TODO: limit getstorage if the vuex state already filled
     const that = this;
     wx.getStorage({
       key: 'JOBTITLE',
@@ -191,9 +190,9 @@ export default {
       },
     });
     wx.getStorage({
-      key: 'PICSPOSTINGS',
+      key: 'JOBPICS',
       success(res) {
-        that.picsPostingsAdd(res.data);
+        that.jobPicsAdd(res.data);
       },
     });
     wx.getSavedFileList({
