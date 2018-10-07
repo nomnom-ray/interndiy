@@ -2,7 +2,7 @@
   <!-- a lazy preview here  -->
   <a :href="detailURL">
     <div class="cardCSSPSC">
-      {{propStructure.title}}
+      Title: {{propStructure.title}}
     </div>
   </a>
 </template>

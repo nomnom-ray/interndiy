@@ -62,7 +62,6 @@ const actions = {
 const getters = {
   structures: () => state.structures,
   structuresCount: () => state.structuresCount,
-  // conceptList: () => state.conceptList,
 };
 
 const localStorageAPI = {
@@ -95,7 +94,8 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(strucTitle, `STRUCTURES_${i}_TITLE`);
         const strucPics = strucObject.structurePics;
         localStorageAPI.save(strucPics, `STRUCTURES_${i}_PICS`);
-        // TODO: set for concept
+        const strucConcepts = strucObject.conceptList;
+        localStorageAPI.save(strucConcepts, `STRUCTURES_${i}_CONCEPTS`);
       }
     }
     if (mutation.type === 'STRUCTURE_UPDATE') {
@@ -120,8 +120,12 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'STRUCTURESCOUNT_DEL') {
       for (let i = 0; i <= state.structures.length - 1; i += 1) {
         localStorageAPI.save(state.structures[i].title, `STRUCTURES_${i}_TITLE`);
+        localStorageAPI.save(state.structures[i].structurePics, `STRUCTURES_${i}_PICS`);
+        localStorageAPI.save(state.structures[i].conceptList, `STRUCTURES_${i}_CONCEPTS`);
       }
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TITLE`);
+      localStorageAPI.remove(`STRUCTURES_${state.structures.length}_PICS`);
+      localStorageAPI.remove(`STRUCTURES_${state.structures.length}_CONCEPTS`);
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
     }
     // eslint-disable-next-line

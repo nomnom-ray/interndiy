@@ -77,7 +77,7 @@
       type='default'
       @click='presentationDelete'
       :disabled="clicked"
-    >delete
+    >{{ structures.length > 1 ? 'Delete' : 'Go back' }}
     </van-button>
       <!-- <wux-floating-button 
     position="bottomRight"
@@ -229,9 +229,12 @@ export default {
       if (this.clicked) {
         return;
       }
-      this.clicked = true;
-      this.structuresDel(this.id);
-      this.structuresCountDel();
+      if (this.structures.length > 1) {
+        this.clicked = true;
+        this.structuresDel(this.id);
+        this.id -= 1;
+        this.structuresCountDel();
+      }
       wx.navigateBack();
     },
   },

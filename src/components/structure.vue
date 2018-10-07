@@ -67,7 +67,6 @@ export default {
       structuresCountAdd: 'structuresCountAdd',
       structuresCountDel: 'structuresCountDel',
       structuresUpdate: 'structuresUpdate',
-      // structurePicsAdd: 'structurePicsAdd',
     }),
     structureAdd() {
       let structuresId = 0;
@@ -103,11 +102,6 @@ export default {
       });
     },
   },
-  // watch: {
-  //   boardPicked() {
-  //     console.log(this.boardPicked);
-  //   },
-  // },
   created() {
     const that = this;
     wx.getStorage({
