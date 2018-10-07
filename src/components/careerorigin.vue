@@ -21,7 +21,7 @@
     <div>
       <div>Upload Picture</div>
       <div>{{jobPics.length}}/4</div>
-      <div v-if='picsTotal != 0'>{{picsRemaining}}</div>
+      <div v-if='picsTotal != 0'>Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.</div>
     </div>
     <wux-gallery v-if='pageActive === 1' id="wux-gallery"></wux-gallery>
     <div
@@ -51,7 +51,6 @@ import { $wuxGallery } from '../util/wux';
 export default {
   data() {
     return {
-      picsRemaining: 0,
       picsTotal: 0,
     };
   },
@@ -88,6 +87,12 @@ export default {
       set(jobLocation) {
         return this.jobLocationUpdate(jobLocation);
       },
+    },
+    picSizeUsed() {
+      return (this.picsTotal / 1000000).toPrecision(2);
+    },
+    picSizeRemain() {
+      return ((10000000 - this.picsTotal) / 1000000).toPrecision(2);
     },
   },
   methods: {
@@ -127,10 +132,7 @@ export default {
           for (let i = 0; i <= res.fileList.length - 1; i += 1) {
             picsSizeTotal += res.fileList[i].size;
           }
-          if (picsSizeTotal !== 0) {
-            const picAvgSize = picsSizeTotal / that.picsTotal;
-            that.picsRemaining = Math.round((10000000 - picsSizeTotal) / picAvgSize);
-          }
+          that.picsTotal = picsSizeTotal;
         },
       });
     },
@@ -202,10 +204,11 @@ export default {
         for (let i = 0; i <= res.fileList.length - 1; i += 1) {
           picsSizeTotal += res.fileList[i].size;
         }
-        if (picsSizeTotal !== 0) {
-          const picAvgSize = picsSizeTotal / that.picsTotal;
-          that.picsRemaining = Math.round((10000000 - picsSizeTotal) / picAvgSize);
-        }
+        that.picsTotal = picsSizeTotal;
+        // if (picsSizeTotal !== 0) {
+        //   const picAvgSize = picsSizeTotal / that.picsTotal;
+        //   that.picsRemaining = Math.round((10000000 - picsSizeTotal) / picAvgSize);
+        // }
       },
     });
   },

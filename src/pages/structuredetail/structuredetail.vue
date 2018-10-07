@@ -1,5 +1,6 @@
 <template>
   <div>
+    <wux-toptips id="wux-toptips" />
     <input 
       class="titleCSSSD"
       v-model='title'
@@ -26,14 +27,14 @@
           >
             <view slot="content">
               <wux-checkbox-group
-                name="concepts"
-                :value='checkBoxValues'
+                :name="subject.id"
+                :value='checkBoxValues[subject.id]'
                 @change='checkBoxChange(subject.id, $event)'>
                 <wux-checkbox
                   :key='conceptIndex'
                   v-for='(concept, conceptIndex) in subject.concepts'
                   color="assertive"
-                  :title="'concept' + concept.id"
+                  :title="'concept' + concept.id + ': ' + concept.question"
                   :value="concept.id" />
               </wux-checkbox-group>
             </view>
@@ -41,21 +42,24 @@
         </i-collapse>
       </view>
     </i-drawer>
-    <!-- <wux-floating-button 
-      position="bottomRight"
-      theme="assertive"
-      :actionRotate="false"
-      @change="drawerToggle" /> -->
+    <wux-cell-group title="concepts">
+        <wux-cell
+          :key='conceptIndex'
+          v-for='(concept, conceptIndex) in structures[id].conceptList'
+          :title="subjects[concept.subjectId].concepts[concept.conceptId - subjects[concept.subjectId].concepts[0].id].question"
+          @click='conceptListedClicked(concept.subjectId, concept.conceptId)'
+        >
+        </wux-cell>
+    </wux-cell-group>
     <div>
       <div>Upload Picture</div>
-      <div>{{structurePics.length}}/1</div>
-      <div v-if='picsTotal != 0'>{{picsRemaining}}</div>
+      <div>{{structures[id].structurePics.length}}/1</div>
+      <div v-if='picsTotal != 0'>Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.</div>
     </div>
-    <!-- <wux-gallery v-if='pageActive === 6' id="wux-gallery"></wux-gallery> -->
-    <wux-gallery v-if='true' id="wux-gallery"></wux-gallery>
+    <wux-gallery v-if='pageActive === 6' id="wux-gallery"></wux-gallery>
     <div
       :key='index'
-      v-for="(url, index) in structurePics[id]"
+      v-for="(url, index) in structures[id].structurePics"
     >
       <div class="thumbContainer">
         <img
@@ -66,7 +70,7 @@
         />
       </div>
     </div>
-    <div v-if='picToAdd' class="weui-uploader__input-box">
+    <div v-if='structures[id].structurePics.length < 1' class="weui-uploader__input-box">
       <div class="weui-uploader__input" @click="chooseImage"></div>
     </div>
     <van-button
@@ -75,12 +79,18 @@
       :disabled="clicked"
     >delete
     </van-button>
+      <!-- <wux-floating-button 
+    position="bottomRight"
+    theme="assertive"
+    :actionRotate="false"
+    @change="drawerToggle" /> -->
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
-import { $wuxGallery } from '../../util/wux';
+import { $wuxGallery, $wuxToptips } from '../../util/wux';
 
 export default {
   data() {
@@ -90,9 +100,8 @@ export default {
       picToAdd: true,
       title: '',
       checkBoxValues: [],
-      // checkBoxObjects: [],
+      picURLs: [],
       showDrawer: false,
-      picsRemaining: 0,
       picsTotal: 0,
     };
   },
@@ -101,10 +110,14 @@ export default {
       structures: 'structures',
       structuresCount: 'structuresCount',
       subjects: 'subjects',
-      structurePics: 'structurePics',
-      conceptList: 'conceptList',
       pageActive: 'pageActive',
     }),
+    picSizeUsed() {
+      return (this.picsTotal / 1000000).toPrecision(2);
+    },
+    picSizeRemain() {
+      return ((10000000 - this.picsTotal) / 1000000).toPrecision(2);
+    },
   },
   methods: {
     ...mapActions({
@@ -113,38 +126,43 @@ export default {
       structuresCountAdd: 'structuresCountAdd',
       structuresCountDel: 'structuresCountDel',
       structuresUpdate: 'structuresUpdate',
-      structurePicsAdd: 'structurePicsAdd',
-      structurePicsDel: 'structurePicsDel',
-      conceptListAdd: 'conceptListAdd',
-      conceptListDel: 'conceptListDel',
     }),
+    conceptListedClicked(subjectId, conceptId) {
+      // console.log(subjectId, conceptId);
+      $wuxToptips().error({
+        hidden: true,
+        text: `subject: ${subjectId}, concept: ${conceptId}`,
+        duration: 1111,
+      });
+    },
     drawerToggle() {
       this.showDrawer = !this.showDrawer;
     },
-    // behaviorsAdd() {
-    //   this.conceptListAdd([...this.checkBoxObjects]);
-    //   this.checkBoxValues = [];
-    //   this.checkBoxObjects = [];
-    //   // console.log(this.conceptList);
-    //   // this.conceptListDel(conceptSplicedId);
-    // },
     checkBoxChange(subjectId, event) {
+      if (subjectId >= this.checkBoxValues.length) {
+        const subjectsToAdd = subjectId - this.checkBoxValues.length;
+        for (let i = 0; i <= subjectsToAdd; i += 1) {
+          this.checkBoxValues.push([]);
+        }
+      }
       const checkedBox = event.mp.detail;
-      const checkBoxValues = [...this.checkBoxValues];
-      // const concept = { ...this.subjects[subjectId].concepts[checkedBox.index] };
+      const checkBoxValue = [...this.checkBoxValues[subjectId]];
       if (checkedBox.checked) {
-        checkBoxValues.push(JSON.stringify(checkedBox.index));
-        this.checkBoxValues = checkBoxValues;
-        this.conceptListAdd({ boardId: this.id, subjectId, conceptId: checkedBox.index });
+        checkBoxValue.push(checkedBox.value);
+        Vue.set(this.checkBoxValues, subjectId, checkBoxValue);
+        this.structuresUpdate({
+          index: this.id, type: 'conceptListAdd', content: { subjectId, conceptId: checkedBox.value },
+        });
       } else {
-        const checkedBoxIndex = this.checkBoxValues.indexOf(JSON.stringify(checkedBox.index));
-        checkBoxValues.splice(checkedBoxIndex, 1);
-        this.checkBoxValues = checkBoxValues;
-        const conceptSplicedId = this.conceptList
-          .findIndex(item => item.subjectId === subjectId &&
-            item.conceptId === checkedBox.index &&
-            item.boardId === this.id);
-        this.conceptListDel(conceptSplicedId);
+        const checkedBoxIndex = checkBoxValue.indexOf(checkedBox.value);
+        checkBoxValue.splice(checkedBoxIndex, 1);
+        Vue.set(this.checkBoxValues, subjectId, checkBoxValue);
+        const conceptSplicedId = this.structures[this.id].conceptList
+          .findIndex(item => item.subjectId ===
+            subjectId && item.conceptId === checkedBox.value);
+        this.structuresUpdate({
+          index: this.id, type: 'conceptListDel', content: conceptSplicedId,
+        });
       }
     },
     chooseImage() {
@@ -158,7 +176,10 @@ export default {
           wx.saveFile({
             tempFilePath: resTemp.tempFilePaths[0],
             success(resSaved) {
-              that.structurePicsAdd({ boardId: that.id, urls: [resSaved.savedFilePath] });
+              that.structuresUpdate({
+                index: that.id, type: 'picURLs', content: [resSaved.savedFilePath],
+              });
+              that.picURLs = that.structures[that.id].structurePics;
               that.storageRemainGet();
             },
           });
@@ -176,26 +197,17 @@ export default {
           for (let i = 0; i <= res.fileList.length - 1; i += 1) {
             picsSizeTotal += res.fileList[i].size;
           }
-          if (picsSizeTotal !== 0) {
-            const picAvgSize = picsSizeTotal / that.picsTotal;
-            that.picsRemaining = Math.round((10000000 - picsSizeTotal) / picAvgSize);
-          }
+          that.picsTotal = picsSizeTotal;
         },
       });
     },
-    setData(data) {
-      Object.keys(data).forEach((key) => {
-        this[key] = data[key];
-      });
-    },
     showGallery(url, current) {
-      // const picsThisBoard = this.structurePics.findIndex(pic => pic.boardId === this.id);
-      const urls = [...this.structurePics[this.id]];
+      const urls = [...this.picURLs];
       this.$wuxGallery = $wuxGallery();
       this.$wuxGallery.show({
         current,
         urls,
-        delete: (currentDel, urlsDel) => {
+        delete: (currentDel) => {
           const that = this;
           wx.removeSavedFile({
             filePath: urls[currentDel],
@@ -203,19 +215,14 @@ export default {
               that.storageRemainGet();
             },
           });
-          this.structurePicsDel({ boardIndex: this.id, currentDel });
-          this.setData({
-            urlsDel,
+          this.structuresUpdate({
+            index: this.id, type: 'picURLs', content: [],
           });
           return true;
         },
         onTap() {
           return true;
         },
-        // doesn't work
-        // indicatorDots: true,
-        // indicatorColor: '#fff',
-        // indicatorActiveColor: '#04BE02',
       });
     },
     presentationDelete() {
@@ -230,34 +237,37 @@ export default {
   },
   watch: {
     title() {
-      // console.log(this.structures);
       this.structuresUpdate({ index: this.id, type: 'title', content: this.title });
+    },
+    picURLs() {
+      this.structuresUpdate({ index: this.id, type: 'picURLs', content: this.picURLs });
     },
   },
   mounted() {
     // the id passed to this page by wx.navigateTo()
     this.id = Number(this.$root.$mp.query.id);
-    // console.log(this.$root.$mp.page.data.$root[0]);
     this.clicked = false;
+    const conceptList = [...this.structures[this.id].conceptList];
+    let subjectTempMax = 0;
+    for (let i = 0; i <= conceptList.length - 1; i += 1) {
+      if (conceptList[i].subjectId > subjectTempMax) {
+        const subjectsToAdd = conceptList[i].subjectId - subjectTempMax;
+        subjectTempMax = conceptList[i].subjectId;
+        for (let j = 0; j <= subjectsToAdd; j += 1) {
+          this.checkBoxValues.push([]);
+        }
+      }
+      const checkBoxValue = [...this.checkBoxValues[conceptList[i].subjectId]];
+      checkBoxValue.push(conceptList[i].conceptId);
+      Vue.set(this.checkBoxValues, conceptList[i].subjectId, checkBoxValue);
+    }
     // existing entries gets the data from localstorage
     this.title = this.structures[this.id].title || '';
-    // this.description = this.qualifications[this.id].description || '';
+    this.picURLs = this.structures[this.id].structurePics || [];
+    // this.checkBoxValues = this.qualifications[this.id].description || '';
   },
   created() {
-    const that = this;
-    wx.getSavedFileList({
-      success(res) {
-        let picsSizeTotal = 0;
-        that.picsTotal = res.fileList.length;
-        for (let i = 0; i <= res.fileList.length - 1; i += 1) {
-          picsSizeTotal += res.fileList[i].size;
-        }
-        if (picsSizeTotal !== 0) {
-          const picAvgSize = picsSizeTotal / that.picsTotal;
-          that.picsRemaining = Math.round((10000000 - picsSizeTotal) / picAvgSize);
-        }
-      },
-    });
+    this.storageRemainGet();
   },
 };
 </script>
@@ -265,14 +275,11 @@ export default {
 <style lang="scss" scoped>
   .titleCSSSD {
     position: relative;
-    // width: 730rpx;
-    // height: 50rpx;
-    // background: rgb(253, 111, 111);
     border: 2px solid rgb(190, 0, 165);
     padding: 50rpx;
   }
   .drawerCSSSD{
-    margin-top: 16vh;
+    overflow: scroll;
     width: 80vw;
     height: 100vh;
     background:#fff;

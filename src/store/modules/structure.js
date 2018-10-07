@@ -1,8 +1,6 @@
 /* eslint "no-param-reassign": 0 */
 const state = {
   structures: [],
-  structurePics: [],
-  conceptList: [],
   structuresCount: 0,
 };
 
@@ -16,6 +14,18 @@ const mutations = {
     if (payload.type === 'title') {
       state.structures[payload.index].title = payload.content;
     }
+    if (payload.type === 'picURLs') {
+      state.structures[payload.index].structurePics = payload.content;
+    }
+    if (payload.type === 'conceptListAdd') {
+      state.structures[payload.index].conceptList.push(payload.content);
+    }
+    if (payload.type === 'conceptListDel') {
+      state.structures[payload.index].conceptList.splice(payload.content, 1);
+    }
+    if (payload.type === 'conceptListSet') {
+      state.structures[payload.index].conceptList = payload.content;
+    }
   },
   // eslint-disable-next-line
   STRUCTURE_DEL(state, payload) {
@@ -28,30 +38,6 @@ const mutations = {
   // eslint-disable-next-line
   STRUCTURESCOUNT_DEL(state) {
     state.structuresCount -= 1;
-  },
-  // eslint-disable-next-line
-  STRUCTUREPICS_ADD(state, payload) {
-    // console.log('payload.boardId', payload.boardId);
-    // console.log('length', state.structurePics.length);
-
-    if (payload.boardId >= state.structurePics.length) {
-      state.structurePics.push(payload.urls);
-    } else {
-      state.structurePics[payload.boardId] = state.structurePics[payload.boardId]
-        .concat(payload.urls);
-    }
-  },
-  // eslint-disable-next-line
-  STRUCTUREPICS_DEL(state, payload) {
-    state.structurePics[payload.boardIndex].splice(payload.currentDel, 1);
-  },
-  // eslint-disable-next-line
-  CONCEPTLIST_ADD(state, payload) {
-    state.conceptList.push(payload);
-  },
-  // eslint-disable-next-line
-  CONCEPTLIST_DEL(state, payload) {
-    state.conceptList.splice(payload, 1);
   },
 };
 
@@ -71,25 +57,12 @@ const actions = {
   structuresCountDel: ({ commit }) => {
     commit('STRUCTURESCOUNT_DEL');
   },
-  structurePicsAdd: ({ commit }, payload) => {
-    commit('STRUCTUREPICS_ADD', payload);
-  },
-  structurePicsDel: ({ commit }, payload) => {
-    commit('STRUCTUREPICS_DEL', payload);
-  },
-  conceptListAdd: ({ commit }, payload) => {
-    commit('CONCEPTLIST_ADD', payload);
-  },
-  conceptListDel: ({ commit }, payload) => {
-    commit('CONCEPTLIST_DEL', payload);
-  },
 };
 
 const getters = {
   structures: () => state.structures,
   structuresCount: () => state.structuresCount,
-  structurePics: () => state.structurePics,
-  conceptList: () => state.conceptList,
+  // conceptList: () => state.conceptList,
 };
 
 const localStorageAPI = {
@@ -120,6 +93,9 @@ const autosavePlugin = (store) => {
         const strucObject = state.structures[i];
         const strucTitle = strucObject.title;
         localStorageAPI.save(strucTitle, `STRUCTURES_${i}_TITLE`);
+        const strucPics = strucObject.structurePics;
+        localStorageAPI.save(strucPics, `STRUCTURES_${i}_PICS`);
+        // TODO: set for concept
       }
     }
     if (mutation.type === 'STRUCTURE_UPDATE') {
@@ -128,6 +104,14 @@ const autosavePlugin = (store) => {
       if (mutation.payload.type === 'title') {
         const strucTitle = strucObject.title;
         localStorageAPI.save(strucTitle, `STRUCTURES_${strucId}_TITLE`);
+      }
+      if (mutation.payload.type === 'picURLs') {
+        const strucPics = strucObject.structurePics;
+        localStorageAPI.save(strucPics, `STRUCTURES_${strucId}_PICS`);
+      }
+      if (mutation.payload.type === 'conceptListAdd' || mutation.payload.type === 'conceptListDel') {
+        const strucConcepts = strucObject.conceptList;
+        localStorageAPI.save(strucConcepts, `STRUCTURES_${strucId}_CONCEPTS`);
       }
     }
     if (mutation.type === 'STRUCTURESCOUNT_ADD') {
@@ -139,12 +123,6 @@ const autosavePlugin = (store) => {
       }
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TITLE`);
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
-    }
-    if (mutation.type === 'STRUCTUREPICS_ADD' || mutation.type === 'STRUCTUREPICS_DEL') {
-      localStorageAPI.save(state.structurePics, 'STRUCTUREPICS');
-    }
-    if (mutation.type === 'CONCEPTLIST_ADD' || mutation.type === 'CONCEPTLIST_DEL') {
-      localStorageAPI.save(state.conceptList, 'CONCEPTLIST');
     }
     // eslint-disable-next-line
     return;

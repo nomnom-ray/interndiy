@@ -46,6 +46,7 @@ export default {
       structures: 'structures',
       structuresCount: 'structuresCount',
     }),
+    // structuresLocal is used in selection
     structuresLocalNew() {
       this.structuresLocal = [];
       for (let i = 0; i <= this.structures.length - 1; i += 1) {
@@ -66,12 +67,14 @@ export default {
       structuresCountAdd: 'structuresCountAdd',
       structuresCountDel: 'structuresCountDel',
       structuresUpdate: 'structuresUpdate',
-      structurePicsAdd: 'structurePicsAdd',
+      // structurePicsAdd: 'structurePicsAdd',
     }),
     structureAdd() {
       let structuresId = 0;
       const structureDetail = {
         title: '',
+        structurePics: [],
+        conceptList: [],
       };
       if (this.structures.length === 0) {
         this.structuresAdd({ structuresId, structureDetail });
@@ -115,6 +118,8 @@ export default {
         for (let i = 0; i <= that.structuresCount - 1; i += 1) {
           const structureDetail = {
             title: '',
+            structurePics: [],
+            conceptList: [],
           };
           that.structuresAdd({ structuresId: i, structureDetail });
           wx.getStorage({
@@ -123,14 +128,18 @@ export default {
               that.structuresUpdate({ index: i, type: 'title', content: resStruc.data });
             },
           });
-        }
-      },
-    });
-    wx.getStorage({
-      key: 'STRUCTUREPICS',
-      success(res) {
-        for (let i = 0; i <= res.data.length - 1; i += 1) {
-          that.structurePicsAdd({ boardId: i, urls: res.data[i] });
+          wx.getStorage({
+            key: `STRUCTURES_${i}_PICS`,
+            success(resStruc) {
+              that.structuresUpdate({ index: i, type: 'picURLs', content: resStruc.data });
+            },
+          });
+          wx.getStorage({
+            key: `STRUCTURES_${i}_CONCEPTS`,
+            success(resStruc) {
+              that.structuresUpdate({ index: i, type: 'conceptListSet', content: resStruc.data });
+            },
+          });
         }
       },
     });
