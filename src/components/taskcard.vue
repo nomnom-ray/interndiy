@@ -1,25 +1,25 @@
 <template>
-  <!-- a lazy preview here  -->
   <a :href="detailURL">
-    <div class="cardCSSPSC">
-      Title: {{propStructure.title}}
+    <div class="cardCSSPTC">
+      Title: {{propTask.title}}
     </div>
   </a>
 </template>
 
 <script>
 export default {
-  props: ['propStructure', 'propStructureIndex'],
+  props: ['propTask', 'propTaskIndex', 'propStructureIndex'],
   computed: {
     detailURL() {
-      return `/pages/structuredetail/main?id=${this.propStructureIndex}`;
+      return `/pages/taskdetail/main?board=
+      ${this.propStructureIndex}&task=${this.propTaskIndex}`;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.cardCSSSC {
+.cardCSSTC {
   padding:5px;
   overflow: hidden;
   margin-top:5px;

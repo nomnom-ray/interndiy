@@ -1,13 +1,13 @@
 {
   "pages": [
     "pages/mentee/main",
-    "pages/mentor/main",
     "pages/qualificationdetail/main",
-    "pages/structuredetail/main"
+    "pages/structuredetail/main",
+    "pages/taskdetail/main"
   ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#e3e5ee",
+    "navigationBarBackgroundColor": "#fafafc",
     "navigationBarTitleText": "InternDIY",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#f4cf6c"

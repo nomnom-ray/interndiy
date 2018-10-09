@@ -17,7 +17,7 @@
       :propStructureIndex='structureIndex'
     >
     </app-structure-card>
-    <wux-select id="wux-select1" />
+    <wux-select id="wux-select-structure" />
     <wux-floating-button 
       position="bottomRight"
       theme="assertive"
@@ -37,16 +37,17 @@ export default {
   },
   data() {
     return {
-      boardPicked: 0,
+      // boardPicked & structuresLocal both for $wuxselect
       structuresLocal: [],
     };
   },
   computed: {
     ...mapGetters({
+      // need structuresCount for tracking in localstorage
       structures: 'structures',
       structuresCount: 'structuresCount',
     }),
-    // structuresLocal is used in selection
+    // structuresLocalNew refresh $wuxselect in case this.subjects changes
     structuresLocalNew() {
       this.structuresLocal = [];
       for (let i = 0; i <= this.structures.length - 1; i += 1) {
@@ -68,12 +69,14 @@ export default {
       structuresCountDel: 'structuresCountDel',
       structuresUpdate: 'structuresUpdate',
     }),
+    // add a structure (i.e. board) from the selector if not the first board
     structureAdd() {
       let structuresId = 0;
       const structureDetail = {
         title: '',
         structurePics: [],
         conceptList: [],
+        tasks: [],
       };
       if (this.structures.length === 0) {
         this.structuresAdd({ structuresId, structureDetail });
@@ -83,7 +86,7 @@ export default {
         });
         return;
       }
-      $wuxSelect('#wux-select1').open({
+      $wuxSelect('#wux-select-structure').open({
         options: this.structuresLocal,
         toolbar: {
           title: 'Add a new board under...',
@@ -91,8 +94,7 @@ export default {
           confirmText: 'confirm',
         },
         onConfirm: (index) => {
-          this.boardPicked = index;
-          structuresId = Number(this.boardPicked) + 1;
+          structuresId = Number(index) + 1;
           this.structuresAdd({ structuresId, structureDetail });
           this.structuresCountAdd(1);
           wx.navigateTo({
@@ -114,6 +116,7 @@ export default {
             title: '',
             structurePics: [],
             conceptList: [],
+            tasks: [],
           };
           that.structuresAdd({ structuresId: i, structureDetail });
           wx.getStorage({
@@ -132,6 +135,12 @@ export default {
             key: `STRUCTURES_${i}_CONCEPTS`,
             success(resStruc) {
               that.structuresUpdate({ index: i, type: 'conceptListSet', content: resStruc.data });
+            },
+          });
+          wx.getStorage({
+            key: `STRUCTURES_${i}_TASKS`,
+            success(resStruc) {
+              that.structuresUpdate({ index: i, type: 'taskList', content: resStruc.data });
             },
           });
         }

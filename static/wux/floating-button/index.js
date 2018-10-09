@@ -73,7 +73,7 @@ Component({
                 buttons: this.data.buttons,
             }
 
-            this.triggerEvent('click', params)
+            this.triggerEvent('iclick', params)
             this.fireEvents(false)
         },
         /**

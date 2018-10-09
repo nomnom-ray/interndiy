@@ -2,6 +2,7 @@
 const state = {
   structures: [],
   structuresCount: 0,
+  tasksCount: 0,
 };
 
 const mutations = {
@@ -17,14 +18,11 @@ const mutations = {
     if (payload.type === 'picURLs') {
       state.structures[payload.index].structurePics = payload.content;
     }
-    if (payload.type === 'conceptListAdd') {
-      state.structures[payload.index].conceptList.push(payload.content);
-    }
-    if (payload.type === 'conceptListDel') {
-      state.structures[payload.index].conceptList.splice(payload.content, 1);
-    }
     if (payload.type === 'conceptListSet') {
       state.structures[payload.index].conceptList = payload.content;
+    }
+    if (payload.type === 'taskList') {
+      state.structures[payload.index].taskList = payload.content;
     }
   },
   // eslint-disable-next-line
@@ -38,6 +36,29 @@ const mutations = {
   // eslint-disable-next-line
   STRUCTURESCOUNT_DEL(state) {
     state.structuresCount -= 1;
+  },
+  // eslint-disable-next-line
+  TASKS_ADD(state, payload) {
+    state.structures[payload.boardIndex].tasks.push(payload.taskDetail);
+  },
+  // eslint-disable-next-line
+  TASKS_DEL(state, payload) {
+    state.structures[payload.boardIndex].tasks.splice(payload.taskDetail, 1);
+  },
+  // eslint-disable-next-line
+  TASKSCOUNT_ADD(state, payload) {
+    state.tasksCount += payload;
+  },
+  // eslint-disable-next-line
+  TASKSCOUNT_DEL(state) {
+    state.tasksCount -= 1;
+  },
+  // eslint-disable-next-line
+  TASKS_UPDATE(state, payload) {
+    if (payload.type === 'title') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .title = payload.content;
+    }
   },
 };
 
@@ -57,11 +78,27 @@ const actions = {
   structuresCountDel: ({ commit }) => {
     commit('STRUCTURESCOUNT_DEL');
   },
+  tasksAdd: ({ commit }, payload) => {
+    commit('TASKS_ADD', payload);
+  },
+  tasksDel: ({ commit }, payload) => {
+    commit('TASKS_DEL', payload);
+  },
+  tasksCountAdd: ({ commit }, payload) => {
+    commit('TASKSCOUNT_ADD', payload);
+  },
+  tasksCountDel: ({ commit }) => {
+    commit('TASKSCOUNT_DEL');
+  },
+  tasksUpdate: ({ commit }, payload) => {
+    commit('TASKS_UPDATE', payload);
+  },
 };
 
 const getters = {
   structures: () => state.structures,
   structuresCount: () => state.structuresCount,
+  tasksCount: () => state.tasksCount,
 };
 
 const localStorageAPI = {
@@ -96,6 +133,8 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(strucPics, `STRUCTURES_${i}_PICS`);
         const strucConcepts = strucObject.conceptList;
         localStorageAPI.save(strucConcepts, `STRUCTURES_${i}_CONCEPTS`);
+        const strucTasks = strucObject.tasks;
+        localStorageAPI.save(strucTasks, `STRUCTURES_${i}_TASKS`);
       }
     }
     if (mutation.type === 'STRUCTURE_UPDATE') {
@@ -109,9 +148,13 @@ const autosavePlugin = (store) => {
         const strucPics = strucObject.structurePics;
         localStorageAPI.save(strucPics, `STRUCTURES_${strucId}_PICS`);
       }
-      if (mutation.payload.type === 'conceptListAdd' || mutation.payload.type === 'conceptListDel') {
+      if (mutation.payload.type === 'conceptListSet') {
         const strucConcepts = strucObject.conceptList;
         localStorageAPI.save(strucConcepts, `STRUCTURES_${strucId}_CONCEPTS`);
+      }
+      if (mutation.payload.type === 'taskList') {
+        const strucTasks = strucObject.tasks;
+        localStorageAPI.save(strucTasks, `STRUCTURES_${strucId}_TASKS`);
       }
     }
     if (mutation.type === 'STRUCTURESCOUNT_ADD') {
@@ -122,12 +165,18 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(state.structures[i].title, `STRUCTURES_${i}_TITLE`);
         localStorageAPI.save(state.structures[i].structurePics, `STRUCTURES_${i}_PICS`);
         localStorageAPI.save(state.structures[i].conceptList, `STRUCTURES_${i}_CONCEPTS`);
+        localStorageAPI.save(state.structures[i].tasks, `STRUCTURES_${i}_TASKS`);
       }
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TITLE`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_PICS`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_CONCEPTS`);
+      localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TASKS`);
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
     }
+    // TODO:rest of the tasks plugin stuff
+    // if (mutation.type === 'TASKSCOUNT_ADD') {
+    //   localStorageAPI.save(state.tasksCount, 'TASKSCOUNT');
+    // }
     // eslint-disable-next-line
     return;
   });

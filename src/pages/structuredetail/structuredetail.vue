@@ -1,6 +1,6 @@
 <template>
   <div>
-    <wux-toptips id="wux-toptips" />
+    <wux-toptips id="wux-toptips-structure" />
     <input 
       class="titleCSSSD"
       v-model='title'
@@ -45,7 +45,7 @@
     <wux-cell-group title="concepts">
         <wux-cell
           :key='conceptIndex'
-          v-for='(concept, conceptIndex) in structures[id].conceptList'
+          v-for='(concept, conceptIndex) in conceptList'
           :title="subjects[concept.subjectId].concepts[concept.conceptId - subjects[concept.subjectId].concepts[0].id].question"
           @click='conceptListedClicked(concept.subjectId, concept.conceptId)'
         >
@@ -73,12 +73,14 @@
     <div v-if='structures[id].structurePics.length < 1' class="weui-uploader__input-box">
       <div class="weui-uploader__input" @click="chooseImage"></div>
     </div>
-    <van-button
-      type='default'
-      @click='presentationDelete'
+    <wux-button
+      block
+      outline
+      type="assertive"
       :disabled="clicked"
+      @click='structureDelete'
     >{{ structures.length > 1 ? 'Delete' : 'Go back' }}
-    </van-button>
+    </wux-button>
       <!-- <wux-floating-button 
     position="bottomRight"
     theme="assertive"
@@ -101,6 +103,7 @@ export default {
       title: '',
       checkBoxValues: [],
       picURLs: [],
+      conceptList: [],
       showDrawer: false,
       picsTotal: 0,
     };
@@ -128,7 +131,6 @@ export default {
       structuresUpdate: 'structuresUpdate',
     }),
     conceptListedClicked(subjectId, conceptId) {
-      // console.log(subjectId, conceptId);
       $wuxToptips().error({
         hidden: true,
         text: `subject: ${subjectId}, concept: ${conceptId}`,
@@ -150,20 +152,19 @@ export default {
       if (checkedBox.checked) {
         checkBoxValue.push(checkedBox.value);
         Vue.set(this.checkBoxValues, subjectId, checkBoxValue);
-        this.structuresUpdate({
-          index: this.id, type: 'conceptListAdd', content: { subjectId, conceptId: checkedBox.value },
-        });
+
+        this.conceptList.push({ subjectId, conceptId: checkedBox.value });
       } else {
         const checkedBoxIndex = checkBoxValue.indexOf(checkedBox.value);
         checkBoxValue.splice(checkedBoxIndex, 1);
         Vue.set(this.checkBoxValues, subjectId, checkBoxValue);
-        const conceptSplicedId = this.structures[this.id].conceptList
-          .findIndex(item => item.subjectId ===
-            subjectId && item.conceptId === checkedBox.value);
-        this.structuresUpdate({
-          index: this.id, type: 'conceptListDel', content: conceptSplicedId,
-        });
+        const conceptSplicedId = this.conceptList.findIndex(item => item.subjectId ===
+          subjectId && item.conceptId === checkedBox.value);
+        this.conceptList.splice(conceptSplicedId, 1);
       }
+      this.structuresUpdate({
+        index: this.id, type: 'conceptListSet', content: this.conceptList,
+      });
     },
     chooseImage() {
       const that = this;
@@ -225,14 +226,16 @@ export default {
         },
       });
     },
-    presentationDelete() {
+    structureDelete() {
       if (this.clicked) {
         return;
       }
       if (this.structures.length > 1) {
         this.clicked = true;
         this.structuresDel(this.id);
-        this.id -= 1;
+        if (this.id !== 0) {
+          this.id -= 1;
+        }
         this.structuresCountDel();
       }
       wx.navigateBack();
@@ -245,32 +248,33 @@ export default {
     picURLs() {
       this.structuresUpdate({ index: this.id, type: 'picURLs', content: this.picURLs });
     },
+    conceptList() {
+      this.structuresUpdate({ index: this.id, type: 'conceptListSet', content: this.conceptList });
+    },
   },
   mounted() {
     // the id passed to this page by wx.navigateTo()
     this.id = Number(this.$root.$mp.query.id);
     this.clicked = false;
-    const conceptList = [...this.structures[this.id].conceptList];
+    this.storageRemainGet();
+    // existing entries gets the data from localstorage
+    this.title = this.structures[this.id].title || '';
+    this.picURLs = this.structures[this.id].structurePics || [];
+    this.conceptList = this.structures[this.id].conceptList || [];
+    this.checkBoxValues = [];
     let subjectTempMax = 0;
-    for (let i = 0; i <= conceptList.length - 1; i += 1) {
-      if (conceptList[i].subjectId > subjectTempMax) {
-        const subjectsToAdd = conceptList[i].subjectId - subjectTempMax;
-        subjectTempMax = conceptList[i].subjectId;
+    for (let i = 0; i <= this.conceptList.length - 1; i += 1) {
+      if (this.conceptList[i].subjectId > subjectTempMax) {
+        const subjectsToAdd = this.conceptList[i].subjectId - subjectTempMax;
+        subjectTempMax = this.conceptList[i].subjectId;
         for (let j = 0; j <= subjectsToAdd; j += 1) {
           this.checkBoxValues.push([]);
         }
       }
-      const checkBoxValue = [...this.checkBoxValues[conceptList[i].subjectId]];
-      checkBoxValue.push(conceptList[i].conceptId);
-      Vue.set(this.checkBoxValues, conceptList[i].subjectId, checkBoxValue);
+      const checkBoxValue = [...this.checkBoxValues[this.conceptList[i].subjectId]];
+      checkBoxValue.push(this.conceptList[i].conceptId);
+      Vue.set(this.checkBoxValues, this.conceptList[i].subjectId, checkBoxValue);
     }
-    // existing entries gets the data from localstorage
-    this.title = this.structures[this.id].title || '';
-    this.picURLs = this.structures[this.id].structurePics || [];
-    // this.checkBoxValues = this.qualifications[this.id].description || '';
-  },
-  created() {
-    this.storageRemainGet();
   },
 };
 </script>

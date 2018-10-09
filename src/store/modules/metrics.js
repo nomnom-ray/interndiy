@@ -1,7 +1,7 @@
 /* eslint "no-param-reassign": 0 */
 
 const state = {
-  pageActive: 6,
+  pageActive: 7,
 };
 
 const mutations = {
