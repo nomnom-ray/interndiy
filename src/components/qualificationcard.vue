@@ -2,7 +2,6 @@
   <a :href="detailURL">
     <div class="cardCSSQC">
       <div class="titleCSSQC">
-        {{propQualification.id}}
       Title: {{propQualification.title}}
       </div>
       <div class="descriptionCSSQC">
@@ -14,10 +13,10 @@
 
 <script>
 export default {
-  props: ['propQualification'],
+  props: ['propQualification', 'propQualificationIndex'],
   computed: {
     detailURL() {
-      return `/pages/qualificationdetail/main?id=${this.propQualification.id}`;
+      return `/pages/qualificationdetail/main?id=${this.propQualificationIndex}`;
     },
   },
 };

@@ -4,6 +4,7 @@
       :key='qualificationIndex'
       v-for='(qualification, qualificationIndex) in qualifications'
       :propQualification='qualification'
+      :propQualificationIndex='qualificationIndex'
     >
     </app-qualification-card>
     <wux-button
@@ -60,7 +61,6 @@ export default {
           // this is faster than adding new properties
           // this const must be consistent with 'qualificationdetail' mounted
           const qualificationDetail = {
-            id: i,
             title: '',
             description: '',
           };
@@ -68,12 +68,6 @@ export default {
           // update empty objects with value
           // the advantage of indivually stored elements is 1) faster;...
           // ...2) adding new properties to object will not break between object versions
-          wx.getStorage({
-            key: `QUALIFICATIONS_${i}_ID`,
-            success(resQual) {
-              that.qualificationUpdate({ index: i, type: 'id', content: resQual.data });
-            },
-          });
           wx.getStorage({
             key: `QUALIFICATIONS_${i}_TITLE`,
             success(resQual) {

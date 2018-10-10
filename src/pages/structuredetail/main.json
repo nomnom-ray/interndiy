@@ -11,7 +11,7 @@
     "wux-cell-group": "../../../static/wux/cell-group/index",
     "wux-cell": "../../../static/wux/cell/index",
     "i-drawer": "../../../static/iview/drawer/index",
-    "i-collapse": "../../../static/iview/collapse/index",
-    "i-collapse-item": "../../../static/iview/collapse-item/index"
+    "wux-accordion-group": "../../../static/wux/accordion-group/index",
+    "wux-accordion": "../../../static/wux/accordion/index"
   }
 }

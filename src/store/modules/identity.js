@@ -39,9 +39,6 @@ const mutations = {
   },
   // eslint-disable-next-line
   QUALIFICATION_UPDATE(state, payload) {
-    if (payload.type === 'id') {
-      state.qualifications[payload.index].id = payload.content;
-    }
     if (payload.type === 'title') {
       state.qualifications[payload.index].title = payload.content;
     }
@@ -162,7 +159,7 @@ const autosavePlugin = (store) => {
     }
     if (mutation.type === 'QUALIFICATION_UPDATE') {
       const qualObject = state.qualifications[mutation.payload.index];
-      const qualId = qualObject.id;
+      const qualId = mutation.payload.index;
       if (mutation.payload.type === 'title') {
         const qualTitle = qualObject.title;
         localStorageAPI.save(qualTitle, `QUALIFICATIONS_${qualId}_TITLE`);

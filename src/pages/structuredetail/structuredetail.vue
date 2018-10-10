@@ -17,29 +17,32 @@
     </wux-button>
     <i-drawer mode="right" :visible="showDrawer" @close="drawerToggle">
       <view class='drawerCSSSD'>
-        <i-collapse name="subjects">
-          <i-collapse-item
-            v-if='subject.id != 0'
-            :key="subjectIndex"
-            v-for='(subject, subjectIndex) in subjects'
-            :title="'subject' + subject.id"
-            :name="subjectIndex"
-          >
-            <view slot="content">
-              <wux-checkbox-group
-                :name="subject.id"
-                :value='checkBoxValues[subject.id]'
-                @change='checkBoxChange(subject.id, $event)'>
-                <wux-checkbox
-                  :key='conceptIndex'
-                  v-for='(concept, conceptIndex) in subject.concepts'
-                  color="assertive"
-                  :title="'concept' + concept.id + ': ' + concept.question"
-                  :value="concept.id" />
-              </wux-checkbox-group>
-            </view>
-          </i-collapse-item>
-        </i-collapse>
+      <wux-accordion-group
+        title="Default"
+        :auto='false'
+        :current='subjectOpen'
+        @change="subjectChange"
+      >
+        <wux-accordion
+          v-if='subject.id != 0'
+          :key="subjectIndex"
+          v-for='(subject, subjectIndex) in subjects'
+          :title="'subject' + subject.id"
+          :name="subjectIndex"
+        >
+          <wux-checkbox-group
+            :name="subject.id"
+            :value='checkBoxValues[subject.id]'
+            @change='checkBoxChange(subject.id, $event)'>
+            <wux-checkbox
+              :key='conceptIndex'
+              v-for='(concept, conceptIndex) in subject.concepts'
+              color="assertive"
+              :title="'concept' + concept.id + ': ' + concept.question"
+              :value="concept.id" />
+          </wux-checkbox-group>
+        </wux-accordion>
+      </wux-accordion-group>
       </view>
     </i-drawer>
     <wux-cell-group title="concepts">
@@ -98,6 +101,7 @@ export default {
   data() {
     return {
       id: 0,
+      subjectOpen: ['1'],
       clicked: false,
       picToAdd: true,
       title: '',
@@ -136,6 +140,9 @@ export default {
         text: `subject: ${subjectId}, concept: ${conceptId}`,
         duration: 1111,
       });
+    },
+    subjectChange(e) {
+      this.subjectOpen = e.mp.detail.key;
     },
     drawerToggle() {
       this.showDrawer = !this.showDrawer;

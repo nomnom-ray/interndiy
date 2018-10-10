@@ -68,6 +68,8 @@ export default {
       structuresCountAdd: 'structuresCountAdd',
       structuresCountDel: 'structuresCountDel',
       structuresUpdate: 'structuresUpdate',
+      tasksAdd: 'tasksAdd',
+      tasksUpdate: 'tasksUpdate',
     }),
     // add a structure (i.e. board) from the selector if not the first board
     structureAdd() {
@@ -77,6 +79,7 @@ export default {
         structurePics: [],
         conceptList: [],
         tasks: [],
+        tasksCount: 0,
       };
       if (this.structures.length === 0) {
         this.structuresAdd({ structuresId, structureDetail });
@@ -117,6 +120,7 @@ export default {
             structurePics: [],
             conceptList: [],
             tasks: [],
+            tasksCount: 0,
           };
           that.structuresAdd({ structuresId: i, structureDetail });
           wx.getStorage({
@@ -140,7 +144,43 @@ export default {
           wx.getStorage({
             key: `STRUCTURES_${i}_TASKS`,
             success(resStruc) {
-              that.structuresUpdate({ index: i, type: 'taskList', content: resStruc.data });
+              that.structuresUpdate({ index: i, type: 'tasks', content: resStruc.data });
+            },
+          });
+          wx.getStorage({
+            key: `STRUCTURES_${i}_TASKSCOUNT`,
+            success(resStruc) {
+              that.structuresUpdate({ index: i, type: 'tasksCount', content: resStruc.data });
+              for (let j = 0; j <= that.structures[i].tasksCount - 1; j += 1) {
+                const taskDetail = {
+                  title: '',
+                  taskPics: [],
+                  qualificationList: [],
+                };
+                that.tasksAdd({ boardIndex: i, type: 'refresh', taskDetail });
+                wx.getStorage({
+                  key: `STRUCTURES_${i}_TASKS_${j}_TITLE`,
+                  success(resTask) {
+                    that.tasksUpdate({
+                      boardIndex: i,
+                      taskIndex: j,
+                      type: 'title',
+                      content: resTask.data,
+                    });
+                  },
+                });
+                wx.getStorage({
+                  key: `STRUCTURES_${i}_TASKS_${j}_QUALIFICATIONS`,
+                  success(resTask) {
+                    that.tasksUpdate({
+                      boardIndex: i,
+                      taskIndex: j,
+                      type: 'qualificationList',
+                      content: resTask.data,
+                    });
+                  },
+                });
+              }
             },
           });
         }

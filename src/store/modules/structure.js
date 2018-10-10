@@ -2,7 +2,6 @@
 const state = {
   structures: [],
   structuresCount: 0,
-  tasksCount: 0,
 };
 
 const mutations = {
@@ -21,8 +20,11 @@ const mutations = {
     if (payload.type === 'conceptListSet') {
       state.structures[payload.index].conceptList = payload.content;
     }
-    if (payload.type === 'taskList') {
-      state.structures[payload.index].taskList = payload.content;
+    if (payload.type === 'tasks') {
+      state.structures[payload.index].tasks = payload.content;
+    }
+    if (payload.type === 'tasksCount') {
+      state.structures[payload.index].tasksCount = payload.content;
     }
   },
   // eslint-disable-next-line
@@ -46,18 +48,14 @@ const mutations = {
     state.structures[payload.boardIndex].tasks.splice(payload.taskDetail, 1);
   },
   // eslint-disable-next-line
-  TASKSCOUNT_ADD(state, payload) {
-    state.tasksCount += payload;
-  },
-  // eslint-disable-next-line
-  TASKSCOUNT_DEL(state) {
-    state.tasksCount -= 1;
-  },
-  // eslint-disable-next-line
   TASKS_UPDATE(state, payload) {
     if (payload.type === 'title') {
       state.structures[payload.boardIndex].tasks[payload.taskIndex]
         .title = payload.content;
+    }
+    if (payload.type === 'qualificationList') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .qualificationList = payload.content;
     }
   },
 };
@@ -84,12 +82,6 @@ const actions = {
   tasksDel: ({ commit }, payload) => {
     commit('TASKS_DEL', payload);
   },
-  tasksCountAdd: ({ commit }, payload) => {
-    commit('TASKSCOUNT_ADD', payload);
-  },
-  tasksCountDel: ({ commit }) => {
-    commit('TASKSCOUNT_DEL');
-  },
   tasksUpdate: ({ commit }, payload) => {
     commit('TASKS_UPDATE', payload);
   },
@@ -98,7 +90,6 @@ const actions = {
 const getters = {
   structures: () => state.structures,
   structuresCount: () => state.structuresCount,
-  tasksCount: () => state.tasksCount,
 };
 
 const localStorageAPI = {
@@ -133,8 +124,8 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(strucPics, `STRUCTURES_${i}_PICS`);
         const strucConcepts = strucObject.conceptList;
         localStorageAPI.save(strucConcepts, `STRUCTURES_${i}_CONCEPTS`);
-        const strucTasks = strucObject.tasks;
-        localStorageAPI.save(strucTasks, `STRUCTURES_${i}_TASKS`);
+        const strucTasksCount = strucObject.tasksCount;
+        localStorageAPI.save(strucTasksCount, `STRUCTURES_${i}_TASKSCOUNT`);
       }
     }
     if (mutation.type === 'STRUCTURE_UPDATE') {
@@ -152,9 +143,9 @@ const autosavePlugin = (store) => {
         const strucConcepts = strucObject.conceptList;
         localStorageAPI.save(strucConcepts, `STRUCTURES_${strucId}_CONCEPTS`);
       }
-      if (mutation.payload.type === 'taskList') {
-        const strucTasks = strucObject.tasks;
-        localStorageAPI.save(strucTasks, `STRUCTURES_${strucId}_TASKS`);
+      if (mutation.payload.type === 'tasksCount') {
+        const strucTasksCount = strucObject.tasksCount;
+        localStorageAPI.save(strucTasksCount, `STRUCTURES_${strucId}_TASKSCOUNT`);
       }
     }
     if (mutation.type === 'STRUCTURESCOUNT_ADD') {
@@ -166,17 +157,47 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(state.structures[i].structurePics, `STRUCTURES_${i}_PICS`);
         localStorageAPI.save(state.structures[i].conceptList, `STRUCTURES_${i}_CONCEPTS`);
         localStorageAPI.save(state.structures[i].tasks, `STRUCTURES_${i}_TASKS`);
+        localStorageAPI.save(state.structures[i].tasksCount, `STRUCTURES_${i}_TASKSCOUNT`);
       }
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TITLE`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_PICS`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_CONCEPTS`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TASKS`);
+      localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TASKSCOUNT`);
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
     }
-    // TODO:rest of the tasks plugin stuff
-    // if (mutation.type === 'TASKSCOUNT_ADD') {
-    //   localStorageAPI.save(state.tasksCount, 'TASKSCOUNT');
-    // }
+    if (mutation.type === 'TASKS_ADD') {
+      if (mutation.payload.type === 'add') {
+        const boardId = mutation.payload.boardIndex;
+        const strucObject = state.structures[boardId];
+        const taskId = strucObject.tasks.length - 1;
+        const taskTitle = strucObject.tasks[taskId].title;
+        localStorageAPI.save(taskTitle, `STRUCTURES_${boardId}_TASKS_${taskId}_TITLE`);
+      }
+    }
+    if (mutation.type === 'TASKS_UPDATE') {
+      const boardId = mutation.payload.boardIndex;
+      const taskId = mutation.payload.taskIndex;
+      const taskObject = state.structures[boardId].tasks[taskId];
+      if (mutation.payload.type === 'title') {
+        const taskTitle = taskObject.title;
+        localStorageAPI.save(taskTitle, `STRUCTURES_${boardId}_TASKS_${taskId}_TITLE`);
+      }
+      if (mutation.payload.type === 'qualificationList') {
+        const taskQualifications = taskObject.qualificationList;
+        localStorageAPI.save(taskQualifications, `STRUCTURES_${boardId}_TASKS_${taskId}_QUALIFICATIONS`);
+      }
+    }
+    if (mutation.type === 'TASKS_DEL') {
+      for (let i = 0; i <= state.structures.length - 1; i += 1) {
+        for (let j = 0; j <= state.structures[i].tasks.length - 1; j += 1) {
+          localStorageAPI.save(state.structures[i].tasks[j].title, `STRUCTURES_${i}_TASKS_${j}_TITLE`);
+          localStorageAPI.save(state.structures[i].tasks[j].qualificationList, `STRUCTURES_${i}_TASKS_${j}_QUALIFICATIONS`);
+        }
+        localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_TITLE`);
+        localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_QUALIFICATIONS`);
+      }
+    }
     // eslint-disable-next-line
     return;
   });

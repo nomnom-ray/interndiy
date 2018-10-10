@@ -8,6 +8,37 @@
       :maxlength="100"
       placeholder="Task Title"
     >
+    <icon type="info" size="23" color='rbg(0, 255, 255)'/>
+    <wux-button
+      block
+      outline
+      type="assertive"
+      @click='drawerToggle'
+    >Add qualifications
+    </wux-button>
+    <i-drawer mode="right" :visible="showDrawer" @close="drawerToggle">
+      <view class='drawerCSSTD'>
+        <wux-checkbox-group
+          :value='checkBoxValues'
+          @change='checkBoxChange'>
+          <wux-checkbox
+            :key='qualificationIndex'
+            v-for='(qualification, qualificationIndex) in qualifications'
+            color="assertive"
+            :title="'concept' + qualificationIndex + ': ' + qualification.title"
+            :value="qualificationIndex" />
+        </wux-checkbox-group>
+      </view>
+    </i-drawer>
+    <wux-cell-group title="qualifications">
+        <wux-cell
+          :key='checkBoxValueIndex'
+          v-for='(checkBoxValue, checkBoxValueIndex) in checkBoxValues'
+          :title="qualifications[checkBoxValue].title"
+          @click='qualificationClicked(checkBoxValueIndex)'
+        >
+        </wux-cell>
+    </wux-cell-group>
     <wux-button
       block
       outline
@@ -28,6 +59,9 @@ export default {
       boardId: 0,
       taskId: 0,
       clicked: false,
+      showDrawer: false,
+      checkBoxValues: [],
+      // qualificationListLocal: [],
       title: '',
       picsTotal: 0,
     };
@@ -36,6 +70,7 @@ export default {
     ...mapGetters({
       structures: 'structures',
       pageActive: 'pageActive',
+      qualifications: 'qualifications',
     }),
     picSizeUsed() {
       return (this.picsTotal / 1000000).toPrecision(2);
@@ -48,10 +83,29 @@ export default {
     ...mapActions({
       tasksAdd: 'tasksAdd',
       tasksDel: 'tasksDel',
-      tasksCountAdd: 'tasksCountAdd',
-      tasksCountDel: 'tasksCountDel',
       tasksUpdate: 'tasksUpdate',
+      structuresUpdate: 'structuresUpdate',
     }),
+    qualificationClicked(qualificationIndex) {
+      wx.navigateTo({
+        url: `/pages/qualificationdetail/main?id=${qualificationIndex}`,
+      });
+    },
+    drawerToggle() {
+      this.showDrawer = !this.showDrawer;
+    },
+    checkBoxChange(event) {
+      const checkedBox = event.mp.detail;
+      const checkBoxValue = [...this.checkBoxValues];
+      if (checkedBox.checked) {
+        checkBoxValue.push(checkedBox.value);
+        this.checkBoxValues = checkBoxValue;
+      } else {
+        const checkedBoxIndex = checkBoxValue.indexOf(checkedBox.value);
+        checkBoxValue.splice(checkedBoxIndex, 1);
+        this.checkBoxValues = checkBoxValue;
+      }
+    },
     storageRemainGet() {
       const that = this;
       wx.getSavedFileList({
@@ -70,9 +124,12 @@ export default {
         return;
       }
       this.clicked = true;
-      // TODO: delete needs work
-      // this.structuresDel(this.id);
-      // this.structuresCountDel();
+      this.tasksDel({ boardIndex: this.boardId, taskIndex: this.taskId });
+      this.structuresUpdate({
+        index: this.boardId,
+        type: 'tasksCount',
+        content: this.structures[this.boardId].tasks.length,
+      });
       wx.navigateBack();
     },
   },
@@ -85,13 +142,22 @@ export default {
         content: this.title,
       });
     },
+    checkBoxValues() {
+      this.tasksUpdate({
+        boardIndex: this.boardId,
+        taskIndex: this.taskId,
+        type: 'qualificationList',
+        content: this.checkBoxValues,
+      });
+    },
   },
   mounted() {
     this.boardId = Number(this.$root.$mp.query.board);
     this.taskId = Number(this.$root.$mp.query.task);
     this.clicked = false;
     this.storageRemainGet();
-    // this.title = this.structures[this.boardId].tasks[this.taskId].title || '';
+    this.title = this.structures[this.boardId].tasks[this.taskId].title || '';
+    this.checkBoxValues = this.structures[this.boardId].tasks[this.taskId].qualificationList || [];
   },
 };
 </script>
@@ -101,5 +167,11 @@ export default {
     position: relative;
     border: 2px solid rgb(190, 0, 165);
     padding: 50rpx;
+  }
+  .drawerCSSTD{
+    overflow: scroll;
+    width: 80vw;
+    height: 100vh;
+    background:#fff;
   }
 </style>

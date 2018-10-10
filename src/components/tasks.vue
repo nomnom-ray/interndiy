@@ -46,6 +46,8 @@ export default {
     return {
       structuresLocal: [],
       boardOpen: ['0'],
+      boardIndex: 0,
+      tasksCount: 0,
       floatButtons: [{
         label: 'Add task',
         icon: '../../img/book.png',
@@ -55,7 +57,6 @@ export default {
   computed: {
     ...mapGetters({
       structures: 'structures',
-      tasksCount: 'tasksCount',
     }),
     structuresLocalNew() {
       this.structuresLocal = [];
@@ -73,15 +74,13 @@ export default {
   methods: {
     ...mapActions({
       tasksAdd: 'tasksAdd',
-      // tasksDel: 'tasksDel',
-      tasksCountAdd: 'tasksCountAdd',
-      tasksCountDel: 'tasksCountDel',
-      // tasksUpdate: 'tasksUpdate',
+      structuresUpdate: 'structuresUpdate',
     }),
     boardChange(e) {
       this.boardOpen = e.mp.detail.key;
     },
     taskAdd() {
+      // initiate using taskDetail for tasksAdd is in structures.vue; make sure these match
       const taskDetail = {
         title: '',
         taskPics: [],
@@ -95,16 +94,21 @@ export default {
           confirmText: 'confirm',
         },
         onConfirm: (boardIndex) => {
-          this.tasksAdd({ boardIndex, taskDetail });
+          this.tasksAdd({ boardIndex, type: 'add', taskDetail });
           const taskId = this.structures[boardIndex].tasks.length - 1;
-          // FIXME: task count needs 2D array
-          this.tasksCountAdd(1);
+          this.boardIndex = boardIndex;
+          this.tasksCount = this.structures[boardIndex].tasks.length;
           this.boardOpen = [boardIndex];
           wx.navigateTo({
             url: `/pages/taskdetail/main?board=${boardIndex}&task=${taskId}`,
           });
         },
       });
+    },
+  },
+  watch: {
+    tasksCount() {
+      this.structuresUpdate({ index: this.boardIndex, type: 'tasksCount', content: this.tasksCount });
     },
   },
 };
