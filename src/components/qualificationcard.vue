@@ -7,6 +7,15 @@
       <div class="descriptionCSSQC">
         <p>Description: {{propQualification.description}}</p>
       </div>
+      <div class="statusiconCSSQC">
+        <p>DescriptionValid: {{propQualification.descriptionValid}}</p>
+      </div>
+      <div>
+        Tasks: {{propQualification.taskList.length}}
+      </div>
+      <div>
+        justification: {{propQualification.justification ? 'populated' : 'empty'}}
+      </div>
     </div>
   </a>
 </template>
@@ -35,6 +44,9 @@ export default {
   .descriptionCSSQC{
     padding: 5px;
     white-space: pre;
+  }
+  .statusiconCSSQC{
+    position: relative;
   }
 }
 </style>

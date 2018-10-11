@@ -45,6 +45,24 @@ const mutations = {
     if (payload.type === 'description') {
       state.qualifications[payload.index].description = payload.content;
     }
+    if (payload.type === 'descriptionValid') {
+      state.qualifications[payload.index].descriptionValid = payload.content;
+    }
+    if (payload.type === 'taskListAdd') {
+      state.qualifications[payload.index].taskList.push(payload.content);
+    }
+    if (payload.type === 'taskListDel') {
+      const taskToDel = state.qualifications[payload.index].taskList
+        .findIndex(element => element.boardId === payload.content.boardId &&
+          element.taskId === payload.content.taskId);
+      state.qualifications[payload.index].taskList.splice(taskToDel, 1);
+    }
+    if (payload.type === 'taskListSet') {
+      state.qualifications[payload.index].taskList = payload.content;
+    }
+    if (payload.type === 'justification') {
+      state.qualifications[payload.index].justification = payload.content;
+    }
   },
   // eslint-disable-next-line
   QUALIFICATIONS_DEL(state, payload) {
@@ -168,6 +186,20 @@ const autosavePlugin = (store) => {
         const qualDescription = qualObject.description;
         localStorageAPI.save(qualDescription, `QUALIFICATIONS_${qualId}_DESCRIPTION`);
       }
+      if (mutation.payload.type === 'descriptionValid') {
+        const qualDescriptionValid = qualObject.descriptionValid;
+        localStorageAPI.save(qualDescriptionValid, `QUALIFICATIONS_${qualId}_DESCRIPTIONVALID`);
+      }
+      if (mutation.payload.type === 'taskListAdd' ||
+        mutation.payload.type === 'taskListDel' ||
+        mutation.payload.type === 'taskListSet') {
+        const qualTaskList = qualObject.taskList;
+        localStorageAPI.save(qualTaskList, `QUALIFICATIONS_${qualId}_TASKLIST`);
+      }
+      if (mutation.payload.type === 'justification') {
+        const qualJustification = qualObject.justification;
+        localStorageAPI.save(qualJustification, `QUALIFICATIONS_${qualId}_JUSTIFICATION`);
+      }
       localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
     }
     if (mutation.type === 'QUALIFICATIONSCOUNT_DEL') {
@@ -175,9 +207,15 @@ const autosavePlugin = (store) => {
       for (let i = 0; i <= state.qualifications.length - 1; i += 1) {
         localStorageAPI.save(state.qualifications[i].title, `QUALIFICATIONS_${i}_TITLE`);
         localStorageAPI.save(state.qualifications[i].description, `QUALIFICATIONS_${i}_DESCRIPTION`);
+        localStorageAPI.save(state.qualifications[i].descriptionValid, `QUALIFICATIONS_${i}_DESCRIPTIONVALID`);
+        localStorageAPI.save(state.qualifications[i].taskList, `QUALIFICATIONS_${i}_TASKLIST`);
+        localStorageAPI.save(state.qualifications[i].justification, `QUALIFICATIONS_${i}_JUSTIFICATION`);
       }
       localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}_TITLE`);
       localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}_DESCRIPTION`);
+      localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}_DESCRIPTIONVALID`);
+      localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}_TASKLIST`);
+      localStorageAPI.remove(`QUALIFICATIONS_${state.qualifications.length}_JUSTIFICATION`);
       localStorageAPI.save(state.qualificationsCount, 'QUALIFICATIONSCOUNT');
     }
     if (mutation.type === 'QUALIFICATIONSCOUNT_ADD') {

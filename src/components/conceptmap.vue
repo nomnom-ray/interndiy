@@ -25,47 +25,43 @@
       
       <wux-row gutter='15'>
         <wux-col span='2'>
-          <wux-button
+          <van-button
             block
-            outline
-            type="assertive"
+            plain
             @click='conceptAddTop'
             :disabled='conceptsSelected.length != 1 | topAddDisable'
           >T
-          </wux-button>
+          </van-button>
         </wux-col>
 
         <wux-col span='2'>
-          <wux-button
+          <van-button
             block
-            outline
-            type="assertive"
+            plain
             @click='conceptAddBottom'
             :disabled="conceptsSelected.length != 1 | resultBottomDisable"
           >B
-          </wux-button>
+          </van-button>
         </wux-col>
         
         <wux-col span='2'>
-          <wux-button
+          <van-button
             block
-            outline
-            type="assertive"
+            plain
             @click='conceptDelete'
             :disabled="conceptsSelected.length != 1 | resultBottomDisable | triggerTopDisable"
           >D
-          </wux-button>
+          </van-button>
         </wux-col>
 
         <wux-col span='2'>
-          <wux-button
+          <van-button
             block
-            outline
-            type="assertive"
+            plain
             @click='subjectNew'
             :disabled="conceptsSelected.length != 1 | topAddDisable | resultBottomDisable"
           >{{ topAddDisable ? 'P' : 'S' }}
-          </wux-button>
+          </van-button>
         </wux-col>
     </wux-row>
     </van-popup>
@@ -90,9 +86,10 @@
       >
         <view :class="'subjectCSSCM-' + ((subjectIndex % 3) + 1)">
           <div
-          @click='subjectPopupShow=true, subjectSelected=subject.id'
+          v-if='subject.id != 0'
+          @click='subjectPopupToShow(subjectIndex), subjectSelected=subject.id'
           >
-            Subject: {{subject.id}}
+            Subject {{subject.id}}: {{subject.summary}}
           </div>
 
           <app-blanks
@@ -203,35 +200,39 @@
           that.conceptsCountInit(resCount.data);
           const subjectsStored = [];
           for (let i = 0; i <= resCount.data.length - 1; i += 1) {
-            const subject = {
-              id: i,
-              summary: '',
-              concepts: [],
-            };
-            for (let j = 0; j <= resCount.data[i] - 1; j += 1) {
-              const concept = {
-                id: 0,
-                question: '',
-                description: '',
+            try {
+              const resSummary = wx.getStorageSync(`SUBJECTS_${i}_SUMMARY`);
+              const subject = {
+                id: i,
+                summary: resSummary,
+                concepts: [],
               };
-              try {
-                const resId = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${j}_ID`);
-                if (resId) {
-                  // console.log(resId);
-                  concept.id = resId;
+              for (let j = 0; j <= resCount.data[i] - 1; j += 1) {
+                const concept = {
+                  id: 0,
+                  question: '',
+                  description: '',
+                };
+                try {
+                  const resId = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${j}_ID`);
+                  if (resId) {
+                    concept.id = resId;
+                  }
+                  const resQuestion = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${resId}_QUESTION`);
+                  concept.question = resQuestion;
+                  const resDescription = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${resId}_DESCRIPTION`);
+                  concept.description = resDescription;
+                  subject.concepts.push(concept);
+                } catch (err) {
+                  // eslint-disable-next-line
+                  console.log('err @ ID: ', `SUBJECTS_${i}_CONCEPTS_${j}_ID`, err);
                 }
-                const resQuestion = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${resId}_QUESTION`);
-                concept.question = resQuestion;
-                const resDescription = wx.getStorageSync(`SUBJECTS_${i}_CONCEPTS_${resId}_DESCRIPTION`);
-                concept.description = resDescription;
-                subject.concepts.push(concept);
-                // console.log(i, j, concept);
-              } catch (err) {
-                // eslint-disable-next-line
-                console.log('err @ ID: ', `SUBJECTS_${i}_CONCEPTS_${j}_ID`, err);
               }
+              subjectsStored.push(subject);
+            } catch (err) {
+              // eslint-disable-next-line
+              console.log('err @ summary: ', `SUBJECTS_${i}`, err);
             }
-            subjectsStored.push(subject);
           }
 
           try {
@@ -267,8 +268,6 @@
             console.log('err @ ships: ', err);
           }
           that.subjectsInit({ type: 'localstored', content: subjectsStored });
-          // console.log(that.subjectRelations);
-          // console.log(subjectsStored);
         },
         fail() {
           that.subjectsInit({ type: 'new', content: '' });
@@ -300,13 +299,19 @@
         }
       },
       subjectSummary() {
-        // may need a if to catch empty subjectselected
-        this.subjectsUpdate({
-          subjectIndex: this.subjectSelected,
-          conceptIndex: '',
-          type: 'summary',
-          content: this.subjectSummary,
-        });
+        if (this.subjectPopupShow) {
+          this.subjectsUpdate({
+            subjectIndex: this.subjectSelected,
+            conceptIndex: '',
+            type: 'summary',
+            content: this.subjectSummary,
+          });
+        }
+      },
+      subjectPopupShow() {
+        if (this.subjectPopupShow) {
+          this.subjectSummary = this.subjects[this.subjectSelected].summary;
+        }
       },
       conceptPopupShow() {
         if (this.conceptPopupShow === true) {
@@ -330,6 +335,12 @@
         subjectsInit: 'subjectsInit',
         subjectsUpdate: 'subjectsUpdate',
       }),
+      subjectPopupToShow(subjectIndex) {
+        if (subjectIndex === 0 || subjectIndex === 2) {
+          return;
+        }
+        this.subjectPopupShow = true;
+      },
       subjectRelationsStore() {
         const relations = [];
         for (let i = 0; i <= this.subjectRelations.length - 1; i += 1) {
@@ -371,11 +382,11 @@
       popupCloseHandler() {
         // important that clear is before setting data to '' because of watch
         this.selectClear();
+        this.conceptPopupShow = false;
+        this.subjectPopupShow = false;
         this.conceptQuestion = '';
         this.conceptDescription = '';
         this.subjectSummary = '';
-        this.conceptPopupShow = false;
-        this.subjectPopupShow = false;
       },
       conceptAddTop() {
         if (this.conceptsSelected.length === 1) {
@@ -618,8 +629,8 @@
             this.subjectsId({ idNew: i });
           }
           this.subjectRelationsStore();
-          // TODO: jump to new subject
-          // console.log(this.subjects);
+          // jump to new subject
+          this.subjectsOnScreen = subject.id;
           this.popupCloseHandler();
         }
       },

@@ -1,5 +1,15 @@
 <template>
   <div class="containerCSSQ">
+    <div
+      v-if='!qualifications.length'
+    >
+    when there are no qualification, show instruction.
+    </div>
+    <icon
+      v-if='!qualifications.length'
+      type="info"
+      size="40"
+      color='rbg(0, 255, 255)'/>
     <app-qualification-card
       :key='qualificationIndex'
       v-for='(qualification, qualificationIndex) in qualifications'
@@ -7,14 +17,11 @@
       :propQualificationIndex='qualificationIndex'
     >
     </app-qualification-card>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      class="buttonCSSQ"
-      @click='qualificationAdd'
-    >add qualification
-    </wux-button>
+    <wux-floating-button 
+      position="bottomRight"
+      theme="assertive"
+      :actionRotate="false"
+      @change="qualificationAdd" />
   </div>
 </template>
 
@@ -63,6 +70,8 @@ export default {
           const qualificationDetail = {
             title: '',
             description: '',
+            descriptionValid: false,
+            taskList: [],
           };
           that.qualificationsAdd(qualificationDetail);
           // update empty objects with value
@@ -78,6 +87,24 @@ export default {
             key: `QUALIFICATIONS_${i}_DESCRIPTION`,
             success(resQual) {
               that.qualificationUpdate({ index: i, type: 'description', content: resQual.data });
+            },
+          });
+          wx.getStorage({
+            key: `QUALIFICATIONS_${i}_DESCRIPTIONVALID`,
+            success(resQual) {
+              that.qualificationUpdate({ index: i, type: 'descriptionValid', content: resQual.data });
+            },
+          });
+          wx.getStorage({
+            key: `QUALIFICATIONS_${i}_TASKLIST`,
+            success(resQual) {
+              that.qualificationUpdate({ index: i, type: 'taskListSet', content: resQual.data });
+            },
+          });
+          wx.getStorage({
+            key: `QUALIFICATIONS_${i}_JUSTIFICATION`,
+            success(resQual) {
+              that.qualificationUpdate({ index: i, type: 'justification', content: resQual.data });
             },
           });
         }

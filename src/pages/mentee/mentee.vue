@@ -1,6 +1,6 @@
 <template>
   <!-- search for flex in tabs css; there are 2 enteries changed to 30% width -->
-  <van-tabs :active="pageActive || 7" @change="pageChange">
+  <van-tabs :active="pageActive || 2" @change="pageChange">
     <van-tab title=" " :disabled="true">
     </van-tab>
     <van-tab title="Career Origin">

@@ -12,6 +12,8 @@
     "wux-select": "../../../static/wux/select/index",
     "wux-checkbox-group": "../../../static/wux/checkbox-group/index",
     "wux-checkbox": "../../../static/wux/checkbox/index",
+    "wux-cell-group": "../../../static/wux/cell-group/index",
+    "wux-cell": "../../../static/wux/cell/index",
     "i-drawer": "../../../static/iview/drawer/index",
     "i-collapse": "../../../static/iview/collapse/index",
     "i-collapse-item": "../../../static/iview/collapse-item/index",

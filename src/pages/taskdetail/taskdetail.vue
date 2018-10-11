@@ -25,20 +25,24 @@
             :key='qualificationIndex'
             v-for='(qualification, qualificationIndex) in qualifications'
             color="assertive"
-            :title="'concept' + qualificationIndex + ': ' + qualification.title"
+            :title="'qualification' + qualificationIndex + ': ' + qualification.title"
             :value="qualificationIndex" />
         </wux-checkbox-group>
       </view>
     </i-drawer>
-    <wux-cell-group title="qualifications">
-        <wux-cell
-          :key='checkBoxValueIndex'
-          v-for='(checkBoxValue, checkBoxValueIndex) in checkBoxValues'
-          :title="qualifications[checkBoxValue].title"
-          @click='qualificationClicked(checkBoxValueIndex)'
-        >
-        </wux-cell>
-    </wux-cell-group>
+    <div
+      v-if='false'
+    >
+      <wux-cell-group title="qualifications">
+          <wux-cell
+            :key='checkBoxValueIndex'
+            v-for='(checkBoxValue, checkBoxValueIndex) in checkBoxValues'
+            :title="qualifications[checkBoxValue].title"
+            @click='qualificationClicked(checkBoxValueIndex)'
+          >
+          </wux-cell>
+      </wux-cell-group>
+    </div>
     <wux-button
       block
       outline
@@ -61,7 +65,7 @@ export default {
       clicked: false,
       showDrawer: false,
       checkBoxValues: [],
-      // qualificationListLocal: [],
+      // qualificationList: [],
       title: '',
       picsTotal: 0,
     };
@@ -85,6 +89,7 @@ export default {
       tasksDel: 'tasksDel',
       tasksUpdate: 'tasksUpdate',
       structuresUpdate: 'structuresUpdate',
+      qualificationUpdate: 'qualificationUpdate',
     }),
     qualificationClicked(qualificationIndex) {
       wx.navigateTo({
@@ -100,10 +105,12 @@ export default {
       if (checkedBox.checked) {
         checkBoxValue.push(checkedBox.value);
         this.checkBoxValues = checkBoxValue;
+        this.qualificationUpdate({ index: checkedBox.value, type: 'taskListAdd', content: { boardId: this.boardId, taskId: this.taskId } });
       } else {
         const checkedBoxIndex = checkBoxValue.indexOf(checkedBox.value);
         checkBoxValue.splice(checkedBoxIndex, 1);
         this.checkBoxValues = checkBoxValue;
+        this.qualificationUpdate({ index: checkedBox.value, type: 'taskListDel', content: { boardId: this.boardId, taskId: this.taskId } });
       }
     },
     storageRemainGet() {
@@ -149,6 +156,7 @@ export default {
         type: 'qualificationList',
         content: this.checkBoxValues,
       });
+      // for (let i = 0; i <= this.checkBoxValues.length - 1; )
     },
   },
   mounted() {

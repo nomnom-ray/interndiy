@@ -200,7 +200,6 @@ const autosavePlugin = (store) => {
             localStorageAPI.save(subjectSummary, `SUBJECTS_${j}_SUMMARY`);
           }
         }
-        // console.log('subjectset mutation', state.conceptsCount);
         localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
       }
     }
@@ -220,10 +219,9 @@ const autosavePlugin = (store) => {
           .concepts[i].description;
         localStorageAPI
           .save(conceptDescription, `SUBJECTS_${subjectId}_CONCEPTS_${conceptId}_DESCRIPTION`);
-        // const subjectSummary = state.subjects[mutation.payload.idNew].summary;
-        // localStorageAPI.save(subjectSummary, `SUBJECTS_${subjectId}_SUMMARY`);
+        const subjectSummary = state.subjects[mutation.payload.idNew].summary;
+        localStorageAPI.save(subjectSummary, `SUBJECTS_${subjectId}_SUMMARY`);
       }
-      // console.log('subjectid mutation', state.conceptsCount);
       localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
     }
     if (mutation.type === 'CONCEPTS_ID') {
@@ -241,9 +239,8 @@ const autosavePlugin = (store) => {
         .concepts[conceptIndex].description;
       localStorageAPI
         .save(conceptDescription, `SUBJECTS_${subjectId}_CONCEPTS_${conceptId}_DESCRIPTION`);
-      // const subjectSummary = state.subjects[subjectId].summary;
-      // localStorageAPI.save(subjectSummary, `SUBJECTS_${subjectId}_SUMMARY`);
-      // console.log('conceptid mutation', state.conceptsCount);
+      const subjectSummary = state.subjects[subjectId].summary;
+      localStorageAPI.save(subjectSummary, `SUBJECTS_${subjectId}_SUMMARY`);
       localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
     }
     if (mutation.type === 'CONCEPTS_DEL') {
@@ -253,7 +250,7 @@ const autosavePlugin = (store) => {
         .payload.subjectIndex}_CONCEPTS_${mutation.payload.conceptLastId}_QUESTION`);
       localStorageAPI.remove(`SUBJECTS_${mutation
         .payload.subjectIndex}_CONCEPTS_${mutation.payload.conceptLastId}_DESCRIPTION`);
-      // localStorageAPI.remove(`SUBJECTS_${mutation.payload.subjectIndex}_SUMMARY`);
+      localStorageAPI.remove(`SUBJECTS_${mutation.payload.subjectIndex}_SUMMARY`);
       if (mutation.payload.conceptLastIndex === 0) {
         const subjectLastIndex = (state.subjects.length) - 1;
         for (let i = 0; i <= state.subjects[subjectLastIndex].concepts.length - 1; i += 1) {
@@ -287,8 +284,6 @@ const autosavePlugin = (store) => {
         const subjectSummary = subjectObject.summary;
         localStorageAPI.save(subjectSummary, `SUBJECTS_${subjectId}_SUMMARY`);
       }
-      // console.log('subupdate mutation', state.conceptsCount);
-      // localStorageAPI.save(state.conceptsCount, 'CONCEPTSCOUNT');
     }
     // eslint-disable-next-line
     return;
