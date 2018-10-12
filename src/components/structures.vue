@@ -70,6 +70,8 @@ export default {
       structuresUpdate: 'structuresUpdate',
       tasksAdd: 'tasksAdd',
       tasksUpdate: 'tasksUpdate',
+      bundlesAdd: 'bundlesAdd',
+      bundlesUpdate: 'bundlesUpdate',
     }),
     // add a structure (i.e. board) from the selector if not the first board
     structureAdd() {
@@ -77,6 +79,8 @@ export default {
       const structureDetail = {
         title: '',
         structurePics: [],
+        bundlesCount: 0,
+        bundles: [],
         conceptList: [],
         tasks: [],
         tasksCount: 0,
@@ -118,6 +122,8 @@ export default {
           const structureDetail = {
             title: '',
             structurePics: [],
+            bundlesCount: 0,
+            bundles: [],
             conceptList: [],
             tasks: [],
             tasksCount: 0,
@@ -139,12 +145,6 @@ export default {
             key: `STRUCTURES_${i}_CONCEPTS`,
             success(resStruc) {
               that.structuresUpdate({ index: i, type: 'conceptListSet', content: resStruc.data });
-            },
-          });
-          wx.getStorage({
-            key: `STRUCTURES_${i}_TASKS`,
-            success(resStruc) {
-              that.structuresUpdate({ index: i, type: 'tasks', content: resStruc.data });
             },
           });
           wx.getStorage({
@@ -177,6 +177,30 @@ export default {
                       taskIndex: j,
                       type: 'qualificationList',
                       content: resTask.data,
+                    });
+                  },
+                });
+              }
+            },
+          });
+          wx.getStorage({
+            key: `STRUCTURES_${i}_BUNDLESCOUNT`,
+            success(resStruc) {
+              that.structuresUpdate({ index: i, type: 'bundlesCount', content: resStruc.data });
+              for (let j = 0; j <= that.structures[i].bundlesCount - 1; j += 1) {
+                const bundleDetail = {
+                  title: '',
+                  picURLs: [],
+                };
+                that.bundlesAdd({ boardIndex: i, type: 'refresh', bundleDetail });
+                wx.getStorage({
+                  key: `STRUCTURES_${i}_BUNDLES_${j}_TITLE`,
+                  success(resBundle) {
+                    that.bundlesUpdate({
+                      boardIndex: i,
+                      bundleIndex: j,
+                      type: 'title',
+                      content: resBundle.data,
                     });
                   },
                 });

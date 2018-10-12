@@ -30,11 +30,11 @@
         </wux-checkbox-group>
       </view>
     </i-drawer>
-    <div
-      v-if='false'
-    >
+    <!-- TODO: figure out the v-if condition; logic works -->
+    <div>
       <wux-cell-group title="qualifications">
           <wux-cell
+            v-if='qualifications[checkBoxValue]'
             :key='checkBoxValueIndex'
             v-for='(checkBoxValue, checkBoxValueIndex) in checkBoxValues'
             :title="qualifications[checkBoxValue].title"
@@ -65,7 +65,6 @@ export default {
       clicked: false,
       showDrawer: false,
       checkBoxValues: [],
-      // qualificationList: [],
       title: '',
       picsTotal: 0,
     };
@@ -156,7 +155,6 @@ export default {
         type: 'qualificationList',
         content: this.checkBoxValues,
       });
-      // for (let i = 0; i <= this.checkBoxValues.length - 1; )
     },
   },
   mounted() {

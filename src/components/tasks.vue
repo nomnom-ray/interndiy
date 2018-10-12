@@ -17,7 +17,7 @@
           v-for='(task, taskIndex) in structure.tasks'
           :propTask='task'
           :propTaskIndex='taskIndex'
-          :propStructureIndex='structureIndex'            
+          :propStructureIndex='structureIndex'
         >
         </app-task-card>
       </wux-accordion>

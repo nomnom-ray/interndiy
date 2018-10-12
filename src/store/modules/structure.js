@@ -20,11 +20,11 @@ const mutations = {
     if (payload.type === 'conceptListSet') {
       state.structures[payload.index].conceptList = payload.content;
     }
-    if (payload.type === 'tasks') {
-      state.structures[payload.index].tasks = payload.content;
-    }
     if (payload.type === 'tasksCount') {
       state.structures[payload.index].tasksCount = payload.content;
+    }
+    if (payload.type === 'bundlesCount') {
+      state.structures[payload.index].bundlesCount = payload.content;
     }
   },
   // eslint-disable-next-line
@@ -45,7 +45,7 @@ const mutations = {
   },
   // eslint-disable-next-line
   TASKS_DEL(state, payload) {
-    state.structures[payload.boardIndex].tasks.splice(payload.taskDetail, 1);
+    state.structures[payload.boardIndex].tasks.splice(payload.taskIndex, 1);
   },
   // eslint-disable-next-line
   TASKS_UPDATE(state, payload) {
@@ -57,6 +57,21 @@ const mutations = {
       state.structures[payload.boardIndex].tasks[payload.taskIndex]
         .qualificationList = payload.content;
     }
+  },
+  // eslint-disable-next-line
+  BUNDLES_ADD(state, payload) {
+    state.structures[payload.boardIndex].bundles.push(payload.bundleDetail);
+  },
+  // eslint-disable-next-line
+  BUNDLES_UPDATE(state, payload) {
+    if (payload.type === 'title') {
+      state.structures[payload.boardIndex].bundles[payload.bundleIndex]
+        .title = payload.content;
+    }
+  },
+  // eslint-disable-next-line
+  BUNDLES_DEL(state, payload) {
+    state.structures[payload.boardIndex].bundles.splice(payload.bundleIndex, 1);
   },
 };
 
@@ -84,6 +99,15 @@ const actions = {
   },
   tasksUpdate: ({ commit }, payload) => {
     commit('TASKS_UPDATE', payload);
+  },
+  bundlesAdd: ({ commit }, payload) => {
+    commit('BUNDLES_ADD', payload);
+  },
+  bundlesUpdate: ({ commit }, payload) => {
+    commit('BUNDLES_UPDATE', payload);
+  },
+  bundlesDel: ({ commit }, payload) => {
+    commit('BUNDLES_DEL', payload);
   },
 };
 
@@ -126,6 +150,8 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(strucConcepts, `STRUCTURES_${i}_CONCEPTS`);
         const strucTasksCount = strucObject.tasksCount;
         localStorageAPI.save(strucTasksCount, `STRUCTURES_${i}_TASKSCOUNT`);
+        const strucbundlesCount = strucObject.bundlesCount;
+        localStorageAPI.save(strucbundlesCount, `STRUCTURES_${i}_BUNDLESCOUNT`);
       }
     }
     if (mutation.type === 'STRUCTURE_UPDATE') {
@@ -147,6 +173,10 @@ const autosavePlugin = (store) => {
         const strucTasksCount = strucObject.tasksCount;
         localStorageAPI.save(strucTasksCount, `STRUCTURES_${strucId}_TASKSCOUNT`);
       }
+      if (mutation.payload.type === 'bundlesCount') {
+        const strucbundlesCount = strucObject.bundlesCount;
+        localStorageAPI.save(strucbundlesCount, `STRUCTURES_${strucId}_BUNDLESCOUNT`);
+      }
     }
     if (mutation.type === 'STRUCTURESCOUNT_ADD') {
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
@@ -158,12 +188,16 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(state.structures[i].conceptList, `STRUCTURES_${i}_CONCEPTS`);
         localStorageAPI.save(state.structures[i].tasks, `STRUCTURES_${i}_TASKS`);
         localStorageAPI.save(state.structures[i].tasksCount, `STRUCTURES_${i}_TASKSCOUNT`);
+        localStorageAPI.save(state.structures[i].bundles, `STRUCTURES_${i}_BUNDLES`);
+        localStorageAPI.save(state.structures[i].bundlesCount, `STRUCTURES_${i}_BUNDLESCOUNT`);
       }
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TITLE`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_PICS`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_CONCEPTS`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TASKS`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TASKSCOUNT`);
+      localStorageAPI.remove(`STRUCTURES_${state.structures.length}_BUNDLES`);
+      localStorageAPI.remove(`STRUCTURES_${state.structures.length}_BUNDLESCOUNT`);
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
     }
     if (mutation.type === 'TASKS_ADD') {
@@ -196,6 +230,32 @@ const autosavePlugin = (store) => {
         }
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_TITLE`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_QUALIFICATIONS`);
+      }
+    }
+    if (mutation.type === 'BUNDLES_ADD') {
+      if (mutation.payload.type === 'add') {
+        const boardId = mutation.payload.boardIndex;
+        const strucObject = state.structures[boardId];
+        const bundleId = strucObject.bundles.length - 1;
+        const bundleTitle = strucObject.bundles[bundleId].title;
+        localStorageAPI.save(bundleTitle, `STRUCTURES_${boardId}_BUNDLES_${bundleId}_TITLE`);
+      }
+    }
+    if (mutation.type === 'BUNDLES_UPDATE') {
+      const boardId = mutation.payload.boardIndex;
+      const bundleId = mutation.payload.bundleIndex;
+      const bundleObject = state.structures[boardId].bundles[bundleId];
+      if (mutation.payload.type === 'title') {
+        const bundleTitle = bundleObject.title;
+        localStorageAPI.save(bundleTitle, `STRUCTURES_${boardId}_BUNDLES_${bundleId}_TITLE`);
+      }
+    }
+    if (mutation.type === 'BUNDLES_DEL') {
+      for (let i = 0; i <= state.structures.length - 1; i += 1) {
+        for (let j = 0; j <= state.structures[i].bundles.length - 1; j += 1) {
+          localStorageAPI.save(state.structures[i].bundles[j].title, `STRUCTURES_${i}_BUNDLES_${j}_TITLE`);
+        }
+        localStorageAPI.remove(`STRUCTURES_${i}_BUNDLES_${state.structures[i].bundles.length}_TITLE`);
       }
     }
     // eslint-disable-next-line

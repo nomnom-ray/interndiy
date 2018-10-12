@@ -3,7 +3,8 @@
     "pages/mentee/main",
     "pages/qualificationdetail/main",
     "pages/structuredetail/main",
-    "pages/taskdetail/main"
+    "pages/taskdetail/main",
+    "pages/structurebundle/main"
   ],
   "window": {
     "backgroundTextStyle": "dark",

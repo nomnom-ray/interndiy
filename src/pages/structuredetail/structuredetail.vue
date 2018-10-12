@@ -18,7 +18,7 @@
     <i-drawer mode="right" :visible="showDrawer" @close="drawerToggle">
       <view class='drawerCSSSD'>
       <wux-accordion-group
-        title="Default"
+        title="concepts"
         :auto='false'
         :current='subjectOpen'
         @change="subjectChange"
@@ -54,6 +54,35 @@
         >
         </wux-cell>
     </wux-cell-group>
+
+    <wux-accordion-group
+      title="bundles"
+      :auto='true'
+      :defaultCurrent="['0']"
+      @change="bundleChange"
+    >
+      <wux-accordion
+        :key="bundleIndex"
+        v-for='(bundle, bundleIndex) in structures[id].bundles'
+        :title="bundle.title"
+        :name="bundleIndex"
+      >
+        <app-bundle-card
+          :propBundle='bundle'
+          :propStructureIndex='id'
+          :propBundleIndex='bundleIndex'
+        >
+        </app-bundle-card>
+      </wux-accordion>
+    </wux-accordion-group>
+    <wux-button
+      block
+      outline
+      type="assertive"
+      @click='bundleAdd'
+    >Add Bundle
+    </wux-button>
+
     <div>
       <div>Upload Picture</div>
       <div>{{structures[id].structurePics.length}}/1</div>
@@ -76,6 +105,7 @@
     <div v-if='structures[id].structurePics.length < 1' class="weui-uploader__input-box">
       <div class="weui-uploader__input" @click="chooseImage"></div>
     </div>
+
     <wux-button
       block
       outline
@@ -96,15 +126,21 @@
 import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 import { $wuxGallery, $wuxToptips } from '../../util/wux';
+import BundleCard from '../../components/structurebundlecard';
 
 export default {
+  components: {
+    appBundleCard: BundleCard,
+  },
   data() {
     return {
       id: 0,
       subjectOpen: ['1'],
+      bundleOpen: ['0'],
       clicked: false,
       picToAdd: true,
       title: '',
+      bundlesCount: 0,
       checkBoxValues: [],
       picURLs: [],
       conceptList: [],
@@ -133,7 +169,22 @@ export default {
       structuresCountAdd: 'structuresCountAdd',
       structuresCountDel: 'structuresCountDel',
       structuresUpdate: 'structuresUpdate',
+      bundlesAdd: 'bundlesAdd',
+      bundlesUpdate: 'bundlesUpdate',
     }),
+    bundleAdd() {
+      // the other bundlesDetail declaration is in structure
+      const bundleDetail = {
+        title: '',
+        picURLs: [],
+      };
+      this.bundlesAdd({ boardIndex: this.id, type: 'add', bundleDetail });
+      const bundleId = this.structures[this.id].bundles.length - 1;
+      this.bundlesCount = this.structures[this.id].bundles.length;
+      wx.navigateTo({
+        url: `/pages/structurebundle/main?board=${this.id}&bundle=${bundleId}`,
+      });
+    },
     conceptListedClicked(subjectId, conceptId) {
       $wuxToptips().error({
         hidden: true,
@@ -143,6 +194,9 @@ export default {
     },
     subjectChange(e) {
       this.subjectOpen = e.mp.detail.key;
+    },
+    bundleChange(e) {
+      this.bundleOpen = e.mp.detail.key;
     },
     drawerToggle() {
       this.showDrawer = !this.showDrawer;
@@ -258,6 +312,9 @@ export default {
     conceptList() {
       this.structuresUpdate({ index: this.id, type: 'conceptListSet', content: this.conceptList });
     },
+    bundlesCount() {
+      this.structuresUpdate({ index: this.id, type: 'bundlesCount', content: this.bundlesCount });
+    },
   },
   mounted() {
     // the id passed to this page by wx.navigateTo()
@@ -268,6 +325,8 @@ export default {
     this.title = this.structures[this.id].title || '';
     this.picURLs = this.structures[this.id].structurePics || [];
     this.conceptList = this.structures[this.id].conceptList || [];
+    // TODO: bundlesCount here maybe
+    // console.log(this.structures[this.id].bundles);
     this.checkBoxValues = [];
     let subjectTempMax = 0;
     for (let i = 0; i <= this.conceptList.length - 1; i += 1) {
