@@ -26,6 +26,9 @@ const mutations = {
     if (payload.type === 'bundlesCount') {
       state.structures[payload.index].bundlesCount = payload.content;
     }
+    if (payload.type === 'bundleOpen') {
+      state.structures[payload.index].bundleOpen = payload.content;
+    }
   },
   // eslint-disable-next-line
   STRUCTURE_DEL(state, payload) {
@@ -152,6 +155,8 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(strucTasksCount, `STRUCTURES_${i}_TASKSCOUNT`);
         const strucbundlesCount = strucObject.bundlesCount;
         localStorageAPI.save(strucbundlesCount, `STRUCTURES_${i}_BUNDLESCOUNT`);
+        const strucbundleOpen = strucObject.bundleOpen;
+        localStorageAPI.save(strucbundleOpen, `STRUCTURES_${i}_BUNDLEOPEN`);
       }
     }
     if (mutation.type === 'STRUCTURE_UPDATE') {
@@ -177,6 +182,10 @@ const autosavePlugin = (store) => {
         const strucbundlesCount = strucObject.bundlesCount;
         localStorageAPI.save(strucbundlesCount, `STRUCTURES_${strucId}_BUNDLESCOUNT`);
       }
+      if (mutation.payload.type === 'bundleOpen') {
+        const strucbundleOpen = strucObject.bundleOpen;
+        localStorageAPI.save(strucbundleOpen, `STRUCTURES_${strucId}_BUNDLEOPEN`);
+      }
     }
     if (mutation.type === 'STRUCTURESCOUNT_ADD') {
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
@@ -190,6 +199,7 @@ const autosavePlugin = (store) => {
         localStorageAPI.save(state.structures[i].tasksCount, `STRUCTURES_${i}_TASKSCOUNT`);
         localStorageAPI.save(state.structures[i].bundles, `STRUCTURES_${i}_BUNDLES`);
         localStorageAPI.save(state.structures[i].bundlesCount, `STRUCTURES_${i}_BUNDLESCOUNT`);
+        localStorageAPI.save(state.structures[i].bundleOpen, `STRUCTURES_${i}_BUNDLEOPEN`);
       }
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TITLE`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_PICS`);
@@ -198,6 +208,7 @@ const autosavePlugin = (store) => {
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_TASKSCOUNT`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_BUNDLES`);
       localStorageAPI.remove(`STRUCTURES_${state.structures.length}_BUNDLESCOUNT`);
+      localStorageAPI.remove(`STRUCTURES_${state.structures.length}_BUNDLEOPEN`);
       localStorageAPI.save(state.structuresCount, 'STRUCTURESCOUNT');
     }
     if (mutation.type === 'TASKS_ADD') {

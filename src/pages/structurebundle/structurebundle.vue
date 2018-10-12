@@ -52,6 +52,10 @@ export default {
       }
       this.clicked = true;
       this.bundlesDel({ boardIndex: this.boardId, bundleIndex: this.bundleId });
+      if (Number(this.structures.bundleOpen) === this.bundleId) {
+        this.structures.bundleOpen = JSON
+          .stringify(this.structures[this.boardId].bundles.length - 1);
+      }
       this.structuresUpdate({
         index: this.boardId,
         type: 'bundlesCount',

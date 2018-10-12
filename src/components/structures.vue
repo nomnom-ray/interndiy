@@ -84,6 +84,7 @@ export default {
         conceptList: [],
         tasks: [],
         tasksCount: 0,
+        bundleOpen: '0',
       };
       if (this.structures.length === 0) {
         this.structuresAdd({ structuresId, structureDetail });
@@ -127,6 +128,7 @@ export default {
             conceptList: [],
             tasks: [],
             tasksCount: 0,
+            bundleOpen: '0',
           };
           that.structuresAdd({ structuresId: i, structureDetail });
           wx.getStorage({
@@ -205,6 +207,12 @@ export default {
                   },
                 });
               }
+            },
+          });
+          wx.getStorage({
+            key: `STRUCTURES_${i}_BUNDLEOPEN`,
+            success(resStruc) {
+              that.structuresUpdate({ index: i, type: 'bundleOpen', content: resStruc.data });
             },
           });
         }

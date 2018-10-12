@@ -58,7 +58,8 @@
     <wux-accordion-group
       title="bundles"
       :auto='true'
-      :defaultCurrent="['0']"
+      accordion
+      :defaultCurrent="[structures[id].bundleOpen]"
       @change="bundleChange"
     >
       <wux-accordion
@@ -136,7 +137,7 @@ export default {
     return {
       id: 0,
       subjectOpen: ['1'],
-      bundleOpen: ['0'],
+      bundleOpen: '0',
       clicked: false,
       picToAdd: true,
       title: '',
@@ -145,7 +146,7 @@ export default {
       picURLs: [],
       conceptList: [],
       showDrawer: false,
-      picsTotal: 0,
+      picsTotal: '0',
     };
   },
   computed: {
@@ -197,6 +198,7 @@ export default {
     },
     bundleChange(e) {
       this.bundleOpen = e.mp.detail.key;
+      this.structuresUpdate({ index: this.id, type: 'bundleOpen', content: this.bundleOpen });
     },
     drawerToggle() {
       this.showDrawer = !this.showDrawer;
@@ -325,8 +327,7 @@ export default {
     this.title = this.structures[this.id].title || '';
     this.picURLs = this.structures[this.id].structurePics || [];
     this.conceptList = this.structures[this.id].conceptList || [];
-    // TODO: bundlesCount here maybe
-    // console.log(this.structures[this.id].bundles);
+    this.bundleOpen = this.structures[this.id].bundleOpen || '0';
     this.checkBoxValues = [];
     let subjectTempMax = 0;
     for (let i = 0; i <= this.conceptList.length - 1; i += 1) {
