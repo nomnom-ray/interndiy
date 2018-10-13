@@ -56,13 +56,15 @@
     </wux-cell-group>
 
     <wux-accordion-group
+      v-if='structures[id]'
       title="bundles"
       :auto='true'
       accordion
       :defaultCurrent="[structures[id].bundleOpen]"
       @change="bundleChange"
-    >
+    >    
       <wux-accordion
+        v-if='structures[id].bundles'
         :key="bundleIndex"
         v-for='(bundle, bundleIndex) in structures[id].bundles'
         :title="bundle.title"
@@ -83,37 +85,13 @@
       @click='bundleAdd'
     >Add Bundle
     </wux-button>
-
-    <div>
-      <div>Upload Picture</div>
-      <div>{{structures[id].structurePics.length}}/1</div>
-      <div v-if='picsTotal != 0'>Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.</div>
-    </div>
-    <wux-gallery v-if='pageActive === 6' id="wux-gallery"></wux-gallery>
-    <div
-      :key='index'
-      v-for="(url, index) in structures[id].structurePics"
-    >
-      <div class="thumbContainer">
-        <img
-          class="weui-uploader__img"
-          :src="url" mode="aspectFill"
-          @click="showGallery(url, index)"
-          :id="index"
-        />
-      </div>
-    </div>
-    <div v-if='structures[id].structurePics.length < 1' class="weui-uploader__input-box">
-      <div class="weui-uploader__input" @click="chooseImage"></div>
-    </div>
-
     <wux-button
       block
       outline
       type="assertive"
       :disabled="clicked"
       @click='structureDelete'
-    >{{ structures.length > 1 ? 'Delete' : 'Go back' }}
+    >Delete
     </wux-button>
       <!-- <wux-floating-button 
     position="bottomRight"
@@ -126,7 +104,7 @@
 <script>
 import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
-import { $wuxGallery, $wuxToptips } from '../../util/wux';
+import { $wuxToptips } from '../../util/wux';
 import BundleCard from '../../components/structurebundlecard';
 
 export default {
@@ -139,14 +117,11 @@ export default {
       subjectOpen: ['1'],
       bundleOpen: '0',
       clicked: false,
-      picToAdd: true,
       title: '',
       bundlesCount: 0,
       checkBoxValues: [],
-      picURLs: [],
       conceptList: [],
       showDrawer: false,
-      picsTotal: '0',
     };
   },
   computed: {
@@ -177,7 +152,7 @@ export default {
       // the other bundlesDetail declaration is in structure
       const bundleDetail = {
         title: '',
-        picURLs: [],
+        structurePics: [],
       };
       this.bundlesAdd({ boardIndex: this.id, type: 'add', bundleDetail });
       const bundleId = this.structures[this.id].bundles.length - 1;
@@ -229,87 +204,19 @@ export default {
         index: this.id, type: 'conceptListSet', content: this.conceptList,
       });
     },
-    chooseImage() {
-      const that = this;
-      wx.chooseImage({
-        // count limits how many pictures can be chosen at once
-        count: 1,
-        sizeType: ['original', 'compressed'],
-        sourceType: ['album', 'camera'],
-        success(resTemp) {
-          wx.saveFile({
-            tempFilePath: resTemp.tempFilePaths[0],
-            success(resSaved) {
-              that.structuresUpdate({
-                index: that.id, type: 'picURLs', content: [resSaved.savedFilePath],
-              });
-              that.picURLs = that.structures[that.id].structurePics;
-              that.storageRemainGet();
-            },
-          });
-        },
-        fail() {
-        },
-      });
-    },
-    storageRemainGet() {
-      const that = this;
-      wx.getSavedFileList({
-        success(res) {
-          let picsSizeTotal = 0;
-          that.picsTotal = res.fileList.length;
-          for (let i = 0; i <= res.fileList.length - 1; i += 1) {
-            picsSizeTotal += res.fileList[i].size;
-          }
-          that.picsTotal = picsSizeTotal;
-        },
-      });
-    },
-    showGallery(url, current) {
-      const urls = [...this.picURLs];
-      this.$wuxGallery = $wuxGallery();
-      this.$wuxGallery.show({
-        current,
-        urls,
-        delete: (currentDel) => {
-          const that = this;
-          wx.removeSavedFile({
-            filePath: urls[currentDel],
-            success() {
-              that.storageRemainGet();
-            },
-          });
-          this.structuresUpdate({
-            index: this.id, type: 'picURLs', content: [],
-          });
-          return true;
-        },
-        onTap() {
-          return true;
-        },
-      });
-    },
     structureDelete() {
       if (this.clicked) {
         return;
       }
-      if (this.structures.length > 1) {
-        this.clicked = true;
-        this.structuresDel(this.id);
-        if (this.id !== 0) {
-          this.id -= 1;
-        }
-        this.structuresCountDel();
-      }
+      this.clicked = true;
+      this.structuresDel(this.id);
+      this.structuresCountDel();
       wx.navigateBack();
     },
   },
   watch: {
     title() {
       this.structuresUpdate({ index: this.id, type: 'title', content: this.title });
-    },
-    picURLs() {
-      this.structuresUpdate({ index: this.id, type: 'picURLs', content: this.picURLs });
     },
     conceptList() {
       this.structuresUpdate({ index: this.id, type: 'conceptListSet', content: this.conceptList });
@@ -322,7 +229,6 @@ export default {
     // the id passed to this page by wx.navigateTo()
     this.id = Number(this.$root.$mp.query.id);
     this.clicked = false;
-    this.storageRemainGet();
     // existing entries gets the data from localstorage
     this.title = this.structures[this.id].title || '';
     this.picURLs = this.structures[this.id].structurePics || [];
@@ -357,58 +263,5 @@ export default {
     width: 80vw;
     height: 100vh;
     background:#fff;
-  }
-  .weui-uploader__img {
-    display: block;
-    width: 79px;
-    height: 79px;
-  }
-  .weui-uploader__input-box {
-    float: left;
-    position: relative;
-    margin-right: 9px;
-    margin-bottom: 9px;
-    width: 77px;
-    height: 77px;
-    border: 1px solid #d9d9d9;
-  }
-  .weui-uploader__input-box:after,
-  .weui-uploader__input-box:before {
-    content: " ";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    background-color: #d9d9d9;
-  }
-  
-  .weui-uploader__input-box:before {
-    width: 2px;
-    height: 39.5px;
-  }
-  
-  .weui-uploader__input-box:after {
-    width: 39.5px;
-    height: 2px;
-  }
-  
-  .weui-uploader__input-box:active {
-    border-color: #999;
-  }
-  
-  .weui-uploader__input-box:active:after,
-  .weui-uploader__input-box:active:before {
-    background-color: #999;
-  }
-  
-  .weui-uploader__input {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
   }
 </style>

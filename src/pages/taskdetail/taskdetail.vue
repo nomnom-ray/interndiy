@@ -30,7 +30,6 @@
         </wux-checkbox-group>
       </view>
     </i-drawer>
-    <!-- TODO: figure out the v-if condition; logic works -->
     <div>
       <wux-cell-group title="qualifications">
           <wux-cell
@@ -48,9 +47,18 @@
       outline
       type="assertive"
       :disabled="clicked"
+      @click='taskDoneHandle'
+    >Completed
+    </wux-button>
+    <wux-button
+      block
+      outline
+      type="assertive"
+      :disabled="clicked"
       @click='taskDelete'
     >Delete
     </wux-button>
+    {{taskDone}}
   </div>
 </template>
 
@@ -64,6 +72,7 @@ export default {
       taskId: 0,
       clicked: false,
       showDrawer: false,
+      taskDone: false,
       checkBoxValues: [],
       title: '',
       picsTotal: 0,
@@ -89,6 +98,7 @@ export default {
       tasksUpdate: 'tasksUpdate',
       structuresUpdate: 'structuresUpdate',
       qualificationUpdate: 'qualificationUpdate',
+      tasksRefresh: 'tasksRefresh',
     }),
     qualificationClicked(qualificationIndex) {
       wx.navigateTo({
@@ -138,6 +148,28 @@ export default {
       });
       wx.navigateBack();
     },
+    taskDoneHandle() {
+      this.taskDone = !this.taskDone;
+      this.tasksUpdate({
+        boardIndex: this.boardId,
+        taskIndex: this.taskId,
+        type: 'taskDone',
+        content: this.taskDone,
+      });
+      if (this.taskDone === true) {
+        this.tasksRefresh({
+          boardIndex: this.boardId,
+          taskIndex: this.taskId,
+          type: 'taskToLast',
+        });
+      } else {
+        this.tasksRefresh({
+          boardIndex: this.boardId,
+          taskIndex: this.taskId,
+          type: 'taskToFirst',
+        });
+      }
+    },
   },
   watch: {
     title() {
@@ -156,6 +188,14 @@ export default {
         content: this.checkBoxValues,
       });
     },
+    // taskDone() {
+    //   this.tasksUpdate({
+    //     boardIndex: this.boardId,
+    //     taskIndex: this.taskId,
+    //     type: 'taskDone',
+    //     content: this.taskDone,
+    //   });
+    // },
   },
   mounted() {
     this.boardId = Number(this.$root.$mp.query.board);
@@ -164,6 +204,7 @@ export default {
     this.storageRemainGet();
     this.title = this.structures[this.boardId].tasks[this.taskId].title || '';
     this.checkBoxValues = this.structures[this.boardId].tasks[this.taskId].qualificationList || [];
+    this.taskDone = this.structures[this.boardId].tasks[this.taskId].taskDone || false;
   },
 };
 </script>

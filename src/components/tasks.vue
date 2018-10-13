@@ -83,6 +83,8 @@ export default {
       // initiate using taskDetail for tasksAdd is in structures.vue; make sure these match
       const taskDetail = {
         title: '',
+        taskDone: false,
+        checkList: [],
         taskPics: [],
         qualificationList: [],
       };

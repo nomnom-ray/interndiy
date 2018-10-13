@@ -11,6 +11,7 @@
       size="40"
       color='rbg(0, 255, 255)'/>
     <app-structure-card
+      v-if='structures'
       :key='structureIndex'
       v-for='(structure, structureIndex) in structures'
       :propStructure='structure'
@@ -78,7 +79,6 @@ export default {
       let structuresId = 0;
       const structureDetail = {
         title: '',
-        structurePics: [],
         bundlesCount: 0,
         bundles: [],
         conceptList: [],
@@ -122,7 +122,6 @@ export default {
         for (let i = 0; i <= that.structuresCount - 1; i += 1) {
           const structureDetail = {
             title: '',
-            structurePics: [],
             bundlesCount: 0,
             bundles: [],
             conceptList: [],
@@ -138,12 +137,6 @@ export default {
             },
           });
           wx.getStorage({
-            key: `STRUCTURES_${i}_PICS`,
-            success(resStruc) {
-              that.structuresUpdate({ index: i, type: 'picURLs', content: resStruc.data });
-            },
-          });
-          wx.getStorage({
             key: `STRUCTURES_${i}_CONCEPTS`,
             success(resStruc) {
               that.structuresUpdate({ index: i, type: 'conceptListSet', content: resStruc.data });
@@ -156,6 +149,8 @@ export default {
               for (let j = 0; j <= that.structures[i].tasksCount - 1; j += 1) {
                 const taskDetail = {
                   title: '',
+                  taskDone: false,
+                  checkList: [],
                   taskPics: [],
                   qualificationList: [],
                 };
@@ -182,6 +177,17 @@ export default {
                     });
                   },
                 });
+                wx.getStorage({
+                  key: `STRUCTURES_${i}_TASKS_${j}_DONE`,
+                  success(resTask) {
+                    that.tasksUpdate({
+                      boardIndex: i,
+                      taskIndex: j,
+                      type: 'taskDone',
+                      content: resTask.data,
+                    });
+                  },
+                });
               }
             },
           });
@@ -192,7 +198,7 @@ export default {
               for (let j = 0; j <= that.structures[i].bundlesCount - 1; j += 1) {
                 const bundleDetail = {
                   title: '',
-                  picURLs: [],
+                  structurePics: [],
                 };
                 that.bundlesAdd({ boardIndex: i, type: 'refresh', bundleDetail });
                 wx.getStorage({
@@ -202,6 +208,17 @@ export default {
                       boardIndex: i,
                       bundleIndex: j,
                       type: 'title',
+                      content: resBundle.data,
+                    });
+                  },
+                });
+                wx.getStorage({
+                  key: `STRUCTURES_${i}_BUNDLES_${j}_PICS`,
+                  success(resBundle) {
+                    that.bundlesUpdate({
+                      boardIndex: i,
+                      bundleIndex: j,
+                      type: 'picURLs',
                       content: resBundle.data,
                     });
                   },
