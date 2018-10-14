@@ -13,14 +13,35 @@
       block
       outline
       type="assertive"
-      @click='drawerToggle'
+      @click='showQualDrawer = !showQualDrawer'
     >Add qualifications
     </wux-button>
-    <i-drawer mode="right" :visible="showDrawer" @close="drawerToggle">
+    <wux-button
+      block
+      outline
+      type="assertive"
+      @click='showBundleDrawer = !showBundleDrawer'
+    >Add bundle
+    </wux-button>
+    <i-drawer mode="right" :visible="showBundleDrawer" @close="showBundleDrawer = !showBundleDrawer">
       <view class='drawerCSSTD'>
         <wux-checkbox-group
-          :value='checkBoxValues'
-          @change='checkBoxChange'>
+          :value='bundleCheckBoxValues'
+          @change='bundleCheckBoxChange'>
+          <wux-checkbox
+            :key='bundleIndex'
+            v-for='(bundle, bundleIndex) in structures[boardId].bundles'
+            color="assertive"
+            :title="'qualification' + bundleIndex + ': ' + bundle.title"
+            :value="bundleIndex" />
+        </wux-checkbox-group>
+      </view>
+    </i-drawer>
+    <i-drawer mode="right" :visible="showQualDrawer" @close="showQualDrawer = !showQualDrawer">
+      <view class='drawerCSSTD'>
+        <wux-checkbox-group
+          :value='qualCheckBoxValues'
+          @change='qualCheckBoxChange'>
           <wux-checkbox
             :key='qualificationIndex'
             v-for='(qualification, qualificationIndex) in qualifications'
@@ -33,11 +54,20 @@
     <div>
       <wux-cell-group title="qualifications">
           <wux-cell
-            v-if='qualifications[checkBoxValue]'
-            :key='checkBoxValueIndex'
-            v-for='(checkBoxValue, checkBoxValueIndex) in checkBoxValues'
-            :title="qualifications[checkBoxValue].title"
-            @click='qualificationClicked(checkBoxValueIndex)'
+            v-if='qualifications[qualCheckBoxValue]'
+            :key='qualCheckBoxValueIndex'
+            v-for='(qualCheckBoxValue, qualCheckBoxValueIndex) in qualCheckBoxValues'
+            :title="qualifications[qualCheckBoxValue].title"
+            @click='qualificationClicked(qualCheckBoxValueIndex)'
+          >
+          </wux-cell>
+      </wux-cell-group>
+      <wux-cell-group title="Bundles">
+          <wux-cell
+            v-if='structures[boardId].bundles[bundleCheckBoxValue]'
+            :key='bundleCheckBoxValueIndex'
+            v-for='(bundleCheckBoxValue, bundleCheckBoxValueIndex) in bundleCheckBoxValues'
+            :title="structures[boardId].bundles[bundleCheckBoxValue].title"
           >
           </wux-cell>
       </wux-cell-group>
@@ -47,7 +77,7 @@
       outline
       type="assertive"
       :disabled="clicked"
-      @click='taskDoneHandle'
+      @click='taskDone=!taskDone'
     >Completed
     </wux-button>
     <wux-button
@@ -71,9 +101,11 @@ export default {
       boardId: 0,
       taskId: 0,
       clicked: false,
-      showDrawer: false,
+      showQualDrawer: false,
+      showBundleDrawer: false,
       taskDone: false,
-      checkBoxValues: [],
+      qualCheckBoxValues: [],
+      bundleCheckBoxValues: [],
       title: '',
       picsTotal: 0,
     };
@@ -98,28 +130,45 @@ export default {
       tasksUpdate: 'tasksUpdate',
       structuresUpdate: 'structuresUpdate',
       qualificationUpdate: 'qualificationUpdate',
-      tasksRefresh: 'tasksRefresh',
     }),
     qualificationClicked(qualificationIndex) {
       wx.navigateTo({
         url: `/pages/qualificationdetail/main?id=${qualificationIndex}`,
       });
     },
-    drawerToggle() {
-      this.showDrawer = !this.showDrawer;
-    },
-    checkBoxChange(event) {
+    qualCheckBoxChange(event) {
       const checkedBox = event.mp.detail;
-      const checkBoxValue = [...this.checkBoxValues];
+      const qualCheckBoxValue = [...this.qualCheckBoxValues];
+      const taskCurrent = this.structures[this.boardId].tasks[this.taskId];
       if (checkedBox.checked) {
-        checkBoxValue.push(checkedBox.value);
-        this.checkBoxValues = checkBoxValue;
-        this.qualificationUpdate({ index: checkedBox.value, type: 'taskListAdd', content: { boardId: this.boardId, taskId: this.taskId } });
+        qualCheckBoxValue.push(checkedBox.value);
+        this.qualCheckBoxValues = qualCheckBoxValue;
+        this.qualificationUpdate({
+          index: checkedBox.value,
+          type: 'taskListAdd',
+          content: taskCurrent,
+        });
       } else {
-        const checkedBoxIndex = checkBoxValue.indexOf(checkedBox.value);
-        checkBoxValue.splice(checkedBoxIndex, 1);
-        this.checkBoxValues = checkBoxValue;
-        this.qualificationUpdate({ index: checkedBox.value, type: 'taskListDel', content: { boardId: this.boardId, taskId: this.taskId } });
+        const checkedBoxIndex = qualCheckBoxValue.indexOf(checkedBox.value);
+        qualCheckBoxValue.splice(checkedBoxIndex, 1);
+        this.qualCheckBoxValues = qualCheckBoxValue;
+        this.qualificationUpdate({
+          index: checkedBox.value,
+          type: 'taskListDel',
+          content: taskCurrent,
+        });
+      }
+    },
+    bundleCheckBoxChange(event) {
+      const checkedBox = event.mp.detail;
+      const bundleCheckBoxValue = [...this.bundleCheckBoxValues];
+      if (checkedBox.checked) {
+        bundleCheckBoxValue.push(checkedBox.value);
+        this.bundleCheckBoxValues = bundleCheckBoxValue;
+      } else {
+        const checkedBoxIndex = bundleCheckBoxValue.indexOf(checkedBox.value);
+        bundleCheckBoxValue.splice(checkedBoxIndex, 1);
+        this.bundleCheckBoxValues = bundleCheckBoxValue;
       }
     },
     storageRemainGet() {
@@ -148,28 +197,6 @@ export default {
       });
       wx.navigateBack();
     },
-    taskDoneHandle() {
-      this.taskDone = !this.taskDone;
-      this.tasksUpdate({
-        boardIndex: this.boardId,
-        taskIndex: this.taskId,
-        type: 'taskDone',
-        content: this.taskDone,
-      });
-      if (this.taskDone === true) {
-        this.tasksRefresh({
-          boardIndex: this.boardId,
-          taskIndex: this.taskId,
-          type: 'taskToLast',
-        });
-      } else {
-        this.tasksRefresh({
-          boardIndex: this.boardId,
-          taskIndex: this.taskId,
-          type: 'taskToFirst',
-        });
-      }
-    },
   },
   watch: {
     title() {
@@ -180,22 +207,30 @@ export default {
         content: this.title,
       });
     },
-    checkBoxValues() {
+    qualCheckBoxValues() {
       this.tasksUpdate({
         boardIndex: this.boardId,
         taskIndex: this.taskId,
         type: 'qualificationList',
-        content: this.checkBoxValues,
+        content: this.qualCheckBoxValues,
       });
     },
-    // taskDone() {
-    //   this.tasksUpdate({
-    //     boardIndex: this.boardId,
-    //     taskIndex: this.taskId,
-    //     type: 'taskDone',
-    //     content: this.taskDone,
-    //   });
-    // },
+    bundleCheckBoxValues() {
+      this.tasksUpdate({
+        boardIndex: this.boardId,
+        taskIndex: this.taskId,
+        type: 'bundleList',
+        content: this.bundleCheckBoxValues,
+      });
+    },
+    taskDone() {
+      this.tasksUpdate({
+        boardIndex: this.boardId,
+        taskIndex: this.taskId,
+        type: 'taskDone',
+        content: this.taskDone,
+      });
+    },
   },
   mounted() {
     this.boardId = Number(this.$root.$mp.query.board);
@@ -203,7 +238,10 @@ export default {
     this.clicked = false;
     this.storageRemainGet();
     this.title = this.structures[this.boardId].tasks[this.taskId].title || '';
-    this.checkBoxValues = this.structures[this.boardId].tasks[this.taskId].qualificationList || [];
+    this.qualCheckBoxValues = this.structures[this.boardId]
+      .tasks[this.taskId].qualificationList || [];
+    this.bundleCheckBoxValues = this.structures[this.boardId]
+      .tasks[this.taskId].bundleList || [];
     this.taskDone = this.structures[this.boardId].tasks[this.taskId].taskDone || false;
   },
 };

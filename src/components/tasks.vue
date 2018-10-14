@@ -13,6 +13,7 @@
         :name="structureIndex"
       >
         <app-task-card
+          v-if='!task.taskDone || (task.taskDone && hideDone)'
           :key='taskIndex'
           v-for='(task, taskIndex) in structure.tasks'
           :propTask='task'
@@ -25,7 +26,7 @@
     <wux-select id="wux-select-tasks" />
     <!-- change the source code to: this.triggerEvent('iclick', params) -->
     <wux-floating-button 
-      @iclick='taskAdd'
+      @iclick='floatClicked'
       position="bottomRight"
       theme="assertive"
       :buttons="floatButtons"
@@ -47,10 +48,14 @@ export default {
       structuresLocal: [],
       boardOpen: ['0'],
       boardIndex: 0,
-      tasksCount: 0,
+      testhide: 'hidesdasd',
+      hideDone: false,
       floatButtons: [{
         label: 'Add task',
         icon: '../../img/book.png',
+      },
+      {
+        label: 'Hide/UnHide Completed',
       }],
     };
   },
@@ -70,6 +75,12 @@ export default {
         this.structuresLocal.push(structure);
       }
     },
+    hideDoneLabel() {
+      if (this.hideDone === true) {
+        return 'Hide completed';
+      }
+      return 'Unhide completed';
+    },
   },
   methods: {
     ...mapActions({
@@ -79,38 +90,44 @@ export default {
     boardChange(e) {
       this.boardOpen = e.mp.detail.key;
     },
-    taskAdd() {
-      // initiate using taskDetail for tasksAdd is in structures.vue; make sure these match
-      const taskDetail = {
-        title: '',
-        taskDone: false,
-        checkList: [],
-        taskPics: [],
-        qualificationList: [],
-      };
-      $wuxSelect('#wux-select-tasks').open({
-        options: this.structuresLocal,
-        toolbar: {
-          title: 'Add a new task in...',
-          cancelText: 'cancel',
-          confirmText: 'confirm',
-        },
-        onConfirm: (boardIndex) => {
-          this.tasksAdd({ boardIndex, type: 'add', taskDetail });
-          const taskId = this.structures[boardIndex].tasks.length - 1;
-          this.boardIndex = boardIndex;
-          this.tasksCount = this.structures[boardIndex].tasks.length;
-          this.boardOpen = [boardIndex];
-          wx.navigateTo({
-            url: `/pages/taskdetail/main?board=${boardIndex}&task=${taskId}`,
-          });
-        },
-      });
-    },
-  },
-  watch: {
-    tasksCount() {
-      this.structuresUpdate({ index: this.boardIndex, type: 'tasksCount', content: this.tasksCount });
+    floatClicked(e) {
+      const { index } = e.mp.detail;
+      if (index === 0) {
+        // initiate using taskDetail for tasksAdd is in structures.vue; make sure these match
+        const taskDetail = {
+          title: '',
+          taskDone: false,
+          checkList: [],
+          taskPics: [],
+          qualificationList: [],
+          bundleList: [],
+        };
+        $wuxSelect('#wux-select-tasks').open({
+          options: this.structuresLocal,
+          toolbar: {
+            title: 'Add a new task in...',
+            cancelText: 'cancel',
+            confirmText: 'confirm',
+          },
+          onConfirm: (boardIndex) => {
+            this.tasksAdd({ boardIndex, type: 'add', taskDetail });
+            const taskId = this.structures[boardIndex].tasks.length - 1;
+            this.boardIndex = boardIndex;
+            this.structuresUpdate({
+              index: this.boardIndex,
+              type: 'tasksCount',
+              content: this.structures[boardIndex].tasks.length,
+            });
+            this.boardOpen = [boardIndex];
+            wx.navigateTo({
+              url: `/pages/taskdetail/main?board=${boardIndex}&task=${taskId}`,
+            });
+          },
+        });
+      }
+      if (index === 1) {
+        this.hideDone = !this.hideDone;
+      }
     },
   },
 };

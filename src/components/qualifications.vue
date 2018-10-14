@@ -95,12 +95,12 @@ export default {
               that.qualificationUpdate({ index: i, type: 'descriptionValid', content: resQual.data });
             },
           });
-          wx.getStorage({
-            key: `QUALIFICATIONS_${i}_TASKLIST`,
-            success(resQual) {
-              that.qualificationUpdate({ index: i, type: 'taskListSet', content: resQual.data });
-            },
-          });
+          // wx.getStorage({
+          //   key: `QUALIFICATIONS_${i}_TASKLIST`,
+          //   success(resQual) {
+          //     that.qualificationUpdate({ index: i, type: 'taskListSet', content: resQual.data });
+          //   },
+          // });
           wx.getStorage({
             key: `QUALIFICATIONS_${i}_JUSTIFICATION`,
             success(resQual) {

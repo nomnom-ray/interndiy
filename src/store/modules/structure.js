@@ -48,24 +48,6 @@ const mutations = {
     state.structures[payload.boardIndex].tasks.splice(payload.taskIndex, 1);
   },
   // eslint-disable-next-line
-  TASKS_REFRESH(state, payload) {
-    const TaskLast = state.structures[payload.boardIndex].tasks.length;
-    // console.log('before 1', TaskLast - 1, state
-    //   .structures[payload.boardIndex].tasks[TaskLast - 1].taskDone);
-    const TaskCutOut = state.structures[payload.boardIndex].tasks.splice(payload.taskIndex, 1)[0];
-    // console.log('before 0', payload.taskIndex, TaskCutOut.taskDone);
-    if (payload.type === 'taskToLast') {
-      state.structures[payload.boardIndex].tasks.splice(TaskLast, 0, TaskCutOut);
-    }
-    if (payload.type === 'taskToFirst') {
-      state.structures[payload.boardIndex].tasks.splice(0, 0, TaskCutOut);
-    }
-    // console.log('after 1', TaskLast - 1, state
-    //   .structures[payload.boardIndex].tasks[TaskLast - 1].taskDone);
-    // console.log('after 0', payload.taskIndex, state
-    //   .structures[payload.boardIndex].tasks[payload.taskIndex].taskDone);
-  },
-  // eslint-disable-next-line
   TASKS_UPDATE(state, payload) {
     if (payload.type === 'title') {
       state.structures[payload.boardIndex].tasks[payload.taskIndex]
@@ -74,6 +56,10 @@ const mutations = {
     if (payload.type === 'qualificationList') {
       state.structures[payload.boardIndex].tasks[payload.taskIndex]
         .qualificationList = payload.content;
+    }
+    if (payload.type === 'bundleList') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .bundleList = payload.content;
     }
     if (payload.type === 'taskDone') {
       state.structures[payload.boardIndex].tasks[payload.taskIndex]
@@ -122,9 +108,6 @@ const actions = {
   },
   tasksDel: ({ commit }, payload) => {
     commit('TASKS_DEL', payload);
-  },
-  tasksRefresh: ({ commit }, payload) => {
-    commit('TASKS_REFRESH', payload);
   },
   tasksUpdate: ({ commit }, payload) => {
     commit('TASKS_UPDATE', payload);
@@ -236,6 +219,7 @@ const autosavePlugin = (store) => {
         const strucObject = state.structures[boardId];
         const taskId = strucObject.tasks.length - 1;
         const taskTitle = strucObject.tasks[taskId].title;
+        // const taskQualifications = strucObject.tasks[taskId].qualificationList;
         const done = strucObject.tasks[taskId].taskDone;
         localStorageAPI.save(taskTitle, `STRUCTURES_${boardId}_TASKS_${taskId}_TITLE`);
         localStorageAPI.save(done, `STRUCTURES_${boardId}_TASKS_${taskId}_DONE`);
@@ -253,18 +237,13 @@ const autosavePlugin = (store) => {
         const taskQualifications = taskObject.qualificationList;
         localStorageAPI.save(taskQualifications, `STRUCTURES_${boardId}_TASKS_${taskId}_QUALIFICATIONS`);
       }
+      if (mutation.payload.type === 'bundleList') {
+        const taskBundles = taskObject.bundleList;
+        localStorageAPI.save(taskBundles, `STRUCTURES_${boardId}_TASKS_${taskId}_BUNDLES`);
+      }
       if (mutation.payload.type === 'taskDone') {
         const done = taskObject.taskDone;
         localStorageAPI.save(done, `STRUCTURES_${boardId}_TASKS_${taskId}_DONE`);
-      }
-    }
-    if (mutation.type === 'TASKS_REFRESH') {
-      for (let i = 0; i <= state.structures.length - 1; i += 1) {
-        for (let j = 0; j <= state.structures[i].tasks.length - 1; j += 1) {
-          localStorageAPI.save(state.structures[i].tasks[j].title, `STRUCTURES_${i}_TASKS_${j}_TITLE`);
-          localStorageAPI.save(state.structures[i].tasks[j].qualificationList, `STRUCTURES_${i}_TASKS_${j}_QUALIFICATIONS`);
-          localStorageAPI.save(state.structures[i].tasks[j].taskDone, `STRUCTURES_${i}_TASKS_${j}_DONE`);
-        }
       }
     }
     if (mutation.type === 'TASKS_DEL') {
@@ -272,10 +251,12 @@ const autosavePlugin = (store) => {
         for (let j = 0; j <= state.structures[i].tasks.length - 1; j += 1) {
           localStorageAPI.save(state.structures[i].tasks[j].title, `STRUCTURES_${i}_TASKS_${j}_TITLE`);
           localStorageAPI.save(state.structures[i].tasks[j].qualificationList, `STRUCTURES_${i}_TASKS_${j}_QUALIFICATIONS`);
+          localStorageAPI.save(state.structures[i].tasks[j].bundleList, `STRUCTURES_${i}_TASKS_${j}_BUNDLES`);
           localStorageAPI.save(state.structures[i].tasks[j].taskDone, `STRUCTURES_${i}_TASKS_${j}_DONE`);
         }
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_TITLE`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_QUALIFICATIONS`);
+        localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_BUNDLES`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_DONE`);
       }
     }

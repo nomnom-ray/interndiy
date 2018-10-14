@@ -52,14 +52,15 @@ const mutations = {
       state.qualifications[payload.index].taskList.push(payload.content);
     }
     if (payload.type === 'taskListDel') {
-      const taskToDel = state.qualifications[payload.index].taskList
-        .findIndex(element => element.boardId === payload.content.boardId &&
-          element.taskId === payload.content.taskId);
-      state.qualifications[payload.index].taskList.splice(taskToDel, 1);
+      const taskIndex = state.qualifications[payload.index]
+        .taskList.indexOf(payload.content);
+      if (taskIndex !== -1) {
+        state.qualifications[payload.index].taskList.splice(taskIndex, 1);
+      }
     }
-    if (payload.type === 'taskListSet') {
-      state.qualifications[payload.index].taskList = payload.content;
-    }
+    // if (payload.type === 'taskListSet') {
+    //   state.qualifications[payload.index].taskList = payload.content;
+    // }
     if (payload.type === 'justification') {
       state.qualifications[payload.index].justification = payload.content;
     }
@@ -190,12 +191,14 @@ const autosavePlugin = (store) => {
         const qualDescriptionValid = qualObject.descriptionValid;
         localStorageAPI.save(qualDescriptionValid, `QUALIFICATIONS_${qualId}_DESCRIPTIONVALID`);
       }
-      if (mutation.payload.type === 'taskListAdd' ||
-        mutation.payload.type === 'taskListDel' ||
-        mutation.payload.type === 'taskListSet') {
-        const qualTaskList = qualObject.taskList;
-        localStorageAPI.save(qualTaskList, `QUALIFICATIONS_${qualId}_TASKLIST`);
-      }
+      // if (mutation.payload.type === 'taskListAdd' ||
+      //   mutation.payload.type === 'taskListDel' ||
+      //   mutation.payload.type === 'taskListSet') {
+      //   const qualTaskList = qualObject.taskList;
+      //   // indexof the object in board and task... task not going to change; just board
+      //   // each object in the tasklist array
+      //   localStorageAPI.save(qualTaskList, `QUALIFICATIONS_${qualId}_TASKLIST`);
+      // }
       if (mutation.payload.type === 'justification') {
         const qualJustification = qualObject.justification;
         localStorageAPI.save(qualJustification, `QUALIFICATIONS_${qualId}_JUSTIFICATION`);

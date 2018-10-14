@@ -24,12 +24,21 @@
       >{{descriptionValid ? 'Modify' : 'Validate'}}
       </wux-button>
     </div>
-    <wux-cell-group title="Tasks">
+    <!-- <wux-cell-group title="Tasks">
         <wux-cell
+          v-if='structures[task.boardId].tasks[task.taskId]'
           :key='taskIndex'
           v-for='(task, taskIndex) in taskList'
           :title="structures[task.boardId].tasks[task.taskId].title"
           @click='taskClicked(task)'
+        >
+        </wux-cell>
+    </wux-cell-group> -->
+    <wux-cell-group title="Tasks">
+        <wux-cell
+          :key='taskIndex'
+          v-for='(task, taskIndex) in taskList'
+          :title="task.title"
         >
         </wux-cell>
     </wux-cell-group>

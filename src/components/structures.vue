@@ -73,6 +73,7 @@ export default {
       tasksUpdate: 'tasksUpdate',
       bundlesAdd: 'bundlesAdd',
       bundlesUpdate: 'bundlesUpdate',
+      qualificationUpdate: 'qualificationUpdate',
     }),
     // add a structure (i.e. board) from the selector if not the first board
     structureAdd() {
@@ -153,6 +154,7 @@ export default {
                   checkList: [],
                   taskPics: [],
                   qualificationList: [],
+                  bundleList: [],
                 };
                 that.tasksAdd({ boardIndex: i, type: 'refresh', taskDetail });
                 wx.getStorage({
@@ -173,6 +175,26 @@ export default {
                       boardIndex: i,
                       taskIndex: j,
                       type: 'qualificationList',
+                      content: resTask.data,
+                    });
+                    const taskCurrent = that.structures[i].tasks[j];
+                    for (let k = 0; k <= that.structures[i].tasks[j]
+                      .qualificationList.length - 1; k += 1) {
+                      that.qualificationUpdate({
+                        index: k,
+                        type: 'taskListAdd',
+                        content: taskCurrent,
+                      });
+                    }
+                  },
+                });
+                wx.getStorage({
+                  key: `STRUCTURES_${i}_TASKS_${j}_BUNDLES`,
+                  success(resTask) {
+                    that.tasksUpdate({
+                      boardIndex: i,
+                      taskIndex: j,
+                      type: 'bundleList',
                       content: resTask.data,
                     });
                   },
