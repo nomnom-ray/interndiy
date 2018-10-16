@@ -72,6 +72,47 @@
           </wux-cell>
       </wux-cell-group>
     </div>
+    <van-popup
+    :show="todoPopupShow"
+    @close="popupCloseHandler()"
+    position='top'
+    >
+      <div class='popupCSS'>
+        <input
+          v-if='todoAddText'
+          class="popupinputCSS"
+          v-model='todoTextGETSET'
+          :maxlength="200"
+          placeholder="depending"
+        >
+        <input
+          v-else
+          class="popupinputCSS"
+          v-model='resultTextGETSET'
+          :maxlength="200"
+          placeholder="depending"
+        >
+      </div>
+    </van-popup>
+    <div>
+      <div>Todo Checklist</div>
+      <app-todocard
+        :key='todoIndex'
+        v-for='(todo, todoIndex) in todos'
+        :propTodo = todo
+        :propTodoIndex = todoIndex
+      ></app-todocard>
+    </div>
+    <wux-button
+      block
+      outline
+      type="assertive"
+      @click='todoNew'
+    >Add todo item
+    </wux-button>
+    <div>
+      <div>Concern Checklist</div>
+    </div>
     <wux-button
       block
       outline
@@ -94,12 +135,20 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Todocard from '../../components/todocard';
 
 export default {
+  components: {
+    appTodocard: Todocard,
+  },
   data() {
     return {
       boardId: 0,
       taskId: 0,
+      todoPopupShow: false,
+      todoToChange: 0,
+      todoAddText: false,
+      resultAddText: false,
       clicked: false,
       showQualDrawer: false,
       showBundleDrawer: false,
@@ -108,6 +157,20 @@ export default {
       bundleCheckBoxValues: [],
       title: '',
       picsTotal: 0,
+      todos: [
+        {
+          text: 'drink coffee',
+          done: true,
+          result: '',
+          showResult: false,
+        },
+        {
+          text: 'eat donner',
+          done: false,
+          result: '',
+          showResult: false,
+        },
+      ],
     };
   },
   computed: {
@@ -115,6 +178,8 @@ export default {
       structures: 'structures',
       pageActive: 'pageActive',
       qualifications: 'qualifications',
+      // todoText: 'todoText',
+      // resultText: 'resultText',
     }),
     picSizeUsed() {
       return (this.picsTotal / 1000000).toPrecision(2);
@@ -122,6 +187,28 @@ export default {
     picSizeRemain() {
       return ((10000000 - this.picsTotal) / 1000000).toPrecision(2);
     },
+    // todoTextGETSET: {
+    //   get() {
+    //     return this.todoText;
+    //   },
+    //   set(todoText) {
+    //     if (this.todoToChange !== '') {
+    //       // TODO: use the watch alternative
+    //       return this.jobTitleUpdate(todoText);
+    //     }
+    //   },
+    // },
+    // resultTextGETSET: {
+    //   get() {
+    //     return this.resultText;
+    //   },
+    //   set(resultText) {
+    //     if (this.todoToChange !== '') {
+    //       // TODO: use the watch alternative
+    //       return this.organizationNameUpdate(resultText);
+    //     }
+    //   },
+    // },
   },
   methods: {
     ...mapActions({
@@ -131,6 +218,25 @@ export default {
       structuresUpdate: 'structuresUpdate',
       qualificationUpdate: 'qualificationUpdate',
     }),
+    popupCloseHandler() {
+      this.todoPopupShow = false;
+      this.todoText = '';
+      this.resultText = '';
+      this.todoToChange = '';
+      this.todoAddText = false;
+      this.resultAddText = false;
+    },
+    todoNew() {
+      this.todos.push({
+        text: '',
+        done: false,
+        result: '',
+        showResult: false,
+      });
+      this.todoAddText = true;
+      this.todoToChange = this.todos.length - 1;
+      this.todoPopupShow = !this.todoPopupShow;
+    },
     qualificationClicked(qualificationIndex) {
       wx.navigateTo({
         url: `/pages/qualificationdetail/main?id=${qualificationIndex}`,
@@ -231,6 +337,22 @@ export default {
         content: this.taskDone,
       });
     },
+    todoText() {
+      if (this.todoToChange !== '') {
+        this.todos[this.todoToChange].text = this.todoText;
+      }
+    },
+    resultText() {
+      if (this.todoToChange !== '') {
+        this.todos[this.todoToChange].result = this.resultText;
+      }
+    },
+    todoPopupShow() {
+      if (this.todoPopupShow === true && this.todoToChange !== '') {
+        this.todoText = this.todos[this.todoToChange].text;
+        this.resultText = this.todos[this.todoToChange].result;
+      }
+    },
   },
   mounted() {
     this.boardId = Number(this.$root.$mp.query.board);
@@ -243,6 +365,18 @@ export default {
     this.bundleCheckBoxValues = this.structures[this.boardId]
       .tasks[this.taskId].bundleList || [];
     this.taskDone = this.structures[this.boardId].tasks[this.taskId].taskDone || false;
+  },
+  created() {
+    this.$root.$on('todoText', (state) => {
+      this.todoAddText = true;
+      this.todoPopupShow = true;
+      this.todoToChange = state;
+    });
+    this.$root.$on('resultText', (state) => {
+      this.resultAddText = true;
+      this.todoPopupShow = true;
+      this.todoToChange = state;
+    });
   },
 };
 </script>
@@ -259,4 +393,20 @@ export default {
     height: 100vh;
     background:#fff;
   }
+  .popupCSS {
+  font-size: 13px;
+  line-height: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  z-index: 999;
+  .popupinputCSS{
+    margin-top: 5px;
+    border: 2px solid rgb(190, 0, 165);
+  }
+  .popupfieldsCSS{
+    overflow:scroll;
+    margin-top: 5px;
+    border: 2px solid rgb(190, 0, 165);
+  }
+}
 </style>

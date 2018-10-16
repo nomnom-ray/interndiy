@@ -101,6 +101,7 @@ export default {
           taskPics: [],
           qualificationList: [],
           bundleList: [],
+          
         };
         $wuxSelect('#wux-select-tasks').open({
           options: this.structuresLocal,

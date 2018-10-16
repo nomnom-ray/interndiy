@@ -1,5 +1,6 @@
 {
   "usingComponents": {
+    "van-popup": "../../../static/vant/popup/index",
     "wux-button": "../../../static/wux/button/index",
     "wux-row": "../../../static/wux/row/index",
     "wux-col": "../../../static/wux/col/index",
@@ -10,10 +11,11 @@
     "wux-checkbox": "../../../static/wux/checkbox/index",
     "wux-cell-group": "../../../static/wux/cell-group/index",
     "wux-cell": "../../../static/wux/cell/index",
+    "wux-accordion-group": "../../../static/wux/accordion-group/index",
+    "wux-accordion": "../../../static/wux/accordion/index",
     "i-drawer": "../../../static/iview/drawer/index",
     "i-collapse": "../../../static/iview/collapse/index",
     "i-collapse-item": "../../../static/iview/collapse-item/index",
-    "wux-accordion-group": "../../../static/wux/accordion-group/index",
-    "wux-accordion": "../../../static/wux/accordion/index"
+    "i-swipeout": "../../../static/iview/swipeout/index"
   }
 }

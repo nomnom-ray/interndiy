@@ -1,4 +1,5 @@
- /*
+/* eslint-disable */
+/*
 * touch事件判断方式
 * https://github.com/madrobby/zepto/blob/master/src/touch.js#files
 */
@@ -43,7 +44,7 @@ Component({
         limitMove : 0,
         //element move position
         position : {
-            pageX : 0,
+            pageX : -150,
             pageY : 0
         }
     },
@@ -157,5 +158,6 @@ Component({
     },
     ready(){
         this._updateButtonSize();
+        setTimeout(this.closeButtonGroup.bind(this), 800);
     }
 });

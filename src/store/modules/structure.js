@@ -156,6 +156,7 @@ const autosavePlugin = (store) => {
         const strucObject = state.structures[i];
         const strucTitle = strucObject.title;
         localStorageAPI.save(strucTitle, `STRUCTURES_${i}_TITLE`);
+        // TODO: concept could go
         const strucConcepts = strucObject.conceptList;
         localStorageAPI.save(strucConcepts, `STRUCTURES_${i}_CONCEPTS`);
         const strucTasksCount = strucObject.tasksCount;
@@ -219,7 +220,6 @@ const autosavePlugin = (store) => {
         const strucObject = state.structures[boardId];
         const taskId = strucObject.tasks.length - 1;
         const taskTitle = strucObject.tasks[taskId].title;
-        // const taskQualifications = strucObject.tasks[taskId].qualificationList;
         const done = strucObject.tasks[taskId].taskDone;
         localStorageAPI.save(taskTitle, `STRUCTURES_${boardId}_TASKS_${taskId}_TITLE`);
         localStorageAPI.save(done, `STRUCTURES_${boardId}_TASKS_${taskId}_DONE`);
