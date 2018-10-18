@@ -97,11 +97,13 @@ export default {
         const taskDetail = {
           title: '',
           taskDone: false,
-          checkList: [],
           taskPics: [],
           qualificationList: [],
           bundleList: [],
-          
+          todos: [],
+          todosCount: 0,
+          concerns: [],
+          concernsCount: 0,
         };
         $wuxSelect('#wux-select-tasks').open({
           options: this.structuresLocal,

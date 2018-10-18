@@ -65,6 +65,14 @@ const mutations = {
       state.structures[payload.boardIndex].tasks[payload.taskIndex]
         .taskDone = payload.content;
     }
+    if (payload.type === 'todosCount') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .todosCount = payload.content;
+    }
+    if (payload.type === 'concernsCount') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .concernsCount = payload.content;
+    }
   },
   // eslint-disable-next-line
   BUNDLES_ADD(state, payload) {
@@ -84,6 +92,38 @@ const mutations = {
   // eslint-disable-next-line
   BUNDLES_DEL(state, payload) {
     state.structures[payload.boardIndex].bundles.splice(payload.bundleIndex, 1);
+  },
+  // eslint-disable-next-line
+  TODOS_ADD(state, payload) {
+    state.structures[payload.boardIndex].tasks[payload.taskIndex].todos.push(payload.todoDetail);
+  },
+  // eslint-disable-next-line
+  TODOS_UPDATE(state, payload) {
+    if (payload.type === 'text') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .todos[payload.todoIndex].text = payload.content;
+    }
+    if (payload.type === 'result') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .todos[payload.todoIndex].result = payload.content;
+    }
+    if (payload.type === 'done') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .todos[payload.todoIndex].done = payload.content;
+    }
+    if (payload.type === 'showResult') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .todos[payload.todoIndex].showResult = payload.content;
+    }
+    if (payload.type === 'colorPicked') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .todos[payload.todoIndex].colorPicked = payload.content;
+    }
+  },
+  // eslint-disable-next-line
+  TODOS_DEL(state, payload) {
+    state.structures[payload.boardIndex].tasks[payload.taskIndex].todos
+      .splice(payload.todoIndex, 1);
   },
 };
 
@@ -120,6 +160,15 @@ const actions = {
   },
   bundlesDel: ({ commit }, payload) => {
     commit('BUNDLES_DEL', payload);
+  },
+  todosAdd: ({ commit }, payload) => {
+    commit('TODOS_ADD', payload);
+  },
+  todosUpdate: ({ commit }, payload) => {
+    commit('TODOS_UPDATE', payload);
+  },
+  todosDel: ({ commit }, payload) => {
+    commit('TODOS_DEL', payload);
   },
 };
 
@@ -219,10 +268,16 @@ const autosavePlugin = (store) => {
         const boardId = mutation.payload.boardIndex;
         const strucObject = state.structures[boardId];
         const taskId = strucObject.tasks.length - 1;
-        const taskTitle = strucObject.tasks[taskId].title;
-        const done = strucObject.tasks[taskId].taskDone;
-        localStorageAPI.save(taskTitle, `STRUCTURES_${boardId}_TASKS_${taskId}_TITLE`);
-        localStorageAPI.save(done, `STRUCTURES_${boardId}_TASKS_${taskId}_DONE`);
+        const {
+          title,
+          taskDone,
+          todosCount,
+          concernsCount,
+        } = strucObject.tasks[taskId];
+        localStorageAPI.save(title, `STRUCTURES_${boardId}_TASKS_${taskId}_TITLE`);
+        localStorageAPI.save(taskDone, `STRUCTURES_${boardId}_TASKS_${taskId}_DONE`);
+        localStorageAPI.save(todosCount, `STRUCTURES_${boardId}_TASKS_${taskId}_TODOSCOUNT`);
+        localStorageAPI.save(concernsCount, `STRUCTURES_${boardId}_TASKS_${taskId}_CONCERNSCOUNT`);
       }
     }
     if (mutation.type === 'TASKS_UPDATE') {
@@ -245,6 +300,14 @@ const autosavePlugin = (store) => {
         const done = taskObject.taskDone;
         localStorageAPI.save(done, `STRUCTURES_${boardId}_TASKS_${taskId}_DONE`);
       }
+      if (mutation.payload.type === 'todosCount') {
+        const { todosCount } = taskObject;
+        localStorageAPI.save(todosCount, `STRUCTURES_${boardId}_TASKS_${taskId}_TODOSCOUNT`);
+      }
+      if (mutation.payload.type === 'concernsCount') {
+        const { concernsCount } = taskObject;
+        localStorageAPI.save(concernsCount, `STRUCTURES_${boardId}_TASKS_${taskId}_CONCERNSCOUNT`);
+      }
     }
     if (mutation.type === 'TASKS_DEL') {
       for (let i = 0; i <= state.structures.length - 1; i += 1) {
@@ -253,11 +316,15 @@ const autosavePlugin = (store) => {
           localStorageAPI.save(state.structures[i].tasks[j].qualificationList, `STRUCTURES_${i}_TASKS_${j}_QUALIFICATIONS`);
           localStorageAPI.save(state.structures[i].tasks[j].bundleList, `STRUCTURES_${i}_TASKS_${j}_BUNDLES`);
           localStorageAPI.save(state.structures[i].tasks[j].taskDone, `STRUCTURES_${i}_TASKS_${j}_DONE`);
+          localStorageAPI.save(state.structures[i].tasks[j].todosCount, `STRUCTURES_${i}_TASKS_${j}_TODOSCOUNT`);
+          localStorageAPI.save(state.structures[i].tasks[j].concernsCount, `STRUCTURES_${i}_TASKS_${j}_CONCERNSCOUNT`);
         }
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_TITLE`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_QUALIFICATIONS`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_BUNDLES`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_DONE`);
+        localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_TODOSCOUNT`);
+        localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_CONCERNSCOUNT`);
       }
     }
     if (mutation.type === 'BUNDLES_ADD') {
@@ -292,6 +359,78 @@ const autosavePlugin = (store) => {
         }
         localStorageAPI.remove(`STRUCTURES_${i}_BUNDLES_${state.structures[i].bundles.length}_TITLE`);
         localStorageAPI.remove(`STRUCTURES_${i}_BUNDLES_${state.structures[i].bundles.length}_PICS`);
+      }
+    }
+    if (mutation.type === 'TODOS_ADD') {
+      if (mutation.payload.type === 'add') {
+        const { boardIndex, taskIndex } = mutation.payload;
+        const tasksObject = state.structures[boardIndex].tasks[taskIndex];
+        const todoIndex = tasksObject.todos.length - 1;
+        const {
+          text,
+          result,
+          done,
+          showResult,
+          colorPicked,
+        } = tasksObject.todos[todoIndex];
+        localStorageAPI.save(text, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_TEXT`);
+        localStorageAPI.save(result, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_RESULT`);
+        localStorageAPI.save(done, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_DONE`);
+        localStorageAPI.save(showResult, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_SHOW`);
+        localStorageAPI.save(colorPicked, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_COLOR`);
+      }
+    }
+    if (mutation.type === 'TODOS_UPDATE') {
+      const { boardIndex, taskIndex, todoIndex } = mutation.payload;
+      const todosObject = state.structures[boardIndex].tasks[taskIndex].todos[todoIndex];
+      if (mutation.payload.type === 'text') {
+        const { text } = todosObject;
+        localStorageAPI.save(text, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_TEXT`);
+      }
+      if (mutation.payload.type === 'result') {
+        const { result } = todosObject;
+        localStorageAPI.save(result, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_RESULT`);
+      }
+      if (mutation.payload.type === 'done') {
+        const { done } = todosObject;
+        localStorageAPI
+          .save(done, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_DONE`);
+      }
+      if (mutation.payload.type === 'showResult') {
+        const { showResult } = todosObject;
+        localStorageAPI.save(showResult, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_SHOW`);
+      }
+      if (mutation.payload.type === 'colorPicked') {
+        const { colorPicked } = todosObject;
+        localStorageAPI.save(colorPicked, `STRUCTURES_${boardIndex}_TASKS_${taskIndex}_TODOS_${todoIndex}_COLOR`);
+      }
+    }
+    if (mutation.type === 'TODOS_DEL') {
+      for (let i = 0; i <= state.structures.length - 1; i += 1) {
+        for (let j = 0; j <= state.structures[i].tasks.length - 1; j += 1) {
+          for (let k = 0; k <= state.structures[i].tasks[j].todos.length - 1; k += 1) {
+            localStorageAPI.save(state.structures[i].tasks[j].todos[k]
+              .text, `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_TEXT`);
+            localStorageAPI.save(state.structures[i].tasks[j].todos[k]
+              .result, `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_RESULT`);
+            localStorageAPI.save(state.structures[i].tasks[j].todos[k]
+              .done, `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_DONE`);
+            localStorageAPI.save(state.structures[i].tasks[j].todos[k]
+              .showResult, `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_SHOW`);
+            localStorageAPI.save(state.structures[i].tasks[j].todos[k]
+              .colorPicked, `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_COLOR`);
+          }
+          localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${j}_TODOS_${state.structures[i].tasks[j]
+            .todos.length}_TEXT`);
+          localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${j}_TODOS_${state.structures[i].tasks[j]
+            .todos.length}_RESULT`);
+          localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${j}_TODOS_${state.structures[i].tasks[j]
+            .todos.length}_DONE`);
+          localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${j}_TODOS_${state.structures[i].tasks[j]
+            .todos.length}_SHOW`);
+          localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${j}_TODOS_${state.structures[i].tasks[j]
+            .todos.length}_COLOR`);
+        }
       }
     }
     // eslint-disable-next-line

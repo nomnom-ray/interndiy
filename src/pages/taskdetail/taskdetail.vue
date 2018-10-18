@@ -1,7 +1,5 @@
 <template>
   <div>
-    boardId: {{boardId}}; taskId: {{taskId}}
-    <!-- <wux-toptips id="wux-toptips-task" /> -->
     <input
       class="titleCSSTD"
       v-model='title'
@@ -81,14 +79,14 @@
         <input
           v-if='todoAddText'
           class="popupinputCSS"
-          v-model='todoTextGETSET'
+          v-model='todoText'
           :maxlength="200"
           placeholder="depending"
         >
         <input
           v-else
           class="popupinputCSS"
-          v-model='resultTextGETSET'
+          v-model='resultText'
           :maxlength="200"
           placeholder="depending"
         >
@@ -97,10 +95,13 @@
     <div>
       <div>Todo Checklist</div>
       <app-todocard
+        v-if='structures[boardId].tasks[taskId]'
         :key='todoIndex'
-        v-for='(todo, todoIndex) in todos'
+        v-for='(todo, todoIndex) in structures[boardId].tasks[taskId].todos'
         :propTodo = todo
         :propTodoIndex = todoIndex
+        :propBoardIndex = boardId
+        :propTaskIndex = taskId
       ></app-todocard>
     </div>
     <wux-button
@@ -129,7 +130,6 @@
       @click='taskDelete'
     >Delete
     </wux-button>
-    {{taskDone}}
   </div>
 </template>
 
@@ -146,6 +146,8 @@ export default {
       boardId: 0,
       taskId: 0,
       todoPopupShow: false,
+      todoText: '',
+      resultText: '',
       todoToChange: 0,
       todoAddText: false,
       resultAddText: false,
@@ -157,20 +159,6 @@ export default {
       bundleCheckBoxValues: [],
       title: '',
       picsTotal: 0,
-      todos: [
-        {
-          text: 'drink coffee',
-          done: true,
-          result: '',
-          showResult: false,
-        },
-        {
-          text: 'eat donner',
-          done: false,
-          result: '',
-          showResult: false,
-        },
-      ],
     };
   },
   computed: {
@@ -178,8 +166,6 @@ export default {
       structures: 'structures',
       pageActive: 'pageActive',
       qualifications: 'qualifications',
-      // todoText: 'todoText',
-      // resultText: 'resultText',
     }),
     picSizeUsed() {
       return (this.picsTotal / 1000000).toPrecision(2);
@@ -187,28 +173,6 @@ export default {
     picSizeRemain() {
       return ((10000000 - this.picsTotal) / 1000000).toPrecision(2);
     },
-    // todoTextGETSET: {
-    //   get() {
-    //     return this.todoText;
-    //   },
-    //   set(todoText) {
-    //     if (this.todoToChange !== '') {
-    //       // TODO: use the watch alternative
-    //       return this.jobTitleUpdate(todoText);
-    //     }
-    //   },
-    // },
-    // resultTextGETSET: {
-    //   get() {
-    //     return this.resultText;
-    //   },
-    //   set(resultText) {
-    //     if (this.todoToChange !== '') {
-    //       // TODO: use the watch alternative
-    //       return this.organizationNameUpdate(resultText);
-    //     }
-    //   },
-    // },
   },
   methods: {
     ...mapActions({
@@ -217,6 +181,9 @@ export default {
       tasksUpdate: 'tasksUpdate',
       structuresUpdate: 'structuresUpdate',
       qualificationUpdate: 'qualificationUpdate',
+      todosAdd: 'todosAdd',
+      todosUpdate: 'todosUpdate',
+      todosDel: 'todosDel',
     }),
     popupCloseHandler() {
       this.todoPopupShow = false;
@@ -227,14 +194,27 @@ export default {
       this.resultAddText = false;
     },
     todoNew() {
-      this.todos.push({
+      const todoDetail = {
         text: '',
         done: false,
         result: '',
         showResult: false,
+        colorPicked: 0,
+      };
+      this.todosAdd({
+        boardIndex: this.boardId,
+        taskIndex: this.taskId,
+        type: 'add',
+        todoDetail,
       });
       this.todoAddText = true;
-      this.todoToChange = this.todos.length - 1;
+      this.todoToChange = this.structures[this.boardId].tasks[this.taskId].todos.length - 1;
+      this.tasksUpdate({
+        boardIndex: this.boardId,
+        taskIndex: this.taskId,
+        type: 'todosCount',
+        content: this.structures[this.boardId].tasks[this.taskId].todos.length,
+      });
       this.todoPopupShow = !this.todoPopupShow;
     },
     qualificationClicked(qualificationIndex) {
@@ -339,18 +319,32 @@ export default {
     },
     todoText() {
       if (this.todoToChange !== '') {
-        this.todos[this.todoToChange].text = this.todoText;
+        this.todosUpdate({
+          boardIndex: this.boardId,
+          taskIndex: this.taskId,
+          todoIndex: this.todoToChange,
+          type: 'text',
+          content: this.todoText,
+        });
       }
     },
     resultText() {
       if (this.todoToChange !== '') {
-        this.todos[this.todoToChange].result = this.resultText;
+        this.todosUpdate({
+          boardIndex: this.boardId,
+          taskIndex: this.taskId,
+          todoIndex: this.todoToChange,
+          type: 'result',
+          content: this.resultText,
+        });
       }
     },
     todoPopupShow() {
       if (this.todoPopupShow === true && this.todoToChange !== '') {
-        this.todoText = this.todos[this.todoToChange].text;
-        this.resultText = this.todos[this.todoToChange].result;
+        this.todoText = this.structures[this.boardId].tasks[this.taskId]
+          .todos[this.todoToChange].text;
+        this.resultText = this.structures[this.boardId].tasks[this.taskId]
+          .todos[this.todoToChange].result;
       }
     },
   },
@@ -365,6 +359,7 @@ export default {
     this.bundleCheckBoxValues = this.structures[this.boardId]
       .tasks[this.taskId].bundleList || [];
     this.taskDone = this.structures[this.boardId].tasks[this.taskId].taskDone || false;
+    // console.log(this.structures[this.boardId].tasks[this.taskId].todos[0].done);
   },
   created() {
     this.$root.$on('todoText', (state) => {
@@ -376,6 +371,20 @@ export default {
       this.resultAddText = true;
       this.todoPopupShow = true;
       this.todoToChange = state;
+    });
+    this.$root.$on('todoDelete', (state) => {
+      this.todoToChange = state;
+      this.todosDel({
+        boardIndex: this.boardId,
+        taskIndex: this.taskId,
+        todoIndex: this.todoToChange,
+      });
+      this.tasksUpdate({
+        boardIndex: this.boardId,
+        taskIndex: this.taskId,
+        type: 'todosCount',
+        content: this.structures[this.boardId].tasks[this.taskId].todos.length,
+      });
     });
   },
 };

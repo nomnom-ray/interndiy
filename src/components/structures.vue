@@ -74,6 +74,8 @@ export default {
       bundlesAdd: 'bundlesAdd',
       bundlesUpdate: 'bundlesUpdate',
       qualificationUpdate: 'qualificationUpdate',
+      todosAdd: 'todosAdd',
+      todosUpdate: 'todosUpdate',
     }),
     // add a structure (i.e. board) from the selector if not the first board
     structureAdd() {
@@ -151,10 +153,13 @@ export default {
                 const taskDetail = {
                   title: '',
                   taskDone: false,
-                  checkList: [],
                   taskPics: [],
                   qualificationList: [],
                   bundleList: [],
+                  todos: [],
+                  todosCount: 0,
+                  concerns: [],
+                  concernsCount: 0,
                 };
                 that.tasksAdd({ boardIndex: i, type: 'refresh', taskDetail });
                 wx.getStorage({
@@ -208,6 +213,93 @@ export default {
                       type: 'taskDone',
                       content: resTask.data,
                     });
+                  },
+                });
+                wx.getStorage({
+                  key: `STRUCTURES_${i}_TASKS_${j}_TODOSCOUNT`,
+                  success(resTask) {
+                    that.tasksUpdate({
+                      // TODO:
+                      boardIndex: i,
+                      taskIndex: j,
+                      type: 'todosCount',
+                      content: resTask.data,
+                    });
+                    for (let k = 0; k <= that.structures[i].tasks[j].todosCount - 1; k += 1) {
+                      const todoDetail = {
+                        text: '',
+                        done: false,
+                        result: '',
+                        showResult: false,
+                        colorPicked: 0,
+                      };
+                      that.todosAdd({
+                        boardIndex: i,
+                        taskIndex: j,
+                        type: 'refresh',
+                        todoDetail,
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_TEXT`,
+                        success(resTodo) {
+                          that.todosUpdate({
+                            boardIndex: i,
+                            taskIndex: j,
+                            todoIndex: k,
+                            type: 'text',
+                            content: resTodo.data,
+                          });
+                        },
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_RESULT`,
+                        success(resTodo) {
+                          that.todosUpdate({
+                            boardIndex: i,
+                            taskIndex: j,
+                            todoIndex: k,
+                            type: 'result',
+                            content: resTodo.data,
+                          });
+                        },
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_DONE`,
+                        success(resTodo) {
+                          that.todosUpdate({
+                            boardIndex: i,
+                            taskIndex: j,
+                            todoIndex: k,
+                            type: 'done',
+                            content: resTodo.data,
+                          });
+                        },
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_SHOW`,
+                        success(resTodo) {
+                          that.todosUpdate({
+                            boardIndex: i,
+                            taskIndex: j,
+                            todoIndex: k,
+                            type: 'showResult',
+                            content: resTodo.data,
+                          });
+                        },
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_TASKS_${j}_TODOS_${k}_COLOR`,
+                        success(resTodo) {
+                          that.todosUpdate({
+                            boardIndex: i,
+                            taskIndex: j,
+                            todoIndex: k,
+                            type: 'colorPicked',
+                            content: resTodo.data,
+                          });
+                        },
+                      });
+                    }
                   },
                 });
               }
