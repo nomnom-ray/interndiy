@@ -70,16 +70,16 @@ const mutations = {
         },
         {
           id: 1,
-          summary: 'summary',
+          summary: '',
           concepts: [
             {
               id: 0,
-              question: 'Trigger Event',
+              question: '',
               description: '',
             },
             {
               id: 1,
-              question: 'Object Result',
+              question: '',
               description: '',
             },
           ],

@@ -75,17 +75,17 @@
     @close="popupCloseHandler()"
     position='top'
     >
-      <div class='popupCSS'>
+      <div class='popupCSSTD'>
         <input
           v-if='todoAddText'
-          class="popupinputCSS"
+          class="popupinputCSSTD"
           v-model='todoText'
           :maxlength="200"
           placeholder="depending"
         >
         <input
           v-else
-          class="popupinputCSS"
+          class="popupinputCSSTD"
           v-model='resultText'
           :maxlength="200"
           placeholder="depending"
@@ -359,7 +359,6 @@ export default {
     this.bundleCheckBoxValues = this.structures[this.boardId]
       .tasks[this.taskId].bundleList || [];
     this.taskDone = this.structures[this.boardId].tasks[this.taskId].taskDone || false;
-    // console.log(this.structures[this.boardId].tasks[this.taskId].todos[0].done);
   },
   created() {
     this.$root.$on('todoText', (state) => {
@@ -402,17 +401,17 @@ export default {
     height: 100vh;
     background:#fff;
   }
-  .popupCSS {
+  .popupCSSTD {
   font-size: 13px;
   line-height: 30px;
   margin-bottom: 10px;
   text-align: center;
   z-index: 999;
-  .popupinputCSS{
+  .popupinputCSSTD{
     margin-top: 5px;
     border: 2px solid rgb(190, 0, 165);
   }
-  .popupfieldsCSS{
+  .popupfieldsCSSTD{
     overflow:scroll;
     margin-top: 5px;
     border: 2px solid rgb(190, 0, 165);

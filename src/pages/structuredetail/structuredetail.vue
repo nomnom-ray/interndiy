@@ -54,7 +54,9 @@
         >
         </wux-cell>
     </wux-cell-group>
-
+    <div>
+      The opened bundle is the primary strategy that appears on the presentation board.
+    </div>
     <wux-accordion-group
       v-if='structures[id]'
       title="bundles"
@@ -62,12 +64,12 @@
       accordion
       :defaultCurrent="[structures[id].bundleOpen]"
       @change="bundleChange"
-    >    
+    >
       <wux-accordion
         v-if='structures[id].bundles'
         :key="bundleIndex"
         v-for='(bundle, bundleIndex) in structures[id].bundles'
-        :title="bundle.title"
+        :title="'Strategy' + ' ' + (bundleIndex + 1) + ': ' + bundle.title"
         :name="bundleIndex"
       >
         <app-bundle-card
@@ -153,6 +155,8 @@ export default {
       const bundleDetail = {
         title: '',
         structurePics: [],
+        annotates: [],
+        annotatesCount: 0,
       };
       this.bundlesAdd({ boardIndex: this.id, type: 'add', bundleDetail });
       const bundleId = this.structures[this.id].bundles.length - 1;

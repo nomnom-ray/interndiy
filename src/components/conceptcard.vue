@@ -6,18 +6,24 @@
     <div class='arrowleftCSSCC' v-if='arrowLeftShow'></div>
     <div :class="arrowLeftShow ? 'arrowbottomliteCSSCC' : 'arrowbottomCSSCC'" v-if='arrowBottomShow'></div>
     <div class='arrowtopCSSCC' v-if='arrowTopShow'></div>
-
     <div 
       class='cardCSSCC'
       :class='{red: conceptIsClicked, conceptChild: arrowLeftShow}'
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
-        <div class="questionCSSCC">
-        Title: {{propConcept.question}}
-        </div>
-        <div class="descriptionCSSCC">
-          <p>Description: {{propConcept.description}}</p>
-        </div>
+      <div v-if='propSubject === 1 && propConcept.id === 0'>Trigger Event</div>
+      <div v-else-if='propSubject === 1 && propConcept.id === subjects[1].concepts.length - 1'>Objective Result</div>
+      <div v-else></div>
+      <div v-if="propConcept.question === ''">Empty question</div>
+      <div v-else class="questionCSSCC">
+        {{propConcept.question}}
+      </div>
+      <div v-if="propSubject === 1 && propConcept.id === 0 && propConcept.description === ''">Empty Trigger Event</div>
+      <div v-else-if="propConcept.description === ''">Empty step</div>
+      <div v-else-if="propSubject === 1 && propConcept.id === subjects[1].concepts.length - 1  && propConcept.description === ''">Empty Objective Result</div>
+      <div v-else class="descriptionCSSCC">
+        {{propConcept.description}}
+      </div>
     </div>
   </div>
 </template>
@@ -185,6 +191,7 @@
     .cardCSSCC {
       width: 100%;
       height: 100%;
+      font-size: 75%;
       background-clip: content-box;
       background-color: rgb(255, 187, 180);
       -webkit-border-radius: 12px;

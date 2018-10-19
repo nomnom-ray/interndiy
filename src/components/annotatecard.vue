@@ -1,5 +1,5 @@
 <template>
-  <view class='todoContainer'>
+  <view class='annotateContainer'>
     <!-- class on i-swipeout doesn't work for existing css in wxss; use class or edit wxss -->
     <!-- pageX starts with button shown at -150 and hide after 800ms timeout -->
     <i-swipeout class='swipe_out_item' operateWidth='275'>
@@ -7,7 +7,7 @@
         <view class="swipe_out_icon" @click='colorHandle' :style="colors[colorPicked]">
         </view>
         <view
-          v-if="propTodo.text.length === 0"
+          v-if="propAnnotate.text.length === 0"
           class='swipe_out_resolution_empty'
         >
           Empty. Try fill it.
@@ -17,21 +17,21 @@
           class='swipe_out_title'
           :class="{'swipe_out_title_completed': doneShow}"
         >
-          {{propTodo.text}}
+          {{propAnnotate.text}}
         </view>
 
         <view class="wipe_out_resolution_title" v-if="showResult">Resolution</view>
         <view
-          v-if="showResult && propTodo.result.length === 0"
+          v-if="showResult && propAnnotate.result.length === 0"
           class='swipe_out_resolution_empty'
         >
           Empty. Try fill it.
         </view>
         <view
-          v-else-if="showResult && propTodo.result.length !== 0"
+          v-else-if="showResult && propAnnotate.result.length !== 0"
           class='swipe_out_resolution'
         >
-          {{propTodo.result}}
+          {{propAnnotate.result}}
         </view>
       </view>
       <view slot="button" class='swipe_out_button_group'>
@@ -66,7 +66,7 @@ export default {
       colorPicked: 0,
     };
   },
-  props: ['propTodo', 'propTodoIndex', 'propBoardIndex', 'propTaskIndex'],
+  props: ['propAnnotate', 'propAnnotateIndex', 'propBoardIndex', 'propBundleIndex'],
   computed: {
     ...mapGetters({
       structures: 'structures',
@@ -74,58 +74,58 @@ export default {
   },
   methods: {
     ...mapActions({
-      todosUpdate: 'todosUpdate',
+      annotatesUpdate: 'annotatesUpdate',
     }),
     deleteHandle() {
-      this.$root.$emit('todoDelete', this.propTodoIndex);
+      this.$root.$emit('annotateDelete', this.propAnnotateIndex);
     },
     doneHandle() {
       this.doneShow = !this.doneShow;
-      this.todosUpdate({
+      this.annotatesUpdate({
         boardIndex: this.propBoardIndex,
-        taskIndex: this.propTaskIndex,
-        todoIndex: this.propTodoIndex,
+        bundleIndex: this.propBundleIndex,
+        annotateIndex: this.propAnnotateIndex,
         type: 'done',
         content: this.doneShow,
       });
     },
     textHandle() {
-      this.$root.$emit('todoText', this.propTodoIndex);
+      this.$root.$emit('annotateText', this.propAnnotateIndex);
     },
     showHandle() {
       this.showResult = !this.showResult;
-      this.todosUpdate({
+      this.annotatesUpdate({
         boardIndex: this.propBoardIndex,
-        taskIndex: this.propTaskIndex,
-        todoIndex: this.propTodoIndex,
+        bundleIndex: this.propBundleIndex,
+        annotateIndex: this.propAnnotateIndex,
         type: 'showResult',
         content: this.showResult,
       });
     },
     resultHandle() {
-      this.$root.$emit('resultText', this.propTodoIndex);
+      this.$root.$emit('resultText', this.propAnnotateIndex);
     },
     colorHandle() {
       this.colorPicked += 1;
       if (this.colorPicked >= 8) {
         this.colorPicked = 0;
       }
-      this.todosUpdate({
+      this.annotatesUpdate({
         boardIndex: this.propBoardIndex,
-        taskIndex: this.propTaskIndex,
-        todoIndex: this.propTodoIndex,
+        bundleIndex: this.propBundleIndex,
+        annotateIndex: this.propAnnotateIndex,
         type: 'colorPicked',
         content: this.colorPicked,
       });
     },
   },
   mounted() {
-    this.showResult = this.structures[this.propBoardIndex].tasks[this.propTaskIndex]
-      .todos[this.propTodoIndex].showResult;
-    this.doneShow = this.structures[this.propBoardIndex].tasks[this.propTaskIndex]
-      .todos[this.propTodoIndex].done;
-    this.colorPicked = this.structures[this.propBoardIndex].tasks[this.propTaskIndex]
-      .todos[this.propTodoIndex].colorPicked;
+    this.showResult = this.structures[this.propBoardIndex].bundles[this.propBundleIndex]
+      .annotates[this.propAnnotateIndex].showResult;
+    this.doneShow = this.structures[this.propBoardIndex].bundles[this.propBundleIndex]
+      .annotates[this.propAnnotateIndex].done;
+    this.colorPicked = this.structures[this.propBoardIndex].bundles[this.propBundleIndex]
+      .annotates[this.propAnnotateIndex].colorPicked;
   },
 };
 </script>

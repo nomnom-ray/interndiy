@@ -4,6 +4,11 @@
     <div class="cardCSSPSC">
       Title: {{propStructure.title}}
     </div>
+    <div
+      v-if='propStructure.bundles[propStructure.bundleOpen]'
+    >
+      bundle: {{propStructure.bundles[propStructure.bundleOpen].title}}
+    </div>
   </a>
 </template>
 
@@ -14,6 +19,8 @@ export default {
     detailURL() {
       return `/pages/structuredetail/main?id=${this.propStructureIndex}`;
     },
+  },
+  mounted() {
   },
 };
 </script>

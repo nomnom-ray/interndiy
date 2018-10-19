@@ -33,6 +33,47 @@
     >
       <div class="weui-uploader__input" @click="chooseImage"></div>
     </div>
+    <van-popup
+    :show="annotatePopupShow"
+    @close="popupCloseHandler()"
+    position='top'
+    >
+      <div class='popupCSSSB'>
+        <input
+          v-if='annotateAddText'
+          class="popupinputCSSSB"
+          v-model='annotateText'
+          :maxlength="200"
+          placeholder="depending"
+        >
+        <input
+          v-else
+          class="popupinputCSSSB"
+          v-model='resultText'
+          :maxlength="200"
+          placeholder="depending"
+        >
+      </div>
+    </van-popup>
+    <div>
+      <div>Image Annotations</div>
+      <app-annotatecard
+        v-if='structures[boardId].bundles[bundleId]'
+        :key='annotateIndex'
+        v-for='(annotate, annotateIndex) in structures[boardId].bundles[bundleId].annotates'
+        :propAnnotate = annotate
+        :propAnnotateIndex = annotateIndex
+        :propBoardIndex = boardId
+        :propBundleIndex = bundleId
+      ></app-annotatecard>
+    </div>
+    <wux-button
+      block
+      outline
+      type="assertive"
+      @click='annotateNew'
+    >Add annotation
+    </wux-button>
     <wux-button
       block
       outline
@@ -47,8 +88,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { $wuxGallery } from '../../util/wux';
+import Annotatecard from '../../components/annotatecard';
 
 export default {
+  components: {
+    appAnnotatecard: Annotatecard,
+  },
   data() {
     return {
       boardId: 0,
@@ -58,6 +103,12 @@ export default {
       picToAdd: true,
       picURLs: [],
       picsTotal: '0',
+      annotatePopupShow: false,
+      annotateText: '',
+      resultText: '',
+      annotateToChange: 0,
+      annotateAddText: false,
+      resultAddText: false,
     };
   },
   computed: {
@@ -81,6 +132,9 @@ export default {
       qualificationUpdate: 'qualificationUpdate',
       bundlesUpdate: 'bundlesUpdate',
       bundlesDel: 'bundlesDel',
+      annotatesAdd: 'annotatesAdd',
+      annotatesUpdate: 'annotatesUpdate',
+      annotatesDel: 'annotatesDel',
     }),
     chooseImage() {
       const that = this;
@@ -169,6 +223,39 @@ export default {
       });
       wx.navigateBack();
     },
+    popupCloseHandler() {
+      this.annotatePopupShow = false;
+      this.annotateText = '';
+      this.resultText = '';
+      this.annotateToChange = '';
+      this.annotateAddText = false;
+      this.resultAddText = false;
+    },
+    annotateNew() {
+      const annotateDetail = {
+        text: '',
+        done: false,
+        result: '',
+        showResult: false,
+        colorPicked: 0,
+      };
+      this.annotatesAdd({
+        boardIndex: this.boardId,
+        bundleIndex: this.bundleId,
+        type: 'add',
+        annotateDetail,
+      });
+      this.annotateAddText = true;
+      this.annotateToChange = this.structures[this.boardId].bundles[this.bundleId]
+        .annotates.length - 1;
+      this.bundlesUpdate({
+        boardIndex: this.boardId,
+        bundleIndex: this.bundleId,
+        type: 'annotatesCount',
+        content: this.structures[this.boardId].bundles[this.bundleId].annotates.length,
+      });
+      this.annotatePopupShow = !this.annotatePopupShow;
+    },
   },
   watch: {
     title() {
@@ -187,7 +274,36 @@ export default {
         content: this.picURLs,
       });
     },
-
+    annotateText() {
+      if (this.annotateToChange !== '') {
+        this.annotatesUpdate({
+          boardIndex: this.boardId,
+          bundleIndex: this.bundleId,
+          annotateIndex: this.annotateToChange,
+          type: 'text',
+          content: this.annotateText,
+        });
+      }
+    },
+    resultText() {
+      if (this.annotateToChange !== '') {
+        this.annotatesUpdate({
+          boardIndex: this.boardId,
+          bundleIndex: this.bundleId,
+          annotateIndex: this.annotateToChange,
+          type: 'result',
+          content: this.resultText,
+        });
+      }
+    },
+    annotatePopupShow() {
+      if (this.annotatePopupShow === true && this.annotateToChange !== '') {
+        this.annotateText = this.structures[this.boardId].bundles[this.bundleId]
+          .annotates[this.annotateToChange].text;
+        this.resultText = this.structures[this.boardId].bundles[this.bundleId]
+          .annotates[this.annotateToChange].result;
+      }
+    },
   },
   mounted() {
     this.boardId = Number(this.$root.$mp.query.board);
@@ -196,6 +312,32 @@ export default {
     this.storageRemainGet();
     this.title = this.structures[this.boardId].bundles[this.bundleId].title || '';
     this.picURLs = this.structures[this.boardId].bundles[this.bundleId].structurePics || [];
+  },
+  created() {
+    this.$root.$on('annotateText', (state) => {
+      this.annotateAddText = true;
+      this.annotatePopupShow = true;
+      this.annotateToChange = state;
+    });
+    this.$root.$on('resultText', (state) => {
+      this.resultAddText = true;
+      this.annotatePopupShow = true;
+      this.annotateToChange = state;
+    });
+    this.$root.$on('annotateDelete', (state) => {
+      this.annotateToChange = state;
+      this.annotatesDel({
+        boardIndex: this.boardId,
+        bundleIndex: this.bundleId,
+        annotateIndex: this.annotateToChange,
+      });
+      this.annotatesUpdate({
+        boardIndex: this.boardId,
+        annotateIndex: this.annotateId,
+        type: 'annotatesCount',
+        content: this.structures[this.boardId].bundles[this.bundleId].annotates.length,
+      });
+    });
   },
 };
 </script>
@@ -249,7 +391,7 @@ export default {
   .weui-uploader__input-box:active:before {
     background-color: #999;
   }
-  
+
   .weui-uploader__input {
     position: absolute;
     z-index: 1;
@@ -259,4 +401,20 @@ export default {
     height: 100%;
     opacity: 0;
   }
+  .popupCSSSB {
+  font-size: 13px;
+  line-height: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  z-index: 999;
+  .popupinputCSSSB{
+    margin-top: 5px;
+    border: 2px solid rgb(190, 0, 165);
+  }
+  .popupfieldsCSSSB{
+    overflow:scroll;
+    margin-top: 5px;
+    border: 2px solid rgb(190, 0, 165);
+  }
+}
 </style>

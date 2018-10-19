@@ -76,6 +76,8 @@ export default {
       qualificationUpdate: 'qualificationUpdate',
       todosAdd: 'todosAdd',
       todosUpdate: 'todosUpdate',
+      annotatesAdd: 'annotatesAdd',
+      annotatesUpdate: 'annotatesUpdate',
     }),
     // add a structure (i.e. board) from the selector if not the first board
     structureAdd() {
@@ -219,7 +221,6 @@ export default {
                   key: `STRUCTURES_${i}_TASKS_${j}_TODOSCOUNT`,
                   success(resTask) {
                     that.tasksUpdate({
-                      // TODO:
                       boardIndex: i,
                       taskIndex: j,
                       type: 'todosCount',
@@ -313,6 +314,8 @@ export default {
                 const bundleDetail = {
                   title: '',
                   structurePics: [],
+                  annotates: [],
+                  annotatesCount: 0,
                 };
                 that.bundlesAdd({ boardIndex: i, type: 'refresh', bundleDetail });
                 wx.getStorage({
@@ -335,6 +338,92 @@ export default {
                       type: 'picURLs',
                       content: resBundle.data,
                     });
+                  },
+                });
+                wx.getStorage({
+                  key: `STRUCTURES_${i}_BUNDLES_${j}_ANNOTATESCOUNT`,
+                  success(resBundle) {
+                    that.bundlesUpdate({
+                      boardIndex: i,
+                      bundleIndex: j,
+                      type: 'annotatesCount',
+                      content: resBundle.data,
+                    });
+                    for (let k = 0; k <= that.structures[i].bundles[j].annotatesCount - 1; k += 1) {
+                      const annotateDetail = {
+                        text: '',
+                        done: false,
+                        result: '',
+                        showResult: false,
+                        colorPicked: 0,
+                      };
+                      that.annotatesAdd({
+                        boardIndex: i,
+                        bundleIndex: j,
+                        type: 'refresh',
+                        annotateDetail,
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_BUNDLES_${j}_ANNOTATES_${k}_TEXT`,
+                        success(resAnnotate) {
+                          that.annotatesUpdate({
+                            boardIndex: i,
+                            bundleIndex: j,
+                            annotateIndex: k,
+                            type: 'text',
+                            content: resAnnotate.data,
+                          });
+                        },
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_BUNDLES_${j}_ANNOTATES_${k}_RESULT`,
+                        success(resAnnotate) {
+                          that.annotatesUpdate({
+                            boardIndex: i,
+                            bundleIndex: j,
+                            annotateIndex: k,
+                            type: 'result',
+                            content: resAnnotate.data,
+                          });
+                        },
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_BUNDLES_${j}_ANNOTATES_${k}_DONE`,
+                        success(resAnnotate) {
+                          that.annotatesUpdate({
+                            boardIndex: i,
+                            bundleIndex: j,
+                            annotateIndex: k,
+                            type: 'done',
+                            content: resAnnotate.data,
+                          });
+                        },
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_BUNDLES_${j}_ANNOTATES_${k}_SHOW`,
+                        success(resAnnotate) {
+                          that.annotatesUpdate({
+                            boardIndex: i,
+                            bundleIndex: j,
+                            annotateIndex: k,
+                            type: 'showResult',
+                            content: resAnnotate.data,
+                          });
+                        },
+                      });
+                      wx.getStorage({
+                        key: `STRUCTURES_${i}_BUNDLES_${j}_ANNOTATES_${k}_COLOR`,
+                        success(resAnnotate) {
+                          that.annotatesUpdate({
+                            boardIndex: i,
+                            bundleIndex: j,
+                            annotateIndex: k,
+                            type: 'colorPicked',
+                            content: resAnnotate.data,
+                          });
+                        },
+                      });
+                    }
                   },
                 });
               }

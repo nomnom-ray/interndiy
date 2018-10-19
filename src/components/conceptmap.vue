@@ -86,10 +86,18 @@
       >
         <view :class="'subjectCSSCM-' + ((subjectIndex % 3) + 1)">
           <div
-          v-if='subject.id != 0'
-          @click='subjectPopupToShow(subjectIndex), subjectSelected=subject.id'
+            v-if="subject.id != 0"
+            class="summaryCSSCM"
+            @click='subjectPopupToShow(subjectIndex), subjectSelected=subject.id'
           >
-            Subject {{subject.id}}: {{subject.summary}}
+            <div v-if="subject.id != 0 && subjectIndex === 1 && subject.summary === ''">
+              Subject {{subject.id}}: Empty summary statement.
+            </div>
+            <div
+              v-else-if="subject.id != 0 && subjectIndex === 1 && subject.summary !== ''"
+            >
+              {{subject.id}}) {{subject.summary}}
+            </div>
           </div>
 
           <app-blanks
@@ -111,6 +119,11 @@
           </app-cards>
         </view>
       </wux-col>
+    </wux-row>
+    <wux-row>
+      <div>Use cards to express a step in the behavior of the overall project.
+        Elaborate a card by creating a subject in an adjacent column.
+        Click on adjacent columns to shift between left and right columns.</div>
     </wux-row>
   </div>
 </template>
@@ -679,5 +692,17 @@
     margin-top: 5px;
     border: 2px solid rgb(190, 0, 165);
   }
+}
+.summaryCSSCM{
+  width: auto;
+  height: 35px;
+  margin: 0 auto;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  direction: ltr;
+  font-size: 75%;
+  text-align: left;
+  background-clip: content-box;
+  background-color: rgb(162, 253, 182);
 }
 </style>
