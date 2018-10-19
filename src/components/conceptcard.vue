@@ -181,7 +181,7 @@
   }
   .containerCSSCC {
     position: relative;
-    width: 150px;
+    width: 290px;
     height: 100px;
     margin: 0 auto;
     text-align: center;
@@ -198,10 +198,14 @@
       -moz-border-radius: 12px;
       border-radius: 12px;
       .questionCSSCC{
-        padding: 5px;
+        text-align: justify;
+        text-justify: inter-word;
+        padding: 0px 10px 0px 10px;
       }
       .descriptionCSSCC{
-        padding: 5px;
+        text-align: justify;
+        text-justify: inter-word;
+        padding: 0px 10px 0px 10px;
         white-space: pre;
       }
     }

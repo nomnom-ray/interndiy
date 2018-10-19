@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style='max-width:100%;overflow-x:hidden'>
     <van-popup
     :show="conceptPopupShow"
     @close="popupCloseHandler()"
@@ -70,18 +70,20 @@
       @close="popupCloseHandler()"
       position='top'
     >
+    <!-- TODO: optimize the maxlength for subject -->
       <input 
         class="popupCSSCM popupinputCSSCM"
         v-model='subjectSummary'
-        :maxlength="200"
+        :maxlength="40"
         placeholder="Subject Summary"
       >
     </van-popup>
+        <!-- :span='(subjectIndex % 2)* 3 + 3' -->
     <wux-row>
       <wux-col
         :key='subjectIndex'
         v-for='(subject, subjectIndex) in subjectSelector'
-        :span='(subjectIndex % 2)* 3 + 3'
+        :span='(subjectIndex % 2)* 9 + 1'
         @click='colClickedHandler(subjectIndex)'
       >
         <view :class="'subjectCSSCM-' + ((subjectIndex % 3) + 1)">
