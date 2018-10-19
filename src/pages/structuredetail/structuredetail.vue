@@ -55,7 +55,7 @@
         </wux-cell>
     </wux-cell-group>
     <div>
-      The opened bundle is the primary strategy that appears on the presentation board.
+      Keep the primary strategy open to display on the presentation board.
     </div>
     <wux-accordion-group
       v-if='structures[id]'

@@ -18,7 +18,7 @@
       :key='index'
       v-for="(url, index) in picURLs"
     >
-      <div class="thumbContainer">
+      <div>
         <img
           class="weui-uploader__img"
           :src="url" mode="aspectFill"
@@ -125,9 +125,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      tasksAdd: 'tasksAdd',
-      tasksDel: 'tasksDel',
-      tasksUpdate: 'tasksUpdate',
       structuresUpdate: 'structuresUpdate',
       qualificationUpdate: 'qualificationUpdate',
       bundlesUpdate: 'bundlesUpdate',
@@ -190,7 +187,7 @@ export default {
               that.storageRemainGet();
             },
           });
-          that.bundlesUpdate({
+          this.bundlesUpdate({
             boardIndex: this.boardId,
             bundleIndex: this.bundleId,
             type: 'picURLs',
@@ -331,9 +328,9 @@ export default {
         bundleIndex: this.bundleId,
         annotateIndex: this.annotateToChange,
       });
-      this.annotatesUpdate({
+      this.bundlesUpdate({
         boardIndex: this.boardId,
-        annotateIndex: this.annotateId,
+        bundleIndex: this.bundleId,
         type: 'annotatesCount',
         content: this.structures[this.boardId].bundles[this.bundleId].annotates.length,
       });

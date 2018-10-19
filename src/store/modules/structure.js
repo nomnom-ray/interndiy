@@ -73,6 +73,10 @@ const mutations = {
       state.structures[payload.boardIndex].tasks[payload.taskIndex]
         .concernsCount = payload.content;
     }
+    if (payload.type === 'picURLs') {
+      state.structures[payload.boardIndex].tasks[payload.taskIndex]
+        .taskPics = payload.content;
+    }
   },
   // eslint-disable-next-line
   BUNDLES_ADD(state, payload) {
@@ -317,11 +321,13 @@ const autosavePlugin = (store) => {
         const {
           title,
           taskDone,
+          taskPics,
           todosCount,
           concernsCount,
         } = strucObject.tasks[taskId];
         localStorageAPI.save(title, `STRUCTURES_${boardId}_TASKS_${taskId}_TITLE`);
         localStorageAPI.save(taskDone, `STRUCTURES_${boardId}_TASKS_${taskId}_DONE`);
+        localStorageAPI.save(taskPics, `STRUCTURES_${boardId}_TASKS_${taskId}_PICS`);
         localStorageAPI.save(todosCount, `STRUCTURES_${boardId}_TASKS_${taskId}_TODOSCOUNT`);
         localStorageAPI.save(concernsCount, `STRUCTURES_${boardId}_TASKS_${taskId}_CONCERNSCOUNT`);
       }
@@ -333,6 +339,10 @@ const autosavePlugin = (store) => {
       if (mutation.payload.type === 'title') {
         const taskTitle = taskObject.title;
         localStorageAPI.save(taskTitle, `STRUCTURES_${boardId}_TASKS_${taskId}_TITLE`);
+      }
+      if (mutation.payload.type === 'picURLs') {
+        const { taskPics } = taskObject;
+        localStorageAPI.save(taskPics, `STRUCTURES_${boardId}_TASKS_${taskId}_PICS`);
       }
       if (mutation.payload.type === 'qualificationList') {
         const taskQualifications = taskObject.qualificationList;
@@ -359,6 +369,7 @@ const autosavePlugin = (store) => {
       for (let i = 0; i <= state.structures.length - 1; i += 1) {
         for (let j = 0; j <= state.structures[i].tasks.length - 1; j += 1) {
           localStorageAPI.save(state.structures[i].tasks[j].title, `STRUCTURES_${i}_TASKS_${j}_TITLE`);
+          localStorageAPI.save(state.structures[i].tasks[j].taskPics, `STRUCTURES_${i}_TASKS_${j}_PICS`);
           localStorageAPI.save(state.structures[i].tasks[j].qualificationList, `STRUCTURES_${i}_TASKS_${j}_QUALIFICATIONS`);
           localStorageAPI.save(state.structures[i].tasks[j].bundleList, `STRUCTURES_${i}_TASKS_${j}_BUNDLES`);
           localStorageAPI.save(state.structures[i].tasks[j].taskDone, `STRUCTURES_${i}_TASKS_${j}_DONE`);
@@ -366,6 +377,7 @@ const autosavePlugin = (store) => {
           localStorageAPI.save(state.structures[i].tasks[j].concernsCount, `STRUCTURES_${i}_TASKS_${j}_CONCERNSCOUNT`);
         }
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_TITLE`);
+        localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_PICS`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_QUALIFICATIONS`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_BUNDLES`);
         localStorageAPI.remove(`STRUCTURES_${i}_TASKS_${state.structures[i].tasks.length}_DONE`);

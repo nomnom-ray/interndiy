@@ -9,7 +9,7 @@
       <wux-accordion
         :key="structureIndex"
         v-for='(structure, structureIndex) in structures'
-        :title="'board' + structure.title"
+        :title="'board' + (structureIndex + 1) + ': ' + structure.title"
         :name="structureIndex"
       >
         <app-task-card

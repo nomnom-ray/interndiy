@@ -176,6 +176,17 @@ export default {
                   },
                 });
                 wx.getStorage({
+                  key: `STRUCTURES_${i}_TASKS_${j}_PICS`,
+                  success(resTask) {
+                    that.tasksUpdate({
+                      boardIndex: i,
+                      taskIndex: j,
+                      type: 'picURLs',
+                      content: resTask.data,
+                    });
+                  },
+                });
+                wx.getStorage({
                   key: `STRUCTURES_${i}_TASKS_${j}_QUALIFICATIONS`,
                   success(resTask) {
                     that.tasksUpdate({
