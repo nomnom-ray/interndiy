@@ -221,7 +221,7 @@ export default {
       this.todoAddText = false;
       this.resultAddText = false;
     },
-    todoNew() {
+    async todoNew() {
       const todoDetail = {
         text: '',
         done: false,
@@ -243,7 +243,8 @@ export default {
         type: 'todosCount',
         content: this.structures[this.boardId].tasks[this.taskId].todos.length,
       });
-      this.todoPopupShow = !this.todoPopupShow;
+      await new Promise(resolve => setTimeout(resolve, 800));
+      this.todoPopupShow = true;
     },
     qualificationClicked(qualificationIndex) {
       wx.navigateTo({
