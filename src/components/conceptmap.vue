@@ -74,7 +74,7 @@
       <input 
         class="popupCSSCM popupinputCSSCM"
         v-model='subjectSummary'
-        :maxlength="40"
+        :maxlength="60"
         placeholder="Subject Summary"
       >
     </van-popup>
@@ -92,8 +92,8 @@
             class="summaryCSSCM"
             @click='subjectPopupToShow(subjectIndex), subjectSelected=subject.id'
           >
-            <div v-if="subject.id != 0 && subjectIndex === 1 && subject.summary === ''">
-              Subject {{subject.id}}: Empty summary statement.
+            <div class='summary_empty_CSSCM' v-if="subject.id != 0 && subjectIndex === 1 && subject.summary === ''">
+              Subject {{subject.id}}: Click to add a summary statement.
             </div>
             <div
               v-else-if="subject.id != 0 && subjectIndex === 1 && subject.summary !== ''"
@@ -101,24 +101,22 @@
               {{subject.id}}) {{subject.summary}}
             </div>
           </div>
-
           <app-blanks
           :key='blankIndex'
           v-for='(blank, blankIndex) in subject.concepts[0].id'
           >
           </app-blanks>
-
-          <app-cards
-          :key='conceptIndex'
-          v-if='subject.id != 0'
-          v-for='(concept, conceptIndex) in subject.concepts'
-          :propConcept='concept'
-          :propSubject='subject.id'
-          :propConceptClickReset='conceptClickReset'
-          :propSubjectRelations='subjectRelations'
-          :propSubjectIndex='subjectIndex'
-          >
-          </app-cards>
+            <app-cards
+            :key='conceptIndex'
+            v-if='subject.id != 0'
+            v-for='(concept, conceptIndex) in subject.concepts'
+            :propConcept='concept'
+            :propSubject='subject.id'
+            :propConceptClickReset='conceptClickReset'
+            :propSubjectRelations='subjectRelations'
+            :propSubjectIndex='subjectIndex'
+            >
+            </app-cards>
         </view>
       </wux-col>
     </wux-row>
@@ -666,24 +664,23 @@
   text-align: right;
   direction: rtl;
   background-clip: content-box;
-  background-color: rgb(162, 253, 182);
+  background-color: #fafafc;
 }
 .subjectCSSCM-2 {
   text-align: center;
   background-clip: content-box;
-  background-color: rgb(102, 250, 134);
+  background-color: #fafafc;
 }
 .subjectCSSCM-3 {
   text-align: left;
   direction: ltr;
   background-clip: content-box;
-  background-color: rgb(162, 253, 182);
+  background-color: #fafafc;
 }
 .popupCSSCM {
   font-size: 13px;
   line-height: 30px;
   margin-bottom: 10px;
-  text-align: center;
   z-index: 999;
   .popupinputCSSCM{
     margin-top: 5px;
@@ -704,7 +701,19 @@
   direction: ltr;
   font-size: 75%;
   text-align: left;
+  border-bottom: 2px solid #264436;
   background-clip: content-box;
-  background-color: rgb(162, 253, 182);
+  background-color: #f4cf6c;
+}
+.summary_empty_CSSCM{
+  margin: 0;
+  position: relative;
+  font-size: 100%;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #264436;
 }
 </style>

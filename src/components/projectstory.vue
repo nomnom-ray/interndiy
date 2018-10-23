@@ -14,6 +14,12 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
+  data() {
+    return {
+      animeIn: false,
+      animeNum: [0, 1, 2, 3],
+    };
+  },
   computed: {
     ...mapGetters({
       projectStory: 'projectStory',

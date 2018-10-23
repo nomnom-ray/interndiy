@@ -11,19 +11,14 @@
       :class='{red: conceptIsClicked, conceptChild: arrowLeftShow}'
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
-      <div v-if='propSubject === 1 && propConcept.id === 0'>Trigger Event</div>
-      <div v-else-if='propSubject === 1 && propConcept.id === subjects[1].concepts.length - 1'>Objective Result</div>
-      <div v-else></div>
-      <div v-if="propConcept.question === ''">Empty question</div>
-      <div v-else class="questionCSSCC">
-        {{propConcept.question}}
-      </div>
-      <div v-if="propSubject === 1 && propConcept.id === 0 && propConcept.description === ''">Empty Trigger Event</div>
-      <div v-else-if="propConcept.description === ''">Empty step</div>
-      <div v-else-if="propSubject === 1 && propConcept.id === subjects[1].concepts.length - 1  && propConcept.description === ''">Empty Objective Result</div>
-      <div v-else class="descriptionCSSCC">
-        {{propConcept.description}}
-      </div>
+        <div class='questionCSSCC' v-if="propConcept.question !== ''"><span class='title_CSSCC'>Context: </span>{{propConcept.question}}</div>
+
+        <div class='description_empty_CSSCC' v-if="propSubjectIndex === 1 && propSubject === 1 && propConcept.id === 0 && propConcept.description === ''">Click to describe a trigger behavior.</div>
+        <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id !== subjects[1].concepts.length - 1  && propConcept.description === ''">Click to describe an intermediary behavior.</div>
+        <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id === subjects[1].concepts.length - 1  && propConcept.description === ''">Click to describe the resulting behavior.</div>
+        <div :class="propConcept.question === '' ? 'description_full_CSSCC' : 'descriptionCSSCC'" v-else-if="propSubjectIndex === 1">
+          {{propConcept.description}}
+        </div>
     </div>
   </div>
 </template>
@@ -173,43 +168,93 @@
 
 <style lang="scss" scoped>
   .red {
-    border: 2px solid rgb(190, 0, 165);
+    border: 2px solid #264436;
   }
   .conceptChild {
-    background-color: grey !important;
-    border-color: grey !important;
+    background-color: grey;
+    border-color: grey;
   }
   .containerCSSCC {
     position: relative;
     width: 290px;
-    height: 100px;
+    height: 150px;
     margin: 0 auto;
-    text-align: center;
     margin-top: 10px;
-    margin-bottom: 14px;
-
+    margin-bottom: 12px;
     .cardCSSCC {
       width: 100%;
       height: 100%;
       font-size: 75%;
       background-clip: content-box;
-      background-color: rgb(255, 187, 180);
+      background-color: #eff1f7;
       -webkit-border-radius: 12px;
       -moz-border-radius: 12px;
-      border-radius: 12px;
+      box-shadow: 0 2px 0 rgba(9,45,66,.25);
+      border-radius: 6px;
+      .title_CSSCC{
+        font-weight: bold;
+      }
       .questionCSSCC{
-        text-align: justify;
-        text-justify: inter-word;
-        padding: 0px 10px 0px 10px;
+        width: auto;
+        max-height: 22px;
+        overflow: hidden;
+        text-align: left;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        position: relative;
+        border-radius: 6px;
+        background: #e3e5ee;
+        padding: 5px 13px 3px 13px;
+      }
+      .description_empty_CSSCC{
+        margin: 0;
+        position: relative;
+        font-size: 120%;
+        left: 50%;
+        top: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        color: grey;
       }
       .descriptionCSSCC{
+        width: auto;
+        max-height: 115px;
+        overflow:hidden;
         text-align: justify;
         text-justify: inter-word;
-        padding: 0px 10px 0px 10px;
-        white-space: pre;
+        position: relative;
+        padding: 7px 13px 0px 13px;
+        white-space: pre-wrap;
+      }
+      .descriptionCSSCC:before{
+        content:'';
+        width: 100%;
+        height: 100%;
+        position:absolute;
+        left:0;
+        top:0;
+        background:linear-gradient(transparent 95px, #eff1f7);
+      }
+      .description_full_CSSCC{
+        width: auto;
+        max-height: 140px;
+        overflow:hidden;
+        text-align: justify;
+        text-justify: inter-word;
+        position: relative;
+        padding: 7px 13px 0px 13px;
+        white-space: pre-wrap;
+      }
+      .description_full_CSSCC:before{
+        content:'';
+        width: 100%;
+        height: 100%;
+        position:absolute;
+        left:0;
+        top:0;
+        background:linear-gradient(transparent 120px, #eff1f7);
       }
     }
-
     .arrowrightCSSCC {
       position: absolute;
       top: 50%;
@@ -220,7 +265,7 @@
       position: absolute;
       border-style: solid;
       border-width: 26px 0 26px 15px;
-      border-color: transparent #343F53;
+      border-color: transparent #264436;
       display: block;
       width: 0;
       z-index: 99;
@@ -233,7 +278,7 @@
       position: absolute;
       border-style: solid;
       border-width: 24px 0 24px 14px;
-      border-color: transparent rgb(255, 187, 180);
+      border-color: transparent #eff1f7;
       display: block;
       width: 0;
       z-index: 99;
@@ -252,7 +297,7 @@
       position: absolute;
       border-style: solid;
       border-width: 26px 0 26px 15px;
-      border-color: transparent #343F53;
+      border-color: transparent #264436;
       display: block;
       width: 0;
       z-index: 99;
@@ -265,7 +310,7 @@
       position: absolute;
       border-style: solid;
       border-width: 24px 0 24px 14px;
-      border-color: transparent grey;
+      border-color: transparent #eff1f7;
       display: block;
       width: 0;
       z-index: 99;
@@ -284,7 +329,7 @@
       position: absolute;
       border-style: solid;
       border-width: 26px 0 26px 15px;
-      border-color: transparent #343F53;
+      border-color: transparent #264436;
       display: block;
       width: 0;
       z-index: 0;
@@ -297,7 +342,7 @@
       position: absolute;
       border-style: solid;
       border-width: 24px 0 24px 14px;
-      border-color: transparent rgb(102, 250, 134);
+      border-color: transparent #fafafc;
       display: block;
       width: 0;
       z-index: 1;
@@ -316,7 +361,7 @@
       position: absolute;
       border-style: solid;
       border-width: 15px 26px 0;
-      border-color: #343F53 transparent;
+      border-color: #264436 transparent;
       display: block;
       width: 0;
       z-index: 99;
@@ -329,7 +374,7 @@
       position: absolute;
       border-style: solid;
       border-width: 14px 24px 0;
-      border-color: rgb(255, 187, 180) transparent;
+      border-color: #eff1f7 transparent;
       display: block;
       width: 0;
       z-index: 99;
@@ -348,7 +393,7 @@
       position: absolute;
       border-style: solid;
       border-width: 15px 26px 0;
-      border-color: #343F53 transparent;
+      border-color: #264436 transparent;
       display: block;
       width: 0;
       z-index: 99;
@@ -361,7 +406,7 @@
       position: absolute;
       border-style: solid;
       border-width: 14px 24px 0;
-      border-color: grey transparent;
+      border-color: #eff1f7 transparent;
       display: block;
       width: 0;
       z-index: 99;
@@ -380,7 +425,7 @@
       position: absolute;
       border-style: solid;
       border-width: 15px 26px 0;
-      border-color: #343F53 transparent;
+      border-color: #264436 transparent;
       display: block;
       width: 0;
       z-index: 0;
@@ -393,7 +438,7 @@
       position: absolute;
       border-style: solid;
       border-width: 14px 24px 0;
-      border-color: rgb(102, 250, 134) transparent;
+      border-color: #fafafc transparent;
       display: block;
       width: 0;
       z-index: 1;

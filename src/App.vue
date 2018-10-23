@@ -8,7 +8,7 @@ export default {
 <style>
   /*
   fafafc - white
-  e3e5ee - grey
+  e3e5ee - eff1f7 - grey
   f4cf6c - yellow
   264436 - green
   161d20 - black

@@ -5,6 +5,7 @@
       v-model='jobTitleGETSET'
       :maxlength="200"
       placeholder="Job Title"
+      confirm-type
     >
     <input
       class="originfieldsCSSCO"
