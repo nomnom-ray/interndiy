@@ -203,7 +203,7 @@
         text-overflow: ellipsis;
         position: relative;
         border-radius: 6px;
-        background: #e3e5ee;
+        background: #e3e5eef1;
         padding: 5px 13px 3px 13px;
       }
       .description_empty_CSSCC{

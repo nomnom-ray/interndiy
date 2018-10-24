@@ -1,84 +1,96 @@
 <template>
   <div style='max-width:100%;overflow-x:hidden'>
+    <wux-toast id="wux-toast" />
     <van-popup
     :show="conceptPopupShow"
     @close="popupCloseHandler()"
     position='top'
     >
-      <div class='popupCSSCM'>
-        <input 
-          class="popupinputCSSCM"
-          v-model='conceptQuestion'
-          :maxlength="200"
-          placeholder="Qualification Title"
-          :disabled='topAddDisable && !triggerTopDisable'
-        >
-        <textarea
-          class="popupfieldsCSSCM"
-          v-model='conceptDescription'
-          :maxlength="200"
-          placeholder="Qualification Description"
-          :disabled='topAddDisable && !triggerTopDisable'
-        >
-        </textarea>
-      </div>
-      
-      <wux-row gutter='15'>
-        <wux-col span='2'>
-          <van-button
-            block
-            plain
+      <wux-divider position="left" :text="'1. Behavior description (' + conceptDescription.length + '/600)'" />
+      <wux-row>
+        <wux-wing-blank size="large">
+          <textarea
+            class="popup_description_CSSCM"
+            v-model='conceptDescription'
+            :maxlength="600"
+            placeholder="Describe a single behavior to connect the prior and proceeding steps."
+            :disabled='topAddDisable && !triggerTopDisable'
+          >
+          </textarea>
+        </wux-wing-blank>
+      </wux-row>
+      <wux-white-space />
+      <wux-divider position="left" :text="'2. Contextual question (' + conceptQuestion.length + '/300)'" />
+      <wux-row>
+        <wux-wing-blank size="large">
+          <textarea 
+            class='popup_question_CSSCM'
+            v-model='conceptQuestion'
+            :maxlength="300"
+            placeholder="Add context to the description using a question which asks 'How'."
+            :disabled='topAddDisable && !triggerTopDisable'
+          ></textarea>
+        </wux-wing-blank>
+      </wux-row>
+      <wux-divider position="left" text="3. From this step" />  
+      <wux-row>
+        <wux-col span='5' push='1'>
+          <button
+            class='button_new_CSSCM'
             @click='conceptAddTop'
             :disabled='conceptsSelected.length != 1 | topAddDisable'
-          >T
-          </van-button>
+          >Add prior step
+          </button>
         </wux-col>
-
-        <wux-col span='2'>
-          <van-button
-            block
-            plain
-            @click='conceptAddBottom'
-            :disabled="conceptsSelected.length != 1 | resultBottomDisable"
-          >B
-          </van-button>
-        </wux-col>
-        
-        <wux-col span='2'>
-          <van-button
-            block
-            plain
-            @click='conceptDelete'
-            :disabled="conceptsSelected.length != 1 | resultBottomDisable | triggerTopDisable"
-          >D
-          </van-button>
-        </wux-col>
-
-        <wux-col span='2'>
-          <van-button
-            block
-            plain
+        <wux-col span='5' push='1'>
+          <button
+            class='button_new_CSSCM'
             @click='subjectNew'
             :disabled="conceptsSelected.length != 1 | topAddDisable | resultBottomDisable"
-          >{{ topAddDisable ? 'P' : 'S' }}
-          </van-button>
+          >{{ topAddDisable ? 'Add from parent' : 'Create new subject' }}
+          </button>
         </wux-col>
-    </wux-row>
+      </wux-row>
+      <wux-white-space />
+      <wux-row>
+        <wux-col span='5' push='1'>
+          <button
+            class='button_new_CSSCM'
+            @click='conceptAddBottom'
+            :disabled="conceptsSelected.length != 1 | resultBottomDisable"
+          >Add proceeding step
+          </button>
+        </wux-col>
+        <wux-col span="5" push='1'>
+          <button
+            class='button_delete_CSSCM'
+            @click='conceptDelete'
+            :disabled="conceptsSelected.length != 1 | resultBottomDisable | triggerTopDisable"
+          >Delete this step
+          </button>
+        </wux-col>
+      </wux-row>
+      <wux-white-space />
     </van-popup>
     <van-popup
       :show="subjectPopupShow"
       @close="popupCloseHandler()"
       position='top'
     >
-    <!-- TODO: optimize the maxlength for subject -->
-      <input 
-        class="popupCSSCM popupinputCSSCM"
-        v-model='subjectSummary'
-        :maxlength="60"
-        placeholder="Subject Summary"
-      >
+      <wux-divider position="left" :text="'Subject summary (' + subjectSummary.length + '/200)'" />
+      <wux-row>
+        <wux-wing-blank size="large">
+          <textarea
+            class="popup_summary_CSSCM"
+            v-model='subjectSummary'
+            :maxlength="200"
+            placeholder="Describe the theme of this subject column."
+          >
+          </textarea>
+        </wux-wing-blank>
+      </wux-row>
+      <wux-white-space />
     </van-popup>
-        <!-- :span='(subjectIndex % 2)* 3 + 3' -->
     <wux-row>
       <wux-col
         :key='subjectIndex'
@@ -121,15 +133,21 @@
       </wux-col>
     </wux-row>
     <wux-row>
-      <div>Use cards to express a step in the behavior of the overall project.
-        Elaborate a card by creating a subject in an adjacent column.
-        Click on adjacent columns to shift between left and right columns.</div>
+      <icon
+        type="info"
+        size="60"
+        color='rgba(9,45,66,.08)'
+      />
+      <div>Use cards to express a step in the behavior of the project.</div>
+      <div>Elaborate on a step by creating a subject in an adjacent column.</div>
+      <div>Click on an adjacent card to shift between left and right columns.</div>
     </wux-row>
   </div>
 </template>
 
 <script>
   import { mapGetters, mapActions } from 'vuex';
+  import { $wuxToast } from '../util/wux';
   import Cards from './conceptcard';
   import Blanks from './conceptblank';
 
@@ -401,8 +419,9 @@
         this.conceptDescription = '';
         this.subjectSummary = '';
       },
-      conceptAddTop() {
+      async conceptAddTop() {
         if (this.conceptsSelected.length === 1) {
+          this.conceptPopupShow = false;
           const subjectIndex = this.subjects.map(element => element.id)
             .indexOf(this.conceptsSelected[0].subjectId);
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
@@ -413,6 +432,7 @@
             description: '',
           };
           concept.id = conceptIndex;
+          await new Promise(resolve => setTimeout(resolve, 300));
           this.conceptsAdd({ subjectIndex, position: 'top', concept });
           // [CAUTION] without reassignment, there is no binding between index and id
           // reassign original ID including and after selected
@@ -428,8 +448,9 @@
           this.popupCloseHandler();
         }
       },
-      conceptAddBottom() {
+      async conceptAddBottom() {
         if (this.conceptsSelected.length === 1) {
+          this.conceptPopupShow = false;
           const subjectIndex = this.subjects.map(element => element.id)
             .indexOf(this.conceptsSelected[0].subjectId);
           const conceptIndex = this.subjects[subjectIndex].concepts.map(element => element.id)
@@ -440,6 +461,7 @@
             description: '',
           };
           concept.id = conceptIndex + 2;
+          await new Promise(resolve => setTimeout(resolve, 300));
           this.conceptsAdd({ subjectIndex, position: 'bottom', concept });
           // reassign original ID including and after selected
           for (let j = subjectIndex; j <= this.subjects.length - 1; j += 1) {
@@ -452,16 +474,22 @@
           this.popupCloseHandler();
         }
       },
-      conceptDelete() {
+      async conceptDelete() {
         if (this.conceptsSelected.length === 1) {
+          this.conceptPopupShow = false;
           const parentRecord = this.subjectRelations
             .find(element => element.parentId.subject.id ===
               this.conceptsSelected[0].subjectId &&
                 element.parentId.concept.id === this.conceptsSelected[0].conceptId);
+          await new Promise(resolve => setTimeout(resolve, 300));
           // is the clicked concept a parent?
           if (parentRecord) {
-            // eslint-disable-next-line
-            console.log('please delete children first');
+            $wuxToast().show({
+              type: 'cancel',
+              duration: 2000,
+              color: '#fff',
+              text: 'Undelete subjects',
+            });
             this.popupCloseHandler();
             return;
           }
@@ -469,8 +497,12 @@
             .indexOf(this.conceptsSelected[0].subjectId);
           if (this.subjects[subjectIndex].concepts.length > 1 &&
           this.conceptsSelected[0].conceptId === this.subjects[subjectIndex].concepts[0].id) {
-            // eslint-disable-next-line
-            console.log('please delete concepts first');
+            $wuxToast().show({
+              type: 'cancel',
+              duration: 2000,
+              color: '#fff',
+              text: 'Undelete cards',
+            });
             this.popupCloseHandler();
             return;
           }
@@ -518,8 +550,9 @@
           this.popupCloseHandler();
         }
       },
-      subjectNew() {
+      async subjectNew() {
         if (this.conceptsSelected.length === 1) {
+          this.conceptPopupShow = false;
           // condition to limit actionable concepts
           const subjectIndex = this.subjects.map(element => element.id)
             .indexOf(this.conceptsSelected[0].subjectId);
@@ -551,7 +584,7 @@
           const parentRecord = this.subjectRelations.find(element => element.parentId.subject.id ===
             this.conceptsSelected[0].subjectId &&
             element.parentId.concept.id === this.conceptsSelected[0].conceptId);
-
+          await new Promise(resolve => setTimeout(resolve, 300));
           if (parentRecord) {
             // if as both sub & con parent, then the new subject is adjacent to an existing kid
             // console.log('both con/sub parent');
@@ -677,20 +710,23 @@
   background-clip: content-box;
   background-color: #fafafc;
 }
-.popupCSSCM {
-  font-size: 13px;
-  line-height: 30px;
-  margin-bottom: 10px;
-  z-index: 999;
-  .popupinputCSSCM{
-    margin-top: 5px;
-    border: 2px solid rgb(190, 0, 165);
-  }
-  .popupfieldsCSSCM{
-    overflow:scroll;
-    margin-top: 5px;
-    border: 2px solid rgb(190, 0, 165);
-  }
+.popup_question_CSSCM{
+  width: 100%;
+  height: 50px;
+  overflow:scroll;
+  font-size: 75%;
+}
+.popup_description_CSSCM{
+  width: 100%;
+  height: 100px;
+  overflow:scroll;
+  font-size: 75%;
+}
+.popup_summary_CSSCM{
+  width: 100%;
+  height: 100px;
+  overflow:scroll;
+  font-size: 75%;
 }
 .summaryCSSCM{
   width: auto;
@@ -715,5 +751,29 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   color: #264436;
+}
+.button_delete_CSSCM{
+  background-color: white;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #f44336;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.button_new_CSSCM{
+  background-color: #f4cf6c;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 </style>
