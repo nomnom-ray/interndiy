@@ -1,87 +1,123 @@
 <template>
   <div>
-    bundle: {{boardId}} + {{bundleId}}
-    <input
-      class="titleCSSSB"
-      v-model='title'
-      :maxlength="100"
-      placeholder="bundle Title"
-    >
+    <wux-divider position="left" :text="'1. Title of strategy ' + bundleId + ' in subcategory ' + boardId" />
+    <wux-wing-blank size="large">
+      <textarea
+        class="titleCSSSB"
+        v-model='title'
+        :maxlength="100"
+        placeholder="Name this strategy for implementing the subcategorized behaviors in the project story."
+      >
+      </textarea>
+    </wux-wing-blank>
+    <wux-divider position="left" :text="'2. Strategy visualization (' + picURLs.length + '/1 picture)'" />
 
-    <div>
-      <div>Upload Picture</div>
-      <div>{{picURLs.length}}/1</div>
-      <div v-if='picsTotal != 0'>Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.</div>
-    </div>
     <wux-gallery v-if='pageActive === 6' id="wux-gallery"></wux-gallery>
     <div
       :key='index'
       v-for="(url, index) in picURLs"
     >
-      <div>
-        <img
-          class="weui-uploader__img"
-          :src="url" mode="aspectFill"
-          @click="showGallery(url, index)"
-          :id="index"
-        />
+    <wux-wing-blank size="small">
+      <img
+        class="pic_position_CSSSB"
+        :src="url" mode="aspectFit"
+        @click="showGallery(url, index)"
+        :id="index"
+      />
+    </wux-wing-blank>
+    </div>
+    <div class='uploader_position_CSSSB'>
+      <div
+        v-if='picURLs.length < 1'
+        class="weui-uploader__input-box"
+      >
+        <div class="weui-uploader__input" @click="chooseImage"></div>
       </div>
     </div>
-    <div
-      v-if='picURLs.length < 1'
-      class="weui-uploader__input-box"
-    >
-      <div class="weui-uploader__input" @click="chooseImage"></div>
-    </div>
+
+    <wux-row>
+      <wux-col span='9' push='3'>
+        <div class='info_file_CSSSB' v-if='picsTotal != 0'>
+          <span style='color:red'>*</span>
+          Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.
+        </div>
+      </wux-col>
+    </wux-row>
+
     <van-popup
     :show="annotatePopupShow"
     @close="popupCloseHandler()"
     position='top'
     >
-      <div class='popupCSSSB'>
-        <input
-          v-if='annotateAddText'
-          class="popupinputCSSSB"
-          v-model='annotateText'
-          :maxlength="200"
-          placeholder="depending"
-        >
-        <input
-          v-else
-          class="popupinputCSSSB"
-          v-model='resultText'
-          :maxlength="200"
-          placeholder="depending"
-        >
-      </div>
+      <wux-divider position="left" :text="'Annotation: description (' + annotateText.length + '/200), detail (' + resultText.length + '/400)'" />
+      <wux-row>
+        <wux-wing-blank size="large">
+          <textarea
+            v-if='annotateAddText'
+            class="popup_annotate_CSSSB"
+            v-model='annotateText'
+            :maxlength="200"
+            placeholder="Name an annotation on the sketch; click on the left-side icon to match it by color."
+          >
+          </textarea>
+          <textarea
+            v-else
+            class="popup_annotate_CSSSB"
+            v-model='resultText'
+            :maxlength="400"
+            placeholder="Describe how this component results in subcategory behavior."
+          >
+          </textarea>
+        </wux-wing-blank>
+      </wux-row>
+      <wux-white-space />
     </van-popup>
-    <div>
-      <div>Image Annotations</div>
-      <app-annotatecard
-        v-if='structures[boardId].bundles[bundleId]'
-        :key='annotateIndex'
-        v-for='(annotate, annotateIndex) in structures[boardId].bundles[bundleId].annotates'
-        :propAnnotate = annotate
-        :propAnnotateIndex = annotateIndex
-        :propBoardIndex = boardId
-        :propBundleIndex = bundleId
-      ></app-annotatecard>
-    </div>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      @click='annotateNew'
-    >Add annotation
-    </wux-button>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      :disabled="clicked"
-      @click='bundleDelete'
-    >Delete
-    </wux-button>
+    <wux-divider position="left" text="3. Description of annotations" />
+    <app-annotatecard
+      v-if='structures[boardId].bundles[bundleId]'
+      :key='annotateIndex'
+      v-for='(annotate, annotateIndex) in structures[boardId].bundles[bundleId].annotates'
+      :propAnnotate = annotate
+      :propAnnotateIndex = annotateIndex
+      :propBoardIndex = boardId
+      :propBundleIndex = bundleId
+    ></app-annotatecard>
+
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_new_CSSSB'
+        @click='annotateNew'
+      >Add annotation
+      </button>
+    </wux-wing-blank>
+
+    <wux-white-space />
+    <wux-row>
+      <wux-col span='10' push='1'>
+        <div class='info_icon_CSSSB'>
+          <icon
+            type="info"
+            size="50"
+            color='rgba(9,45,66,.08)'
+          />
+        </div>
+        <div class='info_content_CSSSB'>1. Sketch a strategy for visualization on paper.</div>
+        <div class='info_content_CSSSB'>2. Mark the sketch with colored annotations.</div>
+        <div class='info_content_CSSSB'>3. Correlate the annotations with description.</div>
+      </wux-col>
+    </wux-row>
+
+    <wux-white-space />
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_delete_CSSSB'
+        @click='bundleDelete'
+      >Delete
+      </button>
+    </wux-wing-blank>
+    <wux-white-space />
   </div>
 </template>
 
@@ -193,6 +229,8 @@ export default {
             type: 'picURLs',
             content: [],
           });
+          that.picURLs = that.structures[that.boardId].bundles[that.bundleId]
+            .structurePics;
           return true;
         },
         onTap() {
@@ -341,9 +379,10 @@ export default {
 
 <style lang="scss" scoped>
   .titleCSSSB {
-    position: relative;
-    border: 2px solid rgb(190, 0, 165);
-    padding: 50rpx;
+    width: 100%;
+    height: 50px;
+    overflow:scroll;
+    font-size: 80%;
   }
   .weui-uploader__img {
     display: block;
@@ -398,20 +437,53 @@ export default {
     height: 100%;
     opacity: 0;
   }
-  .popupCSSSB {
-  font-size: 13px;
-  line-height: 30px;
-  margin-bottom: 10px;
+.info_file_CSSSB{
+  font-size: 75%;
+}
+.uploader_position_CSSSB{
+  width: 77px;
+  margin: 0 auto;
+}
+.pic_position_CSSSB{
+  width: 100%;
+}
+.button_delete_CSSSB{
+  background-color: white;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #f44336;
   text-align: center;
-  z-index: 999;
-  .popupinputCSSSB{
-    margin-top: 5px;
-    border: 2px solid rgb(190, 0, 165);
-  }
-  .popupfieldsCSSSB{
-    overflow:scroll;
-    margin-top: 5px;
-    border: 2px solid rgb(190, 0, 165);
-  }
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.button_new_CSSSB{
+  background-color: #f4cf6c;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.info_icon_CSSSB{
+  width: 60px;
+  margin: 0 auto;
+}
+.info_content_CSSSB{
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 80%;
+}
+.popup_annotate_CSSSB{
+  width: 100%;
+  height: 100px;
+  overflow:scroll;
+  font-size: 80%;
 }
 </style>

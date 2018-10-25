@@ -12,6 +12,9 @@
     "wux-cell": "../../../static/wux/cell/index",
     "i-drawer": "../../../static/iview/drawer/index",
     "wux-accordion-group": "../../../static/wux/accordion-group/index",
-    "wux-accordion": "../../../static/wux/accordion/index"
+    "wux-accordion": "../../../static/wux/accordion/index",
+    "wux-divider": "../../../static/wux/divider/index",
+    "wux-wing-blank": "../../../static/wux/wing-blank/index",
+    "wux-white-space": "../../../static/wux/white-space/index"
   }
 }

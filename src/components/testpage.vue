@@ -71,7 +71,7 @@ export default {
       resultAddText: false,
       todos: [
         {
-          text: 'drink coffee',
+          text: 'drink coffee drink coffeedrink coffeedrink coffeedrink coffeedrink coffeedrink coffeedrink coffeedrink coffee',
           done: true,
           result: '',
           showResult: false,

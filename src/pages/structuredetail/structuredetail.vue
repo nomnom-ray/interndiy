@@ -1,24 +1,9 @@
 <template>
   <div>
-    <wux-toptips id="wux-toptips-structure" />
-    <input 
-      class="titleCSSSD"
-      v-model='title'
-      :maxlength="100"
-      placeholder="Board Title"
-    >
-    <icon type="info" size="23" color='rbg(0, 255, 255)'/>
-    <wux-button
-      block
-      clear
-      type="assertive"
-      @click='drawerToggle'
-    >Add Concepts
-    </wux-button>
+    <wux-toptips id="wux-toptips" />
     <i-drawer mode="right" :visible="showDrawer" @close="drawerToggle">
       <view class='drawerCSSSD'>
       <wux-accordion-group
-        title="concepts"
         :auto='false'
         :current='subjectOpen'
         @change="subjectChange"
@@ -27,7 +12,7 @@
           v-if='subject.id != 0'
           :key="subjectIndex"
           v-for='(subject, subjectIndex) in subjects'
-          :title="'subject' + subject.id"
+          :title="'subject ' + subject.id + ': ' + subject.summary"
           :name="subjectIndex"
         >
           <wux-checkbox-group
@@ -38,28 +23,54 @@
               :key='conceptIndex'
               v-for='(concept, conceptIndex) in subject.concepts'
               color="assertive"
-              :title="'concept' + concept.id + ': ' + concept.question"
+              :title="'concept ' + concept.id + ': ' + concept.description"
               :value="concept.id" />
           </wux-checkbox-group>
         </wux-accordion>
       </wux-accordion-group>
       </view>
     </i-drawer>
-    <wux-cell-group title="concepts">
-        <wux-cell
-          :key='conceptIndex'
-          v-for='(concept, conceptIndex) in conceptList'
-          :title="subjects[concept.subjectId].concepts[concept.conceptId - subjects[concept.subjectId].concepts[0].id].question"
-          @click='conceptListedClicked(concept.subjectId, concept.conceptId)'
+
+    <wux-divider position="left" :text="'1. Theme title of subcategory ' + id" />
+      <wux-wing-blank size="large">
+        <textarea
+          class="titleCSSSD"
+          v-model='title'
+          :maxlength="100"
+          placeholder="The theme may be titled with an subject summary or few words that summarize part of the subject."
         >
-        </wux-cell>
-    </wux-cell-group>
-    <div>
-      Keep the primary strategy open to display on the presentation board.
-    </div>
+        </textarea>
+      </wux-wing-blank>
+
+    <wux-divider position="left" :text="'2. Relevant behaviors in subcategory ' + id" />
+      <wux-wing-blank size="large">
+        <wux-cell-group>
+          <wux-cell
+            :key='conceptIndex'
+            v-for='(concept, conceptIndex) in conceptList'
+            :title="subjects[concept.subjectId].concepts[concept.conceptId - subjects[concept.subjectId].concepts[0].id].description"
+            @click='conceptListedClicked(concept.subjectId, concept.conceptId)'
+          >
+          </wux-cell>
+        </wux-cell-group>
+      </wux-wing-blank>
+      <wux-white-space />
+      <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+        <button
+          class='button_new_CSSSD'
+          @click='drawerToggle'
+        >Select behaviors
+        </button>
+      </wux-wing-blank>
+    <wux-divider position="left" :text="'3. Strategies for subcategory ' + id" />
+    <wux-row>
+      <wux-col span='9' push='3'>
+        <div class='info_bundle_CSSSD'>
+          <span style='color:red'>*</span>Choose a primary strategy by keeping it open.</div>
+      </wux-col>
+    </wux-row>
     <wux-accordion-group
       v-if='structures[id]'
-      title="bundles"
       :auto='true'
       accordion
       :defaultCurrent="[structures[id].bundleOpen]"
@@ -80,26 +91,40 @@
         </app-bundle-card>
       </wux-accordion>
     </wux-accordion-group>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      @click='bundleAdd'
-    >Add Bundle
-    </wux-button>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      :disabled="clicked"
-      @click='structureDelete'
-    >Delete
-    </wux-button>
-      <!-- <wux-floating-button 
-    position="bottomRight"
-    theme="assertive"
-    :actionRotate="false"
-    @change="drawerToggle" /> -->
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_new_CSSSD'
+        @click='bundleAdd'
+      >Add strategy
+      </button>
+    </wux-wing-blank>
+
+    <wux-white-space />
+    <wux-row>
+      <wux-col span='10' push='1'>
+        <div class='info_icon_CSSSD'>
+          <icon
+            type="info"
+            size="50"
+            color='rgba(9,45,66,.08)'
+          />
+        </div>
+        <div class='info_content_CSSSD'>1. Sketch a strategy for visualization on paper.</div>
+        <div class='info_content_CSSSD'>2. Mark the sketch with colored annotations.</div>
+        <div class='info_content_CSSSD'>3. Correlate the annotations with description.</div>
+      </wux-col>
+    </wux-row>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_delete_CSSSD'
+        @click='structureDelete'
+      >Delete
+      </button>
+    </wux-wing-blank>
+    <wux-white-space />
   </div>
 </template>
 
@@ -257,15 +282,53 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .titleCSSSD {
-    position: relative;
-    border: 2px solid rgb(190, 0, 165);
-    padding: 50rpx;
-  }
-  .drawerCSSSD{
-    overflow: scroll;
-    width: 80vw;
-    height: 100vh;
-    background:#fff;
-  }
+.titleCSSSD {
+  width: 100%;
+  height: 50px;
+  overflow:scroll;
+  font-size: 80%;
+}
+.drawerCSSSD{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 80vw;
+  height: 100vh;
+  background:#fff;
+}
+.button_new_CSSSD{
+  background-color: #f4cf6c;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.button_delete_CSSSD{
+  background-color: white;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #f44336;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.info_bundle_CSSSD{
+  font-size: 75%;
+}
+.info_icon_CSSSD{
+  width: 60px;
+  margin: 0 auto;
+}
+.info_content_CSSSD{
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 80%;
+}
 </style>

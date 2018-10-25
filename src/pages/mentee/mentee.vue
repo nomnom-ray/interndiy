@@ -23,6 +23,7 @@
     </van-tab>
     <van-tab title="Project Tasks">
       <app-tasks></app-tasks>
+      <!-- <app-testtodo></app-testtodo> -->
     </van-tab>
     <van-tab title=" " :disabled="true">
     </van-tab>
@@ -38,6 +39,7 @@ import NarrativeMore from '../../components/careernarrativemore';
 import ProjectStory from '../../components/projectstory';
 import Structures from '../../components/structures';
 import Tasks from '../../components/tasks';
+// import Testtodo from '../../components/testpage';
 
 export default {
   components: {
@@ -48,6 +50,7 @@ export default {
     appProjectStory: ProjectStory,
     appStructures: Structures,
     appTasks: Tasks,
+    // appTesttodo: Testtodo,
   },
   computed: {
     ...mapGetters({

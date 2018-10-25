@@ -4,11 +4,12 @@
   color: #000000;
   background-color: #ffffff;
   box-sizing: border-box;
+  font-size: 75%;
   padding-left: 30rpx;
   padding-right: 60rpx;
   width: auto;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* text-overflow: ellipsis; */
+  white-space: pre-wrap;
   overflow: hidden;
   display: -webkit-box;
   display: -webkit-flex;

@@ -133,15 +133,20 @@
       </wux-col>
     </wux-row>
     <wux-row>
-      <icon
-        type="info"
-        size="60"
-        color='rgba(9,45,66,.08)'
-      />
-      <div>Use cards to express a step in the behavior of the project.</div>
-      <div>Elaborate on a step by creating a subject in an adjacent column.</div>
-      <div>Click on an adjacent card to shift between left and right columns.</div>
+      <wux-col span='10' push='1'>
+        <div class='info_icon_CSSCM'>
+          <icon
+            type="info"
+            size="50"
+            color='rgba(9,45,66,.08)'
+          />
+        </div>
+        <div class='info_content_CSSCM'>1. Express the story with serialized behaviors.</div>
+        <div class='info_content_CSSCM'>2. Elaborate on a behavior by creating a subject.</div>
+        <div class='info_content_CSSCM'>3. Click on adjacent columns to shift left/right.</div>
+      </wux-col>
     </wux-row>
+    <wux-white-space />
   </div>
 </template>
 
@@ -714,19 +719,19 @@
   width: 100%;
   height: 50px;
   overflow:scroll;
-  font-size: 75%;
+  font-size: 80%;
 }
 .popup_description_CSSCM{
   width: 100%;
   height: 100px;
   overflow:scroll;
-  font-size: 75%;
+  font-size: 80%;
 }
 .popup_summary_CSSCM{
   width: 100%;
   height: 100px;
   overflow:scroll;
-  font-size: 75%;
+  font-size: 80%;
 }
 .summaryCSSCM{
   width: auto;
@@ -735,7 +740,7 @@
   flex-wrap: nowrap;
   overflow: hidden;
   direction: ltr;
-  font-size: 75%;
+  font-size: 80%;
   text-align: left;
   border-bottom: 2px solid #264436;
   background-clip: content-box;
@@ -775,5 +780,14 @@
   display: inline-block;
   font-size: 13px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.info_icon_CSSCM{
+  width: 60px;
+  margin: 0 auto;
+}
+.info_content_CSSCM{
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 80%;
 }
 </style>
