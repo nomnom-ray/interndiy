@@ -1,15 +1,5 @@
 <template>
   <div class="containerCSSS">
-    <div
-      v-if='!structuresLocal.length'
-    >
-    when there are no boards, show instruction.
-    </div>
-    <icon
-      v-if='!structuresLocal.length'
-      type="info"
-      size="40"
-      color='rbg(0, 255, 255)'/>
     <app-structure-card
       v-if='structures'
       :key='structureIndex'
@@ -18,6 +8,26 @@
       :propStructureIndex='structureIndex'
     >
     </app-structure-card>
+
+    <div class='info_icon_CSSS'>
+      <icon
+        type="info"
+        size="50"
+        color='rgba(9,45,66,.08)'
+      />
+    </div>
+    <div class='info_content_CSSS'>Organize project behaviors into subcategories.</div>
+    <div class='info_content_CSSS'>Strategize implementations for each subcategory.</div>
+    <div class='info_content_CSSS'>Finalize a roadmap to reach the resulting behavior.</div>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+
     <wux-select id="wux-select-structure" />
     <wux-floating-button 
       position="bottomRight"
@@ -453,6 +463,15 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
+.info_icon_CSSS{
+  width: 50px;
+  margin: 0 auto;
+}
+.info_content_CSSS{
+  padding: 3px;
+  width: 100%;
+  text-align: center;
+  font-size: 80%;
+}
 </style>

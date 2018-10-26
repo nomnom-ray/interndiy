@@ -93,20 +93,16 @@
     </wux-wing-blank>
 
     <wux-white-space />
-    <wux-row>
-      <wux-col span='10' push='1'>
-        <div class='info_icon_CSSSB'>
-          <icon
-            type="info"
-            size="50"
-            color='rgba(9,45,66,.08)'
-          />
-        </div>
-        <div class='info_content_CSSSB'>1. Sketch a strategy for visualization on paper.</div>
-        <div class='info_content_CSSSB'>2. Mark the sketch with colored annotations.</div>
-        <div class='info_content_CSSSB'>3. Correlate the annotations with description.</div>
-      </wux-col>
-    </wux-row>
+    <div class='info_icon_CSSSB'>
+      <icon
+        type="info"
+        size="50"
+        color='rgba(9,45,66,.08)'
+      />
+    </div>
+    <div class='info_content_CSSSB'>Sketch a strategy for visualization on paper.</div>
+    <div class='info_content_CSSSB'>Mark the sketch with colored annotations.</div>
+    <div class='info_content_CSSSB'>Correlate the annotations with description.</div>
 
     <wux-white-space />
     <wux-white-space />
@@ -472,12 +468,13 @@ export default {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSSB{
-  width: 60px;
+  width: 50px;
   margin: 0 auto;
 }
 .info_content_CSSSB{
-  text-align: justify;
-  text-justify: inter-word;
+  padding: 3px;
+  width: 100%;
+  text-align: center;
   font-size: 80%;
 }
 .popup_annotate_CSSSB{

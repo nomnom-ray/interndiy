@@ -31,18 +31,18 @@
       </view>
     </i-drawer>
 
-    <wux-divider position="left" :text="'1. Theme title of subcategory ' + id" />
+    <wux-divider position="left" :text="'1. Title of subcategory ' + id" />
       <wux-wing-blank size="large">
         <textarea
           class="titleCSSSD"
           v-model='title'
           :maxlength="100"
-          placeholder="The theme may be titled with an subject summary or few words that summarize part of the subject."
+          placeholder="Few words to summarize the selected relevant behaviors."
         >
         </textarea>
       </wux-wing-blank>
 
-    <wux-divider position="left" :text="'2. Relevant behaviors in subcategory ' + id" />
+    <wux-divider position="left" text='2. Relevant project behaviors' />
       <wux-wing-blank size="large">
         <wux-cell-group>
           <wux-cell
@@ -62,7 +62,7 @@
         >Select behaviors
         </button>
       </wux-wing-blank>
-    <wux-divider position="left" :text="'3. Strategies for subcategory ' + id" />
+    <wux-divider position="left" text='3. Strategies for implementation' />
     <wux-row>
       <wux-col span='9' push='3'>
         <div class='info_bundle_CSSSD'>
@@ -101,20 +101,16 @@
     </wux-wing-blank>
 
     <wux-white-space />
-    <wux-row>
-      <wux-col span='10' push='1'>
-        <div class='info_icon_CSSSD'>
-          <icon
-            type="info"
-            size="50"
-            color='rgba(9,45,66,.08)'
-          />
-        </div>
-        <div class='info_content_CSSSD'>1. Sketch a strategy for visualization on paper.</div>
-        <div class='info_content_CSSSD'>2. Mark the sketch with colored annotations.</div>
-        <div class='info_content_CSSSD'>3. Correlate the annotations with description.</div>
-      </wux-col>
-    </wux-row>
+    <div class='info_icon_CSSSD'>
+      <icon
+        type="info"
+        size="50"
+        color='rgba(9,45,66,.08)'
+      />
+    </div>
+    <div class='info_content_CSSSD'>Categorize behaviors that can be implemented as a group.</div>
+    <div class='info_content_CSSSD'>Propose and create strategies for the implementation.</div>
+    <div class='info_content_CSSSD'>Decide on a single strategy for the roadmap.</div>
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
@@ -323,12 +319,13 @@ export default {
   font-size: 75%;
 }
 .info_icon_CSSSD{
-  width: 60px;
+  width: 50px;
   margin: 0 auto;
 }
 .info_content_CSSSD{
-  text-align: justify;
-  text-justify: inter-word;
+  padding: 3px;
+  width: 100%;
+  text-align: center;
   font-size: 80%;
 }
 </style>

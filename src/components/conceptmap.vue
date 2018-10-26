@@ -132,20 +132,16 @@
         </view>
       </wux-col>
     </wux-row>
-    <wux-row>
-      <wux-col span='10' push='1'>
-        <div class='info_icon_CSSCM'>
-          <icon
-            type="info"
-            size="50"
-            color='rgba(9,45,66,.08)'
-          />
-        </div>
-        <div class='info_content_CSSCM'>1. Express the story with serialized behaviors.</div>
-        <div class='info_content_CSSCM'>2. Elaborate on a behavior by creating a subject.</div>
-        <div class='info_content_CSSCM'>3. Click on adjacent columns to shift left/right.</div>
-      </wux-col>
-    </wux-row>
+    <div class='info_icon_CSSCM'>
+      <icon
+        type="info"
+        size="50"
+        color='rgba(9,45,66,.08)'
+      />
+    </div>
+    <div class='info_content_CSSCM'>Express the project story with serialized behaviors.</div>
+    <div class='info_content_CSSCM'>Elaborate on a behavior by creating a subject.</div>
+    <div class='info_content_CSSCM'>Click on adjacent columns to shift left/right.</div>
     <wux-white-space />
   </div>
 </template>
@@ -782,12 +778,13 @@
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSCM{
-  width: 60px;
+  width: 50px;
   margin: 0 auto;
 }
 .info_content_CSSCM{
-  text-align: justify;
-  text-justify: inter-word;
+  padding: 3px;
+  width: 100%;
+  text-align: center;
   font-size: 80%;
 }
 </style>

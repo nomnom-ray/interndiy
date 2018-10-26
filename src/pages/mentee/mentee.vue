@@ -18,7 +18,7 @@
     <van-tab title="Project Behavior">
       <app-conceptmap></app-conceptmap>
     </van-tab>
-    <van-tab title="Project Structure">
+    <van-tab title="Project Roadmap">
       <app-structures></app-structures>
     </van-tab>
     <van-tab title="Project Tasks">
