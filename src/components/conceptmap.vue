@@ -13,7 +13,7 @@
             class="popup_description_CSSCM"
             v-model='conceptDescription'
             :maxlength="600"
-            placeholder="Describe a single behavior to connect the prior and proceeding steps."
+            placeholder="Describe a single behavior that connects prior and proceeding steps."
             :disabled='topAddDisable && !triggerTopDisable'
           >
           </textarea>

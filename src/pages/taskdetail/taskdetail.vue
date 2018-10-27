@@ -1,26 +1,5 @@
 <template>
   <div>
-    <input
-      class="titleCSSTD"
-      v-model='title'
-      :maxlength="100"
-      placeholder="Task Title"
-    >
-    <icon type="info" size="23" color='rbg(0, 255, 255)'/>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      @click='showQualDrawer = !showQualDrawer'
-    >Add qualifications
-    </wux-button>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      @click='showBundleDrawer = !showBundleDrawer'
-    >Add bundle
-    </wux-button>
     <i-drawer mode="right" :visible="showBundleDrawer" @close="showBundleDrawer = !showBundleDrawer">
       <view class='drawerCSSTD'>
         <wux-checkbox-group
@@ -30,7 +9,7 @@
             :key='bundleIndex'
             v-for='(bundle, bundleIndex) in structures[boardId].bundles'
             color="assertive"
-            :title="'qualification' + bundleIndex + ': ' + bundle.title"
+            :title="'Strategy ' + bundleIndex + ': ' + bundle.title"
             :value="bundleIndex" />
         </wux-checkbox-group>
       </view>
@@ -44,57 +23,105 @@
             :key='qualificationIndex'
             v-for='(qualification, qualificationIndex) in qualifications'
             color="assertive"
-            :title="'qualification' + qualificationIndex + ': ' + qualification.title"
+            :title="'Qualification ' + qualificationIndex + ': ' + qualification.title"
             :value="qualificationIndex" />
         </wux-checkbox-group>
       </view>
     </i-drawer>
-    <div>
-      <wux-cell-group title="qualifications">
-          <wux-cell
-            v-if='qualifications[qualCheckBoxValue]'
-            :key='qualCheckBoxValueIndex'
-            v-for='(qualCheckBoxValue, qualCheckBoxValueIndex) in qualCheckBoxValues'
-            :title="qualifications[qualCheckBoxValue].title"
-            @click='qualificationClicked(qualCheckBoxValueIndex)'
-          >
-          </wux-cell>
-      </wux-cell-group>
-      <wux-cell-group title="Bundles">
-          <wux-cell
-            v-if='structures[boardId].bundles[bundleCheckBoxValue]'
-            :key='bundleCheckBoxValueIndex'
-            v-for='(bundleCheckBoxValue, bundleCheckBoxValueIndex) in bundleCheckBoxValues'
-            :title="structures[boardId].bundles[bundleCheckBoxValue].title"
-          >
-          </wux-cell>
-      </wux-cell-group>
-    </div>
-    <div>
-      <div>Upload Picture</div>
-      <div>{{picURLs.length}}/1</div>
-      <div v-if='picsTotal != 0'>Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.</div>
-    </div>
+    <wux-wing-blank size="large">
+      <wux-button
+        block
+        outline
+        type="assertive"
+        :disabled="clicked"
+        @click='taskDone=!taskDone'
+      >Mark task completed
+      </wux-button>
+    </wux-wing-blank>
+
+    <wux-divider position="left" :text="'1. Task description for subcategory ' + boardId + ' (' + title.length + '/600)'" />
+    <wux-wing-blank size="large">
+      <textarea
+        class="titleCSSTD"
+        v-model='title'
+        :maxlength="600"
+        :placeholder="'Describe a task for the implementation of a strategy(s) in subcategory ' + boardId + '.'"
+      >
+      </textarea>
+    </wux-wing-blank>
+    <wux-divider position="left" text="2. Qualifications involved" />
+
+    <wux-cell-group>
+        <wux-cell
+          v-if='qualifications[qualCheckBoxValue]'
+          :key='qualCheckBoxValueIndex'
+          v-for='(qualCheckBoxValue, qualCheckBoxValueIndex) in qualCheckBoxValues'
+          :title="qualifications[qualCheckBoxValue].title"
+          @click='qualificationClicked(qualCheckBoxValueIndex)'
+        >
+        </wux-cell>
+    </wux-cell-group>
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_new_CSSTD'
+        @click='showQualDrawer = !showQualDrawer'
+      >Select qualifications
+      </button>
+    </wux-wing-blank>
+
+    <wux-divider position="left" text="3. Strategies involved" />
+    <wux-cell-group>
+        <wux-cell
+          v-if='structures[boardId].bundles[bundleCheckBoxValue]'
+          :key='bundleCheckBoxValueIndex'
+          v-for='(bundleCheckBoxValue, bundleCheckBoxValueIndex) in bundleCheckBoxValues'
+          :title="structures[boardId].bundles[bundleCheckBoxValue].title"
+        >
+        </wux-cell>
+    </wux-cell-group>
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_new_CSSTD'
+        @click='showBundleDrawer = !showBundleDrawer'
+      >Select strategies
+      </button>
+    </wux-wing-blank>
+
+    <wux-divider position="left" :text="'4. Task visualization [Optional] (' + picURLs.length + '/1 picture)'" />
     <wux-gallery v-if='pageActive === 7' id="wux-gallery"></wux-gallery>
     <div
       :key='index'
       v-for="(url, index) in picURLs"
     >
-      <div>
+    <wux-wing-blank size="small">
         <img
-          class="weui-uploader__img"
-          :src="url" mode="aspectFill"
+          class="pic_position_CSSTD"
+          :src="url" mode="aspectFit"
           @click="showGallery(url, index)"
           :id="index"
         />
+    </wux-wing-blank>
+    </div>
+    <div class='uploader_position_CSSTD'>
+      <div
+        v-if='picURLs.length < 1'
+        class="weui-uploader__input-box"
+      >
+        <div class="weui-uploader__input" @click="chooseImage"></div>
       </div>
     </div>
-    <div
-      v-if='picURLs.length < 1'
-      class="weui-uploader__input-box"
-    >
-      <div class="weui-uploader__input" @click="chooseImage"></div>
-    </div>
+
+    <wux-row>
+      <wux-col span='9' push='3'>
+        <div class='info_file_CSSTD' v-if='picsTotal != 0'>
+          <span style='color:red'>*</span>
+          Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.
+        </div>
+      </wux-col>
+    </wux-row>
+
     <van-popup
     :show="todoPopupShow"
     @close="popupCloseHandler()"
@@ -117,44 +144,52 @@
         >
       </div>
     </van-popup>
-    <div>
-      <div>Todo Checklist</div>
-      <app-todocard
-        v-if='structures[boardId].tasks[taskId]'
-        :key='todoIndex'
-        v-for='(todo, todoIndex) in structures[boardId].tasks[taskId].todos'
-        :propTodo = todo
-        :propTodoIndex = todoIndex
-        :propBoardIndex = boardId
-        :propTaskIndex = taskId
-      ></app-todocard>
-    </div>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      @click='todoNew'
-    >Add todo item
-    </wux-button>
-    <div>
+
+    <wux-divider position="left" text="5. Todo-list and resolution" />
+    <app-todocard
+      v-if='structures[boardId].tasks[taskId]'
+      :key='todoIndex'
+      v-for='(todo, todoIndex) in structures[boardId].tasks[taskId].todos'
+      :propTodo = todo
+      :propTodoIndex = todoIndex
+      :propBoardIndex = boardId
+      :propTaskIndex = taskId
+    ></app-todocard>
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_new_CSSTD'
+        @click='todoNew'
+      >Add todo item
+      </button>
+    </wux-wing-blank>
+
+    <!-- <div>
       <div>Concern Checklist</div>
+    </div> -->
+
+    <wux-white-space />
+    <div class='info_icon_CSSTD'>
+      <icon
+        type="info"
+        size="50"
+        color='rgba(9,45,66,.08)'
+      />
     </div>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      :disabled="clicked"
-      @click='taskDone=!taskDone'
-    >Completed
-    </wux-button>
-    <wux-button
-      block
-      outline
-      type="assertive"
-      :disabled="clicked"
-      @click='taskDelete'
-    >Delete
-    </wux-button>
+    <div class='info_content_CSSTD'>PLACEHOLDER</div>
+    <div class='info_content_CSSTD'>PLACEHOLDER</div>
+    <div class='info_content_CSSTD'>PLACEHOLDER</div>
+
+    <wux-white-space />
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_delete_CSSTD'
+        @click='taskDelete'
+      >Delete
+      </button>
+    </wux-wing-blank>
+    <wux-white-space />
   </div>
 </template>
 
@@ -333,6 +368,8 @@ export default {
             type: 'picURLs',
             content: [],
           });
+          that.picURLs = that.structures[that.boardId].tasks[that.taskId]
+            .taskPics;
           return true;
         },
         onTap() {
@@ -482,10 +519,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .titleCSSSD {
-    position: relative;
-    border: 2px solid rgb(190, 0, 165);
-    padding: 50rpx;
+  .titleCSSTD {
+    width: 100%;
+    height: 50px;
+    overflow:scroll;
+    font-size: 80%;
   }
   .drawerCSSTD{
     overflow: scroll;
@@ -562,4 +600,48 @@ export default {
     height: 100%;
     opacity: 0;
   }
+.button_delete_CSSTD{
+  background-color: white;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #f44336;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.button_new_CSSTD{
+  background-color: #f4cf6c;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.info_file_CSSTD{
+  font-size: 75%;
+}
+.uploader_position_CSSTD{
+  width: 77px;
+  margin: 0 auto;
+}
+.pic_position_CSSTD{
+  width: 100%;
+}
+.info_icon_CSSTD{
+  width: 50px;
+  margin: 0 auto;
+}
+.info_content_CSSTD{
+  padding: 3px;
+  width: 100%;
+  text-align: center;
+  font-size: 80%;
+}
 </style>
