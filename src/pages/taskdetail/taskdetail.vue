@@ -35,9 +35,14 @@
         type="assertive"
         :disabled="clicked"
         @click='taskDone=!taskDone'
-      >Mark task completed
+      >Mark task {{taskDone ? 'incomplete' : 'complete'}}
       </wux-button>
     </wux-wing-blank>
+
+    <div class='info_file_CSSTD' v-if='picsTotal != 0'>
+      <span style='color:red'>*</span>
+      Completed tasks are hidden.
+    </div>
 
     <wux-divider position="left" :text="'1. Task description for subcategory ' + boardId + ' (' + title.length + '/600)'" />
     <wux-wing-blank size="large">
@@ -113,14 +118,10 @@
       </div>
     </div>
 
-    <wux-row>
-      <wux-col span='9' push='3'>
-        <div class='info_file_CSSTD' v-if='picsTotal != 0'>
-          <span style='color:red'>*</span>
-          Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.
-        </div>
-      </wux-col>
-    </wux-row>
+    <div class='info_file_CSSTD' v-if='picsTotal != 0'>
+      <span style='color:red'>*</span>
+      Storage: {{picSizeUsed}}MB used; ~{{picSizeRemain}}MB remaining.
+    </div>
 
     <van-popup
     :show="todoPopupShow"
@@ -625,6 +626,8 @@ export default {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_file_CSSTD{
+  float: right;
+  padding: 0 10px;
   font-size: 75%;
 }
 .uploader_position_CSSTD{

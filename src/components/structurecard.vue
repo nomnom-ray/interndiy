@@ -63,10 +63,10 @@
         </div>
 
         <wux-row>
-          <wux-col span='5' push='7'>
+          <!-- <wux-col span='5' push='7'> -->
             <div class='info_strategy_CSSSC'>
-              Number of strategies: {{propStructure.bundles.length}}.</div>
-          </wux-col>
+              Number of strategies: {{propStructure.bundles.length}}</div>
+          <!-- </wux-col> -->
         </wux-row>
 
       <wux-white-space />
@@ -278,22 +278,22 @@ export default {
   color: grey;
 }
 .struc_title_CSSSC{
-  padding: 10px;
-  font-size: 110%;
+  padding: 5px;
+  font-size: 80%;
   text-align: center;
-  width: 100%;
 }
 .bundle_title_empty_CSSSC{
   color: grey;
 }
 .bundle_title_CSSSC{
-  padding: 0 0 0 10px;
+  padding: 0 10px 0 10px;
   font-size: 80%;
   text-align: justify;
   text-justify: inter-word;
-  width: 100%;
 }
 .info_strategy_CSSSC{
+  padding: 0 10px;
+  float: right;
   font-size: 80%;
 }
 </style>

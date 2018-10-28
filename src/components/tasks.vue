@@ -1,7 +1,6 @@
 <template>
   <div>
     <wux-accordion-group
-      title="Default"
       :auto='false'
       :current='boardOpen'
       @change="boardChange"
@@ -9,7 +8,7 @@
       <wux-accordion
         :key="structureIndex"
         v-for='(structure, structureIndex) in structures'
-        :title="'board' + (structureIndex + 1) + ': ' + structure.title"
+        :title="'In subcategory ' + (structureIndex + 1) + ' (' + structure.title + ')'"
         :name="structureIndex"
       >
         <app-task-card

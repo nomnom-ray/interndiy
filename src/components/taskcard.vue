@@ -1,15 +1,71 @@
 <template>
+    <!-- <div>
+      status: {{propTask.taskDone ? 'done' : 'not done'}}
+    </div> -->
   <a :href="detailURL">
-    <div class="cardCSSPTC">
-      <div>
-        Index: {{indexCurrent}}
+    <div
+      :class="propTask.taskDone ? 'card_done_CSSTC' : 'card_undone_CSSTC'"
+    >
+      <div
+      v-if='propTask.taskPics'
+      :key='index'
+      v-for="(url, index) in propTask.taskPics"
+      >
+        <img
+          class='pic_position_CSSTC'
+          :src="url" mode="aspectFill"
+          :id="index"
+        />
       </div>
-      <div>
-        title: {{propTask.title}}
+
+      <div
+        v-if="propTask.title ===''"
+        class='task_title_CSSTC task_title_empty_CSSTC'
+      >
+        Empty task. Open to edit.
       </div>
-      <div>
-        status: {{propTask.taskDone ? 'done' : 'not done'}}
+      <div
+        v-else
+        class='task_title_CSSTC'
+      >
+        {{propTask.title}}
       </div>
+
+      <div style='border-top: 1px solid #eff1f7'>
+      <wux-row>
+        <wux-col span='2'>
+          <div style='text-align:center;padding:5px'>
+            Index: {{indexCurrent}}
+          </div>
+        </wux-col>
+        <wux-col span='5'>
+          <div style='text-align:center;padding:5px'>
+            Strategies involved: {{propTask.bundleList.length}}
+          </div>
+        </wux-col>
+        <wux-col span='5'>
+          <div style='text-align:center;padding:5px'>
+            Todos completed: {{todoCompleted.length}} / {{propTask.todos.length}}
+          </div>          
+        </wux-col>
+      </wux-row>
+      </div>
+      <!-- <div style='font-weight:bold;text-align:center;width:100%;font-size:110%'>
+        index: {{indexCurrent}}
+      </div>
+
+      <div
+        class=''
+      >
+        number of strategies: {{propTask.bundleList.length}}
+      </div>
+
+      <div
+        class=''
+      >
+        number of todos: {{propTask.todos.length}}
+      </div> -->
+
     </div>
   </a>
 </template>
@@ -35,16 +91,36 @@ export default {
       current += this.propTaskIndex;
       return current;
     },
+    todoCompleted() {
+      return this.propTask.todos.filter(element => element.done === true);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.cardCSSTC {
-  padding:5px;
-  overflow: hidden;
-  margin-top:5px;
-  margin-bottom:5px;
-  font-size:14px;
+.card_undone_CSSTC{
+  font-size: 80%;
+  width: 100%;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);  
+}
+.card_done_CSSTC{
+  font-size: 80%;
+  width: 100%;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px 0 #f4d06c, 0 3px 10px 0 #f4d06c;
+}
+.pic_position_CSSTC{
+  width: 100%;
+  height: 120px;
+}
+.task_title_empty_CSSTC{
+  color: grey;
+}
+.task_title_CSSTC{
+  padding: 10px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 </style>
