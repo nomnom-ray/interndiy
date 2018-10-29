@@ -128,22 +128,29 @@
     @close="popupCloseHandler()"
     position='top'
     >
-      <div class='popupCSSTD'>
-        <input
-          v-if='todoAddText'
-          class="popupinputCSSTD"
-          v-model='todoText'
-          :maxlength="200"
-          placeholder="depending"
-        >
-        <input
-          v-else
-          class="popupinputCSSTD"
-          v-model='resultText'
-          :maxlength="200"
-          placeholder="depending"
-        >
-      </div>
+      <wux-divider v-if='todoAddText' position="left" :text="'Todo item (' + todoText.length + '/200)'" />
+      <wux-divider v-else position="left" :text="'Todo item (' + resultText.length + '/200)'" />
+      <wux-row>
+        <wux-wing-blank size="large">
+          <textarea
+            v-if='todoAddText'
+            class="popupinputCSSTD"
+            v-model='todoText'
+            :maxlength="200"
+            placeholder="Describe an actionable item for this task."
+          >
+          </textarea>
+          <textarea
+            v-else
+            class="popupinputCSSTD"
+            v-model='resultText'
+            :maxlength="200"
+            placeholder="Describe the actual action taken and its influences."
+          >
+          </textarea>
+        </wux-wing-blank>
+      </wux-row>
+      <wux-white-space />
     </van-popup>
 
     <wux-divider position="left" text="5. Todo-list and resolution" />
@@ -177,9 +184,8 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSSTD'>PLACEHOLDER</div>
-    <div class='info_content_CSSTD'>PLACEHOLDER</div>
-    <div class='info_content_CSSTD'>PLACEHOLDER</div>
+    <div class='info_content_CSSTD'>Track how the tasks contribute to the experience gained by selecting qualifications.</div>
+    <div class='info_content_CSSTD'>Track the impact of your actions by providing resolution after completing the task.</div>
 
     <wux-white-space />
     <wux-white-space />
@@ -539,13 +545,10 @@ export default {
   text-align: center;
   z-index: 999;
   .popupinputCSSTD{
-    margin-top: 5px;
-    border: 2px solid rgb(190, 0, 165);
-  }
-  .popupfieldsCSSTD{
+    width: 100%;
+    height: 100px;
     overflow:scroll;
-    margin-top: 5px;
-    border: 2px solid rgb(190, 0, 165);
+    font-size: 80%;
   }
 }
   .weui-uploader__img {

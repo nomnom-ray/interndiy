@@ -22,6 +22,20 @@
         </app-task-card>
       </wux-accordion>
     </wux-accordion-group>
+
+    <wux-white-space />
+    <div class='info_icon_CSST'>
+      <icon
+        type="info"
+        size="50"
+        color='rgba(9,45,66,.08)'
+      />
+    </div>
+    <div class='info_content_CSST'>Create tasks to compare alternative strategies in each subcategory.</div>
+    <div class='info_content_CSST'>Create tasks to implement the primary strategy in each subcategory.</div>
+
+    <wux-white-space />
+
     <wux-select id="wux-select-tasks" />
     <!-- change the source code to: this.triggerEvent('iclick', params) -->
     <wux-floating-button 
@@ -136,4 +150,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.info_icon_CSST{
+  width: 50px;
+  margin: 0 auto;
+}
+.info_content_CSST{
+  padding: 3px;
+  width: 100%;
+  text-align: center;
+  font-size: 80%;
+}
 </style>

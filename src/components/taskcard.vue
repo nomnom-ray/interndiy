@@ -1,7 +1,4 @@
 <template>
-    <!-- <div>
-      status: {{propTask.taskDone ? 'done' : 'not done'}}
-    </div> -->
   <a :href="detailURL">
     <div
       :class="propTask.taskDone ? 'card_done_CSSTC' : 'card_undone_CSSTC'"
@@ -50,22 +47,6 @@
         </wux-col>
       </wux-row>
       </div>
-      <!-- <div style='font-weight:bold;text-align:center;width:100%;font-size:110%'>
-        index: {{indexCurrent}}
-      </div>
-
-      <div
-        class=''
-      >
-        number of strategies: {{propTask.bundleList.length}}
-      </div>
-
-      <div
-        class=''
-      >
-        number of todos: {{propTask.todos.length}}
-      </div> -->
-
     </div>
   </a>
 </template>

@@ -1,15 +1,6 @@
 <template>
   <div class="containerCSSQ">
-    <div
-      v-if='!qualifications.length'
-    >
-    when there are no qualification, show instruction.
-    </div>
-    <icon
-      v-if='!qualifications.length'
-      type="info"
-      size="40"
-      color='rbg(0, 255, 255)'/>
+    <wux-white-space />
     <app-qualification-card
       :key='qualificationIndex'
       v-for='(qualification, qualificationIndex) in qualifications'

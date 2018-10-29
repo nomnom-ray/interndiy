@@ -1,60 +1,79 @@
 <template>
   <div>
-    <input 
-      class="qualfieldsCSSQD"
-      v-model='title'
-      :maxlength="200"
-      placeholder="Qualification Title"
-    >
-    <div>
+    <wux-divider position="left" :text="'1. Posted qualification (' + title.length + '/200)'" />
+    <wux-wing-blank size="large">
       <textarea
-        class="qualfieldsCSSQD"
-        :class="{greyout: descriptionValid}"
-        v-model='description'
+        class="qual_title_CSSQD"
+        v-model='title'
         :maxlength="200"
+        placeholder="Qualification Title"
+      >
+      </textarea>
+    </wux-wing-blank>
+
+    <!-- <wux-divider position="left" :text="'2. Understanding of qualification (' + description.length + '/400)'" />
+    <wux-wing-blank size="large">
+      <textarea
+        class="qual_description_CSSQD"
+        :class="{'qual_valid_CSSQD': descriptionValid}"
+        v-model='description'
+        :maxlength="400"
         :disabled='descriptionValid'
         placeholder="Qualification Description"
       >
       </textarea>
-      <wux-button
-        block
-        clear
-        type="assertive"
+    </wux-wing-blank>
+
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_new_CSSQD'
         @click='descriptionChecked'
       >{{descriptionValid ? 'Modify' : 'Validate'}}
-      </wux-button>
-    </div>
-    <!-- <wux-cell-group title="Tasks">
-        <wux-cell
-          v-if='structures[task.boardId].tasks[task.taskId]'
-          :key='taskIndex'
-          v-for='(task, taskIndex) in taskList'
-          :title="structures[task.boardId].tasks[task.taskId].title"
-          @click='taskClicked(task)'
-        >
-        </wux-cell>
-    </wux-cell-group> -->
-    <wux-cell-group title="Tasks">
-        <wux-cell
-          :key='taskIndex'
-          v-for='(task, taskIndex) in taskList'
-          :title="task.title"
-        >
-        </wux-cell>
-    </wux-cell-group>
-    <textarea
-      class="qualfieldsCSSQD"
-      :class="{greyout: descriptionValid}"
-      v-model='justification'
-      placeholder="Qualification justification"
+      </button>
+    </wux-wing-blank> -->
+
+    <wux-divider position="left" :text="'2. Justification of tasks (' + justification.length + '/400)'" />
+    <div
+      v-if="taskList.length === 0"
+      class='qual_tasklist_CSSQD'
     >
-    </textarea>
-    <van-button
-      type='default'
-      @click='qualificationDelete'
-      :disabled="clicked"
-    >delete
-    </van-button>
+      This qualification has not been used for a task, yet.
+    </div>
+    <div
+      v-else
+    >
+      <wux-cell-group>
+          <wux-cell
+            :key='taskIndex'
+            v-for='(task, taskIndex) in taskList'
+            :title="task.title"
+          >
+          </wux-cell>
+      </wux-cell-group>
+    </div>
+    <wux-white-space />
+
+    <wux-wing-blank size="large">
+      <textarea
+        class="qual_justification_CSSQD"
+        v-model='justification'
+        :maxlength="400"
+        placeholder="Ask a mentor how your assigned tasks fits the qualification."
+      >
+      </textarea>
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_delete_CSSQD'
+        @click='qualificationDelete'
+        :disabled="clicked"
+      >delete
+      </button>
+    </wux-wing-blank>
+    <wux-white-space />
   </div>
 </template>
 
@@ -150,15 +169,66 @@ export default {
 
 
 <style lang="scss" scoped>
-  .qualfieldsCSSQD {
-    position: relative;
-    // width: 730rpx;
-    // height: 50rpx;
-    // background: rgb(253, 111, 111);taskList
-    border: 2px solid rgb(190, 0, 165);
-    padding: 50rpx;
-  }
-  .greyout{
-    color: lightgray;
-  }
+.qual_title_CSSQD{
+  width: 100%;
+  height: 50px;
+  overflow:scroll;
+  font-size: 80%;  
+}
+.qual_description_CSSQD{
+  width: 100%;
+  height: 50px;
+  overflow:scroll;
+  font-size: 80%;  
+}
+.qual_valid_CSSQD{
+  color: gold;
+}
+.qual_justification_CSSQD{
+  border-top: 1px solid #eff1f7;
+  border-bottom: 1px solid #eff1f7;
+  width: 100%;
+  height: 50px;
+  overflow:scroll;
+  font-size: 80%;  
+}
+.qual_tasklist_CSSQD{
+  text-align: center;
+  color: grey;
+  font-size: 80%;
+}
+.button_delete_CSSQD{
+  background-color: white;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #f44336;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.button_new_CSSQD{
+  background-color: #f4cf6c;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.info_icon_CSSQD{
+  width: 50px;
+  margin: 0 auto;
+}
+.info_content_CSSQD{
+  padding: 3px;
+  width: 100%;
+  text-align: center;
+  font-size: 80%;
+}
 </style>

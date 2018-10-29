@@ -1,22 +1,52 @@
 <template>
   <a :href="detailURL">
-    <div class="cardCSSQC">
-      <div class="titleCSSQC">
-      Title: {{propQualification.title}}
+    <wux-wing-blank size="default">
+      <div class="cardCSSQC">
+        <div
+          v-if="propQualification.title ===''"
+          class='qual_title_CSSQC qual_title_empty_CSSQC'
+        >
+          Empty qualification. Open to edit.
+        </div>
+        <div
+          v-else
+          class='qual_title_CSSQC'
+        >
+          {{propQualification.title}}
+        </div>
+        <div style='border-top: 1px solid #eff1f7'>
+        <wux-row>
+          <!-- <wux-col span='6'>
+            <div style='text-align:center;padding:5px'>
+              Description: {{propQualification.descriptionValid ? 'validated' : 'unverified'}}
+            </div>
+          </wux-col> -->
+          <wux-col span='5'>
+            <div style='text-align:center;padding:5px'>
+              Tasks involved: {{propQualification.taskList.length}}
+            </div>
+          </wux-col>
+          <wux-col span='6'>
+            <div style='text-align:center;padding:5px'>
+              Justification: {{propQualification.justification ? 'populated' : 'empty'}}
+            </div>          
+          </wux-col>
+        </wux-row>
+        </div>
       </div>
-      <div class="descriptionCSSQC">
-        <p>Description: {{propQualification.description}}</p>
+      <wux-white-space />
+      <div class='info_icon_CSSQC'>
+        <icon
+          type="info"
+          size="50"
+          color='rgba(9,45,66,.08)'
+        />
       </div>
-      <div class="statusiconCSSQC">
-        <p>DescriptionValid: {{propQualification.descriptionValid}}</p>
-      </div>
-      <div>
-        Tasks: {{propQualification.taskList.length}}
-      </div>
-      <div>
-        justification: {{propQualification.justification ? 'populated' : 'empty'}}
-      </div>
-    </div>
+      <div class='info_content_CSSQC'>Copy and paste each job qualification separately.</div>
+      <div class='info_content_CSSQC'>Watch qualifications grow after task creation.</div>
+      <wux-white-space />
+      <wux-white-space />
+    </wux-wing-blank>
   </a>
 </template>
 
@@ -33,20 +63,27 @@ export default {
 
 <style lang="scss" scoped>
 .cardCSSQC {
-  padding:5px;
-  overflow: hidden;
-  margin-top:5px;
-  margin-bottom:5px;
-  font-size:14px;
-  .titleCSSQC{
-    padding: 5px;
-  }
-  .descriptionCSSQC{
-    padding: 5px;
-    white-space: pre;
-  }
-  .statusiconCSSQC{
-    position: relative;
-  }
+  font-size: 80%;
+  width: 100%;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);  
+}
+.qual_title_empty_CSSQC{
+  color: grey;
+}
+.qual_title_CSSQC{
+  padding: 10px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.info_icon_CSSQC{
+  width: 50px;
+  margin: 0 auto;
+}
+.info_content_CSSQC{
+  padding: 3px;
+  width: 100%;
+  text-align: center;
+  font-size: 80%;
 }
 </style>
