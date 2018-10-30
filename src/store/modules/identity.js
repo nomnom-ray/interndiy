@@ -2,8 +2,8 @@
 
 const state = {
   jobTitle: '',
-  organizationName: '',
-  jobLocation: '',
+  concerns: '',
+  evaluator: '',
   jobPics: [],
   qualifications: [],
   // to store qualifications as individual objects, but track array manually
@@ -18,12 +18,12 @@ const mutations = {
     state.jobTitle = payload;
   },
   // eslint-disable-next-line
-  ORGANIZATIONNAME_UPDATE(state, payload) {
-    state.organizationName = payload;
+  CONCERNS_UPDATE(state, payload) {
+    state.concerns = payload;
   },
   // eslint-disable-next-line
-  JOBLOCATION_UPDATE(state, payload) {
-    state.jobLocation = payload;
+  EVALUATOR_UPDATE(state, payload) {
+    state.evaluator = payload;
   },
   // eslint-disable-next-line
   JOBPICS_ADD(state, payload) {
@@ -96,11 +96,11 @@ const actions = {
   jobTitleUpdate: ({ commit }, payload) => {
     commit('JOBTITLE_UPDATE', payload);
   },
-  organizationNameUpdate: ({ commit }, payload) => {
-    commit('ORGANIZATIONNAME_UPDATE', payload);
+  concernsUpdate: ({ commit }, payload) => {
+    commit('CONCERNS_UPDATE', payload);
   },
-  jobLocationUpdate: ({ commit }, payload) => {
-    commit('JOBLOCATION_UPDATE', payload);
+  evaluatorUpdate: ({ commit }, payload) => {
+    commit('EVALUATOR_UPDATE', payload);
   },
   jobPicsAdd: ({ commit }, payload) => {
     commit('JOBPICS_ADD', payload);
@@ -133,8 +133,8 @@ const actions = {
 
 const getters = {
   jobTitle: () => state.jobTitle,
-  organizationName: () => state.organizationName,
-  jobLocation: () => state.jobLocation,
+  concerns: () => state.concerns,
+  evaluator: () => state.evaluator,
   jobPics: () => state.jobPics,
   qualifications: () => state.qualifications,
   qualificationsCount: () => state.qualificationsCount,
@@ -167,11 +167,11 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'JOBTITLE_UPDATE') {
       localStorageAPI.save(mutation.payload, 'JOBTITLE');
     }
-    if (mutation.type === 'ORGANIZATIONNAME_UPDATE') {
-      localStorageAPI.save(mutation.payload, 'ORGANIZATIONNAME');
+    if (mutation.type === 'CONCERNS_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'CONCERNS');
     }
-    if (mutation.type === 'JOBLOCATION_UPDATE') {
-      localStorageAPI.save(mutation.payload, 'JOBLOCATION');
+    if (mutation.type === 'EVALUATOR_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'EVALUATOR');
     }
     if (mutation.type === 'JOBPICS_ADD' || mutation.type === 'JOBPICS_DEL') {
       localStorageAPI.save(state.jobPics, 'JOBPICS');
@@ -191,14 +191,6 @@ const autosavePlugin = (store) => {
         const qualDescriptionValid = qualObject.descriptionValid;
         localStorageAPI.save(qualDescriptionValid, `QUALIFICATIONS_${qualId}_DESCRIPTIONVALID`);
       }
-      // if (mutation.payload.type === 'taskListAdd' ||
-      //   mutation.payload.type === 'taskListDel' ||
-      //   mutation.payload.type === 'taskListSet') {
-      //   const qualTaskList = qualObject.taskList;
-      //   // indexof the object in board and task... task not going to change; just board
-      //   // each object in the tasklist array
-      //   localStorageAPI.save(qualTaskList, `QUALIFICATIONS_${qualId}_TASKLIST`);
-      // }
       if (mutation.payload.type === 'justification') {
         const qualJustification = qualObject.justification;
         localStorageAPI.save(qualJustification, `QUALIFICATIONS_${qualId}_JUSTIFICATION`);

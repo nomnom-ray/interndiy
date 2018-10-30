@@ -3,15 +3,15 @@
   <van-tabs :active="pageActive || 6" @change="pageChange">
     <van-tab title=" " :disabled="true">
     </van-tab>
-    <van-tab title="Career Origin">
+    <!-- <van-tab title="Career Origin">
       <app-careerorigin></app-careerorigin>
-    </van-tab>
-    <van-tab title="Qualifications">
+    </van-tab> -->
+    <van-tab title="Job narrative">
       <app-qualifications></app-qualifications>
     </van-tab>
-    <van-tab title="Job Narrative">
+    <!-- <van-tab title="Job Narrative">
       <app-narrative-more></app-narrative-more>
-    </van-tab>
+    </van-tab> -->
     <van-tab title="Project Story">
       <app-project-story></app-project-story>
     </van-tab>
@@ -33,7 +33,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import Conceptmap from '../../components/conceptmap';
-import Careerorigin from '../../components/careerorigin';
+// import Careerorigin from '../../components/careerorigin';
 import Qualifications from '../../components/qualifications';
 import NarrativeMore from '../../components/careernarrativemore';
 import ProjectStory from '../../components/projectstory';
@@ -44,7 +44,7 @@ import Tasks from '../../components/tasks';
 export default {
   components: {
     appConceptmap: Conceptmap,
-    appCareerorigin: Careerorigin,
+    // appCareerorigin: Careerorigin,
     appQualifications: Qualifications,
     appNarrativeMore: NarrativeMore,
     appProjectStory: ProjectStory,

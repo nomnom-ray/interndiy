@@ -1,12 +1,25 @@
 <template>
-  <div class="containerCSSPS">
-    <textarea
-      class="textareaCSSPS"
-      v-model='projectStoryGETSET'
-      :maxlength="200"
-      placeholder="Project Story"
-    >
-    </textarea>
+  <div>
+    <wux-white-space />
+    <wux-divider position="left" :text="'Project story (' + projectStory.length + '/200)'" />
+    <wux-wing-blank size="large">
+      <textarea
+        class="story_CSSPS"
+        v-model='projectStoryGETSET'
+        :maxlength="200"
+        placeholder="Ask your mentor to describe the overall project in fewer than two sentences."
+      >
+      </textarea>
+    </wux-wing-blank>
+
+    <wux-divider position="left" text="Examples of Project stories" />
+    <wux-wing-blank size="large">
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Marketing Specialist: </span>Promote an online dating App via Social media and offline campaign to capture users in Ontario.</div>
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Business Developer: </span>Discover new clients, manage client contacts, and engage potential clients to validate business strategy.</div>
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Electrical Engineer: </span>Commission a sun-following solar charger for portable phone batteries.</div>    
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
   </div>
 </template>
 
@@ -16,8 +29,6 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   data() {
     return {
-      animeIn: false,
-      animeNum: [0, 1, 2, 3],
     };
   },
   computed: {
@@ -38,7 +49,7 @@ export default {
       projectStoryUpdate: 'projectStoryUpdate',
     }),
   },
-  mounted() {
+  created() {
     const that = this;
     wx.getStorage({
       key: 'PROJECTSTORY',
@@ -51,9 +62,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.containerCSSPS{
-  .textareaCSSPS{
-    border: 2px solid rgb(190, 0, 165);
-  }
+.story_CSSPS{
+  width: 100%;
+  height: 50px;
+  overflow:scroll;
+  font-size: 80%;
+}
+.info_content_CSSPS{
+  padding: 2px 0 3px 0;
+  width: 100%;
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 80%;
 }
 </style>

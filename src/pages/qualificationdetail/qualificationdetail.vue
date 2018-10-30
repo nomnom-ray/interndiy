@@ -6,7 +6,7 @@
         class="qual_title_CSSQD"
         v-model='title'
         :maxlength="200"
-        placeholder="Qualification Title"
+        placeholder="Copy and paste each job qualification separately."
       >
       </textarea>
     </wux-wing-blank>
@@ -53,7 +53,7 @@
       </wux-cell-group>
     </div>
     <wux-white-space />
-
+    <wux-white-space />
     <wux-wing-blank size="large">
       <textarea
         class="qual_justification_CSSQD"
@@ -63,6 +63,16 @@
       >
       </textarea>
     </wux-wing-blank>
+    <wux-white-space />
+    <div class='info_icon_CSSQD'>
+      <icon
+        type="info"
+        size="50"
+        color='rgba(9,45,66,.08)'
+      />
+    </div>
+    <div class='info_content_CSSQD'>Track effort by looking at the number of tasks.</div>
+    <div class='info_content_CSSQ'>Focus on qualifications that benefit your narrative.</div>
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">

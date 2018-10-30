@@ -34,18 +34,6 @@
         </wux-row>
         </div>
       </div>
-      <wux-white-space />
-      <div class='info_icon_CSSQC'>
-        <icon
-          type="info"
-          size="50"
-          color='rgba(9,45,66,.08)'
-        />
-      </div>
-      <div class='info_content_CSSQC'>Copy and paste each job qualification separately.</div>
-      <div class='info_content_CSSQC'>Watch qualifications grow after task creation.</div>
-      <wux-white-space />
-      <wux-white-space />
     </wux-wing-blank>
   </a>
 </template>
@@ -75,15 +63,5 @@ export default {
   padding: 10px;
   text-align: justify;
   text-justify: inter-word;
-}
-.info_icon_CSSQC{
-  width: 50px;
-  margin: 0 auto;
-}
-.info_content_CSSQC{
-  padding: 3px;
-  width: 100%;
-  text-align: center;
-  font-size: 80%;
 }
 </style>
