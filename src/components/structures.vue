@@ -8,7 +8,7 @@
       :propStructureIndex='structureIndex'
     >
     </app-structure-card>
-
+    <wux-white-space />
     <div class='info_icon_CSSS'>
       <icon
         type="info"

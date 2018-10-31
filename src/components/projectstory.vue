@@ -7,12 +7,14 @@
         class="story_CSSPS"
         v-model='projectStoryGETSET'
         :maxlength="200"
+        auto-height
+        cursor-spacing='20'
         placeholder="Ask your mentor to describe the overall project in fewer than two sentences."
       >
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" text="Examples of Project stories" />
+    <wux-divider position="left" text="Examples of a project story" />
     <wux-wing-blank size="large">
       <div class='info_content_CSSPS'><span style='font-weight:bold'>Marketing Specialist: </span>Promote an online dating App via Social media and offline campaign to capture users in Ontario.</div>
       <div class='info_content_CSSPS'><span style='font-weight:bold'>Business Developer: </span>Discover new clients, manage client contacts, and engage potential clients to validate business strategy.</div>
@@ -64,12 +66,12 @@ export default {
 <style lang="scss" scoped>
 .story_CSSPS{
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:50px;
+  max-height: 200px;
   font-size: 80%;
 }
 .info_content_CSSPS{
-  padding: 2px 0 3px 0;
+  padding: 2px 0 4px 0;
   width: 100%;
   text-align: justify;
   text-justify: inter-word;

@@ -17,7 +17,7 @@
         <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id !== subjects[1].concepts.length - 1  && propConcept.description === ''">Click to describe an intermediary behavior.</div>
         <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id === subjects[1].concepts.length - 1  && propConcept.description === ''">Click to describe the resulting behavior.</div>
         <div :class="propConcept.question === '' ? 'description_full_CSSCC' : 'descriptionCSSCC'" v-else-if="propSubjectIndex === 1">
-          {{propConcept.description}}
+          <div v-if='arrowLeftShow' style='font-weight:bold;text-align:center;color:grey'>Copied from parent</div>{{propConcept.description}}
         </div>
     </div>
   </div>

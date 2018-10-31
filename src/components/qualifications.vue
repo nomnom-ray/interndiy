@@ -7,33 +7,50 @@
         class="narrative_CSSQ"
         v-model='narrativeMoreGETSET'
         :maxlength="400"
-        placeholder="Write your career narrative with respect to your job title. We'll help you to find out whether this career path is for you."
+        auto-height
+        cursor-spacing='20'
+        placeholder="Note your career narrative with respect to your job title. We'll help you to find out whether this career path is for you."
       >
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" :text="'2. Name of evaluator (' + evaluator.length + '/200)'" />
+    <wux-divider position="left" :text="'2. Name of evaluator (' + evaluator.length + '/100)'" />
     <wux-wing-blank size="large">
       <textarea
         class='evaluator_CSSQ'
         v-model='evaluatorGETSET'
-        :maxlength="200"
-        placeholder="Find out early the mentor responsible for your evaluation."
+        :maxlength="100"
+        auto-height
+        cursor-spacing='20'
+        placeholder="Note the mentor responsible for your evaluation."
       >
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" :text="'3. Temporary concerns (' + concerns.length + '/200)'" />
+    <wux-divider position="left" :text="'3. Concerns to resolve (' + concerns.length + '/400)'" />
     <wux-wing-blank size="large">
       <textarea
-      class='concerns_CSSQ'
-      v-model='concernsGETSET'
-      :maxlength="200"
-      placeholder="Create and resolve as quickly as possible throughout the course of the co-op term. e.g. '1) First item of concern...'"
+        class='concerns_CSSQ'
+        v-model='concernsGETSET'
+        :maxlength="400"
+        auto-height
+        cursor-spacing='20'
+        placeholder="Note concerns here throughout the term and resolve them with your mentor. e.g. '1) First item of concern...'"
       >
       </textarea>
     </wux-wing-blank>
 
+    <wux-divider position="left" text="4. Qualifications of the job" />
+    <div
+      v-if="qualifications.length === 0"
+      class='qual_tasklist_CSSQ'
+    >
+      <wux-cell-group>
+          <wux-cell>
+            Empty. Copy and paste qualifications from the job posting.
+          </wux-cell>
+      </wux-cell-group>
+    </div>
     <app-qualification-card
       :key='qualificationIndex'
       v-for='(qualification, qualificationIndex) in qualifications'
@@ -57,10 +74,16 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank size="large">
-      <div class='info_content_CSSQ'>Co-op is for refining your career narrative; Zero21-Intern is here to guide you.</div>
-      <div class='info_content_CSSQ'>Achieve an Outstanding for the next co-op placement that optimally aligns with your narrative. </div>
+    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+      <div class='info_content_CSSQ'>Co-op is for refining your career narrative; <span style='font-weight:bold'>Zero21</span> is here to guide you.</div>
+      <div class='info_content_CSSQ'>Aim for an Outstanding to easily get future co-ops within your narrative. </div>
     </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
     <wux-white-space />
   </div>
@@ -203,27 +226,32 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSSQ{
-  padding: 2px 0 3px 0;
+  padding: 2px 0 4px 0;
   width: 100%;
   text-align: center;
   font-size: 80%;
 }
 .narrative_CSSQ{
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:50px;
+  max-height: 200px;
   font-size: 80%;
 }
 .evaluator_CSSQ{
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:40px;
+  max-height: 75px;
   font-size: 80%;
 }
 .concerns_CSSQ{
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 80%;
+}
+.qual_tasklist_CSSQ{
+  text-align: center;
+  color: grey;
   font-size: 80%;
 }
 .button_new_CSSTD{
@@ -235,7 +263,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 80%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 </style>

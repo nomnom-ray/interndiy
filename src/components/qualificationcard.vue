@@ -54,6 +54,7 @@ export default {
   font-size: 80%;
   width: 100%;
   margin-bottom: 10px;
+  background-color: #fafafc;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);  
 }
 .qual_title_empty_CSSQC{

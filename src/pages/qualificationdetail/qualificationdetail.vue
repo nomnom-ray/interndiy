@@ -6,6 +6,8 @@
         class="qual_title_CSSQD"
         v-model='title'
         :maxlength="200"
+        auto-height
+        cursor-spacing='20'
         placeholder="Copy and paste each job qualification separately."
       >
       </textarea>
@@ -33,12 +35,16 @@
       </button>
     </wux-wing-blank> -->
 
-    <wux-divider position="left" :text="'2. Justification of tasks (' + justification.length + '/400)'" />
+    <wux-divider position="left" text="2. List of performed tasks" />
     <div
       v-if="taskList.length === 0"
       class='qual_tasklist_CSSQD'
     >
-      This qualification has not been used for a task, yet.
+      <wux-cell-group>
+          <wux-cell>
+            This qualification has not been used for a task.
+          </wux-cell>
+      </wux-cell-group>
     </div>
     <div
       v-else
@@ -53,13 +59,16 @@
       </wux-cell-group>
     </div>
     <wux-white-space />
-    <wux-white-space />
+
+    <wux-divider position="left" :text="'3. Justification of work (' + justification.length + '/400)'" />
     <wux-wing-blank size="large">
       <textarea
         class="qual_justification_CSSQD"
         v-model='justification'
+        auto-height
+        cursor-spacing='20'
         :maxlength="400"
-        placeholder="Ask a mentor how your assigned tasks fits the qualification."
+        placeholder="Note how the above assigned tasks fit this qualification."
       >
       </textarea>
     </wux-wing-blank>
@@ -72,7 +81,7 @@
       />
     </div>
     <div class='info_content_CSSQD'>Track effort by looking at the number of tasks.</div>
-    <div class='info_content_CSSQ'>Focus on qualifications that benefit your narrative.</div>
+    <div class='info_content_CSSQD'>Focus on qualifications that benefit your narrative.</div>
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
@@ -83,6 +92,13 @@
       >delete
       </button>
     </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
   </div>
 </template>
@@ -181,25 +197,25 @@ export default {
 <style lang="scss" scoped>
 .qual_title_CSSQD{
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:50px;
+  max-height: 200px;
   font-size: 80%;  
 }
 .qual_description_CSSQD{
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:50px;
+  max-height: 200px;
   font-size: 80%;  
 }
 .qual_valid_CSSQD{
   color: gold;
 }
 .qual_justification_CSSQD{
-  border-top: 1px solid #eff1f7;
-  border-bottom: 1px solid #eff1f7;
+  // border-top: 1px solid #eff1f7;
+  // border-bottom: 1px solid #eff1f7;
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:50px;
+  max-height: 200px;
   font-size: 80%;  
 }
 .qual_tasklist_CSSQD{
@@ -216,7 +232,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 80%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSQD{
@@ -228,7 +244,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 80%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSQD{

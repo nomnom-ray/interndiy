@@ -1,37 +1,40 @@
 <template>
   <div style='max-width:100%;overflow-x:hidden'>
     <wux-toast id="wux-toast" />
+
     <van-popup
     :show="conceptPopupShow"
     @close="popupCloseHandler()"
     position='top'
     >
-      <wux-divider position="left" :text="'1. Behavior description (' + conceptDescription.length + '/600)'" />
-      <wux-row>
+      <wux-divider position="left" :text="'1. Behavior description (' + conceptDescription.length + '/400)'" />
         <wux-wing-blank size="large">
           <textarea
             class="popup_description_CSSCM"
             v-model='conceptDescription'
-            :maxlength="600"
-            placeholder="Describe a single behavior that connects prior and proceeding steps."
+            :maxlength="400"
+            auto-height
+            cursor-spacing='20'
+            placeholder="Describe a single behavior that connects the prior and proceeding steps."
             :disabled='topAddDisable && !triggerTopDisable'
           >
           </textarea>
         </wux-wing-blank>
-      </wux-row>
+
       <wux-white-space />
-      <wux-divider position="left" :text="'2. Contextual question (' + conceptQuestion.length + '/300)'" />
-      <wux-row>
+      <wux-divider position="left" :text="'2. Contextual question (' + conceptQuestion.length + '/200)'" />
         <wux-wing-blank size="large">
           <textarea 
             class='popup_question_CSSCM'
             v-model='conceptQuestion'
-            :maxlength="300"
-            placeholder="Add context to the description using a question which asks 'How'."
+            :maxlength="200"
+            auto-height
+            cursor-spacing='20'
+            placeholder="Add context to the description using a question that asks 'How'."
             :disabled='topAddDisable && !triggerTopDisable'
           ></textarea>
         </wux-wing-blank>
-      </wux-row>
+
       <wux-divider position="left" text="3. From this step" />  
       <wux-row>
         <wux-col span='5' push='1'>
@@ -51,6 +54,7 @@
           </button>
         </wux-col>
       </wux-row>
+
       <wux-white-space />
       <wux-row>
         <wux-col span='5' push='1'>
@@ -70,27 +74,31 @@
           </button>
         </wux-col>
       </wux-row>
+
       <wux-white-space />
     </van-popup>
+
     <van-popup
       :show="subjectPopupShow"
       @close="popupCloseHandler()"
       position='top'
     >
       <wux-divider position="left" :text="'Subject summary (' + subjectSummary.length + '/200)'" />
-      <wux-row>
-        <wux-wing-blank size="large">
-          <textarea
-            class="popup_summary_CSSCM"
-            v-model='subjectSummary'
-            :maxlength="200"
-            placeholder="Describe the theme of this subject column."
-          >
-          </textarea>
-        </wux-wing-blank>
-      </wux-row>
+      <wux-wing-blank size="large">
+        <textarea
+          class="popup_summary_CSSCM"
+          v-model='subjectSummary'
+          :maxlength="200"
+          auto-height
+          cursor-spacing='20'
+          placeholder="Describe the theme of this subject column."
+        >
+        </textarea>
+      </wux-wing-blank>
+
       <wux-white-space />
     </van-popup>
+
     <wux-row>
       <wux-col
         :key='subjectIndex'
@@ -132,6 +140,7 @@
         </view>
       </wux-col>
     </wux-row>
+
     <div class='info_icon_CSSCM'>
       <icon
         type="info"
@@ -141,7 +150,12 @@
     </div>
     <div class='info_content_CSSCM'>Express the project story with serialized behaviors.</div>
     <div class='info_content_CSSCM'>Elaborate on a behavior by creating a subject.</div>
-    <div class='info_content_CSSCM'>Click on adjacent columns to shift left/right.</div>
+    <div class='info_content_CSSCM'>Click on adjacent <span style='font-weight:bold'>cards</span> to shift left/right.</div>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
   </div>
 </template>
@@ -403,11 +417,15 @@
           return;
         }
         if (colClicked === 0) {
-          this.subjectsOnScreen -= 1;
+          if (this.subjectsOnScreen > 1) {
+            this.subjectsOnScreen -= 1;
+          }
           this.selectClear();
         }
         if (colClicked === 2) {
-          this.subjectsOnScreen += 1;
+          if (this.subjectsOnScreen <= this.subjects.length - 1) {
+            this.subjectsOnScreen += 1;
+          }
           this.selectClear();
         }
       },
@@ -713,20 +731,20 @@
 }
 .popup_question_CSSCM{
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:50px;
+  max-height: 200px;
   font-size: 80%;
 }
 .popup_description_CSSCM{
   width: 100%;
-  height: 100px;
-  overflow:scroll;
+  min-height:50px;
+  max-height: 200px;
   font-size: 80%;
 }
 .popup_summary_CSSCM{
   width: 100%;
-  height: 100px;
-  overflow:scroll;
+  min-height:100px;
+  max-height: 200px;
   font-size: 80%;
 }
 .summaryCSSCM{
@@ -762,7 +780,7 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSCM{
@@ -774,7 +792,7 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSCM{
