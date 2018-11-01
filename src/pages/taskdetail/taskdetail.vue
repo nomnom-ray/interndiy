@@ -35,7 +35,7 @@
         type="assertive"
         :disabled="clicked"
         @click='taskDone=!taskDone'
-      >Mark task {{taskDone ? 'incomplete' : 'complete'}}
+      >Mark task {{taskDone ? 'incomplete again' : 'completed'}}
       </wux-button>
     </wux-wing-blank>
 
@@ -43,29 +43,35 @@
       <span style='color:red'>*</span>
       Completed tasks are hidden.
     </div>
-
-    <wux-divider position="left" :text="'1. Task description for subcategory ' + boardId + ' (' + title.length + '/600)'" />
+    <wux-white-space />
+    <wux-divider position="left" :text="'1. Task description for subcategory ' + boardId + ' (' + title.length + '/400)'" />
     <wux-wing-blank size="large">
       <textarea
         class="titleCSSTD"
         v-model='title'
-        :maxlength="600"
+        :maxlength="400"
+        auto-height
+        cursor-spacing='20'
         :placeholder="'Describe a task for the implementation of a strategy(s) in subcategory ' + boardId + '.'"
       >
       </textarea>
     </wux-wing-blank>
     <wux-divider position="left" text="2. Qualifications involved" />
+    <div v-if='qualCheckBoxValues.length === 0' style='color:grey;text-align:center;font-size:80%'>
+      No qualifications assigned.
+    </div>
+    <wux-wing-blank size="default">
+      <div
+        class='qualifications_CSSTD'
+        v-if='qualifications[qualCheckBoxValue]'
+        :key='qualCheckBoxValueIndex'
+        v-for='(qualCheckBoxValue, qualCheckBoxValueIndex) in qualCheckBoxValues'
+        @click='qualificationClicked(qualCheckBoxValueIndex)'
+      >
+        {{qualifications[qualCheckBoxValue].title}}
+      </div>
+    </wux-wing-blank>
 
-    <wux-cell-group>
-        <wux-cell
-          v-if='qualifications[qualCheckBoxValue]'
-          :key='qualCheckBoxValueIndex'
-          v-for='(qualCheckBoxValue, qualCheckBoxValueIndex) in qualCheckBoxValues'
-          :title="qualifications[qualCheckBoxValue].title"
-          @click='qualificationClicked(qualCheckBoxValueIndex)'
-        >
-        </wux-cell>
-    </wux-cell-group>
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
       <button
@@ -76,15 +82,26 @@
     </wux-wing-blank>
 
     <wux-divider position="left" text="3. Strategies involved" />
-    <wux-cell-group>
-        <wux-cell
-          v-if='structures[boardId].bundles[bundleCheckBoxValue]'
-          :key='bundleCheckBoxValueIndex'
-          v-for='(bundleCheckBoxValue, bundleCheckBoxValueIndex) in bundleCheckBoxValues'
-          :title="structures[boardId].bundles[bundleCheckBoxValue].title"
-        >
-        </wux-cell>
-    </wux-cell-group>
+    <wux-wing-blank size="default">
+      <wux-cell-group>
+          <wux-cell
+            v-if='bundleCheckBoxValues.length === 0'
+          >
+            <div style='color:grey;text-align:center;font-size:80%'>
+              No strategies assigned.
+            </div>
+          </wux-cell>
+          <wux-cell
+            v-if='bundleCheckBoxValues.length !== 0 && structures[boardId].bundles[bundleCheckBoxValue]'
+            :key='bundleCheckBoxValueIndex'
+            v-for='(bundleCheckBoxValue, bundleCheckBoxValueIndex) in bundleCheckBoxValues'
+          >
+            <div class='strategy_CSSTD'>
+              {{structures[boardId].bundles[bundleCheckBoxValue].title}}
+            </div>
+          </wux-cell>
+      </wux-cell-group>
+    </wux-wing-blank>
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
       <button
@@ -128,15 +145,16 @@
     @close="popupCloseHandler()"
     position='top'
     >
-      <wux-divider v-if='todoAddText' position="left" :text="'Todo item (' + todoText.length + '/200)'" />
-      <wux-divider v-else position="left" :text="'Todo item (' + resultText.length + '/200)'" />
-      <wux-row>
+      <wux-divider v-if='todoAddText' position="left" :text="'Todo item: description (' + todoText.length + '/200)'" />
+      <wux-divider v-else position="left" :text="'Todo item: resolution (' + resultText.length + '/400)'" />
         <wux-wing-blank size="large">
           <textarea
             v-if='todoAddText'
             class="popupinputCSSTD"
             v-model='todoText'
             :maxlength="200"
+            auto-height
+            cursor-spacing='20'
             placeholder="Describe an actionable item for this task."
           >
           </textarea>
@@ -144,16 +162,23 @@
             v-else
             class="popupinputCSSTD"
             v-model='resultText'
-            :maxlength="200"
+            :maxlength="400"
+            auto-height
+            cursor-spacing='20'
             placeholder="Describe the actual action taken and its influences."
           >
           </textarea>
         </wux-wing-blank>
-      </wux-row>
       <wux-white-space />
     </van-popup>
 
     <wux-divider position="left" text="5. Todo-list and resolution" />
+    <div
+      v-if='structures[boardId].tasks[taskId] && structures[boardId].tasks[taskId].todos.length === 0'
+      style='color:grey;text-align:center;font-size:80%;padding:10px'
+    >
+      Replicate the task description and note the resolution if a todo-list is unnecessary.
+    </div>
     <app-todocard
       v-if='structures[boardId].tasks[taskId]'
       :key='todoIndex'
@@ -172,10 +197,6 @@
       </button>
     </wux-wing-blank>
 
-    <!-- <div>
-      <div>Concern Checklist</div>
-    </div> -->
-
     <wux-white-space />
     <div class='info_icon_CSSTD'>
       <icon
@@ -184,9 +205,10 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSSTD'>Track how the tasks contribute to the experience gained by selecting qualifications.</div>
-    <div class='info_content_CSSTD'>Track the impact of your actions by providing resolution after completing the task.</div>
-
+    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+      <div class='info_content_CSSTD'>Track how the tasks contribute to the experience gained by assigning qualifications.</div>
+      <div class='info_content_CSSTD'>Track the impact of your action by noting the resolution after completing each todo.</div>
+    </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
@@ -526,84 +548,93 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .titleCSSTD {
-    width: 100%;
-    height: 50px;
-    overflow:scroll;
-    font-size: 80%;
-  }
-  .drawerCSSTD{
-    overflow: scroll;
-    width: 80vw;
-    height: 100vh;
-    background:#fff;
-  }
-  .popupCSSTD {
-  font-size: 13px;
-  line-height: 30px;
-  margin-bottom: 10px;
-  text-align: center;
-  z-index: 999;
-  .popupinputCSSTD{
-    width: 100%;
-    height: 100px;
-    overflow:scroll;
-    font-size: 80%;
-  }
+.titleCSSTD {
+  width: 100%;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 80%;
 }
-  .weui-uploader__img {
-    display: block;
-    width: 79px;
-    height: 79px;
-  }
-  .weui-uploader__input-box {
-    float: left;
-    position: relative;
-    margin-right: 9px;
-    margin-bottom: 9px;
-    width: 77px;
-    height: 77px;
-    border: 1px solid #d9d9d9;
-  }
-  .weui-uploader__input-box:after,
-  .weui-uploader__input-box:before {
-    content: " ";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    background-color: #d9d9d9;
-  }
-  
-  .weui-uploader__input-box:before {
-    width: 2px;
-    height: 39.5px;
-  }
-  
-  .weui-uploader__input-box:after {
-    width: 39.5px;
-    height: 2px;
-  }
-  
-  .weui-uploader__input-box:active {
-    border-color: #999;
-  }
-  
-  .weui-uploader__input-box:active:after,
-  .weui-uploader__input-box:active:before {
-    background-color: #999;
-  }
+.drawerCSSTD{
+  overflow: scroll;
+  width: 80vw;
+  height: 100vh;
+  background:#fff;
+}
+.qualifications_CSSTD{
+  font-size: 80%;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  max-height: 55px;
+  overflow: scroll;
+  padding: 5px 10px 5px 10px;
+  text-align: justify;
+  text-justify: inter-word;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.strategy_CSSTD{
+  font-size: 80%;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.popupinputCSSTD{
+  width: 100%;
+  min-height:100px;
+  max-height: 200px;
+  font-size: 80%;
+}
+.weui-uploader__img {
+  display: block;
+  width: 79px;
+  height: 79px;
+}
+.weui-uploader__input-box {
+  float: left;
+  position: relative;
+  margin-right: 9px;
+  margin-bottom: 9px;
+  width: 77px;
+  height: 77px;
+  border: 1px solid #d9d9d9;
+}
+.weui-uploader__input-box:after,
+.weui-uploader__input-box:before {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: #d9d9d9;
+}
 
-  .weui-uploader__input {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-  }
+.weui-uploader__input-box:before {
+  width: 2px;
+  height: 39.5px;
+}
+
+.weui-uploader__input-box:after {
+  width: 39.5px;
+  height: 2px;
+}
+
+.weui-uploader__input-box:active {
+  border-color: #999;
+}
+
+.weui-uploader__input-box:active:after,
+.weui-uploader__input-box:active:before {
+  background-color: #999;
+}
+
+.weui-uploader__input {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
 .button_delete_CSSTD{
   background-color: white;
   width: 100%;
@@ -613,7 +644,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 80%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSTD{
@@ -625,13 +656,13 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 80%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_file_CSSTD{
   float: right;
   padding: 0 10px;
-  font-size: 75%;
+  font-size: 80%;
 }
 .uploader_position_CSSTD{
   width: 77px;
@@ -645,7 +676,7 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSSTD{
-  padding: 3px;
+  padding: 5px 0 0 0;
   width: 100%;
   text-align: center;
   font-size: 80%;

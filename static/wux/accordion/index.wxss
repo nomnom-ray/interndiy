@@ -24,7 +24,7 @@
   bottom: 0;
   right: 0;
   height: 2rpx;
-  border-bottom: 2rpx solid #D9D9D9;
+  border-bottom: 2rpx solid #264436;
   color: #D9D9D9;
   -webkit-transform-origin: 0 100%;
           transform-origin: 0 100%;
@@ -65,7 +65,7 @@
   overflow: hidden;
   background: #fff;
   font-size: 30rpx;
-  color: #333;
+  color: #161d20;
   position: relative;
   padding: 30rpx;
 }
@@ -75,7 +75,7 @@
   bottom: 0;
   right: 0;
   height: 2rpx;
-  border-bottom: 2rpx solid #D9D9D9;
+  border-bottom: 2rpx solid #264436;
   color: #D9D9D9;
   -webkit-transform-origin: 0 100%;
           transform-origin: 0 100%;

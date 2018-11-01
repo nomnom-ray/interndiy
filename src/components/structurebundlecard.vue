@@ -1,8 +1,9 @@
 <template>
   <a :href="detailURL">
     <div class="cardCSSSBC">
+      <wux-white-space />
       <div style="width:100%;text-align:center">
-        Click to edit.
+        Open to edit.
       </div>
       <wux-white-space />
       <wux-gallery v-if='pageActive === 6' id="wux-gallery"></wux-gallery>
@@ -30,6 +31,7 @@
         </div>
       </div>
       <wux-white-space />
+      <wux-white-space />
       <div
         class='annotate_container_CSSSBC'
         v-if='structures[propStructureIndex].bundles[propBundleIndex]'
@@ -42,12 +44,17 @@
           </div>
 
           <div
+            v-if="annotate.text !== ''"
             class='swipe_out_title_CSSSBC flex_text_CSSSBC'
           >
             {{annotate.text}}
           </div>
+          <div v-else style='color:grey;text-align:center;font-size:100%'>
+            Empty task description.
+          </div>
         </div>
         <div
+          v-if="annotate.result !== ''"
           class='swipe_out_resolution_CSSSBC'
         >
           <span class="swipe_out_resolution_title_CSSSBC">Detail: </span>
@@ -109,6 +116,9 @@ export default {
 .cardCSSSBC {
   width: 100%;
   font-size:14px;
+  margin-bottom: 10px;
+  background-color: #fafafc;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .pic_position_CSSSBC{
   width: 100%;
@@ -180,8 +190,11 @@ export default {
   background: rgba(0, 0, 0, 0);
 }
 .annotate_container_CSSSBC{
+  font-size: 100%;
   margin-bottom: 10px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  padding: 5px 0 5px 0;
+  border-top: 1px solid #eff1f7;
+  border-bottom: 1px solid #eff1f7;
 }
 .flex_container_CSSSBC{
   display: table;
@@ -215,7 +228,6 @@ export default {
 }
 .swipe_out_title_CSSSBC{
   padding: 5px 5px 0 10px;
-  // word-break: break-all;
   text-align: justify;
   text-justify: inter-word;
 }

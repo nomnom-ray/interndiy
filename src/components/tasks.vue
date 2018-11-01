@@ -11,6 +11,12 @@
         :title="'In subcategory ' + (structureIndex + 1) + ' (' + structure.title + ')'"
         :name="structureIndex"
       >
+        <div
+          v-if='structure.tasks.length === 0'
+          style='color:grey;text-align:center'
+        >
+          Use the red button to add a new task.
+        </div>        
         <app-task-card
           v-if='!task.taskDone || (task.taskDone && hideDone)'
           :key='taskIndex'
@@ -31,8 +37,8 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSST'>Create tasks to compare alternative strategies in each subcategory.</div>
-    <div class='info_content_CSST'>Create tasks to implement the primary strategy in each subcategory.</div>
+    <div class='info_content_CSST'>Create tasks to compare strategies in each subcategory.</div>
+    <div class='info_content_CSST'>Create tasks to implement the roadmap.</div>
 
     <wux-white-space />
 
@@ -65,10 +71,11 @@ export default {
       hideDone: false,
       floatButtons: [{
         label: 'Add task',
-        icon: '../../img/book.png',
+        icon: '../../img/todo.png',
       },
       {
-        label: 'Hide/UnHide Completed',
+        label: 'Hide/Unhide completed tasks',
+        icon: '../../img/hide.png',
       }],
     };
   },

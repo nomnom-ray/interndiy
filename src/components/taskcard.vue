@@ -17,7 +17,7 @@
 
       <div
         v-if="propTask.title ===''"
-        class='task_title_CSSTC task_title_empty_CSSTC'
+        class='task_title_empty_CSSTC'
       >
         Empty task. Open to edit.
       </div>
@@ -84,12 +84,14 @@ export default {
   font-size: 80%;
   width: 100%;
   margin-bottom: 10px;
+  background-color: #fafafc;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);  
 }
 .card_done_CSSTC{
   font-size: 80%;
   width: 100%;
   margin-bottom: 10px;
+  background-color: #fafafc;
   box-shadow: 0 2px 4px 0 #f4d06c, 0 3px 10px 0 #f4d06c;
 }
 .pic_position_CSSTC{
@@ -97,10 +99,14 @@ export default {
   height: 120px;
 }
 .task_title_empty_CSSTC{
+  padding: 10px;
+  font-size: 120%;
+  text-align: center;  
   color: grey;
 }
 .task_title_CSSTC{
   padding: 10px;
+  font-size: 120%;
   text-align: justify;
   text-justify: inter-word;
 }

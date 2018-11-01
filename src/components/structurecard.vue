@@ -1,12 +1,12 @@
 <template>
   <a :href="detailURL">
-    <wux-wing-blank size="default">
+    <wux-wing-blank size="small">
       <wux-white-space />
       <div
         class='card_CSSSC'
       >
         <wux-white-space />
-        <div style='font-weight:bold;text-align:center;width:100%;font-size:110%'>
+        <div style='font-weight:bold;text-align:center;width:100%;font-size:90%'>
           Subcategory {{propStructureIndex}}
         </div>
 
@@ -35,6 +35,7 @@
             class='pic_position_CSSSC'
             :src="url" mode="aspectFit"
             :id="index"
+            @click.stop="showGallery(url, index)"
           />
         </div>
       </div>
@@ -48,27 +49,26 @@
           <div class="weui-uploader__input"></div>
         </div>
       </div>
+      <wux-white-space />
+      <wux-white-space />
 
-        <div
-          v-if="propStructure.bundles[propStructure.bundleOpen] && propStructure.bundles[propStructure.bundleOpen].title === ''"
-          class='bundle_title_CSSSC bundle_title_empty_CSSSC'
-        >
-          <span style='font-weight:bold'>Strategy used: </span>Nameless strategy. Open to edit.
-        </div>
-        <div
-          v-else-if="propStructure.bundles[propStructure.bundleOpen]"
-          class='bundle_title_CSSSC'
-        >
-          <span style='font-weight:bold'>Strategy used: </span>{{propStructure.bundles[propStructure.bundleOpen].title}}
-        </div>
+      <div
+        v-if="propStructure.bundles[propStructure.bundleOpen] && propStructure.bundles[propStructure.bundleOpen].title === ''"
+        class='bundle_title_CSSSC bundle_title_empty_CSSSC'
+      >
+        <span style='font-weight:bold'>Strategy used: </span>Nameless strategy. Open to edit.
+      </div>
+      <div
+        v-else-if="propStructure.bundles[propStructure.bundleOpen]"
+        class='bundle_title_CSSSC'
+      >
+        <span style='font-weight:bold'>Strategy used: </span>{{propStructure.bundles[propStructure.bundleOpen].title}}
+      </div>
 
-        <wux-row>
-          <!-- <wux-col span='5' push='7'> -->
-            <div class='info_strategy_CSSSC'>
-              Number of strategies: {{propStructure.bundles.length}}</div>
-          <!-- </wux-col> -->
-        </wux-row>
-
+      <div class='info_strategy_CSSSC'>
+        <span style='color:red'>*</span>Number of strategies: {{propStructure.bundles.length}}
+      </div>
+      <wux-white-space />
       <wux-white-space />
       <div
         v-if='propStructure.bundles[propStructure.bundleOpen]'
@@ -84,12 +84,17 @@
             </div>
 
             <div
+              v-if="annotate.text !== ''"
               class='swipe_out_title_CSSSC flex_text_CSSSC'
             >
               {{annotate.text}}
             </div>
+            <div v-else style='color:grey;text-align:center;font-size:100%'>
+              Empty task description.
+            </div>
           </div>
           <div
+            v-if="annotate.result !== ''"
             class='swipe_out_resolution_CSSSC'
           >
             <span class="swipe_out_resolution_title_CSSSC">Detail: </span>
@@ -134,6 +139,7 @@ export default {
   },
   methods: {
     showGallery(url, current) {
+      console.log('here');
       const urls = [...this.propStructure.bundles[this.propStructure.bundleOpen].structurePics];
       this.$wuxGallery = $wuxGallery();
       this.$wuxGallery.show({
@@ -150,9 +156,9 @@ export default {
 
 <style lang="scss" scoped>
 .card_CSSSC{
-  font-size: 80%;
   width: 100%;
   margin-bottom: 10px;
+  background-color: #fafafc;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .pic_position_CSSSC{
@@ -225,10 +231,13 @@ export default {
   background: rgba(0, 0, 0, 0);
 }
 .annotate_container_CSSSC{
+  font-size: 80%;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  padding: 5px 0 5px 0;
+  border-top: 1px solid #eff1f7;
+  border-bottom: 1px solid #eff1f7;
 }
 .flex_container_CSSSC{
   display: table;
@@ -262,7 +271,6 @@ export default {
 }
 .swipe_out_title_CSSSC{
   padding: 5px 5px 0 10px;
-  // word-break: break-all;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -278,15 +286,16 @@ export default {
   color: grey;
 }
 .struc_title_CSSSC{
-  padding: 5px;
   font-size: 80%;
-  text-align: center;
+  padding: 5px 10px 0 10px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 .bundle_title_empty_CSSSC{
   color: grey;
 }
 .bundle_title_CSSSC{
-  padding: 0 10px 0 10px;
+  padding: 0 10px 5px 10px;
   font-size: 80%;
   text-align: justify;
   text-justify: inter-word;

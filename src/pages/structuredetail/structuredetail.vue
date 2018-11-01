@@ -12,7 +12,7 @@
           v-if='subject.id != 0'
           :key="subjectIndex"
           v-for='(subject, subjectIndex) in subjects'
-          :title="'subject ' + subject.id + ': ' + subject.summary"
+          :title="'Subject ' + subject.id + ': ' + subject.summary"
           :name="subjectIndex"
         >
           <wux-checkbox-group
@@ -23,7 +23,7 @@
               :key='conceptIndex'
               v-for='(concept, conceptIndex) in subject.concepts'
               color="assertive"
-              :title="'concept ' + concept.id + ': ' + concept.description"
+              :title="'Step ' + concept.id + ': ' + concept.description"
               :value="concept.id" />
           </wux-checkbox-group>
         </wux-accordion>
@@ -31,12 +31,14 @@
       </view>
     </i-drawer>
 
-    <wux-divider position="left" :text="'1. Title of subcategory ' + id" />
+    <wux-divider position="left" :text="'1. Title of subcategory ' + id + ' (' + title.length + '/200)'" />
       <wux-wing-blank size="large">
         <textarea
           class="titleCSSSD"
           v-model='title'
-          :maxlength="100"
+          :maxlength="200"
+          auto-height
+          cursor-spacing='20'
           placeholder="Few words to summarize the selected relevant behaviors."
         >
         </textarea>
@@ -44,15 +46,14 @@
 
     <wux-divider position="left" text='2. Relevant project behaviors' />
       <wux-wing-blank size="large">
-        <wux-cell-group>
-          <wux-cell
-            :key='conceptIndex'
-            v-for='(concept, conceptIndex) in conceptList'
-            :title="subjects[concept.subjectId].concepts[concept.conceptId - subjects[concept.subjectId].concepts[0].id].description"
-            @click='conceptListedClicked(concept.subjectId, concept.conceptId)'
-          >
-          </wux-cell>
-        </wux-cell-group>
+        <div
+          class='concepts_CSSSD'
+          :key='conceptIndex'
+          v-for='(concept, conceptIndex) in conceptList'
+          @click='conceptListedClicked(concept.subjectId, concept.conceptId)'
+        >
+          {{subjects[concept.subjectId].concepts[concept.conceptId - subjects[concept.subjectId].concepts[0].id].description}}
+        </div>
       </wux-wing-blank>
       <wux-white-space />
       <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
@@ -62,7 +63,7 @@
         >Select behaviors
         </button>
       </wux-wing-blank>
-    <wux-divider position="left" text='3. Strategies for implementation' />
+    <wux-divider position="left" text='3. Implementation strategies' />
     <wux-row>
       <wux-col span='9' push='3'>
         <div class='info_bundle_CSSSD'>
@@ -108,9 +109,11 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSSSD'>Categorize behaviors that can be implemented as a group.</div>
-    <div class='info_content_CSSSD'>Propose and create strategies for the implementation.</div>
-    <div class='info_content_CSSSD'>Decide on a single strategy for the roadmap.</div>
+    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">  
+      <div class='info_content_CSSSD'>Categorize behaviors that can be implemented as a group.</div>
+      <div class='info_content_CSSSD'>Propose and create strategies for the implementation.</div>
+      <div class='info_content_CSSSD'>Decide on a single strategy for the roadmap.</div>
+    </wux-wing-blank>  
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
@@ -280,8 +283,8 @@ export default {
 <style lang="scss" scoped>
 .titleCSSSD {
   width: 100%;
-  height: 50px;
-  overflow:scroll;
+  min-height:40px;
+  max-height: 75px;
   font-size: 80%;
 }
 .drawerCSSSD{
@@ -290,6 +293,19 @@ export default {
   width: 80vw;
   height: 100vh;
   background:#fff;
+}
+.concepts_CSSSD{
+  // border-top: 1px solid #eff1f7;
+  // border-bottom: 1px solid #eff1f7;
+  font-size: 80%;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  max-height: 55px;
+  overflow: scroll;
+  padding: 5px 10px 5px 10px;
+  text-align: justify;
+  text-justify: inter-word;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSSD{
   background-color: #f4cf6c;

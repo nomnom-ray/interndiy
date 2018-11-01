@@ -1,11 +1,11 @@
 <template>
   <div>
-    <wux-divider position="left" :text="'1. Title of strategy ' + bundleId + ' in subcategory ' + boardId" />
+    <wux-divider position="left" :text="'1. Description of strategy ' + bundleId + ' in subcategory ' + boardId + ' (' + title.length + '/200)'" />
     <wux-wing-blank size="large">
       <textarea
         class="titleCSSSB"
         v-model='title'
-        :maxlength="100"
+        :maxlength="200"
         placeholder="Name this strategy for implementing the subcategorized behaviors in the project story."
       >
       </textarea>
