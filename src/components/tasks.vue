@@ -8,7 +8,7 @@
       <wux-accordion
         :key="structureIndex"
         v-for='(structure, structureIndex) in structures'
-        :title="'In subcategory ' + (structureIndex + 1) + ' (' + structure.title + ')'"
+        :title="'In subcategory ' + (structureIndex) + ' (' + structure.title + ')'"
         :name="structureIndex"
       >
         <div
@@ -37,9 +37,17 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSST'>Create tasks to compare strategies in each subcategory.</div>
-    <div class='info_content_CSST'>Create tasks to implement the roadmap.</div>
-
+    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+      <div class='info_content_CSST'>Create tasks to compare strategies in each subcategory.</div>
+      <div class='info_content_CSST'>Create tasks to implement the roadmap.</div>
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
 
     <wux-select id="wux-select-tasks" />
@@ -90,7 +98,7 @@ export default {
           title: '',
           value: '',
         };
-        structure.title = `Board ${i}: ${this.structures[i].title}`;
+        structure.title = `Subcategory ${i}: ${this.structures[i].title}`;
         structure.value = i;
         this.structuresLocal.push(structure);
       }
@@ -128,23 +136,25 @@ export default {
         $wuxSelect('#wux-select-tasks').open({
           options: this.structuresLocal,
           toolbar: {
-            title: 'Add a new task in...',
+            title: 'Add a task in...',
             cancelText: 'cancel',
             confirmText: 'confirm',
           },
           onConfirm: (boardIndex) => {
-            this.tasksAdd({ boardIndex, type: 'add', taskDetail });
-            const taskId = this.structures[boardIndex].tasks.length - 1;
-            this.boardIndex = boardIndex;
-            this.structuresUpdate({
-              index: this.boardIndex,
-              type: 'tasksCount',
-              content: this.structures[boardIndex].tasks.length,
-            });
-            this.boardOpen = [boardIndex];
-            wx.navigateTo({
-              url: `/pages/taskdetail/main?board=${boardIndex}&task=${taskId}`,
-            });
+            if (boardIndex) {
+              this.tasksAdd({ boardIndex, type: 'add', taskDetail });
+              const taskId = this.structures[boardIndex].tasks.length - 1;
+              this.boardIndex = boardIndex;
+              this.structuresUpdate({
+                index: this.boardIndex,
+                type: 'tasksCount',
+                content: this.structures[boardIndex].tasks.length,
+              });
+              this.boardOpen = [boardIndex];
+              wx.navigateTo({
+                url: `/pages/taskdetail/main?board=${boardIndex}&task=${taskId}`,
+              });
+            }
           },
         });
       }

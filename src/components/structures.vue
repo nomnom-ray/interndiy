@@ -16,9 +16,11 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSSS'>Organize project behaviors into subcategories.</div>
-    <div class='info_content_CSSS'>Strategize implementations for each subcategory.</div>
-    <div class='info_content_CSSS'>Finalize a roadmap to reach the resulting behavior.</div>
+    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+      <div class='info_content_CSSS'>Organize project behaviors into subcategories.</div>
+      <div class='info_content_CSSS'>Strategize implementations for each subcategory.</div>
+      <div class='info_content_CSSS'>Finalize a roadmap to reach the resulting behavior.</div>
+    </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
@@ -29,6 +31,7 @@
     <wux-white-space />
 
     <wux-select id="wux-select-structure" />
+
     <wux-floating-button 
       position="bottomRight"
       theme="assertive"
@@ -66,7 +69,7 @@ export default {
           title: '',
           value: '',
         };
-        structure.title = `Board ${i}: ${this.structures[i].title}`;
+        structure.title = `Subcategory ${i}: ${this.structures[i].title}`;
         structure.value = i;
         this.structuresLocal.push(structure);
       }
@@ -112,17 +115,19 @@ export default {
       $wuxSelect('#wux-select-structure').open({
         options: this.structuresLocal,
         toolbar: {
-          title: 'Add a new board under...',
+          title: 'Add subcategory under a selected...',
           cancelText: 'cancel',
           confirmText: 'confirm',
         },
         onConfirm: (index) => {
-          structuresId = Number(index) + 1;
-          this.structuresAdd({ structuresId, structureDetail });
-          this.structuresCountAdd(1);
-          wx.navigateTo({
-            url: `/pages/structuredetail/main?id=${structuresId}`,
-          });
+          if (index) {
+            structuresId = Number(index) + 1;
+            this.structuresAdd({ structuresId, structureDetail });
+            this.structuresCountAdd(1);
+            wx.navigateTo({
+              url: `/pages/structuredetail/main?id=${structuresId}`,
+            });
+          }
         },
       });
     },

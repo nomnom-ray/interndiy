@@ -112,7 +112,7 @@
     </wux-wing-blank>
 
     <wux-divider position="left" :text="'4. Task visualization [Optional] (' + picURLs.length + '/1 picture)'" />
-    <wux-gallery v-if='pageActive === 7' id="wux-gallery"></wux-gallery>
+    <wux-gallery v-if='pageActive === 5' id="wux-gallery"></wux-gallery>
     <div
       :key='index'
       v-for="(url, index) in picURLs"
@@ -179,15 +179,18 @@
     >
       Replicate the task description and note the resolution if a todo-list is unnecessary.
     </div>
-    <app-todocard
-      v-if='structures[boardId].tasks[taskId]'
-      :key='todoIndex'
-      v-for='(todo, todoIndex) in structures[boardId].tasks[taskId].todos'
-      :propTodo = todo
-      :propTodoIndex = todoIndex
-      :propBoardIndex = boardId
-      :propTaskIndex = taskId
-    ></app-todocard>
+    <div
+      v-if='structures[boardId].tasks[taskId] && structures[boardId].tasks[taskId].todos.length !== 0'
+    >
+      <app-todocard
+        :key='todoIndex'
+        v-for='(todo, todoIndex) in structures[boardId].tasks[taskId].todos'
+        :propTodo = todo
+        :propTodoIndex = todoIndex
+        :propBoardIndex = boardId
+        :propTaskIndex = taskId
+      ></app-todocard>
+    </div>
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
       <button
@@ -218,6 +221,13 @@
       >Delete
       </button>
     </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
   </div>
 </template>
@@ -421,16 +431,35 @@ export default {
     },
     taskDelete() {
       if (this.clicked) {
+        this.clicked = true;
         return;
       }
-      this.clicked = true;
-      this.tasksDel({ boardIndex: this.boardId, taskIndex: this.taskId });
-      this.structuresUpdate({
-        index: this.boardId,
-        type: 'tasksCount',
-        content: this.structures[this.boardId].tasks.length,
-      });
-      wx.navigateBack();
+      if (this.picURLs.length !== 0) {
+        wx.showModal({
+          title: 'Delete picture first.',
+          confirmText: 'OK',
+          cancelText: 'cancel',
+          showCancel: false,
+        });
+      } else {
+        const that = this;
+        wx.showModal({
+          title: 'Confirm Delete',
+          confirmText: 'Confirm',
+          cancelText: 'cancel',
+          success: (resModal) => {
+            if (resModal.confirm) {
+              that.tasksDel({ boardIndex: that.boardId, taskIndex: that.taskId });
+              that.structuresUpdate({
+                index: that.boardId,
+                type: 'tasksCount',
+                content: that.structures[that.boardId].tasks.length,
+              });
+              wx.navigateBack();
+            }
+          },
+        });
+      }
     },
   },
   watch: {

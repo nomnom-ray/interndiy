@@ -36,7 +36,7 @@
     </wux-wing-blank> -->
 
     <wux-divider position="left" text="2. List of performed tasks" />
-    <div
+    <!-- <div
       v-if="taskList.length === 0"
       class='qual_tasklist_CSSQD'
     >
@@ -44,7 +44,7 @@
           <wux-cell>
             This qualification has not been used for a task.
           </wux-cell>
-      </wux-cell-group>
+      </wux-cell-group>      
     </div>
     <div
       v-else
@@ -57,7 +57,26 @@
           >
           </wux-cell>
       </wux-cell-group>
-    </div>
+    </div> -->
+
+    <wux-cell-group>
+        <wux-cell
+          v-if="taskList.length === 0"
+        >
+          <div style='color:grey;text-align:center;font-size:80%'>
+            This qualification has not been used for a task.
+          </div>
+        </wux-cell>
+        <wux-cell
+          :key='taskIndex'
+          v-for='(task, taskIndex) in taskList'
+        >
+          <div class='strategy_CSSQD'>
+            {{task.title}}
+          </div>
+        </wux-cell>
+    </wux-cell-group>
+
     <wux-white-space />
 
     <wux-divider position="left" :text="'3. Justification of work (' + justification.length + '/400)'" />
@@ -80,8 +99,10 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSSQD'>Track effort by looking at the number of tasks.</div>
-    <div class='info_content_CSSQD'>Focus on qualifications that benefit your narrative.</div>
+    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+      <div class='info_content_CSSQD'>Track effort by looking at the number of tasks.</div>
+      <div class='info_content_CSSQD'>Focus on qualifications that benefit your narrative.</div>
+    </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
@@ -209,6 +230,11 @@ export default {
 }
 .qual_valid_CSSQD{
   color: gold;
+}
+.strategy_CSSQD{
+  font-size: 80%;
+  text-align: justify;
+  text-justify: inter-word;
 }
 .qual_justification_CSSQD{
   // border-top: 1px solid #eff1f7;

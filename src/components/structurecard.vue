@@ -23,7 +23,6 @@
           {{propStructure.title}}
         </div>
 
-      <wux-gallery v-if='pageActive === 6' id="wux-gallery"></wux-gallery>
       <div
         v-if='propStructure.bundles[propStructure.bundleOpen]'
       >
@@ -35,7 +34,7 @@
             class='pic_position_CSSSC'
             :src="url" mode="aspectFit"
             :id="index"
-            @click.stop="showGallery(url, index)"
+            @click.stop="thumbPreview(index)"
           />
         </div>
       </div>
@@ -110,7 +109,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { $wuxGallery } from '../util/wux';
 
 export default {
   data() {
@@ -138,16 +136,10 @@ export default {
     },
   },
   methods: {
-    showGallery(url, current) {
-      console.log('here');
-      const urls = [...this.propStructure.bundles[this.propStructure.bundleOpen].structurePics];
-      this.$wuxGallery = $wuxGallery();
-      this.$wuxGallery.show({
+    thumbPreview(current) {
+      wx.previewImage({
         current,
-        urls,
-        onTap() {
-          return true;
-        },
+        urls: this.propStructure.bundles[this.propStructure.bundleOpen].structurePics,
       });
     },
   },

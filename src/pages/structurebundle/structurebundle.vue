@@ -12,7 +12,7 @@
     </wux-wing-blank>
     <wux-divider position="left" :text="'2. Strategy visualization (' + picURLs.length + '/1 picture)'" />
 
-    <wux-gallery v-if='pageActive === 6' id="wux-gallery"></wux-gallery>
+    <wux-gallery v-if='pageActive === 4' id="wux-gallery"></wux-gallery>
     <div
       :key='index'
       v-for="(url, index) in picURLs"
@@ -73,8 +73,10 @@
       <wux-white-space />
     </van-popup>
     <wux-divider position="left" text="3. Description of annotations" />
-    <app-annotatecard
+    <div
       v-if='structures[boardId].bundles[bundleId]'
+    >
+    <app-annotatecard
       :key='annotateIndex'
       v-for='(annotate, annotateIndex) in structures[boardId].bundles[bundleId].annotates'
       :propAnnotate = annotate
@@ -82,6 +84,7 @@
       :propBoardIndex = boardId
       :propBundleIndex = bundleId
     ></app-annotatecard>
+    </div>
 
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
@@ -100,10 +103,11 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSSSB'>Sketch a strategy for visualization on paper.</div>
-    <div class='info_content_CSSSB'>Mark the sketch with colored annotations.</div>
-    <div class='info_content_CSSSB'>Correlate the annotations with description.</div>
-
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <div class='info_content_CSSSB'>Sketch a strategy for visualization on paper.</div>
+      <div class='info_content_CSSSB'>Mark the sketch with colored annotations.</div>
+      <div class='info_content_CSSSB'>Correlate the annotations with description.</div>
+    </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
@@ -113,6 +117,13 @@
       >Delete
       </button>
     </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
   </div>
 </template>
@@ -236,23 +247,42 @@ export default {
     },
     bundleDelete() {
       if (this.clicked) {
+        this.clicked = true;
         return;
       }
-      this.clicked = true;
-      this.bundlesDel({ boardIndex: this.boardId, bundleIndex: this.bundleId });
-      if (Number(this.structures.bundleOpen) === this.bundleId) {
-        this.structures.bundleOpen = JSON
-          .stringify(this.structures[this.boardId].bundles.length - 1);
+      if (this.picURLs.length !== 0) {
+        wx.showModal({
+          title: 'Delete picture first.',
+          confirmText: 'OK',
+          cancelText: 'cancel',
+          showCancel: false,
+        });
+      } else {
+        const that = this;
+        wx.showModal({
+          title: 'Confirm Delete',
+          confirmText: 'Confirm',
+          cancelText: 'cancel',
+          success: (resModal) => {
+            if (resModal.confirm) {
+              that.bundlesDel({ boardIndex: that.boardId, bundleIndex: that.bundleId });
+              if (Number(that.structures.bundleOpen) === that.bundleId) {
+                that.structures.bundleOpen = JSON
+                  .stringify(that.structures[that.boardId].bundles.length - 1);
+              }
+              if (that.bundleId !== 0) {
+                that.bundleId -= 1;
+              }
+              that.structuresUpdate({
+                index: that.boardId,
+                type: 'bundlesCount',
+                content: that.structures[that.boardId].bundles.length,
+              });
+              wx.navigateBack();
+            }
+          },
+        });
       }
-      if (this.bundleId !== 0) {
-        this.bundleId -= 1;
-      }
-      this.structuresUpdate({
-        index: this.boardId,
-        type: 'bundlesCount',
-        content: this.structures[this.boardId].bundles.length,
-      });
-      wx.navigateBack();
     },
     popupCloseHandler() {
       this.annotatePopupShow = false;

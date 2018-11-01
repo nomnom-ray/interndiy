@@ -148,9 +148,13 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <div class='info_content_CSSCM'>Express the project story with serialized behaviors.</div>
-    <div class='info_content_CSSCM'>Elaborate on a behavior by creating a subject.</div>
-    <div class='info_content_CSSCM'>Click on adjacent <span style='font-weight:bold'>cards</span> to shift left/right.</div>
+    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+      <div class='info_content_CSSCM'>Express the project story with serialized behaviors.</div>
+      <div class='info_content_CSSCM'>Elaborate on a behavior by creating a subject.</div>
+      <div class='info_content_CSSCM'>Click on adjacent <span style='font-weight:bold'>cards</span> to shift left/right.</div>
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />

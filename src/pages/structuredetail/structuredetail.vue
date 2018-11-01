@@ -70,28 +70,31 @@
           <span style='color:red'>*</span>Choose a primary strategy by keeping it open.</div>
       </wux-col>
     </wux-row>
-    <wux-accordion-group
-      v-if='structures[id]'
-      :auto='true'
-      accordion
-      :defaultCurrent="[structures[id].bundleOpen]"
-      @change="bundleChange"
+    <div
+      v-if='structures[id] && structures[id].bundles'
     >
-      <wux-accordion
-        v-if='structures[id].bundles'
-        :key="bundleIndex"
-        v-for='(bundle, bundleIndex) in structures[id].bundles'
-        :title="'Strategy' + ' ' + (bundleIndex + 1) + ': ' + bundle.title"
-        :name="bundleIndex"
+      <wux-accordion-group
+        v-if='structures[id]'
+        :auto='true'
+        accordion
+        :defaultCurrent="[structures[id].bundleOpen]"
+        @change="bundleChange"
       >
-        <app-bundle-card
-          :propBundle='bundle'
-          :propStructureIndex='id'
-          :propBundleIndex='bundleIndex'
-        >
-        </app-bundle-card>
-      </wux-accordion>
-    </wux-accordion-group>
+          <wux-accordion
+            :key="bundleIndex"
+            v-for='(bundle, bundleIndex) in structures[id].bundles'
+            :title="'Strategy' + ' ' + (bundleIndex + 1) + ': ' + bundle.title"
+            :name="bundleIndex"
+          >
+            <app-bundle-card
+              :propBundle='bundle'
+              :propStructureIndex='id'
+              :propBundleIndex='bundleIndex'
+            >
+            </app-bundle-card>
+          </wux-accordion>
+      </wux-accordion-group>
+    </div>
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
       <button
@@ -110,7 +113,7 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:25px;margin-right:25px">  
-      <div class='info_content_CSSSD'>Categorize behaviors that can be implemented as a group.</div>
+      <div class='info_content_CSSSD'>Categorize behaviors to implement as a group.</div>
       <div class='info_content_CSSSD'>Propose and create strategies for the implementation.</div>
       <div class='info_content_CSSSD'>Decide on a single strategy for the roadmap.</div>
     </wux-wing-blank>  
@@ -123,6 +126,13 @@
       >Delete
       </button>
     </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
   </div>
 </template>
@@ -234,12 +244,31 @@ export default {
     },
     structureDelete() {
       if (this.clicked) {
+        this.clicked = true;
         return;
       }
-      this.clicked = true;
-      this.structuresDel(this.id);
-      this.structuresCountDel();
-      wx.navigateBack();
+      if (this.structures[this.id].bundles.length !== 0) {
+        wx.showModal({
+          title: 'Delete strategies first.',
+          confirmText: 'OK',
+          cancelText: 'cancel',
+          showCancel: false,
+        });
+      } else {
+        const that = this;
+        wx.showModal({
+          title: 'Confirm Delete',
+          confirmText: 'Confirm',
+          cancelText: 'cancel',
+          success: (resModal) => {
+            if (resModal.confirm) {
+              that.structuresDel(this.id);
+              that.structuresCountDel();
+              wx.navigateBack();
+            }
+          },
+        });
+      }
     },
   },
   watch: {

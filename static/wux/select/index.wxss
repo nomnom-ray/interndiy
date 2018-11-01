@@ -2,20 +2,21 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 1010;
+  z-index: 2010;
   width: 100%;
   margin: auto;
   background-color: #fff;
 }
 .wux-select__content {
+  font-size: 30rpx;
   height: 540rpx;
 }
 .wux-select__toolbar {
   position: relative;
   width: 100%;
-  font-size: 34rpx;
+  font-size: 30rpx;
   line-height: 1.5;
-  color: #444;
+  color: #161d20;
   background: #f7f7f8;
 }
 .wux-select__toolbar:before {
@@ -44,7 +45,7 @@
   display: block;
   width: 100%;
   padding: 0;
-  font-size: 34rpx;
+  font-size: 30rpx;
   font-weight: normal;
   line-height: 88rpx;
   color: #444;

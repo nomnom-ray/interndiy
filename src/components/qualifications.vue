@@ -75,8 +75,18 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
-      <div class='info_content_CSSQ'>Co-op is for refining your career narrative; <span style='font-weight:bold'>Zero21</span> is here to guide you.</div>
       <div class='info_content_CSSQ'>Aim for an Outstanding to easily get future co-ops within your narrative. </div>
+      <div class='info_content_CSSQ'>Co-op is for refining your career narrative; <span style='font-weight:bold'>Zero21</span> is here to guide you.</div>
+      <div class='info_content_CSSQ'>Contact <span style='font-weight:bold'>r8chen</span> (Wechat ID) for guidance.</div>      
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <button
+        class='button_delete_CSSQ'
+        @click='clearAll'
+      >Clear All Content
+      </button>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
@@ -146,6 +156,33 @@ export default {
       const qualificationId = this.qualifications.length;
       wx.navigateTo({
         url: `/pages/qualificationdetail/main?id=${qualificationId}`,
+      });
+    },
+    clearAll() {
+      wx.showModal({
+        title: 'Confirm Delete',
+        confirmText: 'Confirm',
+        cancelText: 'cancel',
+        success: (res) => {
+          if (res.confirm) {
+            wx.getSavedFileList({
+              success(resDel) {
+                for (let i = 0; i <= resDel.fileList.length - 1; i += 1) {
+                  wx.removeSavedFile({
+                    filePath: resDel.fileList[i].filePath,
+                  });
+                }
+              },
+            });
+            wx.clearStorage();
+            wx.showModal({
+              title: 'Close the app to finish',
+              confirmText: 'OK',
+              cancelText: 'cancel',
+              showCancel: false,
+            });
+          }
+        },
       });
     },
   },
@@ -260,6 +297,18 @@ export default {
   border-radius: 8px;
   font-weight: bold;
   color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 80%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.button_delete_CSSQ{
+  background-color: white;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #f44336;
   text-align: center;
   text-decoration: none;
   display: inline-block;

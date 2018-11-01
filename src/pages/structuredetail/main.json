@@ -15,6 +15,7 @@
     "wux-accordion": "../../../static/wux/accordion/index",
     "wux-divider": "../../../static/wux/divider/index",
     "wux-wing-blank": "../../../static/wux/wing-blank/index",
-    "wux-white-space": "../../../static/wux/white-space/index"
+    "wux-white-space": "../../../static/wux/white-space/index",
+    "wux-toast": "../../../static/wux/toast/index"
   }
 }
