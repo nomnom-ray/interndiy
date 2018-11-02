@@ -8,7 +8,7 @@
   background-color: #fff;
 }
 .wux-select__content {
-  font-size: 30rpx;
+  font-size: 26rpx;
   height: 540rpx;
 }
 .wux-select__toolbar {

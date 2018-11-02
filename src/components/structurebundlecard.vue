@@ -61,6 +61,7 @@
           {{annotate.result}}
         </div>
       </div>
+      <wux-white-space />
     </div>
   </a>
 </template>
@@ -115,7 +116,7 @@ export default {
 <style lang="scss" scoped>
 .cardCSSSBC {
   width: 100%;
-  font-size:14px;
+  font-size:83%;
   margin-bottom: 10px;
   background-color: #fafafc;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
@@ -190,11 +191,11 @@ export default {
   background: rgba(0, 0, 0, 0);
 }
 .annotate_container_CSSSBC{
-  font-size: 100%;
+  font-size: 83%;
   margin-bottom: 10px;
   padding: 5px 0 5px 0;
-  border-top: 1px solid #eff1f7;
-  border-bottom: 1px solid #eff1f7;
+  border-top: 1px solid #e3e5ee;
+  border-bottom: 1px solid #e3e5ee;
 }
 .flex_container_CSSSBC{
   display: table;

@@ -40,7 +40,7 @@
         <wux-cell
           v-if="taskList.length === 0"
         >
-          <div style='color:grey;text-align:center;font-size:80%'>
+          <div style='color:grey;text-align:center;font-size:83%'>
             This qualification has not been used for a task.
           </div>
         </wux-cell>
@@ -197,19 +197,19 @@ export default {
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;  
+  font-size: 83%;  
 }
 .qual_description_CSSQD{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;  
+  font-size: 83%;  
 }
 .qual_valid_CSSQD{
   color: gold;
 }
 .strategy_CSSQD{
-  font-size: 80%;
+  font-size: 83%;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -219,12 +219,12 @@ export default {
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;  
+  font-size: 83%;  
 }
 .qual_tasklist_CSSQD{
   text-align: center;
   color: grey;
-  font-size: 80%;
+  font-size: 83%;
 }
 .button_delete_CSSQD{
   background-color: white;
@@ -235,7 +235,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 80%;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSQD{
@@ -247,7 +247,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 80%;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSQD{
@@ -258,6 +258,6 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: left;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>

@@ -146,7 +146,7 @@ export default {
   }
   .swipe_out_resolution_CSSAC{
     padding: 10px;
-    font-size:13px;
+    font-size:80%;
     text-align: justify;
     text-justify: inter-word;
   }
@@ -155,7 +155,7 @@ export default {
   }
   .swipe_out_resolution_empty_CSSAC{
     padding:10px;
-    font-size:13px;
+    font-size:80%;
   }
   .swipe_out_button_group_CSSAC{
     height:100%;

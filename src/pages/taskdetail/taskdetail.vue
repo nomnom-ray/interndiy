@@ -12,6 +12,14 @@
             :title="'Strategy ' + bundleIndex + ': ' + bundle.title"
             :value="bundleIndex" />
         </wux-checkbox-group>
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
       </view>
     </i-drawer>
     <i-drawer mode="right" :visible="showQualDrawer" @close="showQualDrawer = !showQualDrawer">
@@ -26,6 +34,14 @@
             :title="'Qualification ' + qualificationIndex + ': ' + qualification.title"
             :value="qualificationIndex" />
         </wux-checkbox-group>
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
+        <wux-white-space />
       </view>
     </i-drawer>
     <wux-wing-blank size="large">
@@ -58,7 +74,7 @@
       </textarea>
     </wux-wing-blank>
     <wux-divider position="left" text="2. Qualifications involved" />
-    <div v-if='qualCheckBoxValues.length === 0' style='color:grey;text-align:center;font-size:80%'>
+    <div v-if='qualCheckBoxValues.length === 0' style='color:grey;text-align:center;font-size:83%'>
       No qualifications assigned.
     </div>
     <wux-wing-blank size="default">
@@ -74,7 +90,7 @@
     </wux-wing-blank>
 
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
+    <wux-wing-blank body-style="margin-left:99px;margin-right:99px">
       <button
         class='button_new_CSSTD'
         @click='showQualDrawer = !showQualDrawer'
@@ -88,7 +104,7 @@
           <wux-cell
             v-if='bundleCheckBoxValues.length === 0'
           >
-            <div style='color:grey;text-align:center;font-size:80%'>
+            <div style='color:grey;text-align:center;font-size:83%'>
               No strategies assigned.
             </div>
           </wux-cell>
@@ -176,7 +192,7 @@
     <wux-divider position="left" text="5. Todo-list and resolution" />
     <div
       v-if='structures[boardId].tasks[taskId] && structures[boardId].tasks[taskId].todos.length === 0'
-      style='color:grey;text-align:center;font-size:80%;padding:10px'
+      style='color:grey;text-align:center;font-size:83%;padding:10px'
     >
       Replicate the task description and note the resolution if a todo-list is unnecessary.
     </div>
@@ -600,7 +616,7 @@ export default {
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .drawerCSSTD{
   overflow: scroll;
@@ -609,7 +625,8 @@ export default {
   background:#fff;
 }
 .qualifications_CSSTD{
-  font-size: 80%;
+  white-space: pre-wrap;
+  font-size: 83%;
   margin-bottom: 10px;
   margin-top: 5px;
   max-height: 58px;
@@ -617,10 +634,11 @@ export default {
   padding: 5px 10px 5px 10px;
   text-align: justify;
   text-justify: inter-word;
+  background: #fafafc;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .strategy_CSSTD{
-  font-size: 80%;
+  font-size: 83%;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -628,7 +646,7 @@ export default {
   width: 100%;
   min-height:100px;
   max-height: 200px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .weui-uploader__img {
   display: block;
@@ -692,7 +710,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 80%;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSTD{
@@ -704,13 +722,13 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 80%;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_file_CSSTD{
   float: right;
   padding: 0 10px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .uploader_position_CSSTD{
   width: 77px;
@@ -727,6 +745,6 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: left;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>

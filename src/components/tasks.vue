@@ -13,7 +13,7 @@
       >
         <div
           v-if='structure.tasks.length === 0'
-          style='color:grey;text-align:center'
+          style='color:grey;text-align:center;font-size:83%'
         >
           Use the red button to add a new task.
         </div>        
@@ -175,6 +175,6 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: left;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>

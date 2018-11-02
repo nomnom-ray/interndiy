@@ -78,7 +78,7 @@
     <wux-divider position="left" text="3. Description of annotations" />
     <div
       v-if='structures[boardId].bundles[bundleId] && structures[boardId].bundles[bundleId].annotates.length === 0'
-      style='color:grey;text-align:center;font-size:80%;padding:10px'
+      style='color:grey;text-align:center;font-size:83%;padding:10px'
     >
       No annotation assigned. 
     </div>
@@ -436,7 +436,7 @@ export default {
     width: 100%;
     height: 50px;
     overflow:scroll;
-    font-size: 80%;
+    font-size: 83%;
   }
   .weui-uploader__img {
     display: block;
@@ -510,7 +510,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSSB{
@@ -522,7 +522,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSSB{
@@ -533,12 +533,12 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: left;
-  font-size: 80%;
+  font-size: 83%;
 }
 .popup_annotate_CSSSB{
   width: 100%;
   height: 100px;
   overflow:scroll;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>

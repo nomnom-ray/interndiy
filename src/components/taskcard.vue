@@ -28,7 +28,7 @@
         {{propTask.title}}
       </div>
 
-      <div style='border-top: 1px solid #eff1f7'>
+      <div style='border-top: 1px solid #e3e5ee'>
       <wux-row>
         <wux-col span='2'>
           <div style='text-align:center;padding:5px'>
@@ -81,32 +81,33 @@ export default {
 
 <style lang="scss" scoped>
 .card_undone_CSSTC{
-  font-size: 80%;
+  font-size: 95%;
   width: 100%;
   margin-bottom: 10px;
-  background-color: #fafafc;
+  background: #fafafc;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);  
 }
 .card_done_CSSTC{
-  font-size: 80%;
+  font-size: 95%;
   width: 100%;
   margin-bottom: 10px;
-  background-color: #fafafc;
+  background: #fafafc;
   box-shadow: 0 2px 4px 0 #f4d06c, 0 3px 10px 0 #f4d06c;
 }
 .pic_position_CSSTC{
   width: 100%;
   height: 120px;
+  border-bottom: 1px solid #264436;
 }
 .task_title_empty_CSSTC{
   padding: 10px;
-  font-size: 120%;
+  // font-size: 83%;
   text-align: center;  
   color: grey;
 }
 .task_title_CSSTC{
   padding: 10px;
-  font-size: 120%;
+  // font-size: 83%;
   text-align: justify;
   text-justify: inter-word;
 }

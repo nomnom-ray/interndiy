@@ -265,30 +265,30 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: left;
-  font-size: 80%;
+  font-size: 83%;
 }
 .narrative_CSSQ{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .evaluator_CSSQ{
   width: 100%;
   min-height:50px;
   max-height: 75px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .concerns_CSSQ{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .qual_tasklist_CSSQ{
   text-align: center;
   color: grey;
-  font-size: 80%;
+  font-size: 83%;
 }
 .button_new_CSSTD{
   background-color: #f4cf6c;
@@ -299,7 +299,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 80%;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_delete_CSSQ{
@@ -311,7 +311,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 80%;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 </style>

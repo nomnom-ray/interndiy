@@ -73,13 +73,13 @@ export default {
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .info_content_CSSPS{
   padding: 2px 0 4px 0;
   width: 100%;
   text-align: justify;
   text-justify: inter-word;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>

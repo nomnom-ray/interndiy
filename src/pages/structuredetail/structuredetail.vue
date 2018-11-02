@@ -15,6 +15,7 @@
           :title="'Subject ' + subject.id + ': ' + subject.summary"
           :name="subjectIndex"
         >
+        <!-- font-size of everything here is changed in accordion wxss -->
           <wux-checkbox-group
             :name="subject.id"
             :value='checkBoxValues[subject.id]'
@@ -28,6 +29,14 @@
           </wux-checkbox-group>
         </wux-accordion>
       </wux-accordion-group>
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
       </view>
     </i-drawer>
 
@@ -323,19 +332,19 @@ export default {
   width: 100%;
   min-height:40px;
   max-height: 75px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .drawerCSSSD{
   overflow-y: scroll;
   overflow-x: hidden;
+  font-size: 83%;
   width: 80vw;
   height: 100vh;
   background:#fff;
 }
 .concepts_CSSSD{
-  // border-top: 1px solid #eff1f7;
-  // border-bottom: 1px solid #eff1f7;
-  font-size: 80%;
+  white-space: pre-wrap;
+  font-size: 83%;
   margin-bottom: 10px;
   margin-top: 5px;
   max-height: 58px;
@@ -343,6 +352,7 @@ export default {
   padding: 5px 10px 5px 10px;
   text-align: justify;
   text-justify: inter-word;
+  background: #fafafc;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSSD{
@@ -354,7 +364,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_delete_CSSSD{
@@ -366,7 +376,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_bundle_CSSSD{
@@ -380,6 +390,6 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: left;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>

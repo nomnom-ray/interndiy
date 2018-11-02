@@ -115,7 +115,7 @@ export default {
       $wuxSelect('#wux-select-structure').open({
         options: this.structuresLocal,
         toolbar: {
-          title: 'Add subcategory under a selected...',
+          title: 'Add subcat. under a selected...',
           cancelText: 'cancel',
           confirmText: 'confirm',
         },
@@ -477,6 +477,6 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: left;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>

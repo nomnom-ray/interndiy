@@ -6,7 +6,7 @@
         class='card_CSSSC'
       >
         <wux-white-space />
-        <div style='font-weight:bold;text-align:center;width:100%;font-size:90%'>
+        <div style='font-weight:bold;text-align:center;width:100%;font-size:83%'>
           Subcategory {{propStructureIndex}}
         </div>
 
@@ -223,13 +223,13 @@ export default {
   background: rgba(0, 0, 0, 0);
 }
 .annotate_container_CSSSC{
-  font-size: 80%;
+  font-size: 83%;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
   padding: 5px 0 5px 0;
-  border-top: 1px solid #eff1f7;
-  border-bottom: 1px solid #eff1f7;
+  border-top: 1px solid #e3e5ee;
+  border-bottom: 1px solid #e3e5ee;
 }
 .flex_container_CSSSC{
   display: table;
@@ -278,7 +278,7 @@ export default {
   color: grey;
 }
 .struc_title_CSSSC{
-  font-size: 80%;
+  font-size: 83%;
   padding: 5px 10px 0 10px;
   text-align: justify;
   text-justify: inter-word;
@@ -288,13 +288,13 @@ export default {
 }
 .bundle_title_CSSSC{
   padding: 0 10px 5px 10px;
-  font-size: 80%;
+  font-size: 83%;
   text-align: justify;
   text-justify: inter-word;
 }
 .info_strategy_CSSSC{
   padding: 0 10px;
   float: right;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>

@@ -8,7 +8,6 @@
     <div class='arrowtopCSSCC' v-if='arrowTopShow'></div>
     <div 
       class='cardCSSCC'
-      :class='{red: conceptIsClicked, conceptChild: arrowLeftShow}'
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
         <div class='questionCSSCC' v-if="propConcept.question !== ''"><span class='title_CSSCC'>Context: </span>{{propConcept.question}}</div>
@@ -167,13 +166,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .red {
-    border: 2px solid #264436;
-  }
-  .conceptChild {
-    background-color: grey;
-    border-color: grey;
-  }
   .containerCSSCC {
     position: relative;
     width: 290px;
@@ -184,10 +176,9 @@
     .cardCSSCC {
       width: 100%;
       height: 100%;
-      z-index: 0;
-      font-size: 75%;
+      font-size: 83%;
       background-clip: content-box;
-      background-color: #eff1f7;
+      background: #eff1f7;
       -webkit-border-radius: 12px;
       -moz-border-radius: 12px;
       box-shadow: 0 2px 0 rgba(9,45,66,.25);
@@ -197,7 +188,6 @@
       }
       .questionCSSCC{
         width: auto;
-        z-index: 1;
         max-height: 22px;
         overflow: hidden;
         text-align: left;
@@ -205,13 +195,13 @@
         text-overflow: ellipsis;
         position: relative;
         border-radius: 6px;
-        background: #e3e5eef1;
+        background: rgba(38,68,54,0.2);
         padding: 5px 13px 3px 13px;
       }
       .description_empty_CSSCC{
         margin: 0;
         position: relative;
-        font-size: 120%;
+        font-size: 110%;
         left: 50%;
         top: 50%;
         -ms-transform: translate(-50%, -50%);

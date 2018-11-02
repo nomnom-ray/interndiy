@@ -51,7 +51,7 @@ export default {
 
 <style lang="scss" scoped>
 .cardCSSQC {
-  font-size: 80%;
+  font-size: 83%;
   width: 100%;
   margin-bottom: 10px;
   background-color: #fafafc;

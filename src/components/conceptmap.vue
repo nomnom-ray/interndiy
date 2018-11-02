@@ -732,36 +732,36 @@
   text-align: right;
   direction: rtl;
   background-clip: content-box;
-  background-color: #fafafc;
+  background: #fafafc;
 }
 .subjectCSSCM-2 {
   text-align: center;
   background-clip: content-box;
-  background-color: #fafafc;
+  background: #fafafc;
 }
 .subjectCSSCM-3 {
   text-align: left;
   direction: ltr;
   background-clip: content-box;
-  background-color: #fafafc;
+  background: #fafafc;
 }
 .popup_question_CSSCM{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .popup_description_CSSCM{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .popup_summary_CSSCM{
   width: 100%;
   min-height:100px;
   max-height: 200px;
-  font-size: 80%;
+  font-size: 83%;
 }
 .summaryCSSCM{
   width: auto;
@@ -770,7 +770,7 @@
   flex-wrap: nowrap;
   overflow: hidden;
   direction: ltr;
-  font-size: 80%;
+  font-size: 83%;
   text-align: left;
   border-bottom: 2px solid #264436;
   background-clip: content-box;
@@ -779,7 +779,7 @@
 .summary_empty_CSSCM{
   margin: 0;
   position: relative;
-  font-size: 100%;
+  font-size: 83%;
   text-align: center;
   left: 50%;
   top: 50%;
@@ -796,7 +796,7 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 75%;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSCM{
@@ -808,7 +808,7 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 75%;
+  font-size: 83%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSCM{
@@ -819,6 +819,6 @@
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: left;
-  font-size: 80%;
+  font-size: 83%;
 }
 </style>
