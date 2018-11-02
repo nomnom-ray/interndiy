@@ -184,6 +184,7 @@
     .cardCSSCC {
       width: 100%;
       height: 100%;
+      z-index: 0;
       font-size: 75%;
       background-clip: content-box;
       background-color: #eff1f7;
@@ -196,6 +197,7 @@
       }
       .questionCSSCC{
         width: auto;
+        z-index: 1;
         max-height: 22px;
         overflow: hidden;
         text-align: left;
@@ -441,7 +443,7 @@
       border-color: #fafafc transparent;
       display: block;
       width: 0;
-      z-index: 1;
+      z-index: 9;
       margin-left: -24px;
       top: -8px;
       left: 50%;

@@ -13,7 +13,7 @@
   background: transparent;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.85);
-  font-size: 32rpx;
+  font-size: 30rpx;
   border-top: none !important;
 }
 .wux-divider--text:before,

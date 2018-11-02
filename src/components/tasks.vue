@@ -37,7 +37,7 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSST'>Create tasks to compare strategies in each subcategory.</div>
       <div class='info_content_CSST'>Create tasks to implement the roadmap.</div>
     </wux-wing-blank>
@@ -172,9 +172,9 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSST{
-  padding: 3px;
   width: 100%;
-  text-align: center;
+  padding: 2px 0 6px 0;
+  text-align: left;
   font-size: 80%;
 }
 </style>

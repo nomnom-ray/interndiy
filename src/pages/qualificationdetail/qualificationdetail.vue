@@ -8,7 +8,7 @@
         :maxlength="200"
         auto-height
         cursor-spacing='20'
-        placeholder="Copy and paste each job qualification separately."
+        placeholder="Copy and paste each job qualification, separately."
       >
       </textarea>
     </wux-wing-blank>
@@ -36,29 +36,6 @@
     </wux-wing-blank> -->
 
     <wux-divider position="left" text="2. List of performed tasks" />
-    <!-- <div
-      v-if="taskList.length === 0"
-      class='qual_tasklist_CSSQD'
-    >
-      <wux-cell-group>
-          <wux-cell>
-            This qualification has not been used for a task.
-          </wux-cell>
-      </wux-cell-group>      
-    </div>
-    <div
-      v-else
-    >
-      <wux-cell-group>
-          <wux-cell
-            :key='taskIndex'
-            v-for='(task, taskIndex) in taskList'
-            :title="task.title"
-          >
-          </wux-cell>
-      </wux-cell-group>
-    </div> -->
-
     <wux-cell-group>
         <wux-cell
           v-if="taskList.length === 0"
@@ -99,7 +76,7 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSQD'>Track effort by looking at the number of tasks.</div>
       <div class='info_content_CSSQD'>Focus on qualifications that benefit your narrative.</div>
     </wux-wing-blank>
@@ -238,7 +215,7 @@ export default {
 }
 .qual_justification_CSSQD{
   // border-top: 1px solid #eff1f7;
-  // border-bottom: 1px solid #eff1f7;
+  border-bottom: 1px solid #eff1f7;
   width: 100%;
   min-height:50px;
   max-height: 200px;
@@ -278,9 +255,9 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSSQD{
-  padding: 3px;
   width: 100%;
-  text-align: center;
+  padding: 2px 0 6px 0;
+  text-align: left;
   font-size: 80%;
 }
 </style>

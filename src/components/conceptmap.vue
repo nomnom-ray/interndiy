@@ -1,5 +1,5 @@
 <template>
-  <div style='max-width:100%;overflow-x:hidden'>
+  <div :class="conceptPopupShow || subjectPopupShow ? 'map_popup_CSSCM' : 'map_container_CSSCM'">
     <wux-toast id="wux-toast" />
 
     <van-popup
@@ -148,8 +148,8 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
-      <div class='info_content_CSSCM'>Express the project story with serialized behaviors.</div>
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
+      <div class='info_content_CSSCM'>Express the project story with serialized behaviors between a trigger and a result.</div>
       <div class='info_content_CSSCM'>Elaborate on a behavior by creating a subject.</div>
       <div class='info_content_CSSCM'>Click on adjacent <span style='font-weight:bold'>cards</span> to shift left/right.</div>
     </wux-wing-blank>
@@ -716,6 +716,18 @@
 </script>
 
 <style lang='scss'>
+.map_container_CSSCM{
+  max-width:100%;
+  overflow-x:hidden;
+}
+.map_popup_CSSCM{
+  position: fixed;
+  z-index: 999;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+}
 .subjectCSSCM-1 {
   text-align: right;
   direction: rtl;
@@ -804,9 +816,9 @@
   margin: 0 auto;
 }
 .info_content_CSSCM{
-  padding: 3px;
   width: 100%;
-  text-align: center;
+  padding: 2px 0 6px 0;
+  text-align: left;
   font-size: 80%;
 }
 </style>

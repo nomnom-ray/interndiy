@@ -162,17 +162,20 @@ export default {
     width:100%;
     background:#f4cf6c;
   }
+  .swipe_out_button_group_CSSTC:after{
+    content: "";
+    display: table;
+    clear: both;
+  }
   .swipe_out_button_CSSTC{
-    width:55px;
-    float:left;
-    display: flex;
-    height:100%;
-    justify-content: center;
+    float: left;
+    width: 20%;
+    text-align: center;
+    padding: 25px 0 0 0;
     background:#f4cf6c;
-    align-items:center;
   }
   .swipe_out_icon_CSSTC{
-    width: 36px;
+    width: 35px;
     height: 50px;
     position: relative;
     border-radius:5px;

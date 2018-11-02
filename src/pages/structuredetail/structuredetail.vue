@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="showDrawer ? 'popup_CSSSD' : ''">
     <wux-toptips id="wux-toptips" />
     <i-drawer mode="right" :visible="showDrawer" @close="drawerToggle">
       <view class='drawerCSSSD'>
@@ -34,6 +34,7 @@
     <wux-divider position="left" :text="'1. Title of subcategory ' + id + ' (' + title.length + '/200)'" />
       <wux-wing-blank size="large">
         <textarea
+          v-if='!showDrawer'
           class="titleCSSSD"
           v-model='title'
           :maxlength="200"
@@ -112,7 +113,7 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">  
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">  
       <div class='info_content_CSSSD'>Categorize behaviors to implement as a group.</div>
       <div class='info_content_CSSSD'>Propose and create strategies for the implementation.</div>
       <div class='info_content_CSSSD'>Decide on a single strategy for the roadmap.</div>
@@ -310,6 +311,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.popup_CSSSD{
+  position: fixed;
+  z-index: 999;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+}
 .titleCSSSD {
   width: 100%;
   min-height:40px;
@@ -329,7 +338,7 @@ export default {
   font-size: 80%;
   margin-bottom: 10px;
   margin-top: 5px;
-  max-height: 55px;
+  max-height: 58px;
   overflow: scroll;
   padding: 5px 10px 5px 10px;
   text-align: justify;
@@ -368,9 +377,9 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSSSD{
-  padding: 3px;
   width: 100%;
-  text-align: center;
+  padding: 2px 0 6px 0;
+  text-align: left;
   font-size: 80%;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <a :href="detailURL">
-    <wux-wing-blank size="small">
+    <wux-wing-blank size="default">
       <wux-white-space />
       <div
         class='card_CSSSC'
@@ -22,7 +22,7 @@
         >
           {{propStructure.title}}
         </div>
-
+        <wux-white-space />
       <div
         v-if='propStructure.bundles[propStructure.bundleOpen]'
       >

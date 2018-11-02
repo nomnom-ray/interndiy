@@ -1,6 +1,5 @@
 <template>
   <div>
-    <wux-white-space />
     <wux-divider position="left" :text="'Project story (' + projectStory.length + '/200)'" />
     <wux-wing-blank size="large">
       <textarea
@@ -16,9 +15,9 @@
 
     <wux-divider position="left" text="Examples of a project story" />
     <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
-      <div class='info_content_CSSPS'><span style='font-weight:bold'>Marketing Specialist: </span>Promote an online dating App via Social media and offline campaign to capture users in Ontario.</div>
-      <div class='info_content_CSSPS'><span style='font-weight:bold'>Business Developer: </span>Discover new clients, manage client contacts, and engage potential clients to validate business strategy.</div>
-      <div class='info_content_CSSPS'><span style='font-weight:bold'>Electrical Engineer: </span>Commission a sun-following solar charger for portable phone batteries.</div>    
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Marketing Specialist: </span>promote an online dating app via social media and offline campaign to capture users in Ontario.</div>
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Business Developer: </span>discover new clients, manage contacts, and engage potential clients to validate business strategy.</div>
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Electrical Engineer: </span>commission a sun-tracking solar charger for portable phone batteries.</div>    
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />

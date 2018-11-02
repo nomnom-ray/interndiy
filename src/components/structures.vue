@@ -16,7 +16,7 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSS'>Organize project behaviors into subcategories.</div>
       <div class='info_content_CSSS'>Strategize implementations for each subcategory.</div>
       <div class='info_content_CSSS'>Finalize a roadmap to reach the resulting behavior.</div>
@@ -474,9 +474,9 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSSS{
-  padding: 3px;
   width: 100%;
-  text-align: center;
+  padding: 2px 0 6px 0;
+  text-align: left;
   font-size: 80%;
 }
 </style>

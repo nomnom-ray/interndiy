@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <wux-divider position="left" :text="'1. Description of strategy ' + bundleId + ' in subcategory ' + boardId + ' (' + title.length + '/200)'" />
+  <div :class="annotatePopupShow || galleryShow ? 'popup_CSSSB' : ''">
+    <wux-divider position="left" :text="'1. Description of strategy ' + bundleId + '; in Subcat. ' + boardId + ' (' + title.length + '/200)'" />
     <wux-wing-blank size="large">
       <textarea
+        v-if='!annotatePopupShow && !galleryShow'
         class="titleCSSSB"
         v-model='title'
         :maxlength="200"
@@ -17,7 +18,7 @@
       :key='index'
       v-for="(url, index) in picURLs"
     >
-    <wux-wing-blank size="small">
+    <wux-wing-blank size="default">
       <img
         class="pic_position_CSSSB"
         :src="url" mode="aspectFit"
@@ -49,7 +50,8 @@
     @close="popupCloseHandler()"
     position='top'
     >
-      <wux-divider position="left" :text="'Annotation: description (' + annotateText.length + '/200), detail (' + resultText.length + '/400)'" />
+      <wux-divider v-if='annotateAddText' position="left" :text="'Annotation: description (' + annotateText.length + '/200)'" />
+      <wux-divider v-else position="left" :text="'Annotation: resolution (' + resultText.length + '/400)'" />
       <wux-row>
         <wux-wing-blank size="large">
           <textarea
@@ -65,14 +67,21 @@
             class="popup_annotate_CSSSB"
             v-model='resultText'
             :maxlength="400"
-            placeholder="Describe how this component results in subcategory behavior."
+            placeholder="Describe how the annotated component contributes to this subcategory's behavior."
           >
           </textarea>
         </wux-wing-blank>
       </wux-row>
       <wux-white-space />
     </van-popup>
+
     <wux-divider position="left" text="3. Description of annotations" />
+    <div
+      v-if='structures[boardId].bundles[bundleId] && structures[boardId].bundles[bundleId].annotates.length === 0'
+      style='color:grey;text-align:center;font-size:80%;padding:10px'
+    >
+      No annotation assigned. 
+    </div>
     <div
       v-if='structures[boardId].bundles[bundleId]'
     >
@@ -103,10 +112,11 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSSB'>Sketch a strategy for visualization on paper.</div>
       <div class='info_content_CSSSB'>Mark the sketch with colored annotations.</div>
-      <div class='info_content_CSSSB'>Correlate the annotations with description.</div>
+      <div class='info_content_CSSSB'>Match the color of the sketched annotations by 
+        adding an annotation here and tapping on the icon.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
@@ -147,6 +157,7 @@ export default {
       picURLs: [],
       picsTotal: '0',
       annotatePopupShow: false,
+      galleryShow: false,
       annotateText: '',
       resultText: '',
       annotateToChange: 0,
@@ -217,6 +228,8 @@ export default {
       });
     },
     showGallery(url, current) {
+      this.galleryShow = true;
+      const self = this;
       const urls = [...this.picURLs];
       this.$wuxGallery = $wuxGallery();
       this.$wuxGallery.show({
@@ -238,9 +251,11 @@ export default {
           });
           that.picURLs = that.structures[that.boardId].bundles[that.bundleId]
             .structurePics;
+          self.galleryShow = false;
           return true;
         },
         onTap() {
+          self.galleryShow = false;
           return true;
         },
       });
@@ -286,11 +301,12 @@ export default {
     },
     popupCloseHandler() {
       this.annotatePopupShow = false;
+      this.annotateAddText = false;
+      this.resultAddText = false;
+      this.galleryShow = false;
       this.annotateText = '';
       this.resultText = '';
       this.annotateToChange = '';
-      this.annotateAddText = false;
-      this.resultAddText = false;
     },
     annotateNew() {
       const annotateDetail = {
@@ -373,6 +389,10 @@ export default {
     this.storageRemainGet();
     this.title = this.structures[this.boardId].bundles[this.bundleId].title || '';
     this.picURLs = this.structures[this.boardId].bundles[this.bundleId].structurePics || [];
+    this.annotatePopupShow = false;
+    this.annotateAddText = false;
+    this.resultAddText = false;
+    this.galleryShow = false;
   },
   created() {
     this.$root.$on('annotateText', (state) => {
@@ -404,6 +424,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.popup_CSSSB{
+  position: fixed;
+  z-index: 999;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+}
   .titleCSSSB {
     width: 100%;
     height: 50px;
@@ -502,9 +530,9 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSSSB{
-  padding: 3px;
   width: 100%;
-  text-align: center;
+  padding: 2px 0 6px 0;
+  text-align: left;
   font-size: 80%;
 }
 .popup_annotate_CSSSB{

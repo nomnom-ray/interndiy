@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="showBundleDrawer || todoPopupShow || showQualDrawer || galleryShow ? 'popup_CSSTD' : ''">
     <i-drawer mode="right" :visible="showBundleDrawer" @close="showBundleDrawer = !showBundleDrawer">
       <view class='drawerCSSTD'>
         <wux-checkbox-group
@@ -47,6 +47,7 @@
     <wux-divider position="left" :text="'1. Task description for subcategory ' + boardId + ' (' + title.length + '/400)'" />
     <wux-wing-blank size="large">
       <textarea
+        v-if='!showBundleDrawer && !todoPopupShow && !showQualDrawer && !galleryShow'
         class="titleCSSTD"
         v-model='title'
         :maxlength="400"
@@ -73,7 +74,7 @@
     </wux-wing-blank>
 
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_new_CSSTD'
         @click='showQualDrawer = !showQualDrawer'
@@ -117,7 +118,7 @@
       :key='index'
       v-for="(url, index) in picURLs"
     >
-    <wux-wing-blank size="small">
+    <wux-wing-blank size="default">
         <img
           class="pic_position_CSSTD"
           :src="url" mode="aspectFit"
@@ -208,7 +209,7 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSTD'>Track how the tasks contribute to the experience gained by assigning qualifications.</div>
       <div class='info_content_CSSTD'>Track the impact of your action by noting the resolution after completing each todo.</div>
     </wux-wing-blank>
@@ -254,6 +255,7 @@ export default {
       clicked: false,
       showQualDrawer: false,
       showBundleDrawer: false,
+      galleryShow: false,
       taskDone: false,
       qualCheckBoxValues: [],
       bundleCheckBoxValues: [],
@@ -294,6 +296,7 @@ export default {
       this.todoToChange = '';
       this.todoAddText = false;
       this.resultAddText = false;
+      this.galleryShow = false;
     },
     async todoNew() {
       const todoDetail = {
@@ -388,6 +391,8 @@ export default {
       });
     },
     showGallery(url, current) {
+      this.galleryShow = true;
+      const self = this;
       const urls = [...this.picURLs];
       this.$wuxGallery = $wuxGallery();
       this.$wuxGallery.show({
@@ -409,9 +414,11 @@ export default {
           });
           that.picURLs = that.structures[that.boardId].tasks[that.taskId]
             .taskPics;
+          self.galleryShow = false;
           return true;
         },
         onTap() {
+          self.galleryShow = false;
           return true;
         },
       });
@@ -546,6 +553,10 @@ export default {
       .tasks[this.taskId].bundleList || [];
     this.taskDone = this.structures[this.boardId].tasks[this.taskId].taskDone || false;
     this.picURLs = this.structures[this.boardId].tasks[this.taskId].taskPics || [];
+    this.galleryShow = false;
+    this.showBundleDrawer = false;
+    this.todoPopupShow = false;
+    this.showQualDrawer = false;
   },
   created() {
     this.$root.$on('todoText', (state) => {
@@ -577,6 +588,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.popup_CSSTD{
+  position: fixed;
+  z-index: 999;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+}
 .titleCSSTD {
   width: 100%;
   min-height:50px;
@@ -593,7 +612,7 @@ export default {
   font-size: 80%;
   margin-bottom: 10px;
   margin-top: 5px;
-  max-height: 55px;
+  max-height: 58px;
   overflow: scroll;
   padding: 5px 10px 5px 10px;
   text-align: justify;
@@ -705,9 +724,9 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSSTD{
-  padding: 5px 0 0 0;
   width: 100%;
-  text-align: center;
+  padding: 2px 0 6px 0;
+  text-align: left;
   font-size: 80%;
 }
 </style>

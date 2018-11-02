@@ -1,6 +1,5 @@
 <template>
   <div>
-    <wux-white-space />
     <wux-divider position="left" :text="'1. Your career narrative (' + narrativeMore.length + '/400)'" />
     <wux-wing-blank size="large">
       <textarea
@@ -59,7 +58,7 @@
     >
     </app-qualification-card>
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_new_CSSTD'
         @click='qualificationAdd'
@@ -74,14 +73,14 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSQ'>Aim for an Outstanding to easily get future co-ops within your narrative. </div>
       <div class='info_content_CSSQ'>Co-op is for refining your career narrative; <span style='font-weight:bold'>Zero21</span> is here to guide you.</div>
       <div class='info_content_CSSQ'>Contact <span style='font-weight:bold'>r8chen</span> (Wechat ID) for guidance.</div>      
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_delete_CSSQ'
         @click='clearAll'
@@ -263,9 +262,9 @@ export default {
   margin: 0 auto;
 }
 .info_content_CSSQ{
-  padding: 2px 0 4px 0;
   width: 100%;
-  text-align: center;
+  padding: 2px 0 6px 0;
+  text-align: left;
   font-size: 80%;
 }
 .narrative_CSSQ{
@@ -276,7 +275,7 @@ export default {
 }
 .evaluator_CSSQ{
   width: 100%;
-  min-height:40px;
+  min-height:50px;
   max-height: 75px;
   font-size: 80%;
 }
