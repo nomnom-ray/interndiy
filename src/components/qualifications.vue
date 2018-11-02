@@ -175,7 +175,7 @@ export default {
             });
             wx.clearStorage();
             wx.showModal({
-              title: 'Close the app to finish',
+              title: 'Close the app to finish.',
               confirmText: 'OK',
               cancelText: 'cancel',
               showCancel: false,
