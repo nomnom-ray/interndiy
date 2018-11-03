@@ -119,6 +119,7 @@ export default {
 }
 .button_new_CSSB{
   background-color: #f4cf6c;
+  padding: 10rpx;
   width: 100%;
   border-radius: 8px;
   font-weight: bold;
