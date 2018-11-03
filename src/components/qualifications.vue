@@ -8,7 +8,7 @@
         :maxlength="400"
         auto-height
         cursor-spacing='20'
-        placeholder="Note your career narrative with respect to your job title. We'll help you to find out whether this career path is for you."
+        placeholder="Note what experience you would like to get out of this job to build your career narrative."
       >
       </textarea>
     </wux-wing-blank>
@@ -34,7 +34,7 @@
         :maxlength="400"
         auto-height
         cursor-spacing='20'
-        placeholder="Note concerns here throughout the term and resolve them with your mentor. e.g. '1) First item of concern...'"
+        placeholder="Note concerns here, e.g. '1) First item of concern...' ---tips at the bottom!"
       >
       </textarea>
     </wux-wing-blank>
@@ -74,9 +74,12 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
-      <div class='info_content_CSSQ'>Aim for an Outstanding to easily get future co-ops within your narrative. </div>
-      <div class='info_content_CSSQ'>Co-op is for refining your career narrative; <span style='font-weight:bold'>Zero21</span> is here to guide you.</div>
-      <div class='info_content_CSSQ'>Contact <span style='font-weight:bold'>r8chen</span> (Wechat ID) for guidance.</div>      
+      <div class='info_content_CSSQ'>Don't worry if you are unsure of your career narrative.
+        Co-op is for refining it over time, and we will help you through it!</div>
+      <div class='info_content_CSSQ'>Working through this app will raise questions about your responsibilities.
+        Write them down, and resolve them with your mentor (don't forget to ask for our help, too).</div>
+        <div class='info_content_CSSQ'> Work is hard, even with this app!
+          Contact Ray (WechatID: r8chen) for guidance.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />

@@ -20,6 +20,7 @@
       <div class='info_content_CSSS'>Organize project behaviors into subcategories.</div>
       <div class='info_content_CSSS'>Strategize implementations for each subcategory.</div>
       <div class='info_content_CSSS'>Finalize a roadmap to reach the resulting behavior.</div>
+      <div class='info_content_CSSS'>Use the red button on the bottom to add new.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />

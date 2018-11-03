@@ -1,26 +1,31 @@
 <template>
   <div v-if='bannerLocal'>
-    <app-banner></app-banner>
+    <app-banner
+    :propBannerHide='bannerLocal'
+    ></app-banner>
   </div>
   <div v-else>
     <!-- search for flex in tabs css; there are 2 enteries changed to 31% width -->
     <van-tabs :active="pageActive || 1" @change="pageChange">
       <van-tab title=" " :disabled="true">
       </van-tab>
-      <van-tab title="Job Narrative">
+      <van-tab title="1.Work Narrative">
         <app-qualifications></app-qualifications>
       </van-tab>
-      <van-tab title="Project Story">
+      <van-tab title="2.Work Story">
         <app-project-story></app-project-story>
       </van-tab>
-      <van-tab title="Project Behavior">
+      <van-tab title="3.Work Behavior">
         <app-conceptmap></app-conceptmap>
       </van-tab>
-      <van-tab title="Project Roadmap">
+      <van-tab title="4.Work Roadmap">
         <app-structures></app-structures>
       </van-tab>
-      <van-tab title="Project Tasks">
+      <van-tab title="5.Work Tasks">
         <app-tasks></app-tasks>
+      </van-tab>
+      <van-tab title="Zero21">
+        <app-banner></app-banner>
       </van-tab>
       <van-tab title=" " :disabled="true">
       </van-tab>
