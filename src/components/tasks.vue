@@ -174,7 +174,7 @@ export default {
 .info_content_CSST{
   width: 100%;
   padding: 2px 0 6px 0;
-  text-align: left;
+  text-align: center;
   font-size: 83%;
 }
 </style>

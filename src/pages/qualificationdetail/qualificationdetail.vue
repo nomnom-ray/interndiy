@@ -41,7 +41,7 @@
           v-if="taskList.length === 0"
         >
           <div style='color:grey;text-align:center;font-size:83%'>
-            This qualification has not been used for a task.
+            This list is self generated when tasks are created.
           </div>
         </wux-cell>
         <wux-cell
@@ -195,13 +195,13 @@ export default {
 <style lang="scss" scoped>
 .qual_title_CSSQD{
   width: 100%;
-  min-height:50px;
+  min-height:75px;
   max-height: 200px;
   font-size: 83%;  
 }
 .qual_description_CSSQD{
   width: 100%;
-  min-height:50px;
+  min-height:75px;
   max-height: 200px;
   font-size: 83%;  
 }
@@ -217,7 +217,7 @@ export default {
   // border-top: 1px solid #eff1f7;
   border-bottom: 1px solid #eff1f7;
   width: 100%;
-  min-height:50px;
+  min-height:75px;
   max-height: 200px;
   font-size: 83%;  
 }
@@ -257,7 +257,7 @@ export default {
 .info_content_CSSQD{
   width: 100%;
   padding: 2px 0 6px 0;
-  text-align: left;
+  text-align: center;
   font-size: 83%;
 }
 </style>

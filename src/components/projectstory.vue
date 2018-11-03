@@ -1,10 +1,10 @@
 <template>
   <div>
-    <wux-divider position="left" :text="'Project story (' + projectStory.length + '/200)'" />
+    <wux-divider position="left" :text="'Project story (' + projectStoryLocal.length + '/200)'" />
     <wux-wing-blank size="large">
       <textarea
         class="story_CSSPS"
-        v-model='projectStoryGETSET'
+        v-model='projectStoryLocal'
         :maxlength="200"
         auto-height
         cursor-spacing='20'
@@ -36,25 +36,23 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   data() {
     return {
+      projectStoryLocal: '',
     };
   },
   computed: {
     ...mapGetters({
       projectStory: 'projectStory',
     }),
-    projectStoryGETSET: {
-      get() {
-        return this.projectStory;
-      },
-      set(projectStory) {
-        return this.projectStoryUpdate(projectStory);
-      },
-    },
   },
   methods: {
     ...mapActions({
       projectStoryUpdate: 'projectStoryUpdate',
     }),
+  },
+  watch: {
+    projectStoryLocal() {
+      this.projectStoryUpdate(this.projectStoryLocal);
+    },
   },
   created() {
     const that = this;
@@ -62,6 +60,7 @@ export default {
       key: 'PROJECTSTORY',
       success(res) {
         that.projectStoryUpdate(res.data);
+        that.projectStoryLocal = that.projectStory || '';
       },
     });
   },
@@ -71,7 +70,7 @@ export default {
 <style lang="scss" scoped>
 .story_CSSPS{
   width: 100%;
-  min-height:50px;
+  min-height:75px;
   max-height: 200px;
   font-size: 83%;
 }

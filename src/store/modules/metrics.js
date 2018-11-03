@@ -2,6 +2,7 @@
 
 const state = {
   pageActive: 1,
+  banner: true,
 };
 
 const mutations = {
@@ -9,16 +10,24 @@ const mutations = {
   PAGEACTIVE_UPDATE(state, payload) {
     state.pageActive = payload;
   },
+  // eslint-disable-next-line
+  BANNER_UPDATE(state, payload) {
+    state.banner = payload;
+  },
 };
 
 const actions = {
   pageActiveUpdate: ({ commit }, payload) => {
     commit('PAGEACTIVE_UPDATE', payload);
   },
+  bannerUpdate: ({ commit }, payload) => {
+    commit('BANNER_UPDATE', payload);
+  },
 };
 
 const getters = {
   pageActive: () => state.pageActive,
+  banner: () => state.banner,
 };
 
 const localStorageAPI = {
@@ -45,6 +54,14 @@ const autosavePlugin = (store) => {
   store.subscribe((mutation) => {
     if (mutation.type === 'PAGEACTIVE_UPDATE') {
       localStorageAPI.save(mutation.payload, 'PAGEACTIVE');
+    }
+    // eslint-disable-next-line
+    return;
+  });
+  // eslint-disable-next-line
+  store.subscribe((mutation) => {
+    if (mutation.type === 'BANNER_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'BANNER');
     }
     // eslint-disable-next-line
     return;

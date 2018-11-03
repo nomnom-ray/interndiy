@@ -1,10 +1,10 @@
 <template>
   <div>
-    <wux-divider position="left" :text="'1. Your career narrative (' + narrativeMore.length + '/400)'" />
+    <wux-divider position="left" :text="'1. Your career narrative (' + narrativeMoreLocal.length + '/400)'" />
     <wux-wing-blank size="large">
       <textarea
         class="narrative_CSSQ"
-        v-model='narrativeMoreGETSET'
+        v-model='narrativeMoreLocal'
         :maxlength="400"
         auto-height
         cursor-spacing='20'
@@ -13,11 +13,11 @@
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" :text="'2. Name of evaluator (' + evaluator.length + '/100)'" />
+    <wux-divider position="left" :text="'2. Name of evaluator (' + evaluatorLocal.length + '/100)'" />
     <wux-wing-blank size="large">
       <textarea
         class='evaluator_CSSQ'
-        v-model='evaluatorGETSET'
+        v-model='evaluatorLocal'
         :maxlength="100"
         auto-height
         cursor-spacing='20'
@@ -26,11 +26,11 @@
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" :text="'3. Concerns to resolve (' + concerns.length + '/400)'" />
+    <wux-divider position="left" :text="'3. Concerns to resolve (' + concernsLocal.length + '/400)'" />
     <wux-wing-blank size="large">
       <textarea
         class='concerns_CSSQ'
-        v-model='concernsGETSET'
+        v-model='concernsLocal'
         :maxlength="400"
         auto-height
         cursor-spacing='20'
@@ -106,6 +106,13 @@ export default {
   components: {
     appQualificationCard: QualificationCard,
   },
+  data() {
+    return {
+      narrativeMoreLocal: '',
+      evaluatorLocal: '',
+      concernsLocal: '',
+    };
+  },
   computed: {
     ...mapGetters({
       qualifications: 'qualifications',
@@ -114,29 +121,16 @@ export default {
       evaluator: 'evaluator',
       concerns: 'concerns',
     }),
-    narrativeMoreGETSET: {
-      get() {
-        return this.narrativeMore;
-      },
-      set(narrativeMore) {
-        return this.narrativeMoreUpdate(narrativeMore);
-      },
+  },
+  watch: {
+    narrativeMoreLocal() {
+      this.narrativeMoreUpdate(this.narrativeMoreLocal);
     },
-    evaluatorGETSET: {
-      get() {
-        return this.evaluator;
-      },
-      set(evaluator) {
-        return this.evaluatorUpdate(evaluator);
-      },
+    evaluatorLocal() {
+      this.evaluatorUpdate(this.evaluatorLocal);
     },
-    concernsGETSET: {
-      get() {
-        return this.concerns;
-      },
-      set(concerns) {
-        return this.concernsUpdate(concerns);
-      },
+    concernsLocal() {
+      this.concernsUpdate(this.concernsLocal);
     },
   },
   methods: {
@@ -192,18 +186,21 @@ export default {
       key: 'NARRATIVEMORE',
       success(res) {
         that.narrativeMoreUpdate(res.data);
+        that.narrativeMoreLocal = that.narrativeMore || '';
       },
     });
     wx.getStorage({
       key: 'EVALUATOR',
       success(res) {
         that.evaluatorUpdate(res.data);
+        that.evaluatorLocal = that.evaluator || '';
       },
     });
     wx.getStorage({
       key: 'CONCERNS',
       success(res) {
         that.concernsUpdate(res.data);
+        that.concernsLocal = that.concerns || '';
       },
     });
     wx.getStorage({
@@ -264,24 +261,24 @@ export default {
 .info_content_CSSQ{
   width: 100%;
   padding: 2px 0 6px 0;
-  text-align: left;
+  text-align: center;
   font-size: 83%;
 }
 .narrative_CSSQ{
   width: 100%;
-  min-height:50px;
+  min-height:75px;
   max-height: 200px;
   font-size: 83%;
 }
 .evaluator_CSSQ{
   width: 100%;
-  min-height:50px;
+  min-height:75px;
   max-height: 75px;
   font-size: 83%;
 }
 .concerns_CSSQ{
   width: 100%;
-  min-height:50px;
+  min-height:75px;
   max-height: 200px;
   font-size: 83%;
 }

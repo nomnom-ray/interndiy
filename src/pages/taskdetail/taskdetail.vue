@@ -614,7 +614,7 @@ export default {
 }
 .titleCSSTD {
   width: 100%;
-  min-height:50px;
+  min-height:75px;
   max-height: 200px;
   font-size: 83%;
 }
@@ -744,7 +744,7 @@ export default {
 .info_content_CSSTD{
   width: 100%;
   padding: 2px 0 6px 0;
-  text-align: left;
+  text-align: center;
   font-size: 83%;
 }
 </style>
