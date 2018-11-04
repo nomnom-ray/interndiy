@@ -149,9 +149,9 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
-      <div class='info_content_CSSCM'>Express the project story with serialized behaviors between a trigger and a result.</div>
+      <div class='info_content_CSSCM'>Express your project story in serialized behaviors between a trigger and a result.</div>
       <div class='info_content_CSSCM'>Elaborate on a behavior by creating a subject.</div>
-      <div class='info_content_CSSCM'>Click on adjacent <span style='font-weight:bold'>cards</span> to shift left/right.</div>
+      <div class='info_content_CSSCM'>Click on <span style='font-weight:bold'>adjacent cards</span> to shift left/right.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
@@ -747,20 +747,23 @@
 }
 .popup_question_CSSCM{
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .popup_description_CSSCM{
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .popup_summary_CSSCM{
   width: 100%;
-  min-height:100px;
+  min-height:75px;
   max-height: 200px;
+  padding: 0 0 70rpx 0;
   font-size: 83%;
 }
 .summaryCSSCM{
@@ -796,7 +799,7 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 80%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSCM{
@@ -808,7 +811,7 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 80%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSCM{

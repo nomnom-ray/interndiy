@@ -9,19 +9,19 @@
     <van-tabs :active="pageActive || 1" @change="pageChange">
       <van-tab title=" " :disabled="true">
       </van-tab>
-      <van-tab title="1.Work Narrative">
+      <van-tab title="1. Narrative">
         <app-qualifications></app-qualifications>
       </van-tab>
-      <van-tab title="2.Work Story">
+      <van-tab title="2. Story">
         <app-project-story></app-project-story>
       </van-tab>
-      <van-tab title="3.Work Behavior">
+      <van-tab title="3. Behavior">
         <app-conceptmap></app-conceptmap>
       </van-tab>
-      <van-tab title="4.Work Roadmap">
+      <van-tab title="4. Roadmap">
         <app-structures></app-structures>
       </van-tab>
-      <van-tab title="5.Work Tasks">
+      <van-tab title="5. Tasks">
         <app-tasks></app-tasks>
       </van-tab>
       <van-tab title="Zero21">

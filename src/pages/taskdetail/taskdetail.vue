@@ -614,8 +614,9 @@ export default {
 }
 .titleCSSTD {
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .drawerCSSTD{
@@ -644,8 +645,9 @@ export default {
 }
 .popupinputCSSTD{
   width: 100%;
-  min-height:100px;
+  min-height:75px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .weui-uploader__img {

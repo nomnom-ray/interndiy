@@ -16,7 +16,8 @@
       </wux-col>
       <wux-col span='7' push='3'>
         <div class='info_content_CSSB'>Co-op is more than just the pay. Zero21 can easily
-          <span style='font-weight:bold;color:#264436'>get you the Outstanding</span> to impress that oppertunity within your career narrative.
+          <span style='font-weight:bold;color:#264436'>get you the Outstanding</span>
+          to impress that job opportunity you want.
         </div>
       </wux-col>
     </wux-row>
@@ -24,7 +25,8 @@
     <wux-row>
       <wux-col span='7' push='1'>
         <div class='info_content_CSSB'>
-          Make this app a part of your co-op experience! Contact <span style='font-weight:bold;color:#264436'>Ray (WechatID: r8chen)</span> for a 4-month guidance.
+          Make this app a part of your co-op experience! Contact <span style='font-weight:bold;color:#264436'>
+            Ray (WechatID: r8chen)</span> for a 4-month guidance.
         </div>
           <!-- <img
             class="ray_CSSB"

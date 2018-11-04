@@ -8,7 +8,7 @@
         :maxlength="400"
         auto-height
         cursor-spacing='20'
-        placeholder="Note what experience you would like to get out of this job to build your career narrative."
+        placeholder="Note what experiences you would like to get out of this job to build your career narrative."
       >
       </textarea>
     </wux-wing-blank>
@@ -34,7 +34,7 @@
         :maxlength="400"
         auto-height
         cursor-spacing='20'
-        placeholder="Note concerns here, e.g. '1) First item of concern...' ---tips at the bottom!"
+        placeholder="Note any concerns here, e.g. '1) First item of concern...' ---tips at the bottom!"
       >
       </textarea>
     </wux-wing-blank>
@@ -62,7 +62,7 @@
       <button
         class='button_new_CSSTD'
         @click='qualificationAdd'
-      >Add qualification
+      >Add a qualification
       </button>
     </wux-wing-blank>
     <wux-white-space />
@@ -269,20 +269,23 @@ export default {
 }
 .narrative_CSSQ{
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .evaluator_CSSQ{
   width: 100%;
-  min-height:75px;
+  min-height:40px;
   max-height: 75px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .concerns_CSSQ{
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .qual_tasklist_CSSQ{

@@ -49,7 +49,7 @@
           :maxlength="200"
           auto-height
           cursor-spacing='20'
-          placeholder="Few words to summarize the selected relevant behaviors."
+          placeholder="Summarize why the selected behaviors belong in the same group."
         >
         </textarea>
       </wux-wing-blank>
@@ -332,6 +332,7 @@ export default {
   width: 100%;
   min-height:40px;
   max-height: 75px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .drawerCSSSD{

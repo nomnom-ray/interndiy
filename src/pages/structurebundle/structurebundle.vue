@@ -1,6 +1,6 @@
 <template>
   <div :class="annotatePopupShow || galleryShow ? 'popup_CSSSB' : ''">
-    <wux-divider position="left" :text="'1. Description of strategy ' + bundleId + '; in Subcat. ' + boardId + ' (' + title.length + '/200)'" />
+    <wux-divider position="left" :text="'1. Description of strategy ' + bundleId + ' in Subcat. ' + boardId + ' (' + title.length + '/200)'" />
     <wux-wing-blank size="large">
       <textarea
         v-if='!annotatePopupShow && !galleryShow'

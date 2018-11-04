@@ -195,14 +195,16 @@ export default {
 <style lang="scss" scoped>
 .qual_title_CSSQD{
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;  
 }
 .qual_description_CSSQD{
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;  
 }
 .qual_valid_CSSQD{
@@ -217,8 +219,9 @@ export default {
   // border-top: 1px solid #eff1f7;
   border-bottom: 1px solid #eff1f7;
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;  
 }
 .qual_tasklist_CSSQD{

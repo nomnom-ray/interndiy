@@ -70,8 +70,9 @@ export default {
 <style lang="scss" scoped>
 .story_CSSPS{
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
+  padding: 0 0 50rpx 0;
   font-size: 83%;
 }
 .info_content_CSSPS{
