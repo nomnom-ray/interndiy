@@ -17,7 +17,7 @@
       <wux-col span='7' push='3'>
         <div class='info_content_CSSB'>Co-op is more than just the pay. Zero21 can easily
           <span style='font-weight:bold;color:#264436'>get you the Outstanding</span>
-          to impress that job opportunity you want.
+          to impress the job opportunity that suits you.
         </div>
       </wux-col>
     </wux-row>
@@ -25,8 +25,9 @@
     <wux-row>
       <wux-col span='7' push='1'>
         <div class='info_content_CSSB'>
-          Make this app a part of your co-op experience! Contact <span style='font-weight:bold;color:#264436'>
-            Ray (WechatID: r8chen)</span> for a 4-month guidance.
+          Zero21 <span style='font-weight:bold;color:#264436'>
+          integrates you to the pace of your responsibility ASAP!</span>
+          Contact Ray (WechatID: r8chen) for a 4-month guidance.
         </div>
           <!-- <img
             class="ray_CSSB"
@@ -129,8 +130,9 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  font-size: 85%;
+  // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 2px 4px 0 rgba(255, 0, 106, 0.4), 0 3px 10px 0 rgba(255, 0, 106, 0.4);
 }
 .name_container_CSSB{
   width: 100%;

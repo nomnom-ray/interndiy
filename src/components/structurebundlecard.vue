@@ -191,7 +191,7 @@ export default {
   background: rgba(0, 0, 0, 0);
 }
 .annotate_container_CSSSBC{
-  font-size: 83%;
+  font-size: 85%;
   margin-bottom: 10px;
   padding: 5px 0 5px 0;
   border-top: 1px solid #e3e5ee;

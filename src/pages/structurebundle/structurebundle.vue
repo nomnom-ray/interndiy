@@ -2,12 +2,13 @@
   <div :class="annotatePopupShow || galleryShow ? 'popup_CSSSB' : ''">
     <wux-divider position="left" :text="'1. Description of strategy ' + bundleId + ' in Subcat. ' + boardId + ' (' + title.length + '/200)'" />
     <wux-wing-blank size="large">
+      <div class="placeholder_CSSSB">Tip: name this strategy for implementing the subcategorized behaviors in the project story.</div>
       <textarea
         v-if='!annotatePopupShow && !galleryShow'
         class="titleCSSSB"
         v-model='title'
         :maxlength="200"
-        placeholder="Name this strategy for implementing the subcategorized behaviors in the project story."
+        placeholder="Tap here to type."
       >
       </textarea>
     </wux-wing-blank>
@@ -51,15 +52,17 @@
     position='top'
     >
       <wux-divider v-if='annotateAddText' position="left" :text="'Annotation: description (' + annotateText.length + '/200)'" />
-      <wux-divider v-else position="left" :text="'Annotation: resolution (' + resultText.length + '/400)'" />
+      <wux-divider v-else position="left" :text="'Annotation: detail (' + resultText.length + '/400)'" />
       <wux-row>
         <wux-wing-blank size="large">
+          <div v-if='annotateAddText' class="placeholder_CSSSB">Tip: name an annotation on the sketch; click on the left-side icon to match it by color.</div>
+          <div v-else class="placeholder_CSSSB">Tip: describe how the annotated component contributes to this subcategory's behavior.</div>
           <textarea
             v-if='annotateAddText'
             class="popup_annotate_CSSSB"
             v-model='annotateText'
             :maxlength="200"
-            placeholder="Name an annotation on the sketch; click on the left-side icon to match it by color."
+            placeholder="Tap here to type."
           >
           </textarea>
           <textarea
@@ -67,7 +70,7 @@
             class="popup_annotate_CSSSB"
             v-model='resultText'
             :maxlength="400"
-            placeholder="Describe how the annotated component contributes to this subcategory's behavior."
+            placeholder="Tap here to type."
           >
           </textarea>
         </wux-wing-blank>
@@ -432,11 +435,19 @@ export default {
   bottom:0;
   right:0;
 }
+.placeholder_CSSSB{
+  width: 100%;
+  text-align: left;
+  font-size: 85%;
+  margin-bottom: 16rpx;
+}
   .titleCSSSB {
     width: 100%;
-    height: 50px;
-    overflow:scroll;
-    font-size: 83%;
+    min-height:50px;
+    max-height: 200px;
+    font-size: 85%;
+    padding: 8rpx 0 0 0;
+    border-top: 1px solid #eff1f7;
   }
   .weui-uploader__img {
     display: block;
@@ -510,7 +521,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 85%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSSB{
@@ -522,7 +533,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 85%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSSB{
@@ -533,12 +544,14 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: center;
-  font-size: 83%;
+  font-size: 85%;
 }
 .popup_annotate_CSSSB{
   width: 100%;
-  height: 100px;
-  overflow:scroll;
-  font-size: 83%;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 </style>

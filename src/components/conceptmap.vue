@@ -9,13 +9,14 @@
     >
       <wux-divider position="left" :text="'1. Behavior description (' + conceptDescription.length + '/400)'" />
         <wux-wing-blank size="large">
+          <div class="placeholder_CSSCM">Tip: describe a single behavior that connects the prior and proceeding steps.</div>
           <textarea
             class="popup_description_CSSCM"
             v-model='conceptDescription'
             :maxlength="400"
             auto-height
             cursor-spacing='20'
-            placeholder="Describe a single behavior that connects the prior and proceeding steps."
+            placeholder="Tap here to type."
             :disabled='topAddDisable && !triggerTopDisable'
           >
           </textarea>
@@ -24,13 +25,14 @@
       <wux-white-space />
       <wux-divider position="left" :text="'2. Contextual question (' + conceptQuestion.length + '/200)'" />
         <wux-wing-blank size="large">
+          <div class="placeholder_CSSCM">Tip: add context to the description using a question that asks 'How'.</div>
           <textarea 
             class='popup_question_CSSCM'
             v-model='conceptQuestion'
             :maxlength="200"
             auto-height
             cursor-spacing='20'
-            placeholder="Add context to the description using a question that asks 'How'."
+            placeholder="Tap here to type."
             :disabled='topAddDisable && !triggerTopDisable'
           ></textarea>
         </wux-wing-blank>
@@ -85,13 +87,14 @@
     >
       <wux-divider position="left" :text="'Subject summary (' + subjectSummary.length + '/200)'" />
       <wux-wing-blank size="large">
+        <div class="placeholder_CSSCM">Tip: note the theme of this subject column.</div>
         <textarea
           class="popup_summary_CSSCM"
           v-model='subjectSummary'
           :maxlength="200"
           auto-height
           cursor-spacing='20'
-          placeholder="Describe the theme of this subject column."
+          placeholder="Tap here to type."
         >
         </textarea>
       </wux-wing-blank>
@@ -745,26 +748,35 @@
   background-clip: content-box;
   background: #fafafc;
 }
+.placeholder_CSSCM{
+  width: 100%;
+  text-align: left;
+  font-size: 85%;
+  margin-bottom: 16rpx;
+}
 .popup_question_CSSCM{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  padding: 0 0 50rpx 0;
-  font-size: 83%;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 .popup_description_CSSCM{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  padding: 0 0 50rpx 0;
-  font-size: 83%;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 .popup_summary_CSSCM{
   width: 100%;
-  min-height:75px;
+  min-height:50px;
   max-height: 200px;
-  padding: 0 0 70rpx 0;
-  font-size: 83%;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 .summaryCSSCM{
   width: auto;
@@ -773,7 +785,7 @@
   flex-wrap: nowrap;
   overflow: hidden;
   direction: ltr;
-  font-size: 83%;
+  font-size: 85%;
   text-align: left;
   border-bottom: 2px solid #264436;
   background-clip: content-box;
@@ -782,7 +794,7 @@
 .summary_empty_CSSCM{
   margin: 0;
   position: relative;
-  font-size: 83%;
+  font-size: 85%;
   text-align: center;
   left: 50%;
   top: 50%;
@@ -793,25 +805,27 @@
 .button_delete_CSSCM{
   background-color: white;
   width: 100%;
+  padding: 8rpx;
   border-radius: 8px;
   font-weight: bold;
   color: #f44336;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 80%;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSCM{
   background-color: #f4cf6c;
   width: 100%;
+  padding: 8rpx;
   border-radius: 8px;
   font-weight: bold;
   color: #264436;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 80%;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSCM{
@@ -822,6 +836,6 @@
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: center;
-  font-size: 83%;
+  font-size: 85%;
 }
 </style>

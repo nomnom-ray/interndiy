@@ -101,13 +101,13 @@ export default {
 }
 .task_title_empty_CSSTC{
   padding: 10px;
-  // font-size: 83%;
+  // font-size: 85%;
   text-align: center;  
   color: grey;
 }
 .task_title_CSSTC{
   padding: 10px;
-  // font-size: 83%;
+  // font-size: 85%;
   text-align: justify;
   text-justify: inter-word;
 }

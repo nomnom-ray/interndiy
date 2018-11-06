@@ -176,7 +176,7 @@
     .cardCSSCC {
       width: 100%;
       height: 100%;
-      font-size: 83%;
+      font-size: 85%;
       background-clip: content-box;
       background: #eff1f7;
       -webkit-border-radius: 12px;

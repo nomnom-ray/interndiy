@@ -2,13 +2,14 @@
   <div>
     <wux-divider position="left" :text="'Project story (' + projectStoryLocal.length + '/200)'" />
     <wux-wing-blank size="large">
+      <div class="placeholder_CSSPS">Tip: ask your mentor to describe the overall project in fewer than two sentences.</div>
       <textarea
         class="story_CSSPS"
         v-model='projectStoryLocal'
         :maxlength="200"
         auto-height
         cursor-spacing='20'
-        placeholder="Ask your mentor to describe the overall project in fewer than two sentences."
+        placeholder="Tap here to type."
       >
       </textarea>
     </wux-wing-blank>
@@ -68,18 +69,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.placeholder_CSSPS{
+  width: 100%;
+  text-align: left;
+  font-size: 85%;
+  margin-bottom: 16rpx;
+}
 .story_CSSPS{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  padding: 0 0 50rpx 0;
-  font-size: 83%;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 .info_content_CSSPS{
   padding: 2px 0 4px 0;
   width: 100%;
   text-align: justify;
   text-justify: inter-word;
-  font-size: 83%;
+  font-size: 85%;
 }
 </style>

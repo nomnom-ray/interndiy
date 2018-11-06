@@ -42,6 +42,7 @@
 
     <wux-divider position="left" :text="'1. Title of subcategory ' + id + ' (' + title.length + '/200)'" />
       <wux-wing-blank size="large">
+        <div class="placeholder_CSSSD">Tip: summarize why the selected behaviors belong in the same group.</div>
         <textarea
           v-if='!showDrawer'
           class="titleCSSSD"
@@ -49,7 +50,7 @@
           :maxlength="200"
           auto-height
           cursor-spacing='20'
-          placeholder="Summarize why the selected behaviors belong in the same group."
+          placeholder="Tap here to type."
         >
         </textarea>
       </wux-wing-blank>
@@ -328,24 +329,31 @@ export default {
   bottom:0;
   right:0;
 }
+.placeholder_CSSSD{
+  width: 100%;
+  text-align: left;
+  font-size: 85%;
+  margin-bottom: 16rpx;
+}
 .titleCSSSD {
   width: 100%;
-  min-height:40px;
-  max-height: 75px;
-  padding: 0 0 50rpx 0;
-  font-size: 83%;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 .drawerCSSSD{
   overflow-y: scroll;
   overflow-x: hidden;
-  font-size: 83%;
+  font-size: 85%;
   width: 80vw;
   height: 100vh;
   background:#fff;
 }
 .concepts_CSSSD{
   white-space: pre-wrap;
-  font-size: 83%;
+  font-size: 85%;
   margin-bottom: 10px;
   margin-top: 5px;
   max-height: 58px;
@@ -365,7 +373,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 85%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_delete_CSSSD{
@@ -377,7 +385,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 85%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_bundle_CSSSD{
@@ -391,6 +399,6 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: center;
-  font-size: 83%;
+  font-size: 85%;
 }
 </style>

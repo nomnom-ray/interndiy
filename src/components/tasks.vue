@@ -176,6 +176,6 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: center;
-  font-size: 83%;
+  font-size: 85%;
 }
 </style>

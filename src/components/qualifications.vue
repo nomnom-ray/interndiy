@@ -2,39 +2,42 @@
   <div>
     <wux-divider position="left" :text="'1. Your career narrative (' + narrativeMoreLocal.length + '/400)'" />
     <wux-wing-blank size="large">
+      <div class="placeholder_CSSQ">Tip: note what experiences you would like to get out of this job to build your career narrative.</div>
       <textarea
         class="narrative_CSSQ"
         v-model='narrativeMoreLocal'
         :maxlength="400"
         auto-height
         cursor-spacing='20'
-        placeholder="Note what experiences you would like to get out of this job to build your career narrative."
+        placeholder="Tap here to type."
       >
       </textarea>
     </wux-wing-blank>
 
     <wux-divider position="left" :text="'2. Name of evaluator (' + evaluatorLocal.length + '/100)'" />
     <wux-wing-blank size="large">
+      <div class="placeholder_CSSQ">Tip: note the mentor responsible for your evaluation.</div>
       <textarea
         class='evaluator_CSSQ'
         v-model='evaluatorLocal'
         :maxlength="100"
         auto-height
         cursor-spacing='20'
-        placeholder="Note the mentor responsible for your evaluation."
+        placeholder="Tap here to type."
       >
       </textarea>
     </wux-wing-blank>
 
     <wux-divider position="left" :text="'3. Concerns to resolve (' + concernsLocal.length + '/400)'" />
     <wux-wing-blank size="large">
+      <div class="placeholder_CSSQ">Tip: note any concerns here, e.g. '1) First item of concern...' ---tips at the bottom!</div>
       <textarea
         class='concerns_CSSQ'
         v-model='concernsLocal'
         :maxlength="400"
         auto-height
         cursor-spacing='20'
-        placeholder="Note any concerns here, e.g. '1) First item of concern...' ---tips at the bottom!"
+        placeholder="Tap here to type."
       >
       </textarea>
     </wux-wing-blank>
@@ -265,33 +268,42 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: center;
-  font-size: 83%;
+  font-size: 85%;
 }
 .narrative_CSSQ{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  padding: 0 0 50rpx 0;
-  font-size: 83%;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
+}
+.placeholder_CSSQ{
+  width: 100%;
+  text-align: left;
+  font-size: 85%;
+  margin-bottom: 16rpx;
 }
 .evaluator_CSSQ{
   width: 100%;
-  min-height:40px;
-  max-height: 75px;
-  padding: 0 0 50rpx 0;
-  font-size: 83%;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 .concerns_CSSQ{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  padding: 0 0 50rpx 0;
-  font-size: 83%;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 .qual_tasklist_CSSQ{
   text-align: center;
   color: grey;
-  font-size: 83%;
+  font-size: 85%;
 }
 .button_new_CSSTD{
   background-color: #f4cf6c;
@@ -302,7 +314,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 85%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_delete_CSSQ{
@@ -314,7 +326,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 85%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 </style>

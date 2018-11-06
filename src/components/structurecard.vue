@@ -223,7 +223,7 @@ export default {
   background: rgba(0, 0, 0, 0);
 }
 .annotate_container_CSSSC{
-  font-size: 83%;
+  font-size: 85%;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -278,7 +278,7 @@ export default {
   color: grey;
 }
 .struc_title_CSSSC{
-  font-size: 83%;
+  font-size: 85%;
   padding: 5px 10px 0 10px;
   text-align: justify;
   text-justify: inter-word;
@@ -288,13 +288,13 @@ export default {
 }
 .bundle_title_CSSSC{
   padding: 0 10px 5px 10px;
-  font-size: 83%;
+  font-size: 85%;
   text-align: justify;
   text-justify: inter-word;
 }
 .info_strategy_CSSSC{
   padding: 0 10px;
   float: right;
-  font-size: 83%;
+  font-size: 85%;
 }
 </style>

@@ -2,13 +2,14 @@
   <div>
     <wux-divider position="left" :text="'1. Posted qualification (' + title.length + '/200)'" />
     <wux-wing-blank size="large">
+      <div class="placeholder_CSSQD">Tip: copy and paste each job qualification, separately.</div>
       <textarea
         class="qual_title_CSSQD"
         v-model='title'
         :maxlength="200"
         auto-height
         cursor-spacing='20'
-        placeholder="Copy and paste each job qualification, separately."
+        placeholder="Tap here to type."
       >
       </textarea>
     </wux-wing-blank>
@@ -58,13 +59,14 @@
 
     <wux-divider position="left" :text="'3. Justification of work (' + justification.length + '/400)'" />
     <wux-wing-blank size="large">
+      <div class="placeholder_CSSQD">Tip: Note how the above assigned tasks fit this qualification.</div>
       <textarea
         class="qual_justification_CSSQD"
         v-model='justification'
         auto-height
         cursor-spacing='20'
         :maxlength="400"
-        placeholder="Note how the above assigned tasks fit this qualification."
+        placeholder="Tap here to type."
       >
       </textarea>
     </wux-wing-blank>
@@ -193,25 +195,32 @@ export default {
 
 
 <style lang="scss" scoped>
+.placeholder_CSSQD{
+  width: 100%;
+  text-align: left;
+  font-size: 85%;
+  margin-bottom: 16rpx;
+}
 .qual_title_CSSQD{
   width: 100%;
   min-height:50px;
   max-height: 200px;
-  padding: 0 0 50rpx 0;
-  font-size: 83%;  
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
 }
 .qual_description_CSSQD{
   width: 100%;
   min-height:50px;
   max-height: 200px;
   padding: 0 0 50rpx 0;
-  font-size: 83%;  
+  font-size: 85%;  
 }
 .qual_valid_CSSQD{
   color: gold;
 }
 .strategy_CSSQD{
-  font-size: 83%;
+  font-size: 85%;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -222,12 +231,12 @@ export default {
   min-height:50px;
   max-height: 200px;
   padding: 0 0 50rpx 0;
-  font-size: 83%;  
+  font-size: 85%;  
 }
 .qual_tasklist_CSSQD{
   text-align: center;
   color: grey;
-  font-size: 83%;
+  font-size: 85%;
 }
 .button_delete_CSSQD{
   background-color: white;
@@ -238,7 +247,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 85%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSQD{
@@ -250,7 +259,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 83%;
+  font-size: 85%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSQD{
@@ -261,6 +270,6 @@ export default {
   width: 100%;
   padding: 2px 0 6px 0;
   text-align: center;
-  font-size: 83%;
+  font-size: 85%;
 }
 </style>
