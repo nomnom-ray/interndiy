@@ -173,6 +173,9 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'EVALUATOR_UPDATE') {
       localStorageAPI.save(mutation.payload, 'EVALUATOR');
     }
+    if (mutation.type === 'PROJECTSTORY_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'PROJECTSTORY');
+    }
     if (mutation.type === 'JOBPICS_ADD' || mutation.type === 'JOBPICS_DEL') {
       localStorageAPI.save(state.jobPics, 'JOBPICS');
     }
@@ -218,9 +221,6 @@ const autosavePlugin = (store) => {
     }
     if (mutation.type === 'NARRATIVEMORE_UPDATE') {
       localStorageAPI.save(mutation.payload, 'NARRATIVEMORE');
-    }
-    if (mutation.type === 'PROJECTSTORY_UPDATE') {
-      localStorageAPI.save(mutation.payload, 'PROJECTSTORY');
     }
     // eslint-disable-next-line
     return;

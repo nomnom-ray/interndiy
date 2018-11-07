@@ -160,7 +160,6 @@ export default {
   .swipe_out_button_group_CSSAC{
     height:100%;
     width:100%;
-    background:#f4cf6c;
   }
   .swipe_out_button_group_CSSAC:after{
     content: "";
@@ -169,8 +168,10 @@ export default {
   }
   .swipe_out_button_CSSAC{
     float: left;
-    width: 25%;
+    width: 24%;
+    height: 100%;
     text-align: center;
+    border-left: 1px dotted #fafafc;
     padding: 25px 0 0 0;
     background:#f4cf6c;
   }

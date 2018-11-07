@@ -17,10 +17,9 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
-      <div class='info_content_CSSS'>Organize project behaviors into subcategories.</div>
-      <div class='info_content_CSSS'>Strategize implementations for each subcategory.</div>
-      <div class='info_content_CSSS'>Finalize a roadmap to reach the resulting behavior.</div>
-      <div class='info_content_CSSS'>Use the red button on the bottom to add new.</div>
+      <div class='info_content_CSSS'>Create subcategories for project behaviors that you are responsible to implement.</div>
+      <div class='info_content_CSSS'>Finalize a roadmap with a set of primary strategies to reach the objective result.</div>
+      <div class='info_content_CSSS'>Strategize implementation strategies for each subcategory.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />

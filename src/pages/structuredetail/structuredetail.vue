@@ -42,7 +42,7 @@
 
     <wux-divider position="left" :text="'1. Title of subcategory ' + id + ' (' + title.length + '/200)'" />
       <wux-wing-blank size="large">
-        <div class="placeholder_CSSSD">Tip: summarize why the selected behaviors belong in the same group.</div>
+        <div class="placeholder_CSSSD">Tip: summarize why the selected behaviors (below) can be implemented as one subcategory.</div>
         <textarea
           v-if='!showDrawer'
           class="titleCSSSD"
@@ -55,7 +55,7 @@
         </textarea>
       </wux-wing-blank>
 
-    <wux-divider position="left" text='2. Relevant project behaviors' />
+    <wux-divider position="left" text='2. Relevant behaviors' />
       <wux-wing-blank size="large">
         <div
           class='concepts_CSSSD'
@@ -67,7 +67,7 @@
         </div>
       </wux-wing-blank>
       <wux-white-space />
-      <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+      <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
         <button
           class='button_new_CSSSD'
           @click='drawerToggle'
@@ -78,7 +78,7 @@
     <wux-row>
       <wux-col span='9' push='3'>
         <div class='info_bundle_CSSSD'>
-          <span style='color:red'>*</span>Choose a primary strategy by keeping it open.</div>
+          <span style='color:red'>*Select the primary strategy by keeping it open.</span></div>
       </wux-col>
     </wux-row>
     <div
@@ -107,7 +107,7 @@
       </wux-accordion-group>
     </div>
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_new_CSSSD'
         @click='bundleAdd'
@@ -123,18 +123,18 @@
         color='rgba(9,45,66,.08)'
       />
     </div>
-    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">  
+    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSSD'>Categorize behaviors to implement as a group.</div>
       <div class='info_content_CSSSD'>Propose and create strategies for the implementation.</div>
       <div class='info_content_CSSSD'>Decide on a single strategy for the roadmap.</div>
     </wux-wing-blank>  
     <wux-white-space />
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_delete_CSSSD'
         @click='structureDelete'
-      >Delete
+      >Delete subcategory
       </button>
     </wux-wing-blank>
     <wux-white-space />
@@ -297,6 +297,7 @@ export default {
     // the id passed to this page by wx.navigateTo()
     this.id = Number(this.$root.$mp.query.id);
     this.clicked = false;
+    this.showDrawer = false;
     // existing entries gets the data from localstorage
     this.title = this.structures[this.id].title || '';
     this.picURLs = this.structures[this.id].structurePics || [];
@@ -373,7 +374,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 85%;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_delete_CSSSD{
@@ -385,7 +386,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 85%;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_bundle_CSSSD{

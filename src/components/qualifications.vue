@@ -4,6 +4,7 @@
     <wux-wing-blank size="large">
       <div class="placeholder_CSSQ">Tip: note what experiences you would like to get out of this job to build your career narrative.</div>
       <textarea
+        v-if='pageActive === 1'
         class="narrative_CSSQ"
         v-model='narrativeMoreLocal'
         :maxlength="400"
@@ -18,6 +19,7 @@
     <wux-wing-blank size="large">
       <div class="placeholder_CSSQ">Tip: note the mentor responsible for your evaluation.</div>
       <textarea
+        v-if='pageActive === 1'
         class='evaluator_CSSQ'
         v-model='evaluatorLocal'
         :maxlength="100"
@@ -28,10 +30,11 @@
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" :text="'3. Concerns to resolve (' + concernsLocal.length + '/400)'" />
+    <wux-divider position="left" :text="'3. Concerns to resolve [optional] (' + concernsLocal.length + '/400)'" />
     <wux-wing-blank size="large">
-      <div class="placeholder_CSSQ">Tip: note any concerns here, e.g. '1) First item of concern...' ---tips at the bottom!</div>
+      <div class="placeholder_CSSQ">Tip: note any concerns here, e.g. '1) First item of concern...' --tips at the bottom!</div>
       <textarea
+        v-if='pageActive === 1'
         class='concerns_CSSQ'
         v-model='concernsLocal'
         :maxlength="400"
@@ -49,7 +52,7 @@
     >
       <wux-cell-group>
           <wux-cell>
-            Empty. Copy and paste qualifications from the job posting.
+            Use button below to add a new qualification.
           </wux-cell>
       </wux-cell-group>
     </div>
@@ -77,12 +80,10 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
-      <div class='info_content_CSSQ'>Don't worry if you are unsure of your career narrative.
-        Co-op is for refining it over time, and we will help you through it!</div>
       <div class='info_content_CSSQ'>Working through this app will raise questions about your responsibilities.
-        Write them down, and resolve them with your mentor (don't forget to ask for our help, too).</div>
-        <div class='info_content_CSSQ'> Work is hard, even with this app!
-          Contact Ray (WechatID: r8chen) for guidance.</div>
+        Write them down, and we will assist you in resolving them with your mentor.</div>
+        <div class='info_content_CSSQ'> Don't worry if you are unsure of your career narrative.
+          Work is hard, even with this app! Contact Ray (WechatID: r8chen) for guidance.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
@@ -126,6 +127,7 @@ export default {
       narrativeMore: 'narrativeMore',
       evaluator: 'evaluator',
       concerns: 'concerns',
+      pageActive: 'pageActive',
     }),
   },
   watch: {
@@ -175,7 +177,7 @@ export default {
             });
             wx.clearStorage();
             wx.showModal({
-              title: 'Close the app to finish.',
+              title: 'Close app & Wechat to finish.',
               confirmText: 'OK',
               cancelText: 'cancel',
               showCancel: false,

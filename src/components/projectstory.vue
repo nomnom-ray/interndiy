@@ -4,6 +4,7 @@
     <wux-wing-blank size="large">
       <div class="placeholder_CSSPS">Tip: ask your mentor to describe the overall project in fewer than two sentences.</div>
       <textarea
+        v-if='pageActive === 2'
         class="story_CSSPS"
         v-model='projectStoryLocal'
         :maxlength="200"
@@ -16,9 +17,12 @@
 
     <wux-divider position="left" text="Examples of a project story" />
     <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
-      <div class='info_content_CSSPS'><span style='font-weight:bold'>Marketing Specialist: </span>promote an online dating app via social media and offline campaign to capture users in Ontario.</div>
-      <div class='info_content_CSSPS'><span style='font-weight:bold'>Business Developer: </span>discover new clients, manage contacts, and engage potential clients to validate business strategy.</div>
-      <div class='info_content_CSSPS'><span style='font-weight:bold'>Electrical Engineer: </span>commission a sun-tracking solar charger for portable phone batteries.</div>    
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Marketing Specialist: </span>we are a marketing team;
+        we are working on promoting an online dating app via social media to capture 5000 users in Ontario.</div>
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Business Developer: </span>we are a sales team;
+        we are building a profolio of 100 potential clients to validate our business strategy by next month.</div>
+      <div class='info_content_CSSPS'><span style='font-weight:bold'>Electrical Engineer: </span>we are a layout design team;
+        we are iterating on our solar-charger product by upgrading to a new generation of components.</div>    
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
@@ -43,6 +47,7 @@ export default {
   computed: {
     ...mapGetters({
       projectStory: 'projectStory',
+      pageActive: 'pageActive',
     }),
   },
   methods: {

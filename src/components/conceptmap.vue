@@ -9,8 +9,11 @@
     >
       <wux-divider position="left" :text="'1. Behavior description (' + conceptDescription.length + '/400)'" />
         <wux-wing-blank size="large">
-          <div class="placeholder_CSSCM">Tip: describe a single behavior that connects the prior and proceeding steps.</div>
+          <div class="placeholder_CSSCM">Tip: ask your mentor to describe
+            <span style='font-weight:bold'>one </span>
+            behavior that connect the prior and proceeding steps.</div>
           <textarea
+            v-if='pageActive === 3'
             class="popup_description_CSSCM"
             v-model='conceptDescription'
             :maxlength="400"
@@ -23,10 +26,11 @@
         </wux-wing-blank>
 
       <wux-white-space />
-      <wux-divider position="left" :text="'2. Contextual question (' + conceptQuestion.length + '/200)'" />
+      <wux-divider position="left" :text="'2. Contextual question [optional] (' + conceptQuestion.length + '/200)'" />
         <wux-wing-blank size="large">
-          <div class="placeholder_CSSCM">Tip: add context to the description using a question that asks 'How'.</div>
+          <div class="placeholder_CSSCM">Tip: note the question that you asked your mentor as context for this behavior.</div>
           <textarea 
+            v-if='pageActive === 3'
             class='popup_question_CSSCM'
             v-model='conceptQuestion'
             :maxlength="200"
@@ -78,6 +82,8 @@
       </wux-row>
 
       <wux-white-space />
+       <div class='info_ADS_CSSCM'>Contact Ray (WechatID: r8chen) to learn behavior flow.</div>
+      <wux-white-space />
     </van-popup>
 
     <van-popup
@@ -89,6 +95,7 @@
       <wux-wing-blank size="large">
         <div class="placeholder_CSSCM">Tip: note the theme of this subject column.</div>
         <textarea
+          v-if='pageActive === 3'
           class="popup_summary_CSSCM"
           v-model='subjectSummary'
           :maxlength="200"
@@ -152,9 +159,9 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
-      <div class='info_content_CSSCM'>Express your project story in serialized behaviors between a trigger and a result.</div>
+      <div class='info_content_CSSCM'>Express "2.story" in serialized behaviors between an <span style='font-weight:bold'>initial trigger</span> and an <span style='font-weight:bold'>objective result</span>.</div>
+      <div class='info_content_CSSCM'>Click on <span style='font-weight:bold'>adjacent cards</span> to shift between left/right columns.</div>
       <div class='info_content_CSSCM'>Elaborate on a behavior by creating a subject.</div>
-      <div class='info_content_CSSCM'>Click on <span style='font-weight:bold'>adjacent cards</span> to shift left/right.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
@@ -197,6 +204,7 @@
       ...mapGetters({
         subjects: 'subjects',
         conceptsSelected: 'conceptsSelected',
+        pageActive: 'pageActive',
       }),
       subjectSelector() {
         // keeps 3 subjects on screen by the subject array index
@@ -731,6 +739,13 @@
   bottom:0;
   right:0;
 }
+.info_ADS_CSSCM{
+  color: red;
+  width: 100%;
+  padding: 2px 0 6px 0;
+  text-align: center;
+  font-size: 75%;
+}
 .subjectCSSCM-1 {
   text-align: right;
   direction: rtl;
@@ -813,7 +828,8 @@
   text-decoration: none;
   display: inline-block;
   font-size: 75%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
+  // box-shadow: 0 2px 4px 0 rgba(38, 156, 54, 0.2), 0 3px 10px 0 rgba(38, 156, 54, 0.4);
 }
 .button_new_CSSCM{
   background-color: #f4cf6c;
@@ -826,7 +842,8 @@
   text-decoration: none;
   display: inline-block;
   font-size: 75%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
+  // box-shadow: 0 2px 4px 0 rgba(38, 156, 54, 0.2), 0 3px 10px 0 rgba(38, 156, 54, 0.4);
 }
 .info_icon_CSSCM{
   width: 50px;

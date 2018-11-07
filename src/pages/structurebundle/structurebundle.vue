@@ -8,6 +8,8 @@
         class="titleCSSSB"
         v-model='title'
         :maxlength="200"
+        auto-height
+        cursor-spacing='20'
         placeholder="Tap here to type."
       >
       </textarea>
@@ -28,6 +30,7 @@
       />
     </wux-wing-blank>
     </div>
+    <div v-if='picURLs.length < 1' class='info_ADS_CSSSB'>Contact Ray (WechatID: r8chen) to learn effective sketching.</div>
     <div class='uploader_position_CSSSB'>
       <div
         v-if='picURLs.length < 1'
@@ -99,7 +102,7 @@
     </div>
 
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_new_CSSSB'
         @click='annotateNew'
@@ -123,11 +126,11 @@
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_delete_CSSSB'
         @click='bundleDelete'
-      >Delete
+      >Delete strategy
       </button>
     </wux-wing-blank>
     <wux-white-space />
@@ -156,7 +159,6 @@ export default {
       bundleId: 0,
       clicked: false,
       title: '',
-      picToAdd: true,
       picURLs: [],
       picsTotal: '0',
       annotatePopupShow: false,
@@ -449,6 +451,13 @@ export default {
     padding: 8rpx 0 0 0;
     border-top: 1px solid #eff1f7;
   }
+.info_ADS_CSSSB{
+  color: red;
+  width: 100%;
+  padding: 2px 0 6px 0;
+  text-align: center;
+  font-size: 75%;
+}
   .weui-uploader__img {
     display: block;
     width: 79px;
@@ -521,7 +530,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 85%;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSSB{
@@ -533,7 +542,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 85%;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_icon_CSSSB{

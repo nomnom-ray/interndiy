@@ -72,7 +72,7 @@
         v-if='propBannerHide'
         class='button_new_CSSB'
         @click='bannerHide'
-      >Start Your Outstanding
+      >Tap to Start Your Term
       </button>
     </wux-wing-blank>
     <wux-white-space />

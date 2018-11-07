@@ -163,7 +163,7 @@ const mutations = {
   },
   // eslint-disable-next-line
   ANNOTATES_DEL(state, payload) {
-    state.structures[payload.boardIndex].tasks[payload.bundleIndex]
+    state.structures[payload.boardIndex].bundles[payload.bundleIndex]
       .annotates.splice(payload.annotateIndex, 1);
   },
 };

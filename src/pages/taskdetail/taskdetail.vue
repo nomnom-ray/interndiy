@@ -91,7 +91,7 @@
     </wux-wing-blank>
 
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:99px;margin-right:99px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_new_CSSTD'
         @click='showQualDrawer = !showQualDrawer'
@@ -121,7 +121,7 @@
       </wux-cell-group>
     </wux-wing-blank>
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_new_CSSTD'
         @click='showBundleDrawer = !showBundleDrawer'
@@ -144,6 +144,7 @@
         />
     </wux-wing-blank>
     </div>
+    <div v-if='picURLs.length < 1' class='info_ADS_CSSTD'>Contact Ray (WechatID: r8chen) to learn effective sketching.</div>
     <div class='uploader_position_CSSTD'>
       <div
         v-if='picURLs.length < 1'
@@ -212,7 +213,7 @@
       ></app-todocard>
     </div>
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_new_CSSTD'
         @click='todoNew'
@@ -234,11 +235,11 @@
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:100px;margin-right:100px">
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
         class='button_delete_CSSTD'
         @click='taskDelete'
-      >Delete
+      >Delete task
       </button>
     </wux-wing-blank>
     <wux-white-space />
@@ -629,6 +630,13 @@ export default {
   height: 100vh;
   background:#fff;
 }
+.info_ADS_CSSTD{
+  color: red;
+  width: 100%;
+  padding: 2px 0 6px 0;
+  text-align: center;
+  font-size: 75%;
+}
 .qualifications_CSSTD{
   white-space: pre-wrap;
   font-size: 85%;
@@ -723,7 +731,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 85%;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .button_new_CSSTD{
@@ -735,7 +743,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 85%;
+  font-size: 75%;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_file_CSSTD{

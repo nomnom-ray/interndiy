@@ -2,7 +2,7 @@
   <div>
     <wux-divider position="left" :text="'1. Posted qualification (' + title.length + '/200)'" />
     <wux-wing-blank size="large">
-      <div class="placeholder_CSSQD">Tip: copy and paste each job qualification, separately.</div>
+      <div class="placeholder_CSSQD">Tip: <span style='font-weight:bold'>separately</span> copy and paste each qualification from the job posting.</div>
       <textarea
         class="qual_title_CSSQD"
         v-model='title'
@@ -42,7 +42,7 @@
           v-if="taskList.length === 0"
         >
           <div style='color:grey;text-align:center;font-size:83%'>
-            This list is self generated when tasks are created.
+            This list is self generated when tasks are created in tab 5.
           </div>
         </wux-cell>
         <wux-cell
@@ -59,7 +59,7 @@
 
     <wux-divider position="left" :text="'3. Justification of work (' + justification.length + '/400)'" />
     <wux-wing-blank size="large">
-      <div class="placeholder_CSSQD">Tip: Note how the above assigned tasks fit this qualification.</div>
+      <div class="placeholder_CSSQD">Tip: Track how the above tasks built your qualification over the term.</div>
       <textarea
         class="qual_justification_CSSQD"
         v-model='justification'
@@ -89,7 +89,7 @@
         class='button_delete_CSSQD'
         @click='qualificationDelete'
         :disabled="clicked"
-      >delete
+      >delete qualification
       </button>
     </wux-wing-blank>
     <wux-white-space />
