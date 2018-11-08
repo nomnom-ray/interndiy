@@ -38,8 +38,7 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
-      <div class='info_content_CSST'>Create tasks to compare strategies in each subcategory.</div>
-      <div class='info_content_CSST'>Create tasks to implement the roadmap.</div>
+      <div class='info_content_CSST'>Create tasks to compare strategies in each subcategory and implement the roadmap.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />

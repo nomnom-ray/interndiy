@@ -75,12 +75,7 @@
         </button>
       </wux-wing-blank>
     <wux-divider position="left" text='3. Implementation strategies' />
-    <wux-row>
-      <wux-col span='9' push='3'>
-        <div class='info_bundle_CSSSD'>
-          <span style='color:red'>*Select the primary strategy by keeping it open.</span></div>
-      </wux-col>
-    </wux-row>
+    <div class='info_bundle_CSSSD'>*Select the primary strategy by keeping it open.</div>
     <div
       v-if='structures[id] && structures[id].bundles'
     >
@@ -125,8 +120,8 @@
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSSD'>Categorize behaviors to implement as a group.</div>
-      <div class='info_content_CSSSD'>Propose and create strategies for the implementation.</div>
-      <div class='info_content_CSSSD'>Decide on a single strategy for the roadmap.</div>
+      <div class='info_content_CSSSD'>Propose and compare strategies for the implementation.</div>
+      <div class='info_content_CSSSD'>Choose one primary strategy to be used as part of the roadmap set.</div>
     </wux-wing-blank>  
     <wux-white-space />
     <wux-white-space />
@@ -390,6 +385,10 @@ export default {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 .info_bundle_CSSSD{
+  width: 100%;
+  color: red;
+  padding: 2px 0 4px 0;
+  text-align: center;
   font-size: 75%;
 }
 .info_icon_CSSSD{

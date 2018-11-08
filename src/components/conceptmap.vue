@@ -13,7 +13,7 @@
             <span style='font-weight:bold'>one </span>
             behavior that connect the prior and proceeding steps.</div>
           <textarea
-            v-if='pageActive === 3'
+            v-if='pageActive === 3 && conceptPopupShow'
             class="popup_description_CSSCM"
             v-model='conceptDescription'
             :maxlength="400"
@@ -30,7 +30,7 @@
         <wux-wing-blank size="large">
           <div class="placeholder_CSSCM">Tip: note the question that you asked your mentor as context for this behavior.</div>
           <textarea 
-            v-if='pageActive === 3'
+            v-if='pageActive === 3 && conceptPopupShow'
             class='popup_question_CSSCM'
             v-model='conceptQuestion'
             :maxlength="200"
@@ -95,7 +95,7 @@
       <wux-wing-blank size="large">
         <div class="placeholder_CSSCM">Tip: note the theme of this subject column.</div>
         <textarea
-          v-if='pageActive === 3'
+          v-if='pageActive === 3 && subjectPopupShow'
           class="popup_summary_CSSCM"
           v-model='subjectSummary'
           :maxlength="200"
@@ -160,8 +160,8 @@
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSCM'>Express "2.story" in serialized behaviors between an <span style='font-weight:bold'>initial trigger</span> and an <span style='font-weight:bold'>objective result</span>.</div>
-      <div class='info_content_CSSCM'>Click on <span style='font-weight:bold'>adjacent cards</span> to shift between left/right columns.</div>
-      <div class='info_content_CSSCM'>Elaborate on a behavior by creating a subject.</div>
+      <div class='info_content_CSSCM'>Tap on <span style='font-weight:bold'>adjacent cards</span> to shift between left/right columns.</div>
+      <div class='info_content_CSSCM'>Granularize a behavior by creating a new subject column from it.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />

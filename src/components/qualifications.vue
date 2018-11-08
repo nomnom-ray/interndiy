@@ -81,9 +81,8 @@
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSQ'>Working through this app will raise questions about your responsibilities.
-        Write them down, and we will assist you in resolving them with your mentor.</div>
-        <div class='info_content_CSSQ'> Don't worry if you are unsure of your career narrative.
-          Work is hard, even with this app! Contact Ray (WechatID: r8chen) for guidance.</div>
+        Note your concerns throughout the term, and talk to us to resolve them together.</div>
+        <div class='info_content_CSSQ'> Add Ray (WechatID: r8chen) for personalized support.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
