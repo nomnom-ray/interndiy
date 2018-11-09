@@ -4,7 +4,7 @@
     <wux-wing-blank size="large">
       <div class="placeholder_CSSQ">Tip: note what experiences you would like to get out of this job to build your career narrative.</div>
       <textarea
-        v-if='pageActive === 1'
+        v-if='pageActive === 5'
         class="narrative_CSSQ"
         v-model='narrativeMoreLocal'
         :maxlength="400"
@@ -15,11 +15,11 @@
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" :text="'2. Name of evaluator (' + evaluatorLocal.length + '/100)'" />
+    <!-- <wux-divider position="left" :text="'2. Identify your evaluator (' + evaluatorLocal.length + '/100)'" />
     <wux-wing-blank size="large">
-      <div class="placeholder_CSSQ">Tip: note the mentor responsible for your evaluation.</div>
+      <div class="placeholder_CSSQ">Tip: Zero21 guides you to build rapport with your evaluator.</div>
       <textarea
-        v-if='pageActive === 1'
+        v-if='pageActive === 5'
         class='evaluator_CSSQ'
         v-model='evaluatorLocal'
         :maxlength="100"
@@ -28,13 +28,13 @@
         placeholder="Tap here to type."
       >
       </textarea>
-    </wux-wing-blank>
+    </wux-wing-blank> -->
 
-    <wux-divider position="left" :text="'3. Concerns to resolve [optional] (' + concernsLocal.length + '/400)'" />
+    <!-- <wux-divider position="left" :text="'3. Concerns to resolve [optional] (' + concernsLocal.length + '/400)'" />
     <wux-wing-blank size="large">
       <div class="placeholder_CSSQ">Tip: note any concerns here, e.g. '1) First item of concern...' --tips at the bottom!</div>
       <textarea
-        v-if='pageActive === 1'
+        v-if='pageActive === 5'
         class='concerns_CSSQ'
         v-model='concernsLocal'
         :maxlength="400"
@@ -43,7 +43,7 @@
         placeholder="Tap here to type."
       >
       </textarea>
-    </wux-wing-blank>
+    </wux-wing-blank> -->
 
     <wux-divider position="left" text="4. Qualifications of the job" />
     <div
@@ -64,11 +64,11 @@
     >
     </app-qualification-card>
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
+    <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
       <button
         class='button_new_CSSTD'
         @click='qualificationAdd'
-      >Add a qualification
+      >Add a qualification card
       </button>
     </wux-wing-blank>
     <wux-white-space />
@@ -86,21 +86,6 @@
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
-      <button
-        class='button_delete_CSSQ'
-        @click='clearAll'
-      >Clear All Content
-      </button>
-    </wux-wing-blank>
-    <wux-white-space />
-    <wux-white-space />
-    <wux-white-space />
-    <wux-white-space />
-    <wux-white-space />
-    <wux-white-space />
-    <wux-white-space />
-    <wux-white-space />
   </div>
 </template>
 
@@ -115,8 +100,8 @@ export default {
   data() {
     return {
       narrativeMoreLocal: '',
-      evaluatorLocal: '',
-      concernsLocal: '',
+      // evaluatorLocal: '',
+      // concernsLocal: '',
     };
   },
   computed: {
@@ -124,8 +109,8 @@ export default {
       qualifications: 'qualifications',
       qualificationsCount: 'qualificationsCount',
       narrativeMore: 'narrativeMore',
-      evaluator: 'evaluator',
-      concerns: 'concerns',
+      // evaluator: 'evaluator',
+      // concerns: 'concerns',
       pageActive: 'pageActive',
     }),
   },
@@ -133,12 +118,12 @@ export default {
     narrativeMoreLocal() {
       this.narrativeMoreUpdate(this.narrativeMoreLocal);
     },
-    evaluatorLocal() {
-      this.evaluatorUpdate(this.evaluatorLocal);
-    },
-    concernsLocal() {
-      this.concernsUpdate(this.concernsLocal);
-    },
+    // evaluatorLocal() {
+    //   this.evaluatorUpdate(this.evaluatorLocal);
+    // },
+    // concernsLocal() {
+    //   this.concernsUpdate(this.concernsLocal);
+    // },
   },
   methods: {
     ...mapActions({
@@ -148,41 +133,14 @@ export default {
       qualificationsCountDel: 'qualificationsCountDel',
       qualificationUpdate: 'qualificationUpdate',
       narrativeMoreUpdate: 'narrativeMoreUpdate',
-      evaluatorUpdate: 'evaluatorUpdate',
-      concernsUpdate: 'concernsUpdate',
+      // evaluatorUpdate: 'evaluatorUpdate',
+      // concernsUpdate: 'concernsUpdate',
     }),
     qualificationAdd() {
       // new qualification is always the last element
       const qualificationId = this.qualifications.length;
       wx.navigateTo({
         url: `/pages/qualificationdetail/main?id=${qualificationId}`,
-      });
-    },
-    clearAll() {
-      wx.showModal({
-        title: 'Confirm Delete',
-        confirmText: 'Confirm',
-        cancelText: 'cancel',
-        success: (res) => {
-          if (res.confirm) {
-            wx.getSavedFileList({
-              success(resDel) {
-                for (let i = 0; i <= resDel.fileList.length - 1; i += 1) {
-                  wx.removeSavedFile({
-                    filePath: resDel.fileList[i].filePath,
-                  });
-                }
-              },
-            });
-            wx.clearStorage();
-            wx.showModal({
-              title: 'Close app & Wechat to finish.',
-              confirmText: 'OK',
-              cancelText: 'cancel',
-              showCancel: false,
-            });
-          }
-        },
       });
     },
   },
@@ -196,20 +154,20 @@ export default {
         that.narrativeMoreLocal = that.narrativeMore || '';
       },
     });
-    wx.getStorage({
-      key: 'EVALUATOR',
-      success(res) {
-        that.evaluatorUpdate(res.data);
-        that.evaluatorLocal = that.evaluator || '';
-      },
-    });
-    wx.getStorage({
-      key: 'CONCERNS',
-      success(res) {
-        that.concernsUpdate(res.data);
-        that.concernsLocal = that.concerns || '';
-      },
-    });
+    // wx.getStorage({
+    //   key: 'EVALUATOR',
+    //   success(res) {
+    //     that.evaluatorUpdate(res.data);
+    //     that.evaluatorLocal = that.evaluator || '';
+    //   },
+    // });
+    // wx.getStorage({
+    //   key: 'CONCERNS',
+    //   success(res) {
+    //     that.concernsUpdate(res.data);
+    //     that.concernsLocal = that.concerns || '';
+    //   },
+    // });
     wx.getStorage({
       key: 'QUALIFICATIONSCOUNT',
       success(resCount) {
@@ -312,18 +270,6 @@ export default {
   border-radius: 8px;
   font-weight: bold;
   color: #264436;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 85%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
-}
-.button_delete_CSSQ{
-  background-color: white;
-  width: 100%;
-  border-radius: 8px;
-  font-weight: bold;
-  color: #f44336;
   text-align: center;
   text-decoration: none;
   display: inline-block;

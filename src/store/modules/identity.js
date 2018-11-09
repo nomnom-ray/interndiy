@@ -10,6 +10,7 @@ const state = {
   qualificationsCount: 0,
   narrativeMore: '',
   projectStory: '',
+  objectiveResult: '',
 };
 
 const mutations = {
@@ -90,6 +91,10 @@ const mutations = {
   PROJECTSTORY_UPDATE(state, payload) {
     state.projectStory = payload;
   },
+  // eslint-disable-next-line
+  OBJECTIVERESULT_UPDATE(state, payload) {
+    state.objectiveResult = payload;
+  },
 };
 
 const actions = {
@@ -129,6 +134,9 @@ const actions = {
   projectStoryUpdate: ({ commit }, payload) => {
     commit('PROJECTSTORY_UPDATE', payload);
   },
+  objectiveResultUpdate: ({ commit }, payload) => {
+    commit('OBJECTIVERESULT_UPDATE', payload);
+  },
 };
 
 const getters = {
@@ -140,6 +148,7 @@ const getters = {
   qualificationsCount: () => state.qualificationsCount,
   narrativeMore: () => state.narrativeMore,
   projectStory: () => state.projectStory,
+  objectiveResult: () => state.objectiveResult,
 };
 
 const localStorageAPI = {
@@ -175,6 +184,9 @@ const autosavePlugin = (store) => {
     }
     if (mutation.type === 'PROJECTSTORY_UPDATE') {
       localStorageAPI.save(mutation.payload, 'PROJECTSTORY');
+    }
+    if (mutation.type === 'OBJECTIVERESULT_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'OBJECTIVERESULT');
     }
     if (mutation.type === 'JOBPICS_ADD' || mutation.type === 'JOBPICS_DEL') {
       localStorageAPI.save(state.jobPics, 'JOBPICS');

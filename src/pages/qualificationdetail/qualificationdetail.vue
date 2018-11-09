@@ -42,7 +42,7 @@
           v-if="taskList.length === 0"
         >
           <div style='color:grey;text-align:center;font-size:83%'>
-            This list is self generated when tasks are created in tab 5.
+            This list is self generated when tasks are created in "Tab 4".
           </div>
         </wux-cell>
         <wux-cell

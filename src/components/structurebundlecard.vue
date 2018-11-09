@@ -6,7 +6,7 @@
         Open to edit.
       </div>
       <wux-white-space />
-      <wux-gallery v-if='pageActive === 4' id="wux-gallery"></wux-gallery>
+      <wux-gallery v-if='pageActive === 3' id="wux-gallery"></wux-gallery>
       <div
         v-if='structures[propStructureIndex].bundles[propBundleIndex]'
         :key='index'

@@ -74,9 +74,9 @@
       >
       </textarea>
     </wux-wing-blank>
-    <wux-divider position="left" text="2. Qualifications involved" />
+    <wux-divider position="left" text="2. Qualifications involved [Optional]" />
     <div v-if='qualCheckBoxValues.length === 0' style='color:grey;text-align:center;font-size:83%'>
-      No qualifications assigned.
+      Create a qualification-list from "Tab 5" to begin.
     </div>
     <wux-wing-blank size="default">
       <div
@@ -95,7 +95,7 @@
       <button
         class='button_new_CSSTD'
         @click='showQualDrawer = !showQualDrawer'
-      >Select qualifications
+      >Assign qualifications used
       </button>
     </wux-wing-blank>
 
@@ -130,7 +130,7 @@
     </wux-wing-blank>
 
     <wux-divider position="left" :text="'4. Task visualization [Optional] (' + picURLs.length + '/1 picture)'" />
-    <wux-gallery v-if='pageActive === 5' id="wux-gallery"></wux-gallery>
+    <wux-gallery v-if='pageActive === 4' id="wux-gallery"></wux-gallery>
     <div
       :key='index'
       v-for="(url, index) in picURLs"
