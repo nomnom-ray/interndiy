@@ -2,14 +2,15 @@
   <div>
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
-        <wux-divider position="left" :text="'1. Identify your evaluator (' + evaluatorLocal.length + '/100)'" />
+        <wux-divider position="left" :text="'1. Identify your supervisor (' + evaluatorLocal.length + '/100)'" />
       </div>
       <div class='divider_icon_CSSPS'>
         <div class='divider_icon_border_CSSPS'>
-          <wux-popover placement="bottomRight" title="Instruction" body-style="width:600rpx;" content="Zero21 guides you to build rapport with the evaluator of your Outstanding.">
+          <wux-popover placement="leftTop" title="Instruction: identify your supervisor" body-style="width:600rpx;" content="your supervisor is whomever that will give you the Outstanding.">
             <icon
+              @click='evaluatorHide = !evaluatorHide'
               type="info"
-              size="32"
+              size="34"
               color='rgba(244,207,108,0.8)'
             />
           </wux-popover>
@@ -19,7 +20,7 @@
 
     <wux-wing-blank size="large">
       <textarea
-        v-if='pageActive === 1'
+        v-if='pageActive === 1 && !evaluatorHide && !projectStoryHide && !objectiveResultHide'
         class='evaluator_CSSPS'
         v-model='evaluatorLocal'
         :maxlength="100"
@@ -30,11 +31,27 @@
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" :text="'Project story (' + projectStoryLocal.length + '/200)'" />
+    <div class='divider_container_CSSPS'>
+      <div class='divider_content_CSSPS'>
+        <wux-divider position="left" :text="'Project story (' + projectStoryLocal.length + '/200)'" />
+      </div>
+      <div class='divider_icon_CSSPS'>
+        <div class='divider_icon_border_CSSPS'>
+          <wux-popover placement="leftTop" title="Instruction: project story" body-style="width:600rpx;" content="Ask your supervisor to describe the project and write it in this format (more examples below): we are a marketing team; we are 'running a social media campaign' (i.e. your work) for the 'advertising department of our dating app' (i.e. user of your work) to 'capture 5000 users' (i.e. your goal).">
+            <icon
+              @click='projectStoryHide = !projectStoryHide'
+              type="info"
+              size="34"
+              color='rgba(244,207,108,0.8)'
+            />
+          </wux-popover>
+        </div>
+      </div>
+    </div>
+
     <wux-wing-blank size="large">
-      <div class="placeholder_CSSPS">Tip: ask your evaluator to describe the project (follow examples below).</div>
       <textarea
-        v-if='pageActive === 1'
+        v-if='pageActive === 1 && !evaluatorHide && !projectStoryHide && !objectiveResultHide'
         class="story_CSSPS"
         v-model='projectStoryLocal'
         :maxlength="200"
@@ -45,11 +62,27 @@
       </textarea>
     </wux-wing-blank>
 
-    <wux-divider position="left" :text="'Objective result (' + objectiveResultLocal.length + '/200)'" />
+    <div class='divider_container_CSSPS'>
+      <div class='divider_content_CSSPS'>
+        <wux-divider position="left" :text="'3. Objective result (' + objectiveResultLocal.length + '/200)'" />
+      </div>
+      <div class='divider_icon_CSSPS'>
+        <div class='divider_icon_border_CSSPS'>
+          <wux-popover placement="leftTop" title="Instruction: objective result" body-style="width:600rpx;" content="Isolate the evaluation metric.">
+            <icon
+              @click='objectiveResultHide = !objectiveResultHide'
+              type="info"
+              size="34"
+              color='rgba(244,207,108,0.8)'
+            />
+          </wux-popover>
+        </div>
+      </div>
+    </div>
+
     <wux-wing-blank size="large">
-      <div class="objective_CSSPS">Tip: note the evaluation metric. It is when your recipient of work has the property of your goal.</div>
       <textarea
-        v-if='pageActive === 1'
+        v-if='pageActive === 1 && !evaluatorHide && !projectStoryHide && !objectiveResultHide'
         class="objective_CSSPS"
         v-model='objectiveResultLocal'
         :maxlength="200"
@@ -62,25 +95,25 @@
 
     <wux-divider position="left" text="Examples of a project story" />
     <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
-      <div class='info_content_CSSPS'>
+      <!-- <div class='info_content_CSSPS'>
         1) We are a marketing team;
-        we<span style='background:rgba(227,229,238,0.8)'> are running a social media campaign (i.e. your work)</span>
-        <span style='background:rgba(244,207,108,0.4)'> for an online dating app (i.e. your recipient of work)</span>
-        <span style='background:rgba(54,147,104,0.2)'> to capture 5000 users (i.e. your goal)</span>.
-      </div>
+        we are "running a social media campaign" (i.e. your work)
+        for the "advertising department of our dating app" (i.e. user of your work)
+        to "capture 5000 users" (i.e. your goal).
+      </div> -->
       
       <div class='info_content_CSSPS'>
-        2) We are a sales team;
-        we are *building a profolio (i.e. your work)*
-        of *100 potential clients (i.e. your goal)*
-        to *validate our business strategy (i.e. your recipient of work)*.
+        Example 1. We are a sales team;
+        we are "building a profolio" (i.e. your work)
+        of "100 potential clients" (i.e. your goal)
+        to "validate our business strategy for the CEO" (i.e. user of your work).
       </div>
 
       <div class='info_content_CSSPS'>
-        3) We are an engineering team;
+        Example 2. We are an engineering team;
         we are "upgrading the electronics" (i.e. your work)
-        on "our solar-charger product" (i.e. your recipient of work)
-        to "a new generation of components" (i.e. your goal).
+        to "a new generation of components" (i.e. your goal)
+        to let "customers charge faster on our solar-charger product" (i.e. user of your work).
       </div>
     </wux-wing-blank>
     <wux-white-space />
@@ -100,9 +133,12 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   data() {
     return {
-      projectStoryLocal: '',
       evaluatorLocal: '',
+      projectStoryLocal: '',
       objectiveResultLocal: '',
+      evaluatorHide: false,
+      projectStoryHide: false,
+      objectiveResultHide: false,
     };
   },
   computed: {
@@ -208,7 +244,7 @@ export default {
   border-top: 1px solid #eff1f7;
 }
 .info_content_CSSPS{
-  padding: 2px 0 10rpx 0;
+  padding: 2px 0 16rpx 0;
   width: 100%;
   text-align: justify;
   text-justify: inter-word;
@@ -220,16 +256,18 @@ export default {
 }
 .divider_content_CSSPS{
   display: table-cell;
+  width: 85%;
 }
 .divider_icon_CSSPS{
   display: table-cell;
   vertical-align: middle;
+  width: 15%;
   margin: 0 auto;
 }
 .divider_icon_border_CSSPS{
-  height: 38px;
-  width: 38px;
-  border-radius: 38px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  height: 34px;
+  width: 34px;
+  border-radius: 34px;
+  // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 </style>

@@ -7,30 +7,61 @@
     @close="popupCloseHandler()"
     position='top'
     >
-      <wux-divider position="left" :text="'1. Behavior description (' + conceptDescription.length + '/400)'" />
-        <wux-wing-blank size="large">
-          <div class="placeholder_CSSCM">Tip: ask your mentor to describe
-            <span style='font-weight:bold'>one </span>
-            behavior that connect the prior and proceeding steps.</div>
-          <textarea
-            v-if='pageActive === 2 && conceptPopupShow'
-            class="popup_description_CSSCM"
-            v-model='conceptDescription'
-            :maxlength="400"
-            auto-height
-            cursor-spacing='20'
-            placeholder="Tap here to type."
-            :disabled='topAddDisable && !triggerTopDisable'
-          >
-          </textarea>
-        </wux-wing-blank>
+      <div class='divider_container_CSSCM'>
+        <div class='divider_content_CSSCM'>
+          <wux-divider position="left" :text="'1. Step description (' + conceptDescription.length + '/400)'" />
+        </div>
+        <div class='divider_icon_CSSCM'>
+          <div class='divider_icon_border_CSSCM'>
+            <wux-popover placement="bottomRight" title="Instruction: step description" body-style="width:600rpx;" content="Ask your supervisor to describe what happens that connect the prior and proceeding steps.">
+              <icon
+                @click='descriptionHide = !descriptionHide'
+                type="info"
+                size="34"
+                color='rgba(244,207,108,0.8)'
+              />
+            </wux-popover>
+          </div>
+        </div>
+      </div>
+
+      <wux-wing-blank size="large">
+        <textarea
+          v-if='pageActive === 2 && conceptPopupShow && !descriptionHide && !questionHide'
+          class="popup_description_CSSCM"
+          v-model='conceptDescription'
+          :maxlength="400"
+          auto-height
+          cursor-spacing='20'
+          placeholder="Tap here to type."
+          :disabled='topAddDisable && !triggerTopDisable'
+        >
+        </textarea>
+      </wux-wing-blank>
 
       <wux-white-space />
-      <wux-divider position="left" :text="'2. Contextual question [optional] (' + conceptQuestion.length + '/200)'" />
+
+      <div class='divider_container_CSSCM'>
+        <div class='divider_content_CSSCM'>
+          <wux-divider position="left" :text="'2. Contextual question [optional] (' + conceptQuestion.length + '/200)'" />
+        </div>
+        <div class='divider_icon_CSSCM'>
+          <div class='divider_icon_border_CSSCM'>
+            <wux-popover placement="bottomRight" title="Instruction: contextual question [optional]" body-style="width:600rpx;" content="Note the question that you asked your supervisor as context for this step.">
+              <icon
+                @click='questionHide = !questionHide'
+                type="info"
+                size="34"
+                color='rgba(244,207,108,0.8)'
+              />
+            </wux-popover>
+          </div>
+        </div>
+      </div>
+
         <wux-wing-blank size="large">
-          <div class="placeholder_CSSCM">Tip: note the question that you asked your mentor as context for this behavior.</div>
           <textarea 
-            v-if='pageActive === 2 && conceptPopupShow'
+            v-if='pageActive === 2 && conceptPopupShow && !descriptionHide && !questionHide'
             class='popup_question_CSSCM'
             v-model='conceptQuestion'
             :maxlength="200"
@@ -48,7 +79,7 @@
             class='button_new_CSSCM'
             @click='conceptAddTop'
             :disabled='conceptsSelected.length != 1 | topAddDisable'
-          >Add prior step
+          >Add a step above
           </button>
         </wux-col>
         <wux-col span='5' push='1'>
@@ -68,7 +99,7 @@
             class='button_new_CSSCM'
             @click='conceptAddBottom'
             :disabled="conceptsSelected.length != 1 | resultBottomDisable"
-          >Add proceeding step
+          >Add a step below
           </button>
         </wux-col>
         <wux-col span="5" push='1'>
@@ -81,9 +112,9 @@
         </wux-col>
       </wux-row>
 
-      <wux-white-space />
+      <!-- <wux-white-space />
        <div class='info_ADS_CSSCM'>Contact Ray (WechatID: r8chen) to learn behavior flow.</div>
-      <wux-white-space />
+      <wux-white-space /> -->
     </van-popup>
 
     <van-popup
@@ -93,7 +124,7 @@
     >
       <wux-divider position="left" :text="'Subject summary (' + subjectSummary.length + '/200)'" />
       <wux-wing-blank size="large">
-        <div class="placeholder_CSSCM">Tip: note the theme of this subject column <span style='font-weight:bold'>after</span> there is sufficient details.</div>
+        <div class="placeholder_CSSCM">Instruction: note the theme of this subject column <span style='font-weight:bold'>after</span> there is sufficient details.</div>
         <textarea
           v-if='pageActive === 2 && subjectPopupShow'
           class="popup_summary_CSSCM"
@@ -159,10 +190,8 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
-      <div class='info_content_CSSCM'>This is a concept map. It is for visualizing a concept in a series of sequential steps;
-        express the project <span style='font-weight:bold'>story as a part of the concept.</span>
-      </div>
-      <div class='info_content_CSSCM'>Expand on the behavior of a step by creating a new subject column from it.</div>
+      <div class='info_content_CSSCM'>This is a concept map. Use it to visualize how your work behaves in a series of steps to impact the user.</div>
+      <div class='info_content_CSSCM'>Expand on the details of a step by creating a new subject column from it.</div>
       <div class='info_content_CSSCM'>Tap on <span style='font-weight:bold'>adjacent cards</span> to shift between left/right columns.</div>
     </wux-wing-blank>
     <wux-white-space />
@@ -200,6 +229,9 @@
         conceptDescription: '',
         subjectSummary: '',
         subjectSelected: 0,
+        descriptionHide: false,
+        questionHide: false,
+        summaryHide: false,
       };
     },
     computed: {
@@ -856,5 +888,25 @@
   padding: 2px 0 6px 0;
   text-align: center;
   font-size: 85%;
+}
+.divider_container_CSSCM{
+  width: 100%;
+  display: table;
+}
+.divider_content_CSSCM{
+  display: table-cell;
+  width: 85%;
+}
+.divider_icon_CSSCM{
+  display: table-cell;
+  vertical-align: middle;
+  width: 15%;
+  margin: 0 auto;
+}
+.divider_icon_border_CSSCM{
+  height: 34px;
+  width: 34px;
+  border-radius: 34px;
+  // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
 }
 </style>

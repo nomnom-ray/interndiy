@@ -84,7 +84,8 @@
   background-color: #fff;
   background-clip: padding-box;
   border-radius: 8rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15); */
+  box-shadow: 0 8rpx 16rpx 0 rgba(38,68,54,0.4), 0 10rpx 20rpx 0 rgba(38,68,54,0.4);
   color: rgba(0, 0, 0, 0.65);
 }
 .wux-popover__title {

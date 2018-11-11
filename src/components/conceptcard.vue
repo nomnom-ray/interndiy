@@ -12,9 +12,9 @@
     >
         <div class='questionCSSCC' v-if="propConcept.question !== ''"><span class='title_CSSCC'>Context: </span>{{propConcept.question}}</div>
 
-        <div class='description_empty_CSSCC' v-if="propSubjectIndex === 1 && propConcept.id === 0 && propConcept.description === ''">Tap to describe something a person does that eventually leads the project to behave with the result below.</div>
-        <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id !== subjects[1].concepts.length - 1  && propConcept.description === ''">Tap to describe what happens between the immediate prior and proceeding steps.</div>
-        <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id === subjects[1].concepts.length - 1  && propConcept.description === ''">Tap to describe the result behavior.</div>
+        <div class='description_empty_CSSCC' v-if="propSubjectIndex === 1 && propConcept.id === 0 && propConcept.description === ''">Tap to describe an initial action performed by the user of your work when it is completed.</div>
+        <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id !== subjects[1].concepts.length - 1  && propConcept.description === ''">Tap to describe what happens at this step.</div>
+        <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id === subjects[1].concepts.length - 1  && propConcept.description === ''">Tap to describe the objective result of the story from Tab 1.</div>
         <div :class="propConcept.question === '' ? 'description_full_CSSCC' : 'descriptionCSSCC'" v-else-if="propSubjectIndex === 1">
           <div v-if='arrowLeftShow' style='font-weight:bold;text-align:center;color:grey'>Copied from parent</div>{{propConcept.description}}
         </div>

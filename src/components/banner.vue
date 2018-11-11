@@ -26,7 +26,7 @@
       <wux-col span='7' push='1'>
         <div class='info_content_CSSB'>
           Zero21 <span style='font-weight:bold;color:#264436'>
-          integrates you to the pace of your responsibility ASAP!</span>
+          cuts down the learning curve of your work!</span>
           Contact Ray (WechatID: r8chen) for a 4-month guidance.
         </div>
           <!-- <img
@@ -67,12 +67,12 @@
       <span style='font-weight:bold;color:#264436'>Zero21</span> Co-op Guide
     </div>
     <wux-white-space />
-    <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+    <wux-wing-blank body-style="margin-left:180rpx;margin-right:180rpx">
       <button
         v-if='propBannerHide'
         class='button_new_CSSB'
         @click='bannerHide'
-      >Tap to Start Your Term
+      >Tap to Start
       </button>
       <button
         v-if='!propBannerHide'
