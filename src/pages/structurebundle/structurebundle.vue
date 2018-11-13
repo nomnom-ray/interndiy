@@ -16,7 +16,7 @@
     </wux-wing-blank>
     <wux-divider position="left" :text="'2. Strategy visualization (' + picURLs.length + '/1 picture)'" />
 
-    <wux-gallery v-if='pageActive === 3' id="wux-gallery"></wux-gallery>
+    <wux-gallery v-if='pageActive === 4' id="wux-gallery"></wux-gallery>
     <div
       :key='index'
       v-for="(url, index) in picURLs"

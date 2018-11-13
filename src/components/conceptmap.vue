@@ -27,7 +27,7 @@
 
       <wux-wing-blank size="large">
         <textarea
-          v-if='pageActive === 2 && conceptPopupShow && !descriptionHide && !questionHide'
+          v-if='pageActive === 3 && conceptPopupShow && !descriptionHide && !questionHide'
           class="popup_description_CSSCM"
           v-model='conceptDescription'
           :maxlength="400"
@@ -61,7 +61,7 @@
 
         <wux-wing-blank size="large">
           <textarea 
-            v-if='pageActive === 2 && conceptPopupShow && !descriptionHide && !questionHide'
+            v-if='pageActive === 3 && conceptPopupShow && !descriptionHide && !questionHide'
             class='popup_question_CSSCM'
             v-model='conceptQuestion'
             :maxlength="200"
@@ -126,7 +126,7 @@
       <wux-wing-blank size="large">
         <div class="placeholder_CSSCM">Instruction: note the theme of this subject column <span style='font-weight:bold'>after</span> there is sufficient details.</div>
         <textarea
-          v-if='pageActive === 2 && subjectPopupShow'
+          v-if='pageActive === 3 && subjectPopupShow'
           class="popup_summary_CSSCM"
           v-model='subjectSummary'
           :maxlength="200"

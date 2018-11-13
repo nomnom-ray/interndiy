@@ -4,7 +4,7 @@
     <wux-wing-blank size="large">
       <div class="placeholder_CSSQ">Tip: note what experiences you would like to get out of this job to build your career narrative.</div>
       <textarea
-        v-if='pageActive === 5'
+        v-if='pageActive === 6'
         class="narrative_CSSQ"
         v-model='narrativeMoreLocal'
         :maxlength="400"
@@ -19,7 +19,7 @@
     <wux-wing-blank size="large">
       <div class="placeholder_CSSQ">Tip: Zero21 guides you to build rapport with your evaluator.</div>
       <textarea
-        v-if='pageActive === 5'
+        v-if='pageActive === 6'
         class='evaluator_CSSQ'
         v-model='evaluatorLocal'
         :maxlength="100"
@@ -34,7 +34,7 @@
     <wux-wing-blank size="large">
       <div class="placeholder_CSSQ">Tip: note any concerns here, e.g. '1) First item of concern...' --tips at the bottom!</div>
       <textarea
-        v-if='pageActive === 5'
+        v-if='pageActive === 6'
         class='concerns_CSSQ'
         v-model='concernsLocal'
         :maxlength="400"

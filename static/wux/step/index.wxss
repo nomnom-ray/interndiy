@@ -46,8 +46,8 @@
   content: "";
   display: inline-block;
   background: #ddd;
-  height: 2rpx;
-  border-radius: 2rpx;
+  height: 4rpx;
+  border-radius: 4rpx;
   width: 100%;
   -webkit-transition: background .3s;
   transition: background .3s;
@@ -56,8 +56,8 @@
 }
 .wux-step__icon {
   box-sizing: border-box;
-  font-size: 24rpx;
-  width: 48rpx;
+  font-size: 36rpx;
+  width: 52rpx;
   height: 100%;
   border-radius: 50%;
   background: #fff;
@@ -73,23 +73,23 @@
   overflow: hidden;
 }
 .wux-step--process .wux-step__icon {
-  border: #387ef5 solid 2rpx;
+  border: #264436 solid 2rpx;
   color: #fff;
-  background: #387ef5;
+  background: #264436;
 }
 .wux-step--wait .wux-step__icon {
   border: #e9eaec solid 2rpx;
   color: #e9eaec;
 }
 .wux-step--wait .wux-step__ft:after {
-  background: #387ef5;
+  background: #264436;
 }
 .wux-step--finish .wux-step__icon {
-  border: #387ef5 solid 2rpx;
-  color: #387ef5;
+  border: #264436 solid 2rpx;
+  color: #264436;
 }
 .wux-step--finish .wux-step__ft:after {
-  background: #387ef5;
+  background: #264436;
 }
 .wux-step--error .wux-step__icon {
   border: #ef473a solid 2rpx;
@@ -100,7 +100,7 @@
 }
 .wux-step__hd {
   width: auto;
-  height: 48rpx;
+  height: 52rpx;
   line-height: 48rpx;
   text-align: center;
   box-sizing: border-box;
@@ -111,12 +111,12 @@
   clear: both;
 }
 .wux-step__title {
-  font-size: 32rpx;
+  font-size: 28rpx;
   font-weight: 700;
   color: #000;
 }
 .wux-step__content {
-  font-size: 24rpx;
+  font-size: 26rpx;
   margin-top: 6rpx;
-  color: #b2b2b2;
+  color: grey;
 }

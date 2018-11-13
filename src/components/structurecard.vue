@@ -129,7 +129,6 @@ export default {
   computed: {
     ...mapGetters({
       structures: 'structures',
-      pageActive: 'pageActive',
     }),
     detailURL() {
       return `/pages/structuredetail/main?id=${this.propStructureIndex}`;

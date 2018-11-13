@@ -171,7 +171,6 @@ export default {
       structures: 'structures',
       structuresCount: 'structuresCount',
       subjects: 'subjects',
-      pageActive: 'pageActive',
     }),
     picSizeUsed() {
       return (this.picsTotal / 1000000).toPrecision(2);

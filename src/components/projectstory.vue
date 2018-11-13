@@ -1,97 +1,153 @@
 <template>
   <div>
+    <wux-white-space />
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
         <wux-divider position="left" :text="'1. Identify your supervisor (' + evaluatorLocal.length + '/100)'" />
       </div>
       <div class='divider_icon_CSSPS'>
-        <div class='divider_icon_border_CSSPS'>
-          <wux-popover placement="leftTop" title="Instruction: identify your supervisor" body-style="width:600rpx;" content="your supervisor is whomever that will give you the Outstanding.">
-            <icon
-              @click='evaluatorHide = !evaluatorHide'
-              type="info"
-              size="34"
-              color='rgba(244,207,108,0.8)'
-            />
-          </wux-popover>
-        </div>
+        <button @click="evaluatorTips = !evaluatorTips" class='button_new_CSSPS'>info</button>
       </div>
     </div>
+    <wux-wing-blank size="large">
+      <div v-if='evaluatorTips' class='instruction_CSSPS'>
+        <span style='font-weight:bold'>Instruction: </span> your supervisor is whomever that will give you the Outstanding.
+        <wux-white-space />
+      </div>
+    </wux-wing-blank>
+    <wux-white-space />
 
     <wux-wing-blank size="large">
-      <textarea
-        v-if='pageActive === 1 && !evaluatorHide && !projectStoryHide && !objectiveResultHide'
-        class='evaluator_CSSPS'
-        v-model='evaluatorLocal'
-        :maxlength="100"
-        auto-height
-        cursor-spacing='20'
-        placeholder="Tap here to type."
+      <div
+        class='display_CSSPS'
+        :class="evaluatorLocal === '' ? 'emptytext_CSSPS' : '' "
+        v-if="evaluatorSaved"
+        @click='evaluatorSaved = false'
       >
-      </textarea>
+        {{evaluatorLocal === '' ? 'Tap here to type.' : evaluatorLocal}}
+      </div>
+      <div v-else>
+        <textarea
+          class='text_CSSPS'
+          v-model='evaluatorLocal'
+          :maxlength="100"
+          auto-height
+          cursor-spacing='20'
+          auto-focus
+        >
+        </textarea>
+        <wux-white-space />
+        <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+          <button
+            class='button_new_CSSPS'
+            @click="evaluatorSavedHandle"
+          >Save
+          </button>
+        </wux-wing-blank>
+      </div>
     </wux-wing-blank>
 
+
+    <wux-white-space />
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
-        <wux-divider position="left" :text="'Project story (' + projectStoryLocal.length + '/200)'" />
+        <wux-divider position="left" :text="'2) Project story (' + projectStoryLocal.length + '/200)'" />
       </div>
       <div class='divider_icon_CSSPS'>
-        <div class='divider_icon_border_CSSPS'>
-          <wux-popover placement="leftTop" title="Instruction: project story" body-style="width:600rpx;" content="Ask your supervisor to describe the project and write it in this format (more examples below): we are a marketing team; we are 'running a social media campaign' (i.e. your work) for the 'advertising department of our dating app' (i.e. user of your work) to 'capture 5000 users' (i.e. your goal).">
-            <icon
-              @click='projectStoryHide = !projectStoryHide'
-              type="info"
-              size="34"
-              color='rgba(244,207,108,0.8)'
-            />
-          </wux-popover>
-        </div>
+        <button @click="storyTips = !storyTips" class='button_new_CSSPS'>info</button>
       </div>
     </div>
+    <wux-wing-blank size="large">
+      <div v-if='storyTips' class='instruction_CSSPS'>
+        <span style='font-weight:bold'>Instruction: </span>Ask your supervisor to describe the project
+        and write it in this format (more examples below): we are a marketing team;
+        we are 'running a social media campaign' (i.e. your work)
+        for the 'advertising department of our dating app' (i.e. user of your work)
+        to 'capture 5000 users' (i.e. your goal).
+        <wux-white-space />
+      </div>
+    </wux-wing-blank>
+    <wux-white-space />
 
     <wux-wing-blank size="large">
-      <textarea
-        v-if='pageActive === 1 && !evaluatorHide && !projectStoryHide && !objectiveResultHide'
-        class="story_CSSPS"
-        v-model='projectStoryLocal'
-        :maxlength="200"
-        auto-height
-        cursor-spacing='20'
-        placeholder="Tap here to type."
+      <div
+        class='display_CSSPS'
+        :class="projectStoryLocal === '' ? 'emptytext_CSSPS' : '' "
+        v-if="storySaved"
+        @click='storySaved = false'
       >
-      </textarea>
+        {{projectStoryLocal === '' ? 'Tap here to type.' : projectStoryLocal}}
+      </div>
+      <div v-else>
+        <textarea
+          class='text_CSSPS'
+          v-model='projectStoryLocal'
+          :maxlength="100"
+          auto-height
+          cursor-spacing='20'
+          auto-focus
+        >
+        </textarea>
+        <wux-white-space />
+        <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+          <button
+            class='button_new_CSSPS'
+            @click="storySavedHandle"
+          >Save
+          </button>
+        </wux-wing-blank>
+      </div>
     </wux-wing-blank>
+    <wux-white-space />
+
+
 
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
         <wux-divider position="left" :text="'3. Objective result (' + objectiveResultLocal.length + '/200)'" />
       </div>
       <div class='divider_icon_CSSPS'>
-        <div class='divider_icon_border_CSSPS'>
-          <wux-popover placement="leftTop" title="Instruction: objective result" body-style="width:600rpx;" content="Isolate the evaluation metric.">
-            <icon
-              @click='objectiveResultHide = !objectiveResultHide'
-              type="info"
-              size="34"
-              color='rgba(244,207,108,0.8)'
-            />
-          </wux-popover>
-        </div>
+        <button @click="resultTips = !resultTips" class='button_new_CSSPS'>info</button>
       </div>
     </div>
+    <wux-wing-blank size="large">
+      <div v-if='resultTips' class='instruction_CSSPS'>
+        <span style='font-weight:bold'>Instruction: </span>Isolate the evaluation metric.
+        <wux-white-space />
+      </div>
+    </wux-wing-blank>
+    <wux-white-space />
 
     <wux-wing-blank size="large">
-      <textarea
-        v-if='pageActive === 1 && !evaluatorHide && !projectStoryHide && !objectiveResultHide'
-        class="objective_CSSPS"
-        v-model='objectiveResultLocal'
-        :maxlength="200"
-        auto-height
-        cursor-spacing='20'
-        placeholder="Tap here to type."
+      <div
+        class='display_CSSPS'
+        :class="objectiveResultLocal === '' ? 'emptytext_CSSPS' : '' "
+        v-if="resultSaved"
+        @click='resultSaved = false'
       >
-      </textarea>
+        {{objectiveResultLocal === '' ? 'Tap here to type.' : objectiveResultLocal}}
+      </div>
+      <div v-else>
+        <textarea
+          class='text_CSSPS'
+          v-model='objectiveResultLocal'
+          :maxlength="100"
+          auto-height
+          cursor-spacing='20'
+          auto-focus
+        >
+        </textarea>
+        <wux-white-space />
+        <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+          <button
+            class='button_new_CSSPS'
+            @click="resultSavedHandle"
+          >Save
+          </button>
+        </wux-wing-blank>
+      </div>
     </wux-wing-blank>
+    <wux-white-space />
 
     <wux-divider position="left" text="Examples of a project story" />
     <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
@@ -124,6 +180,24 @@
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+
   </div>
 </template>
 
@@ -136,17 +210,20 @@ export default {
       evaluatorLocal: '',
       projectStoryLocal: '',
       objectiveResultLocal: '',
-      evaluatorHide: false,
-      projectStoryHide: false,
-      objectiveResultHide: false,
+      evaluatorSaved: true,
+      evaluatorTips: false,
+      storySaved: true,
+      storyTips: false,
+      resultSaved: true,
+      resultTips: false,
     };
   },
   computed: {
     ...mapGetters({
-      projectStory: 'projectStory',
-      pageActive: 'pageActive',
       evaluator: 'evaluator',
+      projectStory: 'projectStory',
       objectiveResult: 'objectiveResult',
+      pageActive: 'pageActive',
       subjects: 'subjects',
     }),
   },
@@ -156,7 +233,23 @@ export default {
       evaluatorUpdate: 'evaluatorUpdate',
       objectiveResultUpdate: 'objectiveResultUpdate',
       subjectsUpdate: 'subjectsUpdate',
+      pageActiveUpdate: 'pageActiveUpdate',
     }),
+    async evaluatorSavedHandle() {
+      this.evaluatorSaved = true;
+      await new Promise(resolve => setTimeout(resolve, 500));
+      this.pageActiveUpdate(1);
+    },
+    async storySavedHandle() {
+      this.storySaved = true;
+      await new Promise(resolve => setTimeout(resolve, 500));
+      this.pageActiveUpdate(1);
+    },
+    async resultSavedHandle() {
+      this.resultSaved = true;
+      await new Promise(resolve => setTimeout(resolve, 500));
+      this.pageActiveUpdate(1);
+    },
   },
   watch: {
     projectStoryLocal() {
@@ -219,29 +312,23 @@ export default {
   font-size: 85%;
   margin-bottom: 16rpx;
 }
-.evaluator_CSSPS{
+.display_CSSPS{
   width: 100%;
   min-height:50px;
   max-height: 200px;
   font-size: 85%;
   padding: 8rpx 0 0 0;
   border-top: 1px solid #eff1f7;
+  white-space: pre-wrap;
 }
-.story_CSSPS{
+.text_CSSPS{
   width: 100%;
   min-height:50px;
   max-height: 200px;
   font-size: 85%;
   padding: 8rpx 0 0 0;
   border-top: 1px solid #eff1f7;
-}
-.objective_CSSPS{
-  width: 100%;
-  min-height:50px;
-  max-height: 200px;
-  font-size: 85%;
-  padding: 8rpx 0 0 0;
-  border-top: 1px solid #eff1f7;
+  background: rgba(239, 241, 247, 0.4);
 }
 .info_content_CSSPS{
   padding: 2px 0 16rpx 0;
@@ -262,6 +349,7 @@ export default {
   display: table-cell;
   vertical-align: middle;
   width: 15%;
+  padding: 0 10rpx 0 0;
   margin: 0 auto;
 }
 .divider_icon_border_CSSPS{
@@ -269,5 +357,26 @@ export default {
   width: 34px;
   border-radius: 34px;
   // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+.button_new_CSSPS{
+  background-color: #f4cf6c;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 85%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
+}
+.emptytext_CSSPS{
+  color: grey;
+}
+.instruction_CSSPS{
+  width: 100%;
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 85%;
 }
 </style>
