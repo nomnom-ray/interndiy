@@ -49,27 +49,23 @@
 
 
     <wux-white-space />
-    <div class='divider_container_CSSPS'>
-      <div class='divider_content_CSSPS'>
-        <wux-divider position="left" :text="'2) Project story (' + projectStoryLocal.length + '/200)'" />
-      </div>
-      <div class='divider_icon_CSSPS'>
-        <button @click="storyTips = !storyTips" class='button_new_CSSPS'>info</button>
-      </div>
-    </div>
+    <wux-divider position="left" :text="'2) Project story (' + projectStoryLocal.length + '/200)'" />
     <wux-wing-blank size="large">
-      <div v-if='storyTips' class='instruction_CSSPS'>
-        <span style='font-weight:bold'>Instruction: </span>Ask your supervisor to describe the project
-        and write it in this format (more examples below): we are a marketing team;
-        we are 'running a social media campaign' (i.e. your work)
-        for the 'advertising department of our dating app' (i.e. user of your work)
-        to 'capture 5000 users' (i.e. your goal).
-        <wux-white-space />
+      <div class='instruction_CSSPS'>
+        Ask your supervisor to describe the project
+        and <span style='font-weight:bold'>use this format</span> (more examples below):
+        <div style='color:grey'>
+          We are <span style='border-bottom: 1px solid grey'>a marketing team</span> (i.e. your role);
+          we are <span style='border-bottom: 1px solid grey'>running a social media campaign</span> (i.e. your work)
+          to <span style='border-bottom: 1px solid grey'>capture 5000 users</span> (i.e. your goal)
+          for <span style='border-bottom: 1px solid grey'>the advertising department of our dating app</span> (i.e. user of your work)
+          to <span style='border-bottom: 1px solid grey'>generate revenue</span> (i.e. value of your work).
+        </div>
       </div>
     </wux-wing-blank>
     <wux-white-space />
 
-    <wux-wing-blank size="large">
+    <!-- <wux-wing-blank size="large">
       <div
         class='display_CSSPS'
         :class="projectStoryLocal === '' ? 'emptytext_CSSPS' : '' "
@@ -98,9 +94,108 @@
         </wux-wing-blank>
       </div>
     </wux-wing-blank>
+    <wux-white-space /> -->
+    <div class="title_container_CSSPS">
+      Your story
+    </div>
     <wux-white-space />
-
-
+    <wux-wing-blank size="large">
+      <div class='yourstory_CSSPS'>
+        <span v-if="storyRoleLocal !== ''">We are {{storyRoleLocal}}; </span>
+        <span v-if="storyWorkLocal !== ''">we are {{storyWorkLocal}} </span>
+        <span v-if="storyGoalLocal !== ''">to {{storyGoalLocal}} </span>
+        <span v-if="storyUserLocal !== ''">for {{storyUserLocal}} </span>
+        <span v-if="storyValueLocal !== ''">to {{storyValueLocal}}.</span>
+      </div>
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+      <button
+        v-if="storyRoleLocal !== '' && storyWorkLocal !== '' && storyGoalLocal !== '' && storyUserLocal !== '' && storyValueLocal !== ''"
+        class='button_new_CSSPS'
+        @click="storySavedHandle"
+      >Save
+      </button>
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-wing-blank size="large">
+      <div class='input_container_CSSPS'>
+        <div class='input_content_CSSPS'>
+          Role:
+        </div>
+        <div class='input_text_CSSPS'>
+          <input
+            class='input_CSSPS'
+            v-model='storyRoleLocal'
+            :maxlength="140"
+            cursor-spacing='20'
+            placeholder='Tap here to type.'
+          />
+        </div>
+      </div>
+      <wux-white-space />
+      <div class='input_container_CSSPS'>
+        <div class='input_content_CSSPS'>
+          Work:
+        </div>
+        <div class='input_text_CSSPS'>
+          <input
+            class='input_CSSPS'
+            v-model='storyWorkLocal'
+            :maxlength="140"
+            cursor-spacing='20'
+            placeholder='Tap here to type.'
+          />
+        </div>
+      </div>
+      <wux-white-space />
+      <div class='input_container_CSSPS'>
+        <div class='input_content_CSSPS'>
+          Goal:
+        </div>
+        <div class='input_text_CSSPS'>
+          <input
+            class='input_CSSPS'
+            v-model='storyGoalLocal'
+            :maxlength="140"
+            cursor-spacing='20'
+            placeholder='Tap here to type.'
+          />
+        </div>
+      </div>
+      <wux-white-space />
+      <div class='input_container_CSSPS'>
+        <div class='input_content_CSSPS'>
+          User:
+        </div>
+        <div class='input_text_CSSPS'>
+          <input
+            class='input_CSSPS'
+            v-model='storyUserLocal'
+            :maxlength="140"
+            cursor-spacing='20'
+            placeholder='Tap here to type.'
+          />
+        </div>
+      </div>
+      <wux-white-space />
+      <div class='input_container_CSSPS'>
+        <div class='input_content_CSSPS'>
+          Value:
+        </div>
+        <div class='input_text_CSSPS'>
+          <input
+            class='input_CSSPS'
+            v-model='storyValueLocal'
+            :maxlength="140"
+            cursor-spacing='20'
+            placeholder='Tap here to type.'
+          />
+        </div>
+      </div>
+      <wux-white-space />
+    </wux-wing-blank>
+    <wux-white-space />
 
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
@@ -112,7 +207,12 @@
     </div>
     <wux-wing-blank size="large">
       <div v-if='resultTips' class='instruction_CSSPS'>
-        <span style='font-weight:bold'>Instruction: </span>Isolate the evaluation metric.
+        <div>use the following format: </div>
+        <div style='color:grey;'>
+          The <span style='text-decoration: underline;'>advertising department of our dating app</span>
+          uses <span style='text-decoration: underline;'>the 5000 captured users</span>
+          to <span style='text-decoration: underline;'>generate revenue</span>.
+        </div>
         <wux-white-space />
       </div>
     </wux-wing-blank>
@@ -151,25 +251,20 @@
 
     <wux-divider position="left" text="Examples of a project story" />
     <wux-wing-blank body-style="margin-left:25px;margin-right:25px">
-      <!-- <div class='info_content_CSSPS'>
-        1) We are a marketing team;
-        we are "running a social media campaign" (i.e. your work)
-        for the "advertising department of our dating app" (i.e. user of your work)
-        to "capture 5000 users" (i.e. your goal).
-      </div> -->
-      
       <div class='info_content_CSSPS'>
-        Example 1. We are a sales team;
-        we are "building a profolio" (i.e. your work)
-        of "100 potential clients" (i.e. your goal)
-        to "validate our business strategy for the CEO" (i.e. user of your work).
+        Example 1. We are a sales team (i.e. your role);
+        we are building a profolio (i.e. your work)
+        to 100 potential clients (i.e. your goal)
+        for the CEO (i.e. user of your work)
+        to validate our business strategy (i.e. value of your work).
       </div>
 
       <div class='info_content_CSSPS'>
-        Example 2. We are an engineering team;
-        we are "upgrading the electronics" (i.e. your work)
-        to "a new generation of components" (i.e. your goal)
-        to let "customers charge faster on our solar-charger product" (i.e. user of your work).
+        Example 2. We are an engineering team (i.e. your role);
+        we are upgrading the electronics on our solar-charger product (i.e. your work)
+        to a new generation of components (i.e. your goal)
+        for customers (i.e. user of your work).
+        to charge faster (i.e. value of your work).
       </div>
     </wux-wing-blank>
     <wux-white-space />
@@ -216,6 +311,11 @@ export default {
       storyTips: false,
       resultSaved: true,
       resultTips: false,
+      storyRoleLocal: '',
+      storyWorkLocal: '',
+      storyGoalLocal: '',
+      storyUserLocal: '',
+      storyValueLocal: '',
     };
   },
   computed: {
@@ -330,6 +430,13 @@ export default {
   border-top: 1px solid #eff1f7;
   background: rgba(239, 241, 247, 0.4);
 }
+.input_CSSPS{
+  width: 100%;
+  font-size: 85%;
+  height: 60rpx;
+  // border-top: 1px solid #eff1f7;
+  background: rgba(239, 241, 247, 0.4);
+}
 .info_content_CSSPS{
   padding: 2px 0 16rpx 0;
   width: 100%;
@@ -352,11 +459,20 @@ export default {
   padding: 0 10rpx 0 0;
   margin: 0 auto;
 }
-.divider_icon_border_CSSPS{
-  height: 34px;
-  width: 34px;
-  border-radius: 34px;
-  // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+.input_container_CSSPS{
+  width: 100%;
+  display: table;
+}
+.input_content_CSSPS{
+  display: table-cell;
+  vertical-align: middle;
+  // padding: 0 10rpx 0 0;
+  font-size: 85%;
+  width: 15%;
+}
+.input_text_CSSPS{
+  display: table-cell;
+  width: 85%;
 }
 .button_new_CSSPS{
   background-color: #f4cf6c;
@@ -378,5 +494,16 @@ export default {
   text-align: justify;
   text-justify: inter-word;
   font-size: 85%;
+}
+.title_container_CSSPS{
+  width: 100%;
+  text-align: center;
+  font-size: 85%;
+}
+.yourstory_CSSPS{
+  font-size: 85%;
+  width: 100%;
+  text-align: justify;
+  text-justify: inter-word;
 }
 </style>

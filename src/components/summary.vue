@@ -7,12 +7,11 @@
     </div>
     <wux-wing-blank size="large">
       <div class='instruction_CSSSU'>
-        Follow the tabs to correctly align expectations between you and your supervisor.
+        Follow the tabs to correctly
+        <span style='text-decoration: underline'>align expectations</span>
+        between you and your supervisor. It is what we do!
       </div>
     </wux-wing-blank>
-    <wux-white-space />
-
-    <!-- Follow the tabs to correctly align expectations between you and your supervisor. -->
     <wux-white-space />
     <wux-white-space />
     <wux-steps :current="stepActive">
@@ -65,7 +64,11 @@
 
     <wux-wing-blank size="large">
       <div class='instruction_CSSSU'>
-        instructional words here
+        <span style='font-weight:bold'>Why?</span>
+        Never leave your evaluation as a last-day-surprise.
+        Look for the responsible person of your evaluation;
+        make it clear that you expect an Outstanding if
+        expectations are made and met.
       </div>
     </wux-wing-blank>
     <wux-white-space />
@@ -83,7 +86,10 @@
 
     <wux-wing-blank size="large">
       <div class='instruction_CSSSU'>
-        instructional words here
+        <span style='font-weight:bold'>Why?</span>
+        All latter tabs depend on the accuracy of this statement.
+        Put your work in a simply summarized story; you will be able
+        to look at your work holistically when you are assigned tasks.
       </div>
     </wux-wing-blank>
     <wux-white-space />
@@ -101,7 +107,10 @@
 
     <wux-wing-blank size="large">
       <div class='instruction_CSSSU'>
-        instructional words here
+        <span style='font-weight:bold'>Why?</span>
+        The objective result is used directly in Tab 2.
+        Frame the objective result from the perspective of the user;
+        it will let you extrapolate the full picture of your work in Tab 2.
       </div>
     </wux-wing-blank>
 

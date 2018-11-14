@@ -15,9 +15,9 @@
         </div>
       </wux-col>
       <wux-col span='7' push='3'>
-        <div class='info_content_CSSB'>Co-op is more than just the pay. Zero21 can easily
-          <span style='font-weight:bold;color:#264436'>get you the Outstanding</span>
-          to impress the job opportunity that suits you.
+        <div class='info_content_CSSB'>Zero21
+          <span style='font-weight:bold;color:#264436'>gets you the Outstanding</span>
+          with less wasted effort on BS.
         </div>
       </wux-col>
     </wux-row>
@@ -25,9 +25,9 @@
     <wux-row>
       <wux-col span='7' push='1'>
         <div class='info_content_CSSB'>
-          Zero21 <span style='font-weight:bold;color:#264436'>
-          cuts down the learning curve of your work!</span>
-          Contact Ray (WechatID: r8chen) for a 4-month guidance.
+          We do this by
+          <span style='font-weight:bold;color:#264436'>cutting down the learning curve</span>
+          at your new job to the bare essentials.
         </div>
           <!-- <img
             class="ray_CSSB"
@@ -58,8 +58,9 @@
       </wux-col>
       <wux-col span='7' push='3'>
         <div class='info_content_CSSB'>
-          <span style='font-weight:bold;color:#264436'>Your data is only on this device!</span> However, digital data is never 100% secure.
-            Zero21 can guide you with pen/paper if privacy is a must.
+          Your data is only on this device!
+          Contact us to <span style='font-weight:bold;color:#264436'>proceed without an app</span>
+          if your supervisor cannot allow company data on this device.
         </div>
       </wux-col>
     </wux-row>
