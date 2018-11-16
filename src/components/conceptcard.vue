@@ -1,24 +1,90 @@
 <template>
   <div 
     class='containerCSSCC'
+    :class="conceptIsClicked ? 'card_clicked_CSSCC' : 'card_unclicked_CSSCC'"
   >
     <div :class="arrowLeftShow ? 'arrowrightliteCSSCC' : 'arrowrightCSSCC'" v-if='arrowRightShow'></div>
     <div class='arrowleftCSSCC' v-if='arrowLeftShow'></div>
     <div :class="arrowLeftShow ? 'arrowbottomliteCSSCC' : 'arrowbottomCSSCC'" v-if='arrowBottomShow'></div>
     <div class='arrowtopCSSCC' v-if='arrowTopShow'></div>
+    <button
+      v-if="conceptIsClicked"
+      class='button_question_CSSCC'
+      @click='questionTextShow = !questionTextShow'
+    >{{ questionTextShow ? 'Edit / view description' : 'Edit / view context'}}
+    </button>
+    <button
+      v-if="conceptIsClicked"
+      class='button_top_CSSCC'
+    >Add a step above
+    </button>
     <div 
       class='cardCSSCC'
+      :class="arrowLeftShow ? 'card_copy_CSSCC' : 'card_noncopy_CSSCC'"
+      :style="conceptIsClicked ? 'position:absolute;top:0;bottom:0;right:0;left:0' : ''"
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
-        <div class='questionCSSCC' v-if="propConcept.question !== ''"><span class='title_CSSCC'>Context: </span>{{propConcept.question}}</div>
-
-        <div class='description_empty_CSSCC' v-if="propSubjectIndex === 1 && propConcept.id === 0 && propConcept.description === ''">Tap to describe an initial action performed by the user of your work when it is completed.</div>
-        <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id !== subjects[1].concepts.length - 1  && propConcept.description === ''">Tap to describe what happens at this step.</div>
-        <div class='description_empty_CSSCC' v-else-if="propSubjectIndex === 1 && propConcept.id === subjects[1].concepts.length - 1  && propConcept.description === ''">Tap to describe the objective result of the story from Tab 1.</div>
-        <div :class="propConcept.question === '' ? 'description_full_CSSCC' : 'descriptionCSSCC'" v-else-if="propSubjectIndex === 1">
-          <div v-if='arrowLeftShow' style='font-weight:bold;text-align:center;color:grey'>Copied from parent</div>{{propConcept.description}}
+        <div class='questionCSSCC' v-if="propConcept.question !== '' && !conceptIsClicked"><span class='title_CSSCC'>Context: </span>{{propConcept.question}}</div>
+        <div v-if='arrowLeftShow' style='font-weight:bold;text-align:center;color:grey'>Non-editable copy from parent</div>
+        <div
+          class='descriptionCSSCC'
+          :style="propConcept.description === '' ? 'color:grey;text-align:center; font-size: 110%;' : ''"
+          v-if="!conceptIsClicked"
+        >
+          {{propConcept.description === '' ? 'Tap here to type.' : propConcept.description}}
         </div>
+        <div v-else>
+          <div v-if='!questionTextShow'>
+            <div style='padding:24rpx 0 0 0;text-decoration: underline'>
+              Description of this step
+            </div>
+            <textarea
+              class='popup_description_CSSCC'
+              v-model='descriptionLocal'
+              :maxlength="100"
+              auto-height
+              cursor-spacing='140'
+              auto-focus
+              :disabled='arrowLeftShow'
+            >
+            </textarea>
+          </div>
+          <div v-else>
+            <div style='padding:24rpx 0 0 0;text-decoration: underline'>
+              Context of this step
+            </div>
+            <textarea
+              class='popup_description_CSSCC'
+              v-model='questionLocal'
+              :maxlength="100"
+              auto-height
+              cursor-spacing='140'
+              auto-focus
+              :disabled='arrowLeftShow'
+            >
+            </textarea>
+          </div>
+        </div>
+
     </div>
+    <button
+      v-if="conceptIsClicked"
+      class='button_save_CSSCC'
+      @click='saveHandle(propConcept.id)'
+    >Save / Close
+    </button>
+    <button
+      v-if="conceptIsClicked"
+      class='button_bottom_CSSCC'
+    >Add a step below
+    </button>
+    <wux-wing-blank body-style="margin-left:180rpx;margin-right:180rpx">
+      <button
+        v-if="conceptIsClicked"
+        class='button_delete_CSSCC'
+      >Delete
+      </button>
+    </wux-wing-blank>
   </div>
 </template>
 
@@ -31,11 +97,11 @@
       'propSubject',
       'propConceptClickReset',
       'propSubjectRelations',
-      'propSubjectIndex',
     ],
     data() {
       return {
         conceptIsClicked: false,
+        questionTextShow: false,
       };
     },
     methods: {
@@ -54,12 +120,20 @@
             this.conceptsSelect(obj);
             this.$root.$emit('conceptPopupShow', true);
           }
-        } else {
-          this.conceptIsClicked = false;
-          // delete it from array if the same card is clicked again
-          const index = this.conceptsSelected.map(element => element.conceptId).indexOf(idClicked);
-          this.conceptsDeselect(index);
         }
+        //  else {
+        //   this.conceptIsClicked = false;
+        //   // delete it from array if the same card is clicked again
+        //   const index = this.conceptsSelected.map(element => element.conceptId).indexOf(idClicked);
+        //   this.conceptsDeselect(index);
+        // }
+      },
+      saveHandle(idClicked) {
+        this.conceptIsClicked = false;
+        this.questionTextShow = false;
+        // delete it from array if the same card is clicked again
+        const index = this.conceptsSelected.map(element => element.conceptId).indexOf(idClicked);
+        this.conceptsDeselect(index);
       },
     },
     computed: {
@@ -173,15 +247,20 @@
     margin: 0 auto;
     margin-top: 10px;
     margin-bottom: 12px;
+    .card_copy_CSSCC{
+      background: #fafafc;
+      border: 2px solid #eff1f7;
+    }
+    .card_noncopy_CSSCC{
+      background: #eff1f7;
+    }
     .cardCSSCC {
       width: 100%;
       height: 100%;
       font-size: 85%;
       background-clip: content-box;
-      background: #eff1f7;
       -webkit-border-radius: 12px;
       -moz-border-radius: 12px;
-      box-shadow: 0 2px 0 rgba(9,45,66,.25);
       border-radius: 6px;
       .title_CSSCC{
         font-weight: bold;
@@ -198,17 +277,6 @@
         background: rgba(38,68,54,0.2);
         padding: 5px 13px 3px 13px;
       }
-      .description_empty_CSSCC{
-        margin: 0;
-        padding: 8rpx;
-        position: relative;
-        font-size: 110%;
-        left: 50%;
-        top: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        color: grey;
-      }
       .descriptionCSSCC{
         width: auto;
         max-height: 115px;
@@ -216,7 +284,7 @@
         text-align: justify;
         text-justify: inter-word;
         position: relative;
-        padding: 7px 13px 0px 13px;
+        padding: 24rpx 20rpx 0px 20rpx;
         white-space: pre-wrap;
       }
       .descriptionCSSCC:before{
@@ -440,4 +508,88 @@
       left: 50%;
     }
   }
+.button_question_CSSCC{
+  background-color: #f4cf6c;
+  z-index: 9999;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 28rpx;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
+  top:-180rpx;
+}
+.button_top_CSSCC{
+  background-color: #f4cf6c;
+  z-index: 9999;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 28rpx;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
+  top:-170rpx;
+}
+.button_save_CSSCC{
+  background-color: #f4eb6c;
+  z-index: 9999;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 28rpx;
+  box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
+  top:160rpx;
+}
+.button_bottom_CSSCC{
+  background-color: #f4cf6c;
+  z-index: 9999;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 28rpx;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
+  top:170rpx;
+}.button_delete_CSSCC{
+  background-color: white;
+  z-index: 9999;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #f44336;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 28rpx;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
+  top:180rpx;
+}
+.card_clicked_CSSCC{
+  box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
+}
+.card_unclicked_CSSCC{
+  box-shadow: 0 2px 0 rgba(9,45,66,.25);
+}
+.popup_description_CSSCC{
+  width: auto;
+  min-height: 100px;
+  max-height: 100px;
+  text-align: justify;
+  text-justify: inter-word;
+  padding: 16rpx 20rpx 0px 20rpx;
+  // border: 1px solid purple;
+}
 </style>

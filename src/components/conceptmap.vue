@@ -1,8 +1,10 @@
 <template>
-  <div :class="conceptPopupShow || subjectPopupShow ? 'map_popup_CSSCM' : 'map_container_CSSCM'">
+  <!-- conceptPopupShow conctrols the positioning, and so it covers tab when true -->
+  <!-- <div :class="conceptPopupShow || subjectPopupShow ? 'map_popup_CSSCM' : 'map_container_CSSCM'"> -->
+  <div>
     <wux-toast id="wux-toast" />
 
-    <van-popup
+    <!-- <van-popup
     :show="conceptPopupShow"
     @close="popupCloseHandler()"
     position='top'
@@ -111,11 +113,7 @@
           </button>
         </wux-col>
       </wux-row>
-
-      <!-- <wux-white-space />
-       <div class='info_ADS_CSSCM'>Contact Ray (WechatID: r8chen) to learn behavior flow.</div>
-      <wux-white-space /> -->
-    </van-popup>
+    </van-popup> -->
 
     <van-popup
       :show="subjectPopupShow"
@@ -175,7 +173,6 @@
             :propSubject='subject.id'
             :propConceptClickReset='conceptClickReset'
             :propSubjectRelations='subjectRelations'
-            :propSubjectIndex='subjectIndex'
             >
             </app-cards>
         </view>
@@ -190,9 +187,7 @@
       />
     </div>
     <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
-      <div class='info_content_CSSCM'>This is a concept map. Use it to visualize how your work behaves in a series of steps to impact the user.</div>
-      <div class='info_content_CSSCM'>Expand on the details of a step by creating a new subject column from it.</div>
-      <div class='info_content_CSSCM'>Tap on <span style='font-weight:bold'>adjacent cards</span> to shift between left/right columns.</div>
+      <div class='info_content_CSSCM'><span style='font-weight:bold'>Tap on adjacent cards</span> to shift between left/right columns.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
