@@ -1,7 +1,7 @@
 <template>
   <!-- conceptPopupShow conctrols the positioning, and so it covers tab when true -->
-  <!-- <div :class="conceptPopupShow || subjectPopupShow ? 'map_popup_CSSCM' : 'map_container_CSSCM'"> -->
-  <div>
+  <div :class="subjectPopupShow ? 'map_popup_CSSCM' : 'map_container_CSSCM'">
+  <!-- <div> -->
     <wux-toast id="wux-toast" />
 
     <!-- <van-popup
@@ -246,42 +246,57 @@
         }
         return subjectsOnScreen;
       },
-      topAddDisable() {
-        if (this.conceptsSelected[0] &&
-          this.subjects[this.conceptsSelected[0].subjectId].concepts) {
-          const conceptFirst = this.subjects[this.conceptsSelected[0].subjectId].concepts
-            .findIndex(element => element.id === this.conceptsSelected[0].conceptId);
-          if (conceptFirst === 0) {
-            return true;
-          }
-        }
-        return false;
-      },
-      resultBottomDisable() {
-        if (this.conceptsSelected[0] &&
-          this.subjects[this.conceptsSelected[0].subjectId].concepts) {
-          const resultIndex = this.subjects[this.conceptsSelected[0].subjectId].concepts.length - 1;
-          if (this.conceptsSelected[0].subjectId === 1 &&
-            this.conceptsSelected[0].conceptId === resultIndex) {
-            return true;
-          }
-        }
-        return false;
-      },
-      triggerTopDisable() {
-        if (this.conceptsSelected[0] &&
-          this.subjects[this.conceptsSelected[0].subjectId].concepts) {
-          if (this.conceptsSelected[0].subjectId === 1 && this.conceptsSelected[0].conceptId === 0) {
-            return true;
-          }
-        }
-        return false;
-      },
+      // topAddDisable() {
+      //   if (this.conceptsSelected[0] &&
+      //     this.subjects[this.conceptsSelected[0].subjectId].concepts) {
+      //     const conceptFirst = this.subjects[this.conceptsSelected[0].subjectId].concepts
+      //       .findIndex(element => element.id === this.conceptsSelected[0].conceptId);
+      //     if (conceptFirst === 0) {
+      //       return true;
+      //     }
+      //   }
+      //   return false;
+      // },
+      // resultBottomDisable() {
+      //   if (this.conceptsSelected[0] &&
+      //     this.subjects[this.conceptsSelected[0].subjectId].concepts) {
+      //     const resultIndex = this.subjects[this.conceptsSelected[0].subjectId]
+      //       .concepts.length - 1;
+      //     if (this.conceptsSelected[0].subjectId === 1 &&
+      //       this.conceptsSelected[0].conceptId === resultIndex) {
+      //       return true;
+      //     }
+      //   }
+      //   return false;
+      // },
+      // triggerTopDisable() {
+      //   if (this.conceptsSelected[0] &&
+      //     this.subjects[this.conceptsSelected[0].subjectId].concepts) {
+      //     if (this.conceptsSelected[0].subjectId === 1 && this.conceptsSelected[0]
+      //       .conceptId === 0) {
+      //       return true;
+      //     }
+      //   }
+      //   return false;
+      // },
     },
     created() {
       this.$root.$on('conceptPopupShow', (state) => {
         this.conceptPopupShow = state;
       });
+      this.$root.$on('newSubject', () => {
+        this.subjectNew();
+      });
+      this.$root.$on('addTop', () => {
+        this.conceptAddTop();
+      });
+      this.$root.$on('addBottom', () => {
+        this.conceptAddBottom();
+      });
+      this.$root.$on('deleteConcept', () => {
+        this.conceptDelete();
+      });
+
       // on start up, localstorage data populates vuex states
       const that = this;
       wx.getStorage({
@@ -366,28 +381,28 @@
     },
     watch: {
       //  same logic used in 'qualificationdetial'
-      conceptQuestion() {
-        if (this.conceptsSelected[0]) {
-          const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
-          this.subjectsUpdate({
-            subjectIndex: this.conceptsSelected[0].subjectId,
-            conceptIndex: this.conceptsSelected[0].conceptId - blanksCount,
-            type: 'question',
-            content: this.conceptQuestion,
-          });
-        }
-      },
-      conceptDescription() {
-        if (this.conceptsSelected[0]) {
-          const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
-          this.subjectsUpdate({
-            subjectIndex: this.conceptsSelected[0].subjectId,
-            conceptIndex: this.conceptsSelected[0].conceptId - blanksCount,
-            type: 'description',
-            content: this.conceptDescription,
-          });
-        }
-      },
+      // conceptQuestion() {
+      //   if (this.conceptsSelected[0]) {
+      //     const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
+      //     this.subjectsUpdate({
+      //       subjectIndex: this.conceptsSelected[0].subjectId,
+      //       conceptIndex: this.conceptsSelected[0].conceptId - blanksCount,
+      //       type: 'question',
+      //       content: this.conceptQuestion,
+      //     });
+      //   }
+      // },
+      // conceptDescription() {
+      //   if (this.conceptsSelected[0]) {
+      //     const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
+      //     this.subjectsUpdate({
+      //       subjectIndex: this.conceptsSelected[0].subjectId,
+      //       conceptIndex: this.conceptsSelected[0].conceptId - blanksCount,
+      //       type: 'description',
+      //       content: this.conceptDescription,
+      //     });
+      //   }
+      // },
       subjectSummary() {
         if (this.subjectPopupShow) {
           this.subjectsUpdate({
@@ -403,15 +418,15 @@
           this.subjectSummary = this.subjects[this.subjectSelected].summary;
         }
       },
-      conceptPopupShow() {
-        if (this.conceptPopupShow === true) {
-          const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
-          const conceptObject = this.subjects[this.conceptsSelected[0]
-            .subjectId].concepts[this.conceptsSelected[0].conceptId - blanksCount];
-          this.conceptQuestion = conceptObject.question;
-          this.conceptDescription = conceptObject.description;
-        }
-      },
+      // conceptPopupShow() {
+      //   if (this.conceptPopupShow === true) {
+      //     const blanksCount = this.subjects[this.conceptsSelected[0].subjectId].concepts[0].id;
+      //     const conceptObject = this.subjects[this.conceptsSelected[0]
+      //       .subjectId].concepts[this.conceptsSelected[0].conceptId - blanksCount];
+      //     this.conceptQuestion = conceptObject.question;
+      //     this.conceptDescription = conceptObject.description;
+      //   }
+      // },
     },
     methods: {
       ...mapActions({

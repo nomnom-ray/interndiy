@@ -9,14 +9,23 @@
     <div class='arrowtopCSSCC' v-if='arrowTopShow'></div>
     <button
       v-if="conceptIsClicked"
-      class='button_question_CSSCC'
-      @click='questionTextShow = !questionTextShow'
-    >{{ questionTextShow ? 'Edit / view description' : 'Edit / view context'}}
+      class='button_subject_CSSCC'
+      :disabled="topAddDisable | resultBottomDisable"
+      @click="subjectHandle"
+    >{{ (topAddDisable | resultBottomDisable) ? 'Disabled' : 'Create new subject' }}
     </button>
     <button
       v-if="conceptIsClicked"
       class='button_top_CSSCC'
-    >Add a step above
+      :disabled='topAddDisable'
+      @click="topHandle"
+    >{{ topAddDisable ? 'Disabled' : 'Add a step above' }}
+    </button>
+    <button
+      v-if="conceptIsClicked"
+      class='button_question_CSSCC'
+      @click='questionTextShow = !questionTextShow'
+    >{{ questionTextShow ? 'Edit / view description' : 'Edit / view context'}}
     </button>
     <div 
       class='cardCSSCC'
@@ -25,7 +34,7 @@
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
         <div class='questionCSSCC' v-if="propConcept.question !== '' && !conceptIsClicked"><span class='title_CSSCC'>Context: </span>{{propConcept.question}}</div>
-        <div v-if='arrowLeftShow' style='font-weight:bold;text-align:center;color:grey'>Non-editable copy from parent</div>
+        <div v-if='arrowLeftShow' style='font-weight:bold;text-align:center;color:grey;padding: 6rpx 0 0 0'>Non-editable copy from parent</div>
         <div
           class='descriptionCSSCC'
           :style="propConcept.description === '' ? 'color:grey;text-align:center; font-size: 110%;' : ''"
@@ -76,13 +85,17 @@
     <button
       v-if="conceptIsClicked"
       class='button_bottom_CSSCC'
-    >Add a step below
+      :disabled="resultBottomDisable"
+      @click="bottomHandle"
+    >{{ resultBottomDisable ? 'Disabled' : 'Add a step below' }}
     </button>
     <wux-wing-blank body-style="margin-left:180rpx;margin-right:180rpx">
       <button
         v-if="conceptIsClicked"
         class='button_delete_CSSCC'
-      >Delete
+        :disabled="resultBottomDisable | triggerTopDisable"
+        @click="deleteHandle"
+      >{{ (resultBottomDisable | triggerTopDisable) ? 'Disabled' : 'Delete' }}
       </button>
     </wux-wing-blank>
   </div>
@@ -102,13 +115,32 @@
       return {
         conceptIsClicked: false,
         questionTextShow: false,
+        descriptionLocal: '',
+        questionLocal: '',
       };
     },
     methods: {
       ...mapActions({
         conceptsSelect: 'conceptsSelect',
         conceptsDeselect: 'conceptsDeselect',
+        subjectsUpdate: 'subjectsUpdate',
       }),
+      subjectHandle() {
+        this.$root.$emit('newSubject');
+        this.saveHandle(this.propConcept.id);
+      },
+      topHandle() {
+        this.$root.$emit('addTop');
+        this.saveHandle(this.propConcept.id);
+      },
+      bottomHandle() {
+        this.$root.$emit('addBottom');
+        this.saveHandle(this.propConcept.id);
+      },
+      deleteHandle() {
+        this.$root.$emit('deleteConcept');
+        this.saveHandle(this.propConcept.id);
+      },
       cardClicked(idClicked, subjectClicked, subjectIndex) {
         if (subjectIndex === 0 || subjectIndex === 2) {
           return;
@@ -118,20 +150,17 @@
           if (this.conceptsSelected.length < 1) {
             this.conceptIsClicked = true;
             this.conceptsSelect(obj);
+            this.descriptionLocal = this.propConcept.description || '';
+            this.questionLocal = this.propConcept.question || '';
             this.$root.$emit('conceptPopupShow', true);
           }
         }
-        //  else {
-        //   this.conceptIsClicked = false;
-        //   // delete it from array if the same card is clicked again
-        //   const index = this.conceptsSelected.map(element => element.conceptId).indexOf(idClicked);
-        //   this.conceptsDeselect(index);
-        // }
       },
       saveHandle(idClicked) {
         this.conceptIsClicked = false;
         this.questionTextShow = false;
-        // delete it from array if the same card is clicked again
+        // this.descriptionLocal = '';
+        // this.questionLocal = '';
         const index = this.conceptsSelected.map(element => element.conceptId).indexOf(idClicked);
         this.conceptsDeselect(index);
       },
@@ -229,14 +258,66 @@
         }
         return false;
       },
+      topAddDisable() {
+        if (this.conceptIsClicked &&
+          this.subjects[this.propSubject].concepts) {
+          const conceptFirst = this.subjects[this.propSubject].concepts
+            .findIndex(element => element.id === this.propConcept.id);
+          if (conceptFirst === 0) {
+            return true;
+          }
+        }
+        return false;
+      },
+      resultBottomDisable() {
+        if (this.conceptIsClicked &&
+          this.subjects[this.propSubject].concepts) {
+          const resultIndex = this.subjects[this.propSubject].concepts.length - 1;
+          if (this.propSubject === 1 &&
+            this.propConcept.id === resultIndex) {
+            return true;
+          }
+        }
+        return false;
+      },
+      triggerTopDisable() {
+        if (this.conceptIsClicked &&
+          this.subjects[this.propSubject].concepts) {
+          if (this.propSubject === 1 && this.propConcept.id === 0) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     watch: {
       propConceptClickReset() {
         this.conceptIsClicked = false;
       },
+      questionLocal() {
+        if (this.conceptIsClicked) {
+          const blanksCount = this.subjects[this.propSubject].concepts[0].id;
+          this.subjectsUpdate({
+            subjectIndex: this.propSubject,
+            conceptIndex: this.propConcept.id - blanksCount,
+            type: 'question',
+            content: this.questionLocal,
+          });
+        }
+      },
+      descriptionLocal() {
+        if (this.conceptIsClicked) {
+          const blanksCount = this.subjects[this.propSubject].concepts[0].id;
+          this.subjectsUpdate({
+            subjectIndex: this.propSubject,
+            conceptIndex: this.propConcept.id - blanksCount,
+            type: 'description',
+            content: this.descriptionLocal,
+          });
+        }
+      },
     },
   };
-
 </script>
 
 <style lang="scss" scoped>
@@ -248,6 +329,7 @@
     margin-top: 10px;
     margin-bottom: 12px;
     .card_copy_CSSCC{
+      color: grey;
       background: #fafafc;
       border: 2px solid #eff1f7;
     }
@@ -259,8 +341,6 @@
       height: 100%;
       font-size: 85%;
       background-clip: content-box;
-      -webkit-border-radius: 12px;
-      -moz-border-radius: 12px;
       border-radius: 6px;
       .title_CSSCC{
         font-weight: bold;
@@ -508,7 +588,7 @@
       left: 50%;
     }
   }
-.button_question_CSSCC{
+.button_subject_CSSCC{
   background-color: #f4cf6c;
   z-index: 9999;
   width: 100%;
@@ -517,10 +597,10 @@
   color: #264436;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  // display: inline-block;
   font-size: 28rpx;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
-  top:-180rpx;
+  top:-240rpx;
 }
 .button_top_CSSCC{
   background-color: #f4cf6c;
@@ -531,10 +611,24 @@
   color: #264436;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  // display: inline-block;
   font-size: 28rpx;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
-  top:-170rpx;
+  top:-230rpx;
+}
+.button_question_CSSCC{
+  background-color: #f4cf6c;
+  z-index: 9999;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #264436;
+  text-align: center;
+  text-decoration: none;
+  // display: inline-block;
+  font-size: 28rpx;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
+  top:-220rpx;
 }
 .button_save_CSSCC{
   background-color: #f4eb6c;
@@ -545,10 +639,10 @@
   color: #264436;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  // display: inline-block;
   font-size: 28rpx;
   box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
-  top:160rpx;
+  top:100rpx;
 }
 .button_bottom_CSSCC{
   background-color: #f4cf6c;
@@ -559,10 +653,10 @@
   color: #264436;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  // display: inline-block;
   font-size: 28rpx;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
-  top:170rpx;
+  top:110rpx;
 }.button_delete_CSSCC{
   background-color: white;
   z-index: 9999;
@@ -572,10 +666,10 @@
   color: #f44336;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  // display: inline-block;
   font-size: 28rpx;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
-  top:180rpx;
+  top:120rpx;
 }
 .card_clicked_CSSCC{
   box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
