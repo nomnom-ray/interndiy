@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <!-- prevent the gutter in row from messing with scroll horizontally -->
+  <div style="overflow-x:hidden">
     <wux-white-space />
     <wux-white-space />
     <div class="name_container_CSSSU">
       Let's talk to your supervisor!
     </div>
+    <wux-white-space />
     <wux-wing-blank size="large">
       <div class='instruction_CSSSU'>
         Follow the tabs to correctly
@@ -17,13 +19,32 @@
     <wux-steps :current="stepActive">
       <wux-step title="Tab 1" content="Story"></wux-step>
       <wux-step title="Tab 2" content="Behavior"></wux-step>
-      <wux-step title="Tab 3" content="Roadmap"></wux-step>
-      <wux-step title="Tab 4" content="Tasks"></wux-step>
-      <wux-step title="Done" content="Outstanding!"></wux-step>
+      <wux-step title="Tab 3" content="Strategy"></wux-step>
+      <wux-step title="Tab 4" content="Task"></wux-step>
+      <wux-step title="Done" content="Evaluation"></wux-step>
     </wux-steps>
     <wux-white-space />
     <wux-white-space />
-          <!-- :disabled="" -->
+    <wux-wing-blank size="large">
+    <div v-if="stepActive === 0" class='instruction_CSSSU'>
+      <span style='font-weight:bold'>"Story"</span>
+      is your work put at starting point before breaking its complexity down into simple tasks.</div>
+    <div v-if="stepActive === 1" class='instruction_CSSSU'>
+      <span style='font-weight:bold'>"Behavior"</span>
+      is your work visualized in a diagram on how your accomplishments will impact the user.</div>
+    <div v-if="stepActive === 2" class='instruction_CSSSU'>
+      <span style='font-weight:bold'>"Strategy"</span>
+      is your work strategized in different ways to deliver the missing behaviors to the user.</div>
+    <div v-if="stepActive === 3" class='instruction_CSSSU'>
+      <span style='font-weight:bold'>"Task"</span>
+      is your work broken down into easy-to-understand tasks and their impact to your career.</div>
+    <div v-if="stepActive === 4" class='instruction_CSSSU'>
+      <span style='font-weight:bold'>"Evaluation"</span>
+      is your work in a report. ...placeholder to add more text on how it will lead to an outstanding evaluation.</div>
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+
     <wux-row gutter='10'>
       <wux-col span='5' push='1'>
         <button
@@ -50,73 +71,11 @@
     </div>
     <wux-white-space />
 
-    <div>
-    <van-cell-group>
-    <van-cell value="Tap to edit" is-link @click='tab1Handle'>
-      <view slot="title">
-        <span style='padding:0 20rpx 0 0'>1) Identify the supervisor</span>
-        <van-tag v-if="evaluator === ''" type="danger">Empty</van-tag>
-        <van-tag v-else type="success">Saved</van-tag>
-      </view>
-    </van-cell>
-    </van-cell-group>
-    <wux-white-space />
-
-    <wux-wing-blank size="large">
-      <div class='instruction_CSSSU'>
-        <span style='font-weight:bold'>Why?</span>
-        Never leave your evaluation as a last-day-surprise.
-        Look for the responsible person of your evaluation;
-        make it clear that you expect an Outstanding if
-        expectations are made and met.
-      </div>
-    </wux-wing-blank>
-    <wux-white-space />
-
-    <van-cell-group>
-    <van-cell value="Tap to edit" is-link @click='tab1Handle'>
-      <view slot="title">
-        <span style='padding:0 20rpx 0 0'>2) Project story</span>
-        <van-tag v-if="projectStory === ''" type="danger">Empty</van-tag>
-        <van-tag v-else type="success">Saved</van-tag>
-      </view>
-    </van-cell>
-    </van-cell-group>
-    <wux-white-space />
-
-    <wux-wing-blank size="large">
-      <div class='instruction_CSSSU'>
-        <span style='font-weight:bold'>Why?</span>
-        All latter tabs depend on the accuracy of this statement.
-        Put your work in a simply summarized story; you will be able
-        to look at your work holistically when you are assigned tasks.
-      </div>
-    </wux-wing-blank>
-    <wux-white-space />
-
-    <van-cell-group>
-    <van-cell value="Tap to edit" is-link @click='tab1Handle'>
-      <view slot="title">
-        <span style='padding:0 20rpx 0 0'>3) Objective result</span>
-        <van-tag v-if="objectiveResult === ''" type="danger">Empty</van-tag>
-        <van-tag v-else type="success">Saved</van-tag>
-      </view>
-    </van-cell>
-    </van-cell-group>
-    <wux-white-space />
-
-    <wux-wing-blank size="large">
-      <div class='instruction_CSSSU'>
-        <span style='font-weight:bold'>Why?</span>
-        The objective result is used directly in Tab 2.
-        Frame the objective result from the perspective of the user;
-        it will let you extrapolate the full picture of your work in Tab 2.
-      </div>
-    </wux-wing-blank>
-
-    <wux-white-space />
-    </div>
-
+    <app-summary-story v-if="stepActive === 0"></app-summary-story>
+    <app-summary-behavior v-if="stepActive === 1"></app-summary-behavior>
+    <app-summary-structures v-if="stepActive === 2"></app-summary-structures>
+    <app-summary-tasks v-if="stepActive === 3"></app-summary-tasks>
+    <app-summary-outstanding v-if="stepActive === 4"></app-summary-outstanding>
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
@@ -138,29 +97,26 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import SummaryStory from './summarystory';
+import SummaryBehavior from './summarybehavior';
+import SummaryStructures from './summarystructures';
+import SummaryTasks from './summarytasks';
+import SummaryOutstanding from './summaryoutstanding';
 
 export default {
+  components: {
+    appSummaryStory: SummaryStory,
+    appSummaryBehavior: SummaryBehavior,
+    appSummaryStructures: SummaryStructures,
+    appSummaryTasks: SummaryTasks,
+    appSummaryOutstanding: SummaryOutstanding,
+  },
   data() {
     return {
       stepActive: 0,
     };
   },
-  computed: {
-    ...mapGetters({
-      pageActive: 'pageActive',
-      evaluator: 'evaluator',
-      projectStory: 'projectStory',
-      objectiveResult: 'objectiveResult',
-    }),
-  },
   methods: {
-    ...mapActions({
-      pageActiveUpdate: 'pageActiveUpdate',
-    }),
-    tab1Handle() {
-      this.pageActiveUpdate(2);
-    },
     clearAll() {
       wx.showModal({
         title: 'Confirm Delete',

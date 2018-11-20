@@ -12,14 +12,14 @@
       class='button_subject_CSSCC'
       :disabled="topAddDisable | resultBottomDisable"
       @click="subjectHandle"
-    >{{ (topAddDisable | resultBottomDisable) ? 'Disabled' : 'Create new subject' }}
+    >{{ (topAddDisable | resultBottomDisable) ? 'Disabled' : 'Create new subject &#x27A1;' }}
     </button>
     <button
       v-if="conceptIsClicked"
       class='button_top_CSSCC'
       :disabled='topAddDisable'
       @click="topHandle"
-    >{{ topAddDisable ? 'Disabled' : 'Add a step above' }}
+    >{{ topAddDisable ? 'Disabled' : 'Add a step above &#x2B06;' }}
     </button>
     <button
       v-if="conceptIsClicked"
@@ -33,14 +33,13 @@
       :style="conceptIsClicked ? 'position:absolute;top:0;bottom:0;right:0;left:0' : ''"
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
-        <div class='questionCSSCC' v-if="propConcept.question !== '' && !conceptIsClicked"><span class='title_CSSCC'>Context: </span>{{propConcept.question}}</div>
-        <div v-if='arrowLeftShow' style='font-weight:bold;text-align:center;color:grey;padding: 6rpx 0 0 0'>Non-editable copy from parent</div>
+        <div class='questionCSSCC' v-if="questionLocal !== '' && !conceptIsClicked"><span class='title_CSSCC'>Context: </span>{{questionLocal}}</div>
+        <div v-if='arrowLeftShow' style='position:absolute;width:100%;top:50%;font-weight:bold;text-align:center;color:rgba(116, 117, 119,0.8);font-size:120%'>Non-editable copy from parent</div>
         <div
           class='descriptionCSSCC'
-          :style="propConcept.description === '' ? 'color:grey;text-align:center; font-size: 110%;' : ''"
+          :style="descriptionLocal === '' ? 'color:grey;text-align:center; font-size: 110%;' : ''"
           v-if="!conceptIsClicked"
-        >
-          {{propConcept.description === '' ? 'Tap here to type.' : propConcept.description}}
+        >{{descriptionLocal === '' ? 'Tap here to type.' : descriptionLocal}}
         </div>
         <div v-else>
           <div v-if='!questionTextShow'>
@@ -50,7 +49,7 @@
             <textarea
               class='popup_description_CSSCC'
               v-model='descriptionLocal'
-              :maxlength="100"
+              :maxlength="400"
               auto-height
               cursor-spacing='140'
               auto-focus
@@ -65,7 +64,7 @@
             <textarea
               class='popup_description_CSSCC'
               v-model='questionLocal'
-              :maxlength="100"
+              :maxlength="400"
               auto-height
               cursor-spacing='140'
               auto-focus
@@ -87,7 +86,7 @@
       class='button_bottom_CSSCC'
       :disabled="resultBottomDisable"
       @click="bottomHandle"
-    >{{ resultBottomDisable ? 'Disabled' : 'Add a step below' }}
+    >{{ resultBottomDisable ? 'Disabled' : 'Add a step below &#x2B07;' }}
     </button>
     <wux-wing-blank body-style="margin-left:180rpx;margin-right:180rpx">
       <button
@@ -127,19 +126,23 @@
       }),
       subjectHandle() {
         this.$root.$emit('newSubject');
-        this.saveHandle(this.propConcept.id);
+        // this.saveHandle(this.propConcept.id);
+        this.conceptIsClicked = false;
       },
       topHandle() {
         this.$root.$emit('addTop');
-        this.saveHandle(this.propConcept.id);
+        // this.saveHandle(this.propConcept.id);
+        this.conceptIsClicked = false;
       },
       bottomHandle() {
         this.$root.$emit('addBottom');
-        this.saveHandle(this.propConcept.id);
+        // this.saveHandle(this.propConcept.id);
+        this.conceptIsClicked = false;
       },
       deleteHandle() {
         this.$root.$emit('deleteConcept');
-        this.saveHandle(this.propConcept.id);
+        // this.saveHandle(this.propConcept.id);
+        this.conceptIsClicked = false;
       },
       cardClicked(idClicked, subjectClicked, subjectIndex) {
         if (subjectIndex === 0 || subjectIndex === 2) {
@@ -316,6 +319,10 @@
           });
         }
       },
+    },
+    mounted() {
+      this.descriptionLocal = this.propConcept.description || '';
+      this.questionLocal = this.propConcept.question || '';
     },
   };
 </script>

@@ -9,7 +9,12 @@ const state = {
   // to store qualifications as individual objects, but track array manually
   qualificationsCount: 0,
   narrativeMore: '',
-  projectStory: '',
+  storyRole: '',
+  storyWork: '',
+  storyGoal: '',
+  storyUser: '',
+  storySystem: '',
+  storyValue: '',
   objectiveResult: '',
 };
 
@@ -88,8 +93,28 @@ const mutations = {
     state.narrativeMore = payload;
   },
   // eslint-disable-next-line
-  PROJECTSTORY_UPDATE(state, payload) {
-    state.projectStory = payload;
+  STORYROLE_UPDATE(state, payload) {
+    state.storyRole = payload;
+  },
+  // eslint-disable-next-line
+  STORYWORK_UPDATE(state, payload) {
+    state.storyWork = payload;
+  },
+  // eslint-disable-next-line
+  STORYGOAL_UPDATE(state, payload) {
+    state.storyGoal = payload;
+  },
+  // eslint-disable-next-line
+  STORYUSER_UPDATE(state, payload) {
+    state.storyUser = payload;
+  },
+  // eslint-disable-next-line
+  STORYSYSTEM_UPDATE(state, payload) {
+    state.storySystem = payload;
+  },
+  // eslint-disable-next-line
+  STORYVALUE_UPDATE(state, payload) {
+    state.storyValue = payload;
   },
   // eslint-disable-next-line
   OBJECTIVERESULT_UPDATE(state, payload) {
@@ -131,8 +156,23 @@ const actions = {
   narrativeMoreUpdate: ({ commit }, payload) => {
     commit('NARRATIVEMORE_UPDATE', payload);
   },
-  projectStoryUpdate: ({ commit }, payload) => {
-    commit('PROJECTSTORY_UPDATE', payload);
+  storyRoleUpdate: ({ commit }, payload) => {
+    commit('STORYROLE_UPDATE', payload);
+  },
+  storyWorkUpdate: ({ commit }, payload) => {
+    commit('STORYWORK_UPDATE', payload);
+  },
+  storyGoalUpdate: ({ commit }, payload) => {
+    commit('STORYGOAL_UPDATE', payload);
+  },
+  storyUserUpdate: ({ commit }, payload) => {
+    commit('STORYUSER_UPDATE', payload);
+  },
+  storySystemUpdate: ({ commit }, payload) => {
+    commit('STORYSYSTEM_UPDATE', payload);
+  },
+  storyValueUpdate: ({ commit }, payload) => {
+    commit('STORYVALUE_UPDATE', payload);
   },
   objectiveResultUpdate: ({ commit }, payload) => {
     commit('OBJECTIVERESULT_UPDATE', payload);
@@ -147,7 +187,12 @@ const getters = {
   qualifications: () => state.qualifications,
   qualificationsCount: () => state.qualificationsCount,
   narrativeMore: () => state.narrativeMore,
-  projectStory: () => state.projectStory,
+  storyRole: () => state.storyRole,
+  storyWork: () => state.storyWork,
+  storyGoal: () => state.storyGoal,
+  storyUser: () => state.storyUser,
+  storySystem: () => state.storySystem,
+  storyValue: () => state.storyValue,
   objectiveResult: () => state.objectiveResult,
 };
 
@@ -182,8 +227,23 @@ const autosavePlugin = (store) => {
     if (mutation.type === 'EVALUATOR_UPDATE') {
       localStorageAPI.save(mutation.payload, 'EVALUATOR');
     }
-    if (mutation.type === 'PROJECTSTORY_UPDATE') {
-      localStorageAPI.save(mutation.payload, 'PROJECTSTORY');
+    if (mutation.type === 'STORYROLE_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'STORYROLE');
+    }
+    if (mutation.type === 'STORYWORK_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'STORYWORK');
+    }
+    if (mutation.type === 'STORYGOAL_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'STORYGOAL');
+    }
+    if (mutation.type === 'STORYUSER_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'STORYUSER');
+    }
+    if (mutation.type === 'STORYSYSTEM_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'STORYSYSTEM');
+    }
+    if (mutation.type === 'STORYVALUE_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'STORYVALUE');
     }
     if (mutation.type === 'OBJECTIVERESULT_UPDATE') {
       localStorageAPI.save(mutation.payload, 'OBJECTIVERESULT');

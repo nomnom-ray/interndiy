@@ -19,10 +19,10 @@
       <van-tab title="Tab 2. Behavior">
         <app-conceptmap></app-conceptmap>
       </van-tab>
-      <van-tab title="Tab 3. Roadmap">
+      <van-tab title="Tab 3. Strategy">
         <app-structures></app-structures>
       </van-tab>
-      <van-tab title="Tab 4. Tasks">
+      <van-tab title="Tab 4. Task">
         <app-tasks></app-tasks>
       </van-tab>
       <van-tab title="Narrative">

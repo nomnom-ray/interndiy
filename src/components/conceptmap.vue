@@ -4,117 +4,6 @@
   <!-- <div> -->
     <wux-toast id="wux-toast" />
 
-    <!-- <van-popup
-    :show="conceptPopupShow"
-    @close="popupCloseHandler()"
-    position='top'
-    >
-      <div class='divider_container_CSSCM'>
-        <div class='divider_content_CSSCM'>
-          <wux-divider position="left" :text="'1. Step description (' + conceptDescription.length + '/400)'" />
-        </div>
-        <div class='divider_icon_CSSCM'>
-          <div class='divider_icon_border_CSSCM'>
-            <wux-popover placement="bottomRight" title="Instruction: step description" body-style="width:600rpx;" content="Ask your supervisor to describe what happens that connect the prior and proceeding steps.">
-              <icon
-                @click='descriptionHide = !descriptionHide'
-                type="info"
-                size="34"
-                color='rgba(244,207,108,0.8)'
-              />
-            </wux-popover>
-          </div>
-        </div>
-      </div>
-
-      <wux-wing-blank size="large">
-        <textarea
-          v-if='pageActive === 3 && conceptPopupShow && !descriptionHide && !questionHide'
-          class="popup_description_CSSCM"
-          v-model='conceptDescription'
-          :maxlength="400"
-          auto-height
-          cursor-spacing='20'
-          placeholder="Tap here to type."
-          :disabled='topAddDisable && !triggerTopDisable'
-        >
-        </textarea>
-      </wux-wing-blank>
-
-      <wux-white-space />
-
-      <div class='divider_container_CSSCM'>
-        <div class='divider_content_CSSCM'>
-          <wux-divider position="left" :text="'2. Contextual question [optional] (' + conceptQuestion.length + '/200)'" />
-        </div>
-        <div class='divider_icon_CSSCM'>
-          <div class='divider_icon_border_CSSCM'>
-            <wux-popover placement="bottomRight" title="Instruction: contextual question [optional]" body-style="width:600rpx;" content="Note the question that you asked your supervisor as context for this step.">
-              <icon
-                @click='questionHide = !questionHide'
-                type="info"
-                size="34"
-                color='rgba(244,207,108,0.8)'
-              />
-            </wux-popover>
-          </div>
-        </div>
-      </div>
-
-        <wux-wing-blank size="large">
-          <textarea 
-            v-if='pageActive === 3 && conceptPopupShow && !descriptionHide && !questionHide'
-            class='popup_question_CSSCM'
-            v-model='conceptQuestion'
-            :maxlength="200"
-            auto-height
-            cursor-spacing='20'
-            placeholder="Tap here to type."
-            :disabled='topAddDisable && !triggerTopDisable'
-          ></textarea>
-        </wux-wing-blank>
-
-      <wux-divider position="left" text="3. From this step" />  
-      <wux-row>
-        <wux-col span='5' push='1'>
-          <button
-            class='button_new_CSSCM'
-            @click='conceptAddTop'
-            :disabled='conceptsSelected.length != 1 | topAddDisable'
-          >Add a step above
-          </button>
-        </wux-col>
-        <wux-col span='5' push='1'>
-          <button
-            class='button_new_CSSCM'
-            @click='subjectNew'
-            :disabled="conceptsSelected.length != 1 | topAddDisable | resultBottomDisable"
-          >{{ topAddDisable ? 'Add from parent' : 'Create new subject' }}
-          </button>
-        </wux-col>
-      </wux-row>
-
-      <wux-white-space />
-      <wux-row>
-        <wux-col span='5' push='1'>
-          <button
-            class='button_new_CSSCM'
-            @click='conceptAddBottom'
-            :disabled="conceptsSelected.length != 1 | resultBottomDisable"
-          >Add a step below
-          </button>
-        </wux-col>
-        <wux-col span="5" push='1'>
-          <button
-            class='button_delete_CSSCM'
-            @click='conceptDelete'
-            :disabled="conceptsSelected.length != 1 | resultBottomDisable | triggerTopDisable"
-          >Delete this step
-          </button>
-        </wux-col>
-      </wux-row>
-    </van-popup> -->
-
     <van-popup
       :show="subjectPopupShow"
       @close="popupCloseHandler()"
@@ -220,8 +109,8 @@
         subjectRelations: [],
         conceptPopupShow: false,
         subjectPopupShow: false,
-        conceptQuestion: '',
-        conceptDescription: '',
+        // conceptQuestion: '',
+        // conceptDescription: '',
         subjectSummary: '',
         subjectSelected: 0,
         descriptionHide: false,
@@ -493,8 +382,8 @@
         this.selectClear();
         this.conceptPopupShow = false;
         this.subjectPopupShow = false;
-        this.conceptQuestion = '';
-        this.conceptDescription = '';
+        // this.conceptQuestion = '';
+        // this.conceptDescription = '';
         this.subjectSummary = '';
       },
       async conceptAddTop() {
