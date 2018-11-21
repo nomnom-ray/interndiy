@@ -172,6 +172,7 @@
       ...mapGetters({
         subjects: 'subjects',
         conceptsSelected: 'conceptsSelected',
+        pageActive: 'pageActive',
       }),
       arrowBottomShow() {
         // botton arrow is visible when: 1) concept id not last concept in a subject
@@ -319,10 +320,12 @@
           });
         }
       },
-    },
-    mounted() {
-      this.descriptionLocal = this.propConcept.description || '';
-      this.questionLocal = this.propConcept.question || '';
+      pageActive() {
+        if (this.pageActive === 3) {
+          this.descriptionLocal = this.propConcept.description || '';
+          this.questionLocal = this.propConcept.question || '';
+        }
+      },
     },
   };
 </script>

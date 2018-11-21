@@ -4,6 +4,7 @@ const state = {
   jobTitle: '',
   concerns: '',
   evaluator: '',
+  trigger: '',
   jobPics: [],
   qualifications: [],
   // to store qualifications as individual objects, but track array manually
@@ -30,6 +31,10 @@ const mutations = {
   // eslint-disable-next-line
   EVALUATOR_UPDATE(state, payload) {
     state.evaluator = payload;
+  },
+  // eslint-disable-next-line
+  TRIGGER_UPDATE(state, payload) {
+    state.trigger = payload;
   },
   // eslint-disable-next-line
   JOBPICS_ADD(state, payload) {
@@ -132,6 +137,9 @@ const actions = {
   evaluatorUpdate: ({ commit }, payload) => {
     commit('EVALUATOR_UPDATE', payload);
   },
+  triggerUpdate: ({ commit }, payload) => {
+    commit('TRIGGER_UPDATE', payload);
+  },
   jobPicsAdd: ({ commit }, payload) => {
     commit('JOBPICS_ADD', payload);
   },
@@ -183,6 +191,7 @@ const getters = {
   jobTitle: () => state.jobTitle,
   concerns: () => state.concerns,
   evaluator: () => state.evaluator,
+  trigger: () => state.trigger,
   jobPics: () => state.jobPics,
   qualifications: () => state.qualifications,
   qualificationsCount: () => state.qualificationsCount,
@@ -226,6 +235,9 @@ const autosavePlugin = (store) => {
     }
     if (mutation.type === 'EVALUATOR_UPDATE') {
       localStorageAPI.save(mutation.payload, 'EVALUATOR');
+    }
+    if (mutation.type === 'TRIGGER_UPDATE') {
+      localStorageAPI.save(mutation.payload, 'TRIGGER');
     }
     if (mutation.type === 'STORYROLE_UPDATE') {
       localStorageAPI.save(mutation.payload, 'STORYROLE');

@@ -11,11 +11,11 @@
     </div>
     <wux-wing-blank size="large">
       <div v-if='evaluatorTips' class='instruction_CSSPS'>
-        <span style='font-weight:bold'>Instruction: </span> your supervisor is whomever that will give you the Outstanding.
+        <span style='font-weight:bold'>Info: </span> your supervisor is whomever that will give you the Outstanding.
+        <wux-white-space />
         <wux-white-space />
       </div>
     </wux-wing-blank>
-    <wux-white-space />
 
     <wux-wing-blank size="large">
       <div
@@ -23,8 +23,7 @@
         :class="evaluatorLocal === '' ? 'emptytext_CSSPS' : '' "
         v-if="evaluatorSaved"
         @click='evaluatorSaved = false'
-      >
-        {{evaluatorLocal === '' ? 'Tap here to type.' : evaluatorLocal}}
+      >{{evaluatorLocal === '' ? 'Tap here to type.' : evaluatorLocal}}
       </div>
       <div v-else>
         <textarea
@@ -60,20 +59,20 @@
     <wux-white-space />
     <wux-wing-blank size="large">
       <div v-if="storyTips" class='instruction_CSSPS'>
-        <span style='font-weight:bold'>Instruction: </span>
-        ask your supervisor to describe the project like in this example (more examples below):
+        <span style='font-weight:bold'>Info: </span>
+        ask your supervisor to describe your job like in this example (more examples below):
         <wux-white-space />
         <div style='color:grey'>
-          We are <span style='border-bottom: 1px solid grey'>a marketing team</span> (i.e. your role);
-          we are <span style='border-bottom: 1px solid grey'>running a social media campaign</span> (i.e. your work)
-          to reach <span style='border-bottom: 1px solid grey'>5000 users in total</span> (i.e. your goal)
-          for <span style='border-bottom: 1px solid grey'>the advertising department</span> (i.e. user of your work)
-          of <span style='border-bottom: 1px solid grey'>our dating app</span> (i.e. existing product)
-          to <span style='border-bottom: 1px solid grey'>generate revenue</span> (i.e. value of your work).
+          We are <span style='border-bottom: 1px solid grey'>a student support team</span> (i.e. your role);
+          we are <span style='border-bottom: 1px solid grey'>providing online tutorial and counselling</span> (i.e. your work)
+          to reach <span style='border-bottom: 1px solid grey'>100 of our clients</span> (i.e. your goal)
+          for <span style='border-bottom: 1px solid grey'>the clients</span> (i.e. user of your work)
+          of <span style='border-bottom: 1px solid grey'>the Zero21 Co-op Guide</span> (i.e. existing product)
+          to <span style='border-bottom: 1px solid grey'>receive an outstanding evaluation</span> (i.e. value of your work).
         </div>
       </div>
+      <wux-white-space />
     </wux-wing-blank>
-    <wux-white-space />
     <div class="title_container_CSSPS">
       Your story
     </div>
@@ -169,7 +168,7 @@
         <wux-white-space />
         <div class='input_container_CSSPS'>
           <div class='input_content_CSSPS'>
-            Entity:
+            Product:
           </div>
           <div class='input_text_CSSPS'>
             <input
@@ -213,27 +212,20 @@
     <wux-white-space />
     <wux-wing-blank size="large">
       <div v-if='resultTips' class='instruction_CSSPS'>
-        <span style='font-weight:bold'>Instruction: </span>this statement below is self-generated using your Story.
-        Type it out below with proper gammar if needed.
+        <span style='font-weight:bold'>Info: </span>this "planned product" statement below is the suggested version.
+        Confirm it by typing it out.
         <wux-white-space />
         <div style='color:grey;'>
           <!-- The <span style='text-decoration: underline;'>advertising department</span>
           uses <span style='text-decoration: underline;'>our dating app with 5000 users in total</span> (i.e. planned product)
           to <span style='text-decoration: underline;'>generate revenue</span>. -->
-        {{storyUserLocal}} uses <span style='text-decoration: underline;'>{{storySystemLocal}} with {{storyGoalLocal}}</span> (i.e. the planned product) to {{storyValueLocal}}.
+        <span style='text-decoration: underline;'>{{storySystemLocal}} with {{storyGoalLocal}}</span> (i.e. the planned product)
+        is able to {{storyValueLocal}} for {{storyUserLocal}}.
         </div>
+        <wux-white-space />
         <wux-white-space />
       </div>
     </wux-wing-blank>
-    <wux-white-space />
-    <!-- <wux-wing-blank size="large">
-      <div
-        v-if="storyUserLocal !== '' & storySystemLocal !== '' & storyGoalLocal !== ''"
-        class='yourstory_CSSPS'
-      >
-        {{storyUserLocal}} uses <span style='text-decoration: underline;'>{{storySystemLocal}} with {{storyGoalLocal}}</span> (i.e. the new entity) to {{storyValueLocal}}.
-      </div>
-    </wux-wing-blank> -->
     <wux-wing-blank size="large">
       <div
         class='display_CSSPS'
@@ -263,15 +255,65 @@
     </wux-wing-blank>
     <wux-white-space />
 
+    <div class='divider_container_CSSPS'>
+      <div class='divider_content_CSSPS'>
+        <wux-divider position="left" :text="'4. Empathize with your user (' + triggerLocal.length + '/300)'" />
+      </div>
+      <div class='divider_icon_CSSPS'>
+        <button @click="triggerTips = !triggerTips" class='button_new_CSSPS'>info</button>
+      </div>
+    </div>
+    <wux-wing-blank size="large">
+      <!-- TODO: -->
+      <div v-if='triggerTips' class='instruction_CSSPS'>
+        <span style='font-weight:bold'>Info: </span> ask your supervisor to describe placeholder...
+        <wux-white-space />
+        <div style='color:grey'>
+          We are <span style='border-bottom: 1px solid grey'>a student support team</span> (i.e. your role);
+        </div>
+        <wux-white-space />
+        <wux-white-space />
+      </div>
+    </wux-wing-blank>
+
+    <wux-wing-blank size="large">
+      <div
+        class='display_CSSPS'
+        :class="triggerLocal === '' ? 'emptytext_CSSPS' : '' "
+        v-if="triggerSaved"
+        @click='triggerSaved = false'
+      >{{triggerLocal === '' ? 'Tap here to type.' : triggerLocal}}
+      </div>
+      <div v-else>
+        <textarea
+          class='text_CSSPS'
+          v-model='triggerLocal'
+          :maxlength="100"
+          auto-height
+          cursor-spacing='20'
+          auto-focus
+        >
+        </textarea>
+        <wux-white-space />
+        <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+          <button
+            class='button_new_CSSPS'
+            @click="triggerSavedHandle"
+          >Save
+          </button>
+        </wux-wing-blank>
+      </div>
+    </wux-wing-blank>
+
     <wux-divider position="left" text="Examples of a project story" />
     <wux-wing-blank size="large">
       <div class='info_content_CSSPS'>
-        Example 1. We are a sales team (i.e. your role);
-        we are building a profolio (i.e. your work)
-        to reach 100 potential clients (i.e. your goal)
-        for the CEO (i.e. user of your work)
-        of our company (i.e. existing product)
-        to validate our business strategy (i.e. value of your work).
+        Example 1. We are a student support team (i.e. your role);
+        we are providing online tutorial and counselling (i.e. your work)
+        to reach 100 of our clients (i.e. your goal)
+        for the business development team (i.e. user of your work)
+        of the Zero21 Co-op Guide (i.e. existing product)
+        to generate fundraising interest (i.e. value of your work).
       </div>
 
       <div class='info_content_CSSPS'>
@@ -321,12 +363,15 @@ export default {
       evaluatorLocal: '',
       // projectStoryLocal: '',
       objectiveResultLocal: '',
+      triggerLocal: '',
       evaluatorTips: false,
       resultTips: true,
       storyTips: true,
+      triggerTips: true,
       evaluatorSaved: true,
       storySaved: true,
       resultSaved: true,
+      triggerSaved: true,
       storyRoleLocal: '',
       storyWorkLocal: '',
       storyGoalLocal: '',
@@ -338,6 +383,7 @@ export default {
   computed: {
     ...mapGetters({
       evaluator: 'evaluator',
+      trigger: 'trigger',
       storyRole: 'storyRole',
       storyWork: 'storyWork',
       storyGoal: 'storyGoal',
@@ -358,6 +404,7 @@ export default {
       storySystemUpdate: 'storySystemUpdate',
       storyValueUpdate: 'storyValueUpdate',
       evaluatorUpdate: 'evaluatorUpdate',
+      triggerUpdate: 'triggerUpdate',
       objectiveResultUpdate: 'objectiveResultUpdate',
       subjectsUpdate: 'subjectsUpdate',
       pageActiveUpdate: 'pageActiveUpdate',
@@ -376,6 +423,11 @@ export default {
     async resultSavedHandle() {
       this.resultSaved = true;
       this.resultTips = false;
+      await new Promise(resolve => setTimeout(resolve, 500));
+      this.pageActiveUpdate(1);
+    },
+    async triggerSavedHandle() {
+      this.triggerSaved = true;
       await new Promise(resolve => setTimeout(resolve, 500));
       this.pageActiveUpdate(1);
     },
@@ -411,14 +463,17 @@ export default {
           type: 'description',
           content: this.objectiveResultLocal,
         });
-        // if (this.subjects[1].concepts[this.subjects[1].concepts.length - 1].question === '') {
-        //   this.subjectsUpdate({
-        //     subjectIndex: 1,
-        //     conceptIndex: this.subjects[1].concepts.length - 1,
-        //     type: 'question',
-        //     content: 'What is the behavior when the objective is met?',
-        //   });
-        // }
+      }
+    },
+    triggerLocal() {
+      this.triggerUpdate(this.triggerLocal);
+      if (this.subjects[1]) {
+        this.subjectsUpdate({
+          subjectIndex: 1,
+          conceptIndex: 0,
+          type: 'description',
+          content: this.triggerLocal,
+        });
       }
     },
   },
@@ -471,6 +526,13 @@ export default {
       success(res) {
         that.evaluatorUpdate(res.data);
         that.evaluatorLocal = that.evaluator || '';
+      },
+    });
+    wx.getStorage({
+      key: 'TRIGGER',
+      success(res) {
+        that.triggerUpdate(res.data);
+        that.triggerLocal = that.trigger || '';
       },
     });
     wx.getStorage({

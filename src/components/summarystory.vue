@@ -15,9 +15,8 @@
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
       Never leave your evaluation as a last-day-surprise.
-      Look for the responsible person of your evaluation;
-      make it clear that you expect an Outstanding if
-      expectations are made and met.
+      Make it clear with your supervisor that you expect
+      an Outstanding if expectations are made and met.
     </div>
   </wux-wing-blank>
   <wux-white-space />
@@ -37,9 +36,9 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
-      All latter tabs depend on the accuracy of this statement.
-      Put your work in a simply summarized story; you will be able
-      to look at your work holistically when you are assigned tasks.
+      All your effort at work is built on this statement.
+      Simply summarize your new work is the best way
+      extract the essential aspects that impact you.
     </div>
   </wux-wing-blank>
   <wux-white-space />
@@ -48,6 +47,7 @@
   <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
+      <!-- TODO: -->
       <span style='padding:0 20rpx 0 0'>Step 3. Frame the targeted behavior</span>
       <van-tag v-if="objectiveResult === ''" type="danger">Empty</van-tag>
       <van-tag v-else type="success">Saved</van-tag>
@@ -67,6 +67,28 @@
   <wux-white-space />
   <wux-white-space />
 
+  <van-cell-group>
+  <van-cell value="Tap to edit" is-link @click='tab1Handle'>
+    <view slot="title">
+      <span style='padding:0 20rpx 0 0'>Step 4. Empathize with your user</span>
+      <van-tag v-if="trigger === ''" type="danger">Empty</van-tag>
+      <van-tag v-else type="success">Saved</van-tag>
+    </view>
+  </van-cell>
+  </van-cell-group>
+  <wux-white-space />
+
+  <wux-wing-blank size="large">
+    <div class='instruction_CSSSS'>
+      <span style='font-weight:bold'>Why?</span>
+        Your best decisions impact the user positively.
+        Use the first step of the diagram to imagine how your
+        user will interact with the
+        <span style='text-decoration: underline;'> planned product.</span>
+    </div>
+  </wux-wing-blank>
+  <wux-white-space />
+  <wux-white-space />
   </div>
 </template>
 
@@ -78,6 +100,7 @@ export default {
     ...mapGetters({
       evaluator: 'evaluator',
       objectiveResult: 'objectiveResult',
+      trigger: 'trigger',
       storyRole: 'storyRole',
       storyWork: 'storyWork',
       storyGoal: 'storyGoal',

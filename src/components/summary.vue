@@ -31,7 +31,7 @@
       is your work put at starting point before breaking its complexity down into simple tasks.</div>
     <div v-if="stepActive === 1" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Behavior"</span>
-      is your work visualized in a diagram on how your accomplishments will impact the user.</div>
+      is your work visualized in a diagram on how your accomplishments work in the hands of the user.</div>
     <div v-if="stepActive === 2" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Strategy"</span>
       is your work strategized in different ways to deliver the missing behaviors to the user.</div>
