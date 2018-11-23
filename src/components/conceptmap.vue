@@ -652,8 +652,8 @@
           helper.parentId.subject.id));
       },
       selectClear() {
-        this.conceptClear();
         this.conceptClickReset = !this.conceptClickReset;
+        this.conceptClear();
       },
     },
   };

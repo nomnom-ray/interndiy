@@ -34,7 +34,7 @@
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
         <div class='questionCSSCC' v-if="questionLocal !== '' && !conceptIsClicked"><span class='title_CSSCC'>Context: </span>{{questionLocal}}</div>
-        <div v-if='arrowLeftShow' style='position:absolute;width:100%;top:50%;font-weight:bold;text-align:center;color:rgba(116, 117, 119,0.8);font-size:120%'>Non-editable copy from parent</div>
+        <div v-if='arrowLeftShow' style='position:absolute;width:100%;top:50%;font-weight:bold;text-align:center;color:rgba(116, 117, 119,0.8);font-size:120%'>Referenced from left step</div>
         <div
           class='descriptionCSSCC'
           :style="descriptionLocal === '' ? 'color:grey;text-align:center; font-size: 110%;' : ''"
@@ -112,6 +112,7 @@
     ],
     data() {
       return {
+        id: 0,
         conceptIsClicked: false,
         questionTextShow: false,
         descriptionLocal: '',
@@ -293,9 +294,19 @@
         }
         return false;
       },
+      idChange() {
+        this.id = this.propConcept.id;
+      },
     },
     watch: {
+      id() {
+        this.descriptionLocal = this.propConcept.description || '';
+        this.questionLocal = this.propConcept.question || '';
+      },
       propConceptClickReset() {
+        this.descriptionLocal = this.propConcept.description || '';
+        this.questionLocal = this.propConcept.question || '';
+        // console.log(this.propSubject, ' + ', this.propConcept.id);
         this.conceptIsClicked = false;
       },
       questionLocal() {

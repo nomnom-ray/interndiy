@@ -15,9 +15,9 @@
         </div>
       </wux-col>
       <wux-col span='7' push='3'>
-        <div class='info_content_CSSB'>Zero21 gets you the
-          <span style='font-weight:bold;color:#264436'>Outstanding evaluation</span>
-          with less wasted effort on BS. (while cut down learning curve...?)
+        <div class='info_content_CSSB'>
+          <span style='font-weight:bold;color:#264436;font-size:110%'>Unprepared for co-op?</span>
+          We help you fit in at work, fast and easy!
         </div>
       </wux-col>
     </wux-row>
@@ -25,9 +25,8 @@
     <wux-row>
       <wux-col span='7' push='1'>
         <div class='info_content_CSSB'>
-          We do this by (you will...accerrated learning, bonding with supervisor)
-          <span style='font-weight:bold;color:#264436'>cutting down the learning curve</span>
-          at your new job to the bare essentials.
+          <span style='font-weight:bold;color:#264436;font-size:110%'>Work-term report?</span>
+          We organize your writing material from your daily routine!
         </div>
           <!-- <img
             class="ray_CSSB"

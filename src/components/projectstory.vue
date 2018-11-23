@@ -60,15 +60,15 @@
     <wux-wing-blank size="large">
       <div v-if="storyTips" class='instruction_CSSPS'>
         <span style='font-weight:bold'>Info: </span>
-        ask your supervisor to describe your job like in this example (more examples below):
+        ask your supervisor to describe your job like in this example:
         <wux-white-space />
         <div style='color:grey'>
-          We are <span style='border-bottom: 1px solid grey'>a student support team</span> (i.e. your role);
-          we are <span style='border-bottom: 1px solid grey'>providing online tutorial and counselling</span> (i.e. your work)
-          to reach <span style='border-bottom: 1px solid grey'>100 of our clients</span> (i.e. your goal)
-          for <span style='border-bottom: 1px solid grey'>the clients</span> (i.e. user of your work)
-          of <span style='border-bottom: 1px solid grey'>the Zero21 Co-op Guide</span> (i.e. existing product)
-          to <span style='border-bottom: 1px solid grey'>receive an outstanding evaluation</span> (i.e. value of your work).
+          We are <span style='border-bottom: 1px solid grey'>a design team</span> (i.e. your role);
+          we are <span style='border-bottom: 1px solid grey'>creating a co-op assistance app</span> (i.e. your work)
+          to <span style='border-bottom: 1px solid grey'>reduce the amount of online tutorials</span> (i.e. your goal)
+          for <span style='border-bottom: 1px solid grey'>the student support team</span> (i.e. user of your work)
+          of <span style='border-bottom: 1px solid grey'>Zero21</span> (i.e. existing product)
+          to <span style='border-bottom: 1px solid grey'>assist more students</span> (i.e. value of your work).
         </div>
       </div>
       <wux-white-space />
@@ -82,17 +82,19 @@
         class='yourstory_CSSPS'
         @click='storySaved = false'
       >
-        <div v-if="(storyRoleLocal === '' & storyWorkLocal === '' & storyGoalLocal === '' & storyUserLocal === '' & storySystemLocal === '' & storyValueLocal === '')" class='emptytext_CSSPS' style='width:100%;border-top: 1px solid #eff1f7;padding: 10rpx 0 60rpx 0;'>
+        <!-- <div v-if="(storyRoleLocal === '' & storyWorkLocal === '' & storyGoalLocal === '' & storyUserLocal === '' & storySystemLocal === '' & storyValueLocal === '')" class='emptytext_CSSPS' style='width:100%;border-top: 1px solid #eff1f7;padding: 10rpx 0 60rpx 0;'> -->
+        <div v-if="(storySaved & storyRoleLocal === '' & storyWorkLocal === '' & storyGoalLocal === '' & storyUserLocal === '' & storySystemLocal === '' & storyValueLocal === '')" class='emptytext_CSSPS' style='width:100%;border-top: 1px solid #eff1f7;padding: 10rpx 0 60rpx 0;'>
           Tap here to type.
         </div>
         <div v-else>
           <span v-if="storyRoleLocal !== ''">We are {{storyRoleLocal}}; </span>
           <span v-if="storyWorkLocal !== ''">we are {{storyWorkLocal}} </span>
-          <span v-if="storyGoalLocal !== ''">to reach {{storyGoalLocal}} </span>
+          <span v-if="storyGoalLocal !== ''">to {{storyGoalLocal}} </span>
           <span v-if="storyUserLocal !== ''">for {{storyUserLocal}} </span>
           <span v-if="storySystemLocal !== ''">of {{storySystemLocal}} </span>
           <span v-if="storyValueLocal !== ''">to {{storyValueLocal}}.</span>
         </div>
+        <wux-white-space />
       </div>
     </wux-wing-blank>
 
@@ -203,7 +205,7 @@
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
         <!-- <wux-divider position="left" :text="'3. Understand the targeted behavior (' + objectiveResultLocal.length + '/300)'" /> -->
-        <wux-divider position="left" text="3. Review the planned product" />
+        <wux-divider position="left" text="3. Empathize with your user" />
       </div>
       <div class='divider_icon_CSSPS'>
         <button @click="resultTips = !resultTips" class='button_new_CSSPS'>info</button>
@@ -212,64 +214,78 @@
     <wux-white-space />
     <wux-wing-blank size="large">
       <div v-if='resultTips' class='instruction_CSSPS'>
-        <span style='font-weight:bold'>Info: </span>this "planned product" statement below is the suggested version.
-        Confirm it by typing it out.
+        <span style='font-weight:bold'>Info: </span>like the underlined example, the planned product is the existing product including your goal:
         <wux-white-space />
         <div style='color:grey;'>
-          <!-- The <span style='text-decoration: underline;'>advertising department</span>
-          uses <span style='text-decoration: underline;'>our dating app with 5000 users in total</span> (i.e. planned product)
-          to <span style='text-decoration: underline;'>generate revenue</span>. -->
-        <span style='text-decoration: underline;'>{{storySystemLocal}} with {{storyGoalLocal}}</span> (i.e. the planned product)
-        is able to {{storyValueLocal}} for {{storyUserLocal}}.
+        Due to <span style='text-decoration: underline;'>Zero21 with reduced online tutorials</span> (i.e. the planned product),
+        the student support team can assist more students.
         </div>
         <wux-white-space />
         <wux-white-space />
       </div>
     </wux-wing-blank>
-    <wux-wing-blank size="large">
+
       <div
-        class='display_CSSPS'
-        :class="objectiveResultLocal === '' ? 'emptytext_CSSPS' : '' "
-        v-if="resultSaved"
+        class='yourstory_CSSPS'
+        v-if='resultSaved'
         @click='resultSaved = false'
-      >{{objectiveResultLocal === '' ? 'Tap here to type.' : objectiveResultLocal}}</div>
-      <div v-else>
-        <textarea
-          class='text_CSSPS'
-          v-model='objectiveResultLocal'
-          :maxlength="300"
-          auto-height
-          cursor-spacing='20'
-          auto-focus
-        >
-        </textarea>
+      >
+        <wux-wing-blank size="large">
+        <div v-if="(storyValueLocal === '' | storyUserLocal === '' | objectiveResultLocal === '')" class='emptytext_CSSPS' style='width:100%;border-top: 1px solid #eff1f7;padding: 10rpx 0 60rpx 0;'>
+          Tap here to type.
+        </div>
+        <div v-else>
+          <span v-if="storyUserLocal !== ''">Due to {{objectiveResultLocal}}, </span>
+          <span v-if="storySystemLocal !== ''">{{storyUserLocal}} </span>
+          <span v-if="storyValueLocal !== ''">can {{storyValueLocal}}.</span>
+        </div>
         <wux-white-space />
-        <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
-          <button
-            class='button_new_CSSPS'
-            @click="resultSavedHandle"
-          >Save
-          </button>
         </wux-wing-blank>
       </div>
-    </wux-wing-blank>
-    <wux-white-space />
+    <div v-else>
+      <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+        <button
+          class='button_new_CSSPS'
+          @click="resultSavedHandle"
+        >Save
+        </button>
+      </wux-wing-blank>
+      <wux-white-space />
+      <wux-wing-blank size="large">
+        <div class='input_container_CSSPS'>
+          <div class='input_content_CSSPS'>
+            Planned product:
+          </div>
+          <div class='input_text_CSSPS'>
+            <input
+              class='input_CSSPS'
+              v-model='objectiveResultLocal'
+              :maxlength="200"
+              cursor-spacing='20'
+              placeholder='Tap here to type.'
+            />
+          </div>
+        </div>
+        <wux-white-space />
+      </wux-wing-blank>
+    </div>  
 
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
-        <wux-divider position="left" :text="'4. Empathize with your user (' + triggerLocal.length + '/300)'" />
+        <wux-divider position="left" :text="'4. Imagine the planned product (' + triggerLocal.length + '/300)'" />
       </div>
       <div class='divider_icon_CSSPS'>
         <button @click="triggerTips = !triggerTips" class='button_new_CSSPS'>info</button>
       </div>
     </div>
     <wux-wing-blank size="large">
-      <!-- TODO: -->
       <div v-if='triggerTips' class='instruction_CSSPS'>
-        <span style='font-weight:bold'>Info: </span> ask your supervisor to describe placeholder...
+        <span style='font-weight:bold'>Info: </span> ask your supervisor to describe,
+        <span style='border-bottom: 1px solid grey'>in steps,</span>
+        how the planned product delivers value to the user. Write the first step here:
         <wux-white-space />
         <div style='color:grey'>
-          We are <span style='border-bottom: 1px solid grey'>a student support team</span> (i.e. your role);
+          A student opens up the Zero21 Co-op Guide app.
         </div>
         <wux-white-space />
         <wux-white-space />
@@ -288,7 +304,7 @@
         <textarea
           class='text_CSSPS'
           v-model='triggerLocal'
-          :maxlength="100"
+          :maxlength="300"
           auto-height
           cursor-spacing='20'
           auto-focus
@@ -305,7 +321,7 @@
       </div>
     </wux-wing-blank>
 
-    <wux-divider position="left" text="Examples of a project story" />
+    <!-- <wux-divider position="left" text="Examples of a project story" />
     <wux-wing-blank size="large">
       <div class='info_content_CSSPS'>
         Example 1. We are a student support team (i.e. your role);
@@ -324,7 +340,7 @@
         of our solar-charger product (i.e. existing product)
         to charge faster (i.e. value of your work).
       </div>
-    </wux-wing-blank>
+    </wux-wing-blank> -->
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
@@ -350,7 +366,23 @@
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
-
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
   </div>
 </template>
 
@@ -428,6 +460,7 @@ export default {
     },
     async triggerSavedHandle() {
       this.triggerSaved = true;
+      this.triggerTips = false;
       await new Promise(resolve => setTimeout(resolve, 500));
       this.pageActiveUpdate(1);
     },
@@ -461,7 +494,7 @@ export default {
           subjectIndex: 1,
           conceptIndex: this.subjects[1].concepts.length - 1,
           type: 'description',
-          content: this.objectiveResultLocal,
+          content: `Due to ${this.objectiveResultLocal}, ${this.storyUserLocal} can ${this.storyValueLocal}.`,
         });
       }
     },
