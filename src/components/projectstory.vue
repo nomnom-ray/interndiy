@@ -62,18 +62,22 @@
     <div v-if="storyTips" @click="storyTips = false" class='instruction_CSSPS'>
       <wux-wing-blank size="large">
         <span style='font-weight:bold'>Info: </span>
-        Make sure you are not confined to the co-op responsibilities.
+        Make sure you are not confined to only co-op responsibilities.
         Ask your supervisor to describe your job like a full-time member of the team:
         <wux-white-space />
-        <div style='color:grey; white-space: pre;'>
-          We are <span style='border-bottom: 1px solid grey'>a design team</span> (i.e. your role).
-
-          we are <span style='border-bottom: 1px solid grey'>creating a co-op assistance app</span> (i.e. your work)
-          to <span style='border-bottom: 1px solid grey'>reduce the amount of online tutorials</span> (i.e. your goal).
-
-          When this is done, <span style='border-bottom: 1px solid grey'>the student support team</span> (i.e. your stakeholder)
-          of <span style='border-bottom: 1px solid grey'> Zero21 (the company without an app)</span> (i.e. existing offering)
-          to <span style='border-bottom: 1px solid grey'>assist more students</span> (i.e. value of your work).
+        <div style='color:grey;'>
+          <div style='padding: 0 0 8rpx 0'>
+            We are <span style='border-bottom: 1px solid grey'>a design team</span> (i.e. your role).
+          </div>
+          <div style='padding: 0 0 8rpx 0'>
+            we are <span style='border-bottom: 1px solid grey'>creating a co-op assistance app</span> (i.e. your work)
+            to <span style='border-bottom: 1px solid grey'>reduce the amount of online tutorials</span> (i.e. your goal).
+          </div>
+          <div style='padding: 0 0 8rpx 0'>
+            When the goal is reached, <span style='border-bottom: 1px solid grey'>the student support team</span> (i.e. your stakeholder)
+            of <span style='border-bottom: 1px solid grey'>The Zero21 Inc.</span> (i.e. existing offering)
+            will <span style='border-bottom: 1px solid grey'>assist more students</span> (i.e. value of your work).
+          </div>
         </div>
       </wux-wing-blank>
     </div>
@@ -92,15 +96,19 @@
           Tap here to type.
         </div>
         <div v-else>
-          <span v-if="storyRoleLocal !== ''">We are {{storyRoleLocal}}; </span>
-          <span v-if="storyWorkLocal !== ''">we are {{storyWorkLocal}} </span>
-          <span v-if="storyGoalLocal !== ''">to {{storyGoalLocal}} </span>
-          <span v-if="storyUserLocal !== ''">for {{storyUserLocal}} </span>
-          <span v-if="storySystemLocal !== ''">of {{storySystemLocal}} </span>
-          <span v-if="storyValueLocal !== ''">to {{storyValueLocal}}.</span>
+          <div style='padding: 0 0 8rpx 0'>
+            <span v-if="storyRoleLocal !== ''">We are {{storyRoleLocal}}.</span>
+          </div>
+          <div style='padding: 0 0 8rpx 0'>
+            <span v-if="storyWorkLocal !== ''">we are {{storyWorkLocal}} </span>
+            <span v-if="storyGoalLocal !== ''">to {{storyGoalLocal}}.</span>
+          </div>
+          <div style='padding: 0 0 8rpx 0'>
+            <span v-if="storyUserLocal !== ''">When the goal is reached, {{storyUserLocal}} </span>
+            <span v-if="storySystemLocal !== ''">of {{storySystemLocal}} </span>
+            <span v-if="storyValueLocal !== ''">will {{storyValueLocal}}.</span>
+          </div>
           <wux-white-space />
-          <wux-white-space />
-          <wux-white-space />          
         </div>
       </div>
     </wux-wing-blank>
@@ -110,98 +118,153 @@
         <button
           class='button_new_CSSPS'
           @click="storySavedHandle"
-        >Save
+        >Confirm your story
         </button>
       </wux-wing-blank>
+      <wux-white-space />
       <wux-white-space />
       <wux-wing-blank size="large">
         <div class='input_container_CSSPS'>
           <div class='input_content_CSSPS'>
-            Role:
+            Role
           </div>
           <div class='input_text_CSSPS'>
-            <input
+            <textarea
+              class='input_CSSPS'
+              v-model='storyRoleLocal'
+              :maxlength="200"
+              auto-height
+              cursor-spacing='20'
+              placeholder='Tap here to type.'
+            >
+            </textarea>
+            <!-- <input
               class='input_CSSPS'
               v-model='storyRoleLocal'
               :maxlength="200"
               cursor-spacing='20'
               placeholder='Tap here to type.'
-            />
+            /> -->
           </div>
         </div>
         <wux-white-space />
         <div class='input_container_CSSPS'>
           <div class='input_content_CSSPS'>
-            Work:
+            Work
           </div>
           <div class='input_text_CSSPS'>
-            <input
+            <textarea
+              class='input_CSSPS'
+              v-model='storyWorkLocal'
+              :maxlength="200"
+              auto-height
+              cursor-spacing='20'
+              placeholder='Tap here to type.'
+            >
+            </textarea>
+            <!-- <input
               class='input_CSSPS'
               v-model='storyWorkLocal'
               :maxlength="200"
               cursor-spacing='20'
               placeholder='Tap here to type.'
-            />
+            /> -->
           </div>
         </div>
         <wux-white-space />
         <div class='input_container_CSSPS'>
           <div class='input_content_CSSPS'>
-            Goal:
+            Goal
           </div>
           <div class='input_text_CSSPS'>
-            <input
+            <textarea
+              class='input_CSSPS'
+              v-model='storyGoalLocal'
+              :maxlength="200"
+              auto-height
+              cursor-spacing='20'
+              placeholder='Tap here to type.'
+            >
+            </textarea>
+            <!-- <input
               class='input_CSSPS'
               v-model='storyGoalLocal'
               :maxlength="200"
               cursor-spacing='20'
               placeholder='Tap here to type.'
-            />
+            /> -->
           </div>
         </div>
         <wux-white-space />
         <div class='input_container_CSSPS'>
           <div class='input_content_CSSPS'>
-            User:
+            User
           </div>
           <div class='input_text_CSSPS'>
-            <input
+            <textarea
+              class='input_CSSPS'
+              v-model='storyUserLocal'
+              :maxlength="200"
+              auto-height
+              cursor-spacing='20'
+              placeholder='Tap here to type.'
+            >
+            </textarea>
+            <!-- <input
               class='input_CSSPS'
               v-model='storyUserLocal'
               :maxlength="200"
               cursor-spacing='20'
               placeholder='Tap here to type.'
-            />
+            /> -->
           </div>
         </div>
         <wux-white-space />
         <div class='input_container_CSSPS'>
           <div class='input_content_CSSPS'>
-            Existing offering:
+            Existing offering
           </div>
           <div class='input_text_CSSPS'>
-            <input
+            <textarea
+              class='input_CSSPS'
+              v-model='storySystemLocal'
+              :maxlength="200"
+              auto-height
+              cursor-spacing='20'
+              placeholder='Tap here to type.'
+            >
+            </textarea>
+            <!-- <input
               class='input_CSSPS'
               v-model='storySystemLocal'
               :maxlength="200"
               cursor-spacing='20'
               placeholder='Tap here to type.'
-            />
+            /> -->
           </div>
         </div>
         <wux-white-space />
         <div class='input_container_CSSPS'>
           <div class='input_content_CSSPS'>
-            Value:
+            Value
           </div>
           <div class='input_text_CSSPS'>
-            <input
+            <textarea
+              class='input_CSSPS'
+              v-model='storyValueLocal'
+              :maxlength="200"
+              auto-height
+              cursor-spacing='20'
+              placeholder='Tap here to type.'
+            >
+            </textarea>
+            <!-- <input
               class='input_CSSPS'
               v-model='storyValueLocal'
               :maxlength="200"
               cursor-spacing='20'
               placeholder='Tap here to type.'
-            />
+            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -224,7 +287,7 @@
         <span style='font-weight:bold'>Info: </span>like the underlined example, the planned offering is the existing offering including your goal:
         <wux-white-space />
         <div style='color:grey;'>
-        Due to <span style='text-decoration: underline;'>Zero21 with reduced online tutorials</span> (i.e. the planned offering),
+        Due to <span style='text-decoration: underline;'>The Zero21 Inc. with reduced online tutorials</span> (i.e. the planned offering),
         the student support team can assist more students.
         </div>
       </wux-wing-blank>
@@ -243,25 +306,24 @@
         <div v-if="resultSaved & (storyValueLocal === '' | storyUserLocal === '' | objectiveResultLocal === '')" class='emptytext_CSSPS' style='width:100%;border-top: 1px solid #eff1f7;padding: 10rpx 0 60rpx 0;'>
           Tap here to type.
         </div>
-        <div v-else>
+        <divz v-else>
           <span v-if="objectiveResultLocal !== ''">Due to {{objectiveResultLocal}}, </span>
-          <span v-if="storyUserLocal !== ''">{{storyUserLocal}} </span>
-          <span v-if="storyValueLocal !== ''">can {{storyValueLocal}}.</span>
+          <span v-if="storyUserLocal !== '' & objectiveResultLocal !== ''">{{storyUserLocal}} </span>
+          <span v-if="storyValueLocal !== '' & objectiveResultLocal !== ''">can {{storyValueLocal}}.</span>
           <wux-white-space />
-          <wux-white-space />
-          <wux-white-space />
-        </div>
+        </divz>
         <wux-white-space />
         </wux-wing-blank>
       </div>
-    <div>
+    <div v-if='!resultSaved'>
       <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
         <button
           class='button_new_CSSPS'
           @click="resultSavedHandle"
-        >Save
+        >Confirm user story
         </button>
       </wux-wing-blank>
+      <wux-white-space />
       <wux-white-space />
       <wux-wing-blank size="large">
         <div class='input_container_CSSPS'>
@@ -269,13 +331,22 @@
             Planned offering
           </div>
           <div class='input_text_CSSPS'>
-            <input
+            <textarea
+              class='input_CSSPS'
+              v-model='objectiveResultLocal'
+              :maxlength="200"
+              auto-height
+              cursor-spacing='20'
+              placeholder='Tap here to type.'
+            >
+            </textarea>
+            <!-- <input
               class='input_CSSPS'
               v-model='objectiveResultLocal'
               :maxlength="200"
               cursor-spacing='20'
               placeholder='Tap here to type.'
-            />
+            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -416,9 +487,9 @@ export default {
       objectiveResultLocal: '',
       triggerLocal: '',
       evaluatorTips: true,
-      resultTips: false,
-      storyTips: false,
-      triggerTips: false,
+      resultTips: true,
+      storyTips: true,
+      triggerTips: true,
       evaluatorSaved: true,
       storySaved: true,
       resultSaved: true,
@@ -468,19 +539,19 @@ export default {
     },
     async storySavedHandle() {
       this.storySaved = true;
-      this.storyTips = true;
+      this.storyTips = false;
       await new Promise(resolve => setTimeout(resolve, 500));
       this.pageActiveUpdate(1);
     },
     async resultSavedHandle() {
       this.resultSaved = true;
-      this.resultTips = true;
+      this.resultTips = false;
       await new Promise(resolve => setTimeout(resolve, 500));
       this.pageActiveUpdate(1);
     },
     async triggerSavedHandle() {
       this.triggerSaved = true;
-      this.triggerTips = true;
+      this.triggerTips = false;
       await new Promise(resolve => setTimeout(resolve, 500));
       this.pageActiveUpdate(1);
     },
@@ -626,9 +697,11 @@ export default {
 }
 .input_CSSPS{
   width: 100%;
+  min-height:60rpx;
+  max-height: 200rpx;
   font-size: 85%;
-  height: 60rpx;
-  // border-top: 1px solid #eff1f7;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
   background: rgba(239, 241, 247, 0.4);
 }
 .info_content_CSSPS{
@@ -661,6 +734,7 @@ export default {
   display: table-cell;
   vertical-align: middle;
   // padding: 0 10rpx 0 0;
+  color: #d10202;
   font-size: 85%;
   width: 18%;
 }
