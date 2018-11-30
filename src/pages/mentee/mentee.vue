@@ -10,13 +10,13 @@
     <van-tabs :active="pageActiveLocal || 1" @change="pageChange">
       <van-tab title=" " :disabled="true">
       </van-tab>
-      <van-tab title="Summary">
+      <van-tab title="Syllabus">
         <app-summary></app-summary>
       </van-tab>
       <van-tab title="Tab 1. Story">
         <app-project-story></app-project-story>
       </van-tab>
-      <van-tab title="Tab 2. Behavior">
+      <van-tab title="Tab 2. Character">
         <app-conceptmap></app-conceptmap>
       </van-tab>
       <van-tab title="Tab 3. Strategy">
@@ -86,13 +86,12 @@ export default {
   },
   created() {
     const that = this;
-    wx.getStorage({
-      key: 'PAGEACTIVE',
-      success(res) {
-        that.pageActiveUpdate(res.data);
-        // that.pageActiveLocal = that.pageActive || 1;
-      },
-    });
+    // wx.getStorage({
+    //   key: 'PAGEACTIVE',
+    //   success(res) {
+    //     that.pageActiveUpdate(res.data);
+    //   },
+    // });
     wx.getStorage({
       key: 'BANNER',
       success(res) {

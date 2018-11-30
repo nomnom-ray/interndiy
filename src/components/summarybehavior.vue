@@ -3,7 +3,7 @@
   <van-cell-group>
   <van-cell>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 1. 1-on-1 tutorial with Ray</span>
+      <span style='padding:0 20rpx 0 0'>1-on-1 tutorial</span>
       <van-tag v-if="true" type="danger">Undone</van-tag>
       <van-tag v-else type="success">Done</van-tag>
     </view>
@@ -14,10 +14,9 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSB'>
       <span style='font-weight:bold'>Why?</span>
-        <!-- TODO: -->
-        This is an tutorial on empathizing with your user
-        to make your effort at work always justifiable. The tutorial
-        is held over video chat. Contact Ray to set a time.
+        Message Ray, and ask how you can avoid boring co-op work,
+        because your supervisor needs to explain just enough
+        to get you working, regardless of what.
     </div>
   </wux-wing-blank>
   <wux-white-space />
@@ -26,7 +25,7 @@
   <van-cell-group>
   <van-cell value="Go to tab" is-link @click='tab2Handle'>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 2. Become the planned product</span>
+      <span style='padding:0 20rpx 0 0'>Step 1. Connect the beginning and end</span>
       <van-tag v-if="true" type="danger">Empty</van-tag>
       <!-- TODO: X steps Saved -->
       <van-tag v-else type="success">X steps</van-tag>
@@ -38,9 +37,10 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSB'>
       <span style='font-weight:bold'>Why?</span>
-
-        imagine you are the planned product that you are building
-        write the steps of what it has to go through to deliver the expected value to the user
+      This connection tells you the step-by-step logic behind the
+      <span style='text-decoration: underline;'> planned offering.</span>
+      Click on a card to create a new step, and ask your supervisor
+      to describe the logic of the it.
     </div>
   </wux-wing-blank>
   <wux-white-space />
@@ -49,7 +49,7 @@
   <van-cell-group>
   <van-cell value="Go to tab" is-link @click='tab2Handle'>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 3. Find your role</span>
+      <span style='padding:0 20rpx 0 0'>Step 2. Branch out from the steps</span>
       <van-tag v-if="true" type="danger">Empty</van-tag>
       <van-tag v-else type="success">X subjects</van-tag>
     </view>
@@ -60,9 +60,9 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSB'>
       <span style='font-weight:bold'>Why?</span>
-        placeholder......... 
-        create new subjects to make decribe step in finer, more detailed steps
-        stop when you feel you understand the system and your role in this system
+        These steps tell you where your responsibilities begin and end.
+        Create a new column to expand on any 1 step until you find the
+        steps in your scope(s) of work.
     </div>
   </wux-wing-blank>
   <wux-white-space />

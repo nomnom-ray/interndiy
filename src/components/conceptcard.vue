@@ -52,7 +52,6 @@
               :maxlength="400"
               auto-height
               cursor-spacing='140'
-              auto-focus
               :disabled='arrowLeftShow'
             >
             </textarea>
@@ -67,7 +66,6 @@
               :maxlength="400"
               auto-height
               cursor-spacing='140'
-              auto-focus
               :disabled='arrowLeftShow'
             >
             </textarea>
@@ -124,6 +122,7 @@
         conceptsSelect: 'conceptsSelect',
         conceptsDeselect: 'conceptsDeselect',
         subjectsUpdate: 'subjectsUpdate',
+        jobTitleUpdate: 'jobTitleUpdate',
       }),
       subjectHandle() {
         this.$root.$emit('newSubject');
@@ -161,12 +160,36 @@
         }
       },
       saveHandle(idClicked) {
+        this.descriptionSaveHandle();
+        this.questionSaveHandle();
         this.conceptIsClicked = false;
         this.questionTextShow = false;
         // this.descriptionLocal = '';
         // this.questionLocal = '';
         const index = this.conceptsSelected.map(element => element.conceptId).indexOf(idClicked);
         this.conceptsDeselect(index);
+      },
+      descriptionSaveHandle() {
+        if (this.conceptIsClicked) {
+          const blanksCount = this.subjects[this.propSubject].concepts[0].id;
+          this.subjectsUpdate({
+            subjectIndex: this.propSubject,
+            conceptIndex: this.propConcept.id - blanksCount,
+            type: 'description',
+            content: this.descriptionLocal,
+          });
+        }
+      },
+      questionSaveHandle() {
+        if (this.conceptIsClicked) {
+          const blanksCount = this.subjects[this.propSubject].concepts[0].id;
+          this.subjectsUpdate({
+            subjectIndex: this.propSubject,
+            conceptIndex: this.propConcept.id - blanksCount,
+            type: 'question',
+            content: this.questionLocal,
+          });
+        }
       },
     },
     computed: {
@@ -310,26 +333,26 @@
         this.conceptIsClicked = false;
       },
       questionLocal() {
-        if (this.conceptIsClicked) {
-          const blanksCount = this.subjects[this.propSubject].concepts[0].id;
-          this.subjectsUpdate({
-            subjectIndex: this.propSubject,
-            conceptIndex: this.propConcept.id - blanksCount,
-            type: 'question',
-            content: this.questionLocal,
-          });
-        }
+        // if (this.conceptIsClicked) {
+        //   const blanksCount = this.subjects[this.propSubject].concepts[0].id;
+        //   this.subjectsUpdate({
+        //     subjectIndex: this.propSubject,
+        //     conceptIndex: this.propConcept.id - blanksCount,
+        //     type: 'question',
+        //     content: this.questionLocal,
+        //   });
+        // }
       },
       descriptionLocal() {
-        if (this.conceptIsClicked) {
-          const blanksCount = this.subjects[this.propSubject].concepts[0].id;
-          this.subjectsUpdate({
-            subjectIndex: this.propSubject,
-            conceptIndex: this.propConcept.id - blanksCount,
-            type: 'description',
-            content: this.descriptionLocal,
-          });
-        }
+        // if (this.conceptIsClicked) {
+        //   const blanksCount = this.subjects[this.propSubject].concepts[0].id;
+        //   this.subjectsUpdate({
+        //     subjectIndex: this.propSubject,
+        //     conceptIndex: this.propConcept.id - blanksCount,
+        //     type: 'description',
+        //     content: this.descriptionLocal,
+        //   });
+        // }
       },
       pageActive() {
         if (this.pageActive === 3) {

@@ -17,7 +17,7 @@
       <wux-col span='7' push='3'>
         <div class='info_content_CSSB'>
           <span style='font-weight:bold;color:#264436;font-size:110%'>Unprepared for co-op?</span>
-          We help you fit in at work, fast and easy!
+          We help you fit in at work; easiest Outstanding, ever!
         </div>
       </wux-col>
     </wux-row>
@@ -26,7 +26,7 @@
       <wux-col span='7' push='1'>
         <div class='info_content_CSSB'>
           <span style='font-weight:bold;color:#264436;font-size:110%'>Work-term report?</span>
-          We organize your writing material from your daily routine!
+          We organize your writing material from day 1!
         </div>
           <!-- <img
             class="ray_CSSB"
@@ -58,8 +58,8 @@
       <wux-col span='7' push='3'>
         <div class='info_content_CSSB'>
           Your data is only on this device!
-          Contact us to <span style='font-weight:bold;color:#264436'>proceed without an app</span>
-          if your supervisor cannot allow company data on this device.
+          Message us directly if you cannot
+          have company data on here, either.
         </div>
       </wux-col>
     </wux-row>
@@ -74,12 +74,6 @@
         @click='bannerHide'
       >Tap to Start
       </button>
-      <!-- <button
-        v-if='!propBannerHide'
-        class='button_delete_CSSB'
-        @click='clearAll'
-      >Clear All Content
-      </button> -->
     </wux-wing-blank>
     <wux-white-space />
   </div>
@@ -100,33 +94,6 @@ export default {
     bannerHide() {
       this.$root.$emit('bannerHide');
     },
-    // clearAll() {
-    //   wx.showModal({
-    //     title: 'Confirm Delete',
-    //     confirmText: 'Confirm',
-    //     cancelText: 'cancel',
-    //     success: (res) => {
-    //       if (res.confirm) {
-    //         wx.getSavedFileList({
-    //           success(resDel) {
-    //             for (let i = 0; i <= resDel.fileList.length - 1; i += 1) {
-    //               wx.removeSavedFile({
-    //                 filePath: resDel.fileList[i].filePath,
-    //               });
-    //             }
-    //           },
-    //         });
-    //         wx.clearStorage();
-    //         wx.showModal({
-    //           title: 'Close app & Wechat to finish.',
-    //           confirmText: 'OK',
-    //           cancelText: 'cancel',
-    //           showCancel: false,
-    //         });
-    //       }
-    //     },
-    //   });
-    // },
   },
 };
 </script>
@@ -164,22 +131,8 @@ export default {
   text-decoration: none;
   display: inline-block;
   font-size: 85%;
-  // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
   box-shadow: 0 2px 4px 0 rgba(255, 0, 106, 0.4), 0 3px 10px 0 rgba(255, 0, 106, 0.4);
 }
-// .button_delete_CSSB{
-//   background-color: white;
-//   width: 100%;
-//   border-radius: 8px;
-//   font-weight: bold;
-//   color: #f44336;
-//   text-align: center;
-//   text-decoration: none;
-//   display: inline-block;
-//   font-size: 85%;
-//   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
-// }
-
 .name_container_CSSB{
   width: 100%;
   text-align: center;

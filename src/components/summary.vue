@@ -1,46 +1,46 @@
 <template>
   <!-- prevent the gutter in row from messing with scroll horizontally -->
-  <div style="overflow-x:hidden">
-    <wux-white-space />
-    <wux-white-space />
-    <div class="name_container_CSSSU">
-      Let's talk to your supervisor!
+  <div style="max-width:100%;overflow-x:hidden">
+    <!-- <wux-white-space /> -->
+    <!-- <wux-white-space /> -->
+    <!-- <div class="name_container_CSSSU">
+      Syllabus
     </div>
-    <wux-white-space />
-    <wux-wing-blank size="large">
+    <wux-white-space /> -->
+    <!-- <wux-wing-blank size="large">
       <div class='instruction_CSSSU'>
         Follow the tabs to correctly
         <span style='text-decoration: underline'>align expectations</span>
         between you and your supervisor. It is what we do!
       </div>
-    </wux-wing-blank>
+    </wux-wing-blank> -->
     <wux-white-space />
     <wux-white-space />
     <wux-steps :current="stepActive">
       <wux-step title="Tab 1" content="Story"></wux-step>
-      <wux-step title="Tab 2" content="Behavior"></wux-step>
+      <wux-step title="Tab 2" content="Character"></wux-step>
       <wux-step title="Tab 3" content="Strategy"></wux-step>
       <wux-step title="Tab 4" content="Task"></wux-step>
-      <wux-step title="Done" content="Evaluation"></wux-step>
+      <wux-step title="Report" content="Evaluation"></wux-step>
     </wux-steps>
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank size="large">
     <div v-if="stepActive === 0" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Story"</span>
-      is your work put at starting point before breaking its complexity down into simple tasks.</div>
+      is for summarizing your work before breaking it down into definitive tasks.</div>
     <div v-if="stepActive === 1" class='instruction_CSSSU'>
-      <span style='font-weight:bold'>"Behavior"</span>
-      is your work visualized in a diagram on how your accomplishments work in the hands of the user.</div>
+      <span style='font-weight:bold'>"Character"</span>
+      is a step-by-step visualization of the direction, scope, and endgame of your work.</div>
     <div v-if="stepActive === 2" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Strategy"</span>
-      is your work strategized in different ways to deliver the missing behaviors to the user.</div>
+      is a collection of justifiable decisions to carry out your responsibilities.</div>
     <div v-if="stepActive === 3" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Task"</span>
-      is your work broken down into easy-to-understand tasks and their impact to your career.</div>
+      is your responsibilities broken down into easy-to-understand tasks.</div>
     <div v-if="stepActive === 4" class='instruction_CSSSU'>
-      <span style='font-weight:bold'>"Evaluation"</span>
-      is your work in a report. ...placeholder to add more text on how it will lead to an outstanding evaluation.</div>
+      <span style='font-weight:bold'>"Report"</span>
+      is a summary on how your efforts at work impact your career identity.</div>
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />

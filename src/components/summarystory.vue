@@ -25,6 +25,28 @@
   <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
+      <span style='padding:0 20rpx 0 0'>1-on-1 tutorial</span>
+      <van-tag v-if="storyValue === ''" type="danger">Undone</van-tag>
+      <van-tag v-else type="success">Done</van-tag>
+    </view>
+  </van-cell>
+  </van-cell-group>
+  <wux-white-space />
+
+  <wux-wing-blank size="large">
+    <div class='instruction_CSSSS'>
+      <span style='font-weight:bold'>Why?</span>
+        Message Ray, and ask how you can actively make a
+        teacher out of your supervisor, because your supervisor
+        is not paid to train you.
+    </div>
+  </wux-wing-blank>
+  <wux-white-space />
+  <wux-white-space />
+
+  <van-cell-group>
+  <van-cell value="Tap to edit" is-link @click='tab1Handle'>
+    <view slot="title">
       <span style='padding:0 20rpx 0 0'>Step 2. Ask for project story</span>
       <van-tag v-if="storyValue === ''" type="danger">Empty</van-tag>
       <van-tag v-else type="success">Saved</van-tag>
@@ -36,10 +58,9 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
-      <!-- TODO: -->
-      All your effort at work is built on this statement.
+      All your effort at work is built on the alignment with your supervisor.
       Simply summarize your work environment is the best way to
-      extract the essential aspects that can impact you.
+      extract the essential things that can impact you.
     </div>
   </wux-wing-blank>
   <wux-white-space />
@@ -59,9 +80,12 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
-      Work knowing that your effort is spend justifiably on the
-      <span style='text-decoration: underline;'> planned product</span>.
-      Find out about the user expectation sets your direction and endgame.
+      <!-- Work knowing that your effort is spend justifiably on the
+      <span style='text-decoration: underline;'> planned offering</span>.
+      Find out about the user expectation sets your direction, scope, and endgame. -->
+      Work knowing that your effort is spent justifiably on things
+      that matter.
+      Find out about the user expectation will set your direction, scope, and endgame.
     </div>
   </wux-wing-blank>
   <wux-white-space />
@@ -70,7 +94,7 @@
   <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 4. Imagine the planned product</span>
+      <span style='padding:0 20rpx 0 0'>Step 4. Imagine the planned offering</span>
       <van-tag v-if="trigger === ''" type="danger">Empty</van-tag>
       <van-tag v-else type="success">Saved</van-tag>
     </view>
@@ -82,9 +106,9 @@
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
       Work is easy when you have a step-by-step understanding of the
-      <span style='text-decoration: underline;'> planned product.</span>
+      <span style='text-decoration: underline;'> planned offering.</span>
       Make the first step an action that will lead the 
-      <span style='text-decoration: underline;'> planned product </span>
+      <span style='text-decoration: underline;'> planned offering </span>
       to deliver its value to your user.
     </div>
   </wux-wing-blank>
