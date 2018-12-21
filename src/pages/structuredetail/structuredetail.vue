@@ -37,45 +37,115 @@
       <wux-white-space />
       <wux-white-space />
       <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
       </view>
     </i-drawer>
 
-    <wux-divider position="left" :text="'1. Title of subcategory ' + id + ' (' + title.length + '/200)'" />
-      <wux-wing-blank size="large">
-        <div class="placeholder_CSSSD">Tip: summarize why the selected behaviors (below) can be implemented as one subcategory.</div>
+    <wux-white-space />
+    <div class='divider_container_CSSSD'>
+      <div class='divider_content_CSSSD'>
+        <wux-divider position="left" text="1. Identitfy performance metric" />
+      </div>
+      <div class='divider_icon_CSSSD'>
+        <button @click="titleTips = !titleTips" class='button_new_CSSSD'>info</button>
+      </div>
+    </div>
+    <wux-white-space />
+      <div v-if='titleTips' @click="titleTips = false" class='instruction_CSSSD'>
+        <wux-wing-blank size="large">
+          <span style='font-weight:bold'>Info: </span> placeholder.
+        </wux-wing-blank>
+      </div>
+    <wux-white-space v-if='titleTips' />
+    <wux-white-space v-if='titleTips' />
+
+    <wux-wing-blank size="large">
+      <div
+        class='concepts_CSSSD'
+        :key='conceptIndex'
+        v-for='(concept, conceptIndex) in conceptList'
+        @click='conceptListedClicked(concept.subjectId, concept.conceptId)'
+      >{{subjects[concept.subjectId].concepts[concept.conceptId - subjects[concept.subjectId].concepts[0].id].description}}
+      </div>
+    </wux-wing-blank>
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
+      <button
+        class='button_new_CSSSD'
+        @click='drawerToggle'
+      >Select characteristics
+      </button>
+    </wux-wing-blank>
+
+    <wux-white-space />
+    <wux-white-space />
+    <div class="title_container_CSSSD">
+      The performance metric
+    </div>
+    <wux-white-space />
+    <wux-wing-blank size="large">
+      <div
+        class='display_CSSSD'
+        :class="titleLocal === '' ? 'emptytext_CSSSD' : '' "
+        v-if="titleSaved"
+        @click='titleSaved = false'
+      >{{titleLocal === '' ? 'Tap here to type.' : titleLocal}}
+      <wux-white-space />
+      </div>
+      <div v-else>
         <textarea
-          v-if='!showDrawer'
-          class="titleCSSSD"
-          v-model='title'
+          class='text_CSSSD'
+          v-model='titleLocal'
           :maxlength="200"
           auto-height
           cursor-spacing='20'
-          placeholder="Tap here to type."
+          auto-focus
         >
         </textarea>
-      </wux-wing-blank>
+        <wux-white-space />
+        <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+          <button
+            class='button_new_CSSSD'
+            @click="titleSavedHandle"
+          >Save
+          </button>
+        </wux-wing-blank>
+      </div>
+    </wux-wing-blank>
 
-    <wux-divider position="left" text='2. Relevant behaviors' />
-      <wux-wing-blank size="large">
-        <div
-          class='concepts_CSSSD'
-          :key='conceptIndex'
-          v-for='(concept, conceptIndex) in conceptList'
-          @click='conceptListedClicked(concept.subjectId, concept.conceptId)'
-        >
-          {{subjects[concept.subjectId].concepts[concept.conceptId - subjects[concept.subjectId].concepts[0].id].description}}
-        </div>
-      </wux-wing-blank>
-      <wux-white-space />
-      <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
-        <button
-          class='button_new_CSSSD'
-          @click='drawerToggle'
-        >Select behaviors
-        </button>
-      </wux-wing-blank>
-    <wux-divider position="left" text='3. Implementation strategies' />
-    <div class='info_bundle_CSSSD'>*Select the primary strategy by keeping it open.</div>
+    <!-- <wux-white-space />
+    <div class='divider_container_CSSSD'>
+      <div class='divider_content_CSSSD'>
+        <wux-divider position="left" text="2. Add implementation strategy" />
+      </div>
+      <div class='divider_icon_CSSSD'>
+        <button @click="strategyTips = !strategyTips" class='button_new_CSSSD'>info</button>
+      </div>
+    </div>
+    <wux-white-space />
+      <div v-if='strategyTips' @click="strategyTips = false" class='instruction_CSSSD'>
+        <wux-wing-blank size="large">
+          <span style='font-weight:bold'>Info: </span> placeholder.
+        </wux-wing-blank>
+      </div>
+    <wux-white-space v-if='strategyTips' />
+    <wux-white-space v-if='strategyTips' />
+
     <div
       v-if='structures[id] && structures[id].bundles'
     >
@@ -122,7 +192,7 @@
       <div class='info_content_CSSSD'>Categorize behaviors to implement as a group.</div>
       <div class='info_content_CSSSD'>Propose and compare strategies for the implementation.</div>
       <div class='info_content_CSSSD'>Choose one primary strategy to be used as part of the roadmap set.</div>
-    </wux-wing-blank>  
+    </wux-wing-blank>   -->
     <wux-white-space />
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
@@ -132,6 +202,40 @@
       >Delete subcategory
       </button>
     </wux-wing-blank>
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
@@ -159,7 +263,10 @@ export default {
       subjectOpen: ['1'],
       bundleOpen: '0',
       clicked: false,
-      title: '',
+      strategyTips: true,
+      titleLocal: '',
+      titleTips: true,
+      titleSaved: true,
       bundlesCount: 0,
       checkBoxValues: [],
       conceptList: [],
@@ -189,6 +296,10 @@ export default {
       bundlesAdd: 'bundlesAdd',
       bundlesUpdate: 'bundlesUpdate',
     }),
+    titleSavedHandle() {
+      this.titleSaved = true;
+      this.titleTips = false;
+    },
     bundleAdd() {
       // the other bundlesDetail declaration is in structure
       const bundleDetail = {
@@ -207,7 +318,7 @@ export default {
     conceptListedClicked(subjectId, conceptId) {
       $wuxToptips().error({
         hidden: true,
-        text: `subject: ${subjectId}, concept: ${conceptId}`,
+        text: `subject: ${subjectId}, step: ${conceptId}`,
         duration: 1111,
       });
     },
@@ -277,8 +388,8 @@ export default {
     },
   },
   watch: {
-    title() {
-      this.structuresUpdate({ index: this.id, type: 'title', content: this.title });
+    titleLocal() {
+      this.structuresUpdate({ index: this.id, type: 'title', content: this.titleLocal });
     },
     conceptList() {
       this.structuresUpdate({ index: this.id, type: 'conceptListSet', content: this.conceptList });
@@ -293,7 +404,7 @@ export default {
     this.clicked = false;
     this.showDrawer = false;
     // existing entries gets the data from localstorage
-    this.title = this.structures[this.id].title || '';
+    this.titleLocal = this.structures[this.id].title || '';
     this.picURLs = this.structures[this.id].structurePics || [];
     this.conceptList = this.structures[this.id].conceptList || [];
     this.bundleOpen = this.structures[this.id].bundleOpen || '0';
@@ -368,8 +479,8 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 75%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  font-size: 85%;
+  box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
 }
 .button_delete_CSSSD{
   background-color: white;
@@ -397,6 +508,57 @@ export default {
 .info_content_CSSSD{
   width: 100%;
   padding: 2px 0 6px 0;
+  text-align: center;
+  font-size: 85%;
+}
+.divider_container_CSSSD{
+  width: 100%;
+  display: table;
+}
+.divider_content_CSSSD{
+  display: table-cell;
+  width: 85%;
+}
+.divider_icon_CSSSD{
+  display: table-cell;
+  vertical-align: middle;
+  width: 15%;
+  padding: 0 20rpx 0 0;
+  margin: 0 auto;
+}
+.emptytext_CSSSD{
+  color: grey;
+}
+.instruction_CSSSD{
+  width: auto;
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 85%;
+  padding: 10rpx;
+  background: rgba(244,207,108,0.1);
+  box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
+}
+.display_CSSSD{
+  width: 100%;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
+  white-space: pre-wrap;
+}
+.text_CSSSD{
+  width: 100%;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
+  background: rgba(239, 241, 247, 0.4);
+}
+.title_container_CSSSD{
+  width: 100%;
+  font-weight: bold;
   text-align: center;
   font-size: 85%;
 }

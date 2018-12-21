@@ -1,20 +1,6 @@
 <template>
   <div :class="annotatePopupShow || galleryShow ? 'popup_CSSSB' : ''">
-    <wux-divider position="left" :text="'1. Description of strategy ' + bundleId + ' in Subcat. ' + boardId + ' (' + title.length + '/200)'" />
-    <wux-wing-blank size="large">
-      <div class="placeholder_CSSSB">Tip: name this strategy for implementing the subcategorized behaviors in the project story.</div>
-      <textarea
-        v-if='!annotatePopupShow && !galleryShow'
-        class="titleCSSSB"
-        v-model='title'
-        :maxlength="200"
-        auto-height
-        cursor-spacing='20'
-        placeholder="Tap here to type."
-      >
-      </textarea>
-    </wux-wing-blank>
-    <wux-divider position="left" :text="'2. Strategy visualization (' + picURLs.length + '/1 picture)'" />
+    <wux-divider position="left" :text="'1. Sketch the strategy (' + picURLs.length + '/1 picture)'" />
 
     <wux-gallery v-if='pageActive === 4' id="wux-gallery"></wux-gallery>
     <div
@@ -30,7 +16,6 @@
       />
     </wux-wing-blank>
     </div>
-    <div v-if='picURLs.length < 1' class='info_ADS_CSSSB'>Contact Ray (WechatID: r8chen) to learn effective sketching.</div>
     <div class='uploader_position_CSSSB'>
       <div
         v-if='picURLs.length < 1'
@@ -49,12 +34,60 @@
       </wux-col>
     </wux-row>
 
+    <wux-white-space />
+    <div class='divider_container_CSSSB'>
+      <div class='divider_content_CSSPS'>
+        <wux-divider position="left" :text="'2. Create a descriptive title (' + titleLocal.length + '/100)'" />
+      </div>
+      <div class='divider_icon_CSSSB'>
+        <button @click="titleTips = !titleTips" class='button_new_CSSSB'>info</button>
+      </div>
+    </div>
+    <wux-white-space />
+      <div v-if='titleTips' @click="titleTips = false" class='instruction_CSSSB'>
+        <wux-wing-blank size="large">
+          <span style='font-weight:bold'>Info: </span> placeholder
+        </wux-wing-blank>
+      </div>
+    <wux-white-space v-if='titleTips' />
+    <wux-white-space v-if='titleTips' />
+    <wux-wing-blank size="large">
+      <div
+        class='display_CSSSB'
+        :class="titleLocal === '' ? 'emptytext_CSSSB' : '' "
+        v-if="titleSaved"
+        @click='titleSaved = false'
+      >{{titleLocal === '' ? 'Tap here to type.' : titleLocal}}
+      <wux-white-space />
+      </div>
+      <div v-else>
+        <textarea
+          class='text_CSSSB'
+          v-model='titleLocal'
+          :maxlength="400"
+          auto-height
+          cursor-spacing='20'
+          auto-focus
+        >
+        </textarea>
+        <wux-white-space />
+        <wux-wing-blank body-style="margin-left:160rpx;margin-right:160rpx">
+          <button
+            class='button_new_CSSSB'
+            @click="titleSavedHandle"
+          >Save
+          </button>
+        </wux-wing-blank>
+      </div>
+    </wux-wing-blank>
+    <wux-white-space />
+
     <van-popup
     :show="annotatePopupShow"
     @close="popupCloseHandler()"
     position='top'
     >
-      <wux-divider v-if='annotateAddText' position="left" :text="'Annotation: description (' + annotateText.length + '/200)'" />
+      <wux-divider v-if='annotateAddText' position="left" :text="'Annotation: description (' + annotateText.length + '/400)'" />
       <wux-divider v-else position="left" :text="'Annotation: detail (' + resultText.length + '/400)'" />
       <wux-row>
         <wux-wing-blank size="large">
@@ -64,7 +97,7 @@
             v-if='annotateAddText'
             class="popup_annotate_CSSSB"
             v-model='annotateText'
-            :maxlength="200"
+            :maxlength="400"
             placeholder="Tap here to type."
           >
           </textarea>
@@ -81,7 +114,7 @@
       <wux-white-space />
     </van-popup>
 
-    <wux-divider position="left" text="3. Description of annotations" />
+    <wux-divider position="left" text="3. Annotate the sketch" />
     <div
       v-if='structures[boardId].bundles[bundleId] && structures[boardId].bundles[bundleId].annotates.length === 0'
       style='color:grey;text-align:center;font-size:83%;padding:10px'
@@ -141,6 +174,40 @@
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
   </div>
 </template>
 
@@ -158,7 +225,9 @@ export default {
       boardId: 0,
       bundleId: 0,
       clicked: false,
-      title: '',
+      titleLocal: '',
+      titleTips: true,
+      titleSaved: true,
       picURLs: [],
       picsTotal: '0',
       annotatePopupShow: false,
@@ -192,6 +261,10 @@ export default {
       annotatesUpdate: 'annotatesUpdate',
       annotatesDel: 'annotatesDel',
     }),
+    titleSavedHandle() {
+      this.titleSaved = true;
+      this.titleTips = false;
+    },
     chooseImage() {
       const that = this;
       wx.chooseImage({
@@ -340,12 +413,12 @@ export default {
     },
   },
   watch: {
-    title() {
+    titleLocal() {
       this.bundlesUpdate({
         boardIndex: this.boardId,
         bundleIndex: this.bundleId,
         type: 'title',
-        content: this.title,
+        content: this.titleLocal,
       });
     },
     picURLs() {
@@ -392,7 +465,7 @@ export default {
     this.bundleId = Number(this.$root.$mp.query.bundle);
     this.clicked = false;
     this.storageRemainGet();
-    this.title = this.structures[this.boardId].bundles[this.bundleId].title || '';
+    this.titleLocal = this.structures[this.boardId].bundles[this.bundleId].title || '';
     this.picURLs = this.structures[this.boardId].bundles[this.bundleId].structurePics || [];
     this.annotatePopupShow = false;
     this.annotateAddText = false;
@@ -542,8 +615,8 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 75%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+  font-size: 85%;
+  box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
 }
 .info_icon_CSSSB{
   width: 50px;
@@ -562,5 +635,56 @@ export default {
   font-size: 85%;
   padding: 8rpx 0 0 0;
   border-top: 1px solid #eff1f7;
+}
+.divider_container_CSSSB{
+  width: 100%;
+  display: table;
+}
+.divider_content_CSSSB{
+  display: table-cell;
+  width: 85%;
+}
+.divider_icon_CSSSB{
+  display: table-cell;
+  vertical-align: middle;
+  width: 15%;
+  padding: 0 20rpx 0 0;
+  margin: 0 auto;
+}
+.emptytext_CSSSB{
+  color: grey;
+}
+.instruction_CSSSB{
+  width: auto;
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 85%;
+  padding: 10rpx;
+  background: rgba(244,207,108,0.1);
+  box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
+}
+.display_CSSSB{
+  width: 100%;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
+  white-space: pre-wrap;
+}
+.text_CSSSB{
+  width: 100%;
+  min-height:50px;
+  max-height: 200px;
+  font-size: 85%;
+  padding: 8rpx 0 0 0;
+  border-top: 1px solid #eff1f7;
+  background: rgba(239, 241, 247, 0.4);
+}
+.title_container_CSSSB{
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+  font-size: 85%;
 }
 </style>

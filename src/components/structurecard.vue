@@ -222,7 +222,7 @@ export default {
   background: rgba(0, 0, 0, 0);
 }
 .annotate_container_CSSSC{
-  font-size: 85%;
+  font-size: 80%;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;

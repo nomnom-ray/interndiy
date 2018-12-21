@@ -25,7 +25,7 @@
       v-if="conceptIsClicked"
       class='button_question_CSSCC'
       @click='questionTextShow = !questionTextShow'
-    >{{ questionTextShow ? 'Edit / view description' : 'Edit / view context'}}
+    >{{ questionTextShow ? 'Edit / view description' : 'Edit / view metrics'}}
     </button>
     <div 
       class='cardCSSCC'
@@ -33,7 +33,7 @@
       :style="conceptIsClicked ? 'position:absolute;top:0;bottom:0;right:0;left:0' : ''"
       @click='cardClicked(propConcept.id, propSubject, propSubjectIndex)'
     >
-        <div class='questionCSSCC' v-if="questionLocal !== '' && !conceptIsClicked"><span class='title_CSSCC'>Context: </span>{{questionLocal}}</div>
+        <div class='questionCSSCC' v-if="questionLocal !== '' && !conceptIsClicked"><span class='title_CSSCC'>Metrics: </span>{{questionLocal}}</div>
         <div v-if='arrowLeftShow' style='position:absolute;width:100%;top:50%;font-weight:bold;text-align:center;color:rgba(116, 117, 119,0.8);font-size:120%'>Referenced from left step</div>
         <div
           class='descriptionCSSCC'
@@ -44,28 +44,28 @@
         <div v-else>
           <div v-if='!questionTextShow'>
             <div style='padding:24rpx 0 0 0;text-decoration: underline'>
-              Description of this step
+              Characteristic of this step
             </div>
             <textarea
               class='popup_description_CSSCC'
               v-model='descriptionLocal'
               :maxlength="400"
               auto-height
-              cursor-spacing='140'
+              cursor-spacing='110'
               :disabled='arrowLeftShow'
             >
             </textarea>
           </div>
           <div v-else>
             <div style='padding:24rpx 0 0 0;text-decoration: underline'>
-              Context of this step
+              Performance metric of this step
             </div>
             <textarea
               class='popup_description_CSSCC'
               v-model='questionLocal'
               :maxlength="400"
               auto-height
-              cursor-spacing='140'
+              cursor-spacing='110'
               :disabled='arrowLeftShow'
             >
             </textarea>

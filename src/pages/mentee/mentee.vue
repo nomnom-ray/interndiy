@@ -19,15 +19,21 @@
       <van-tab title="Tab 2. Character">
         <app-conceptmap></app-conceptmap>
       </van-tab>
-      <van-tab title="Tab 3. Strategy">
+      <van-tab title="Tab 3. Goals">
+        <app-goals></app-goals>
+      </van-tab>
+      <van-tab title="Tab 4. Evaluation">
+        <app-evaluation></app-evaluation>
+      </van-tab>
+      <!-- <van-tab title="Tab 3. Strategy">
         <app-structures></app-structures>
-      </van-tab>
-      <van-tab title="Tab 4. Task">
+      </van-tab> -->
+      <!-- <van-tab title="Tab 4. Task">
         <app-tasks></app-tasks>
-      </van-tab>
-      <van-tab title="Narrative">
+      </van-tab> -->
+      <!-- <van-tab title="Narrative">
         <app-qualifications></app-qualifications>
-      </van-tab>
+      </van-tab> -->
       <van-tab title=" " :disabled="true">
       </van-tab>
     </van-tabs>
@@ -43,6 +49,8 @@ import Conceptmap from '../../components/conceptmap';
 import Structures from '../../components/structures';
 import Tasks from '../../components/tasks';
 import Summary from '../../components/summary';
+import Goals from '../../components/goals';
+import Evaluation from '../../components/evaluation';
 
 export default {
   components: {
@@ -53,6 +61,8 @@ export default {
     appStructures: Structures,
     appTasks: Tasks,
     appSummary: Summary,
+    appGoals: Goals,
+    appEvaluation: Evaluation,
   },
   data() {
     return {

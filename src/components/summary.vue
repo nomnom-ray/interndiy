@@ -19,9 +19,10 @@
     <wux-steps :current="stepActive">
       <wux-step title="Tab 1" content="Story"></wux-step>
       <wux-step title="Tab 2" content="Character"></wux-step>
-      <wux-step title="Tab 3" content="Strategy"></wux-step>
-      <wux-step title="Tab 4" content="Task"></wux-step>
-      <wux-step title="Report" content="Evaluation"></wux-step>
+      <wux-step title="Tab 3" content="Goals"></wux-step>
+      <!-- <wux-step title="Tab 3" content="Strategy"></wux-step> -->
+      <!-- <wux-step title="Tab 4" content="Task"></wux-step> -->
+      <wux-step title="Tab 4" content="Evaluation"></wux-step>
     </wux-steps>
     <wux-white-space />
     <wux-white-space />
@@ -33,6 +34,13 @@
       <span style='font-weight:bold'>"Character"</span>
       is a step-by-step visualization of the direction, scope, and endgame of your work.</div>
     <div v-if="stepActive === 2" class='instruction_CSSSU'>
+      <span style='font-weight:bold'>"Goal"</span>
+      is the collection of expectations for your assignments.</div>
+    <div v-if="stepActive === 3" class='instruction_CSSSU'>
+      <span style='font-weight:bold'>"Evaluation"</span>
+      is your superviors' rubric to assess your co-op term.</div>
+
+    <!-- <div v-if="stepActive === 2" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Strategy"</span>
       is a collection of justifiable decisions to carry out your responsibilities.</div>
     <div v-if="stepActive === 3" class='instruction_CSSSU'>
@@ -40,7 +48,7 @@
       is your responsibilities broken down into easy-to-understand tasks.</div>
     <div v-if="stepActive === 4" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Report"</span>
-      is a summary on how your efforts at work impact your career identity.</div>
+      is a summary on how your efforts at work impact your career identity.</div> -->
     </wux-wing-blank>
     <wux-white-space />
     <wux-white-space />
@@ -58,7 +66,7 @@
         <button
           class='button_new_CSSSU'
           @click='stepActive += 1'
-          :disabled='stepActive >= 4'
+          :disabled='stepActive >= 3'
         >Check out next tab
         </button>
       </wux-col>
@@ -74,8 +82,9 @@
     <app-summary-story v-if="stepActive === 0"></app-summary-story>
     <app-summary-behavior v-if="stepActive === 1"></app-summary-behavior>
     <app-summary-structures v-if="stepActive === 2"></app-summary-structures>
-    <app-summary-tasks v-if="stepActive === 3"></app-summary-tasks>
-    <app-summary-outstanding v-if="stepActive === 4"></app-summary-outstanding>
+    <app-summary-outstanding v-if="stepActive === 3"></app-summary-outstanding>
+    <!-- <app-summary-tasks v-if="stepActive === 3"></app-summary-tasks> -->
+    <!-- <app-summary-outstanding v-if="stepActive === 4"></app-summary-outstanding> -->
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />

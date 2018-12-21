@@ -22,6 +22,8 @@
     "wux-divider": "../../../static/wux/divider/index",
     "wux-cell-group": "../../../static/wux/cell-group/index",
     "wux-cell": "../../../static/wux/cell/index",
+    "wux-radio-group": "../../../static/wux/radio-group/index",
+    "wux-radio": "../../../static/wux/radio/index",
     "wux-wing-blank": "../../../static/wux/wing-blank/index",
     "wux-white-space": "../../../static/wux/white-space/index",
     "wux-toast": "../../../static/wux/toast/index",

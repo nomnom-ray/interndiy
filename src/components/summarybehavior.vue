@@ -62,7 +62,29 @@
       <span style='font-weight:bold'>Why?</span>
         These steps tell you where your responsibilities begin and end.
         Create a new column to expand on any 1 step until you find the
-        steps in your scope(s) of work.
+        steps in your scope(s) of responsibility.
+    </div>
+  </wux-wing-blank>
+  <wux-white-space />
+  <wux-white-space />
+
+  <van-cell-group>
+  <van-cell value="Go to tab" is-link @click='tab2Handle'>
+    <view slot="title">
+      <span style='padding:0 20rpx 0 0'>Step 3. Add performance metric</span>
+      <van-tag v-if="true" type="danger">Empty</van-tag>
+      <van-tag v-else type="success">X subjects</van-tag>
+    </view>
+  </van-cell>
+  </van-cell-group>
+  <wux-white-space />
+
+  <wux-wing-blank size="large">
+    <div class='instruction_CSSSB'>
+      <span style='font-weight:bold'>Why?</span>
+        A quantifiable metric is the expectation that your supervisor 
+        has for your work. Ask your supervisor to describe the metrics
+        and goals for the steps in your scope of work.
     </div>
   </wux-wing-blank>
   <wux-white-space />

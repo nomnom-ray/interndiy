@@ -71,11 +71,11 @@
           </div>
           <div style='padding: 0 0 8rpx 0'>
             we are <span style='border-bottom: 1px solid grey'>creating a co-op assistance app</span> (i.e. your work)
-            to <span style='border-bottom: 1px solid grey'>reduce the amount of online tutorials</span> (i.e. your goal).
+            to <span style='border-bottom: 1px solid grey'>reduce the amount of 1-on-1 tutorials</span> (i.e. your goal).
           </div>
           <div style='padding: 0 0 8rpx 0'>
             When the goal is reached, <span style='border-bottom: 1px solid grey'>the student support team</span> (i.e. your stakeholder)
-            of <span style='border-bottom: 1px solid grey'>The Zero21 Inc.</span> (i.e. existing offering)
+            of <span style='border-bottom: 1px solid grey'>The Zero21 Company</span> (i.e. existing offering)
             will <span style='border-bottom: 1px solid grey'>assist more students</span> (i.e. value of your work).
           </div>
         </div>
@@ -138,13 +138,6 @@
               placeholder='Tap here to type.'
             >
             </textarea>
-            <!-- <input
-              class='input_CSSPS'
-              v-model='storyRoleLocal'
-              :maxlength="200"
-              cursor-spacing='20'
-              placeholder='Tap here to type.'
-            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -162,13 +155,6 @@
               placeholder='Tap here to type.'
             >
             </textarea>
-            <!-- <input
-              class='input_CSSPS'
-              v-model='storyWorkLocal'
-              :maxlength="200"
-              cursor-spacing='20'
-              placeholder='Tap here to type.'
-            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -186,13 +172,6 @@
               placeholder='Tap here to type.'
             >
             </textarea>
-            <!-- <input
-              class='input_CSSPS'
-              v-model='storyGoalLocal'
-              :maxlength="200"
-              cursor-spacing='20'
-              placeholder='Tap here to type.'
-            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -210,13 +189,6 @@
               placeholder='Tap here to type.'
             >
             </textarea>
-            <!-- <input
-              class='input_CSSPS'
-              v-model='storyUserLocal'
-              :maxlength="200"
-              cursor-spacing='20'
-              placeholder='Tap here to type.'
-            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -234,13 +206,6 @@
               placeholder='Tap here to type.'
             >
             </textarea>
-            <!-- <input
-              class='input_CSSPS'
-              v-model='storySystemLocal'
-              :maxlength="200"
-              cursor-spacing='20'
-              placeholder='Tap here to type.'
-            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -258,13 +223,6 @@
               placeholder='Tap here to type.'
             >
             </textarea>
-            <!-- <input
-              class='input_CSSPS'
-              v-model='storyValueLocal'
-              :maxlength="200"
-              cursor-spacing='20'
-              placeholder='Tap here to type.'
-            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -274,7 +232,6 @@
 
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
-        <!-- <wux-divider position="left" :text="'3. Understand the targeted behavior (' + objectiveResultLocal.length + '/300)'" /> -->
         <wux-divider position="left" text="3. Empathize with your user" />
       </div>
       <div class='divider_icon_CSSPS'>
@@ -287,7 +244,7 @@
         <span style='font-weight:bold'>Info: </span>like the underlined example, the planned offering is the existing offering including your goal:
         <wux-white-space />
         <div style='color:grey;'>
-        Due to <span style='text-decoration: underline;'>The Zero21 Inc. with reduced online tutorials</span> (i.e. the planned offering),
+        Due to <span style='text-decoration: underline;'>The Zero21 Company with a reduced need for 1-on-1 tutorials</span> (i.e. the planned offering),
         the student support team can assist more students.
         </div>
       </wux-wing-blank>
@@ -300,7 +257,7 @@
     <wux-white-space />
       <div
         class='yourstory_CSSPS'
-        @click='resultSaved = false'
+        @click='storySavedCheck'
       >
         <wux-wing-blank size="large">
         <div v-if="resultSaved & (storyValueLocal === '' | storyUserLocal === '' | objectiveResultLocal === '')" class='emptytext_CSSPS' style='width:100%;border-top: 1px solid #eff1f7;padding: 10rpx 0 60rpx 0;'>
@@ -340,13 +297,6 @@
               placeholder='Tap here to type.'
             >
             </textarea>
-            <!-- <input
-              class='input_CSSPS'
-              v-model='objectiveResultLocal'
-              :maxlength="200"
-              cursor-spacing='20'
-              placeholder='Tap here to type.'
-            /> -->
           </div>
         </div>
         <wux-white-space />
@@ -369,7 +319,7 @@
         how the planned offering delivers value to the user. Write the first step here:
         <wux-white-space />
         <div style='color:grey'>
-          A student opens up the Zero21 Co-op Guide app.
+          A student opens up the Zero21 co-op assistance app.
         </div>
       </wux-wing-blank>
     </div>
@@ -410,27 +360,6 @@
         </wux-wing-blank>
       </div>
     </wux-wing-blank>
-
-    <!-- <wux-divider position="left" text="Examples of a project story" />
-    <wux-wing-blank size="large">
-      <div class='info_content_CSSPS'>
-        Example 1. We are a student support team (i.e. your role);
-        we are providing online tutorial and counselling (i.e. your work)
-        to reach 100 of our clients (i.e. your goal)
-        for the business development team (i.e. user of your work)
-        of the Zero21 Co-op Guide (i.e. existing product)
-        to generate fundraising interest (i.e. value of your work).
-      </div>
-
-      <div class='info_content_CSSPS'>
-        Example 2. We are an engineering team (i.e. your role);
-        we are upgrading the electronics (i.e. your work)
-        to reach a new generation of components (i.e. your goal)
-        for the customers (i.e. user of your work)
-        of our solar-charger product (i.e. existing product)
-        to charge faster (i.e. value of your work).
-      </div>
-    </wux-wing-blank> -->
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
@@ -531,6 +460,17 @@ export default {
       subjectsUpdate: 'subjectsUpdate',
       pageActiveUpdate: 'pageActiveUpdate',
     }),
+    storySavedCheck() {
+      if (!this.storySaved) {
+        wx.showToast({
+          title: 'Confirm your story',
+          icon: 'none',
+          duration: 2000,
+        });
+      } else {
+        this.resultSaved = false;
+      }
+    },
     async evaluatorSavedHandle() {
       this.evaluatorSaved = true;
       this.evaluatorTips = false;
@@ -585,7 +525,10 @@ export default {
           subjectIndex: 1,
           conceptIndex: this.subjects[1].concepts.length - 1,
           type: 'description',
-          content: `Due to ${this.objectiveResultLocal}, ${this.storyUserLocal} can ${this.storyValueLocal}.`,
+          content: `Due to ${
+            this.objectiveResultLocal}, ${
+            this.storyUserLocal} can ${
+            this.storyValueLocal}.`,
         });
       }
     },

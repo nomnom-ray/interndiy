@@ -2,7 +2,7 @@
   <view>
     <!-- class on i-swipeout doesn't work for existing css in wxss; use class or edit wxss -->
     <!-- pageX starts with button shown at -150 and hide after 800ms timeout -->
-    <i-swipeout operateWidth='220'>
+    <i-swipeout operateWidth='110'>
       <view slot="content">
         <div class='flex_container_CSSAC'>
           <div class="swipe_out_icon_CSSAC flex_text_CSSAC" @click='colorHandle' :style="colors[colorPicked]">
@@ -18,12 +18,11 @@
             v-else
             class='swipe_out_title_CSSAC flex_text_CSSAC'
             :class="{'swipe_out_title_completed_CSSAC': doneShow}"
-          >
-            {{propAnnotate.text}}
+          >{{propAnnotate.text}}
           </div>
         </div>
 
-        <div
+        <!-- <div
           v-if="showResult && propAnnotate.result.length === 0"
           class='swipe_out_resolution_empty_CSSAC'
         >
@@ -36,14 +35,14 @@
         >
           <span class="swipe_out_resolution_title_CSSAC">Detail: </span>
           {{propAnnotate.result}}
-        </div>
+        </div> -->
       </view>
       <view slot="button" class='swipe_out_button_group_CSSAC'>
         <view class='swipe_out_button_CSSAC' @click='deleteHandle'>Delete</view>
         <!-- <view class='swipe_out_button_CSSAC' @click='doneHandle'>{{doneShow ? 'Undone' : 'Done'}}</view> -->
         <view class='swipe_out_button_CSSAC' @click='textHandle'>Edit</view>
-        <view class='swipe_out_button_CSSAC' @click='showHandle'>{{showResult ? 'Unshow Detail' : 'Show Detail'}}</view>
-        <view class='swipe_out_button_CSSAC' @click='resultHandle'>Edit Detail</view>
+        <!-- <view class='swipe_out_button_CSSAC' @click='showHandle'>{{showResult ? 'Unshow Detail' : 'Show Detail'}}</view> -->
+        <!-- <view class='swipe_out_button_CSSAC' @click='resultHandle'>Edit Detail</view> -->
       </view>
     </i-swipeout>
   </view>
@@ -168,7 +167,7 @@ export default {
   }
   .swipe_out_button_CSSAC{
     float: left;
-    width: 24%;
+    width: 49%;
     height: 100%;
     text-align: center;
     border-left: 1px dotted #fafafc;

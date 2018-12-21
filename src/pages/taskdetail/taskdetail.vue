@@ -1,6 +1,6 @@
 <template>
   <div :class="showBundleDrawer || todoPopupShow || showQualDrawer || galleryShow ? 'popup_CSSTD' : ''">
-    <i-drawer mode="right" :visible="showBundleDrawer" @close="showBundleDrawer = !showBundleDrawer">
+    <!-- <i-drawer mode="right" :visible="showBundleDrawer" @close="showBundleDrawer = !showBundleDrawer">
       <view class='drawerCSSTD'>
         <wux-checkbox-group
           :value='bundleCheckBoxValues'
@@ -21,8 +21,9 @@
         <wux-white-space />
         <wux-white-space />
       </view>
-    </i-drawer>
-    <i-drawer mode="right" :visible="showQualDrawer" @close="showQualDrawer = !showQualDrawer">
+    </i-drawer> -->
+
+    <!-- <i-drawer mode="right" :visible="showQualDrawer" @close="showQualDrawer = !showQualDrawer">
       <view class='drawerCSSTD'>
         <wux-checkbox-group
           :value='qualCheckBoxValues'
@@ -43,7 +44,62 @@
         <wux-white-space />
         <wux-white-space />
       </view>
-    </i-drawer>
+    </i-drawer> -->
+
+    <!-- <i-drawer mode="right" :visible="showQualDrawer" @close="showQualDrawer = !showQualDrawer">
+      <view class='drawerCSSTD'>
+      <wux-accordion-group
+        :auto='false'
+        :current='annotationOpen'
+        @change="annotationChange"
+      >
+        <wux-accordion
+          :key="bundleIndex"
+          v-for='(bundle, bundleIndex) in structures[boardId].bundles'
+          :title="'Strategy: ' + bundle.title"
+          :name="bundleIndex"
+        >
+          <wux-checkbox-group
+            :name="bundleIndex"
+            :value='checkBoxValues[bundleIndex]'
+            @change='checkBoxChange(bundleIndex, $event)'>
+            <wux-checkbox
+              :key='annotateIndex'
+              v-for='(annotate, annotateIndex) in bundle.annotates'
+              color="assertive"
+              :title="'Annotation ' + annotateIndex + ': ' + annotate.text"
+              :value="concept.id" />
+          </wux-checkbox-group>
+        </wux-accordion>
+      </wux-accordion-group>
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      <wux-white-space />
+      </view>
+    </i-drawer> -->
+
+
     <wux-wing-blank size="large">
       <wux-button
         block
@@ -60,7 +116,51 @@
       Completed tasks are hidden.
     </div>
     <wux-white-space />
-    <wux-divider position="left" :text="'1. Task description for subcategory ' + boardId + ' (' + title.length + '/400)'" />
+
+    <wux-white-space />
+    <div class='divider_container_CSSTD'>
+      <div class='divider_content_CSSTD'>
+        <wux-divider position="left" text="1. Track your effort" />
+      </div>
+      <div class='divider_icon_CSSTD'>
+        <button @click="annotationTips = !annotationTips" class='button_new_CSSTD'>info</button>
+      </div>
+    </div>
+    <wux-white-space />
+      <div v-if='annotationTips' @click="annotationTips = false" class='instruction_CSSTD'>
+        <wux-wing-blank size="large">
+          <span style='font-weight:bold'>Info: </span> placeholder.
+        </wux-wing-blank>
+      </div>
+    <wux-white-space v-if='annotationTips' />
+    <wux-white-space v-if='annotationTips' />
+
+
+
+
+    <div v-if='qualCheckBoxValues.length === 0' style='color:grey;text-align:center;font-size:83%'>
+      No strategy annotations assigned. 
+    </div>
+    <wux-wing-blank size="default">
+      <div
+        class='qualifications_CSSTD'
+      >
+        strat #; annoattion #. annotations here, click to jump to that strat.
+      </div>
+    </wux-wing-blank>
+
+
+    <wux-white-space />
+    <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
+      <button
+        class='button_new_CSSTD'
+        @click='showQualDrawer = !showQualDrawer'
+      >Select annotations
+      </button>
+    </wux-wing-blank>
+
+
+    <wux-divider position="left" :text="'2. Describe the task' + ' (' + title.length + '/400)'" />
     <wux-wing-blank size="large">
       <div class="placeholder_CSSTD">Tip: describe a task for the implementation of a strategy(s) in this subcategory.</div>
       <textarea
@@ -74,7 +174,8 @@
       >
       </textarea>
     </wux-wing-blank>
-    <wux-divider position="left" text="2. Qualifications involved [Optional]" />
+    
+    <!-- <wux-divider position="left" text="2. Qualifications involved [Optional]" />
     <div v-if='qualCheckBoxValues.length === 0' style='color:grey;text-align:center;font-size:83%'>
       Create a qualification-list from "Tab 5" to begin.
     </div>
@@ -97,9 +198,9 @@
         @click='showQualDrawer = !showQualDrawer'
       >Assign qualifications used
       </button>
-    </wux-wing-blank>
+    </wux-wing-blank> -->
 
-    <wux-divider position="left" text="3. Strategies involved" />
+    <!-- <wux-divider position="left" text="3. Strategies involved" />
     <wux-wing-blank size="default">
       <wux-cell-group>
           <wux-cell
@@ -120,6 +221,7 @@
           </wux-cell>
       </wux-cell-group>
     </wux-wing-blank>
+
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:80px;margin-right:80px">
       <button
@@ -127,7 +229,8 @@
         @click='showBundleDrawer = !showBundleDrawer'
       >Select strategies
       </button>
-    </wux-wing-blank>
+    </wux-wing-blank> -->
+
 
     <wux-divider position="left" :text="'4. Task visualization [Optional] (' + picURLs.length + '/1 picture)'" />
     <wux-gallery v-if='pageActive === 4' id="wux-gallery"></wux-gallery>
@@ -269,12 +372,14 @@ export default {
       todoPopupShow: false,
       todoText: '',
       resultText: '',
+      annotationOpen: ['1'],
+      annotationTips: true,
       todoToChange: 0,
       todoAddText: false,
       resultAddText: false,
       clicked: false,
-      showQualDrawer: false,
-      showBundleDrawer: false,
+      // showQualDrawer: false,
+      // showBundleDrawer: false,
       galleryShow: false,
       taskDone: false,
       qualCheckBoxValues: [],
@@ -317,6 +422,9 @@ export default {
       this.todoAddText = false;
       this.resultAddText = false;
       this.galleryShow = false;
+    },
+    annotationChange(e) {
+      this.annotationOpen = e.mp.detail.key;
     },
     async todoNew() {
       const todoDetail = {
@@ -574,9 +682,9 @@ export default {
     this.taskDone = this.structures[this.boardId].tasks[this.taskId].taskDone || false;
     this.picURLs = this.structures[this.boardId].tasks[this.taskId].taskPics || [];
     this.galleryShow = false;
-    this.showBundleDrawer = false;
+    // this.showBundleDrawer = false;
+    // this.showQualDrawer = false;
     this.todoPopupShow = false;
-    this.showQualDrawer = false;
   },
   created() {
     this.$root.$on('todoText', (state) => {
@@ -767,5 +875,32 @@ export default {
   padding: 2px 0 6px 0;
   text-align: center;
   font-size: 85%;
+}
+.divider_container_CSSTD{
+  width: 100%;
+  display: table;
+}
+.divider_content_CSSTD{
+  display: table-cell;
+  width: 85%;
+}
+.divider_icon_CSSTD{
+  display: table-cell;
+  vertical-align: middle;
+  width: 15%;
+  padding: 0 20rpx 0 0;
+  margin: 0 auto;
+}
+.emptytext_CSSTD{
+  color: grey;
+}
+.instruction_CSSTD{
+  width: auto;
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 85%;
+  padding: 10rpx;
+  background: rgba(244,207,108,0.1);
+  box-shadow: 0 2px 4px 0 rgba(38, 68, 54,0.4), 0 3px 10px 0 rgba(38, 68, 54,0.4);
 }
 </style>

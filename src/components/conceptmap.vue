@@ -68,16 +68,16 @@
       </wux-col>
     </wux-row>
 
-    <div class='info_icon_CSSCM'>
+    <!-- <div class='info_icon_CSSCM'>
       <icon
         type="info"
         size="50"
         color='rgba(9,45,66,.08)'
       />
-    </div>
-    <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
+    </div> -->
+    <!-- <wux-wing-blank body-style="margin-left:40px;margin-right:40px">
       <div class='info_content_CSSCM'><span style='font-weight:bold'>Tap on adjacent cards</span> to shift between left/right columns.</div>
-    </wux-wing-blank>
+    </wux-wing-blank> -->
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
@@ -86,6 +86,60 @@
     <wux-white-space />
     <wux-white-space />
     <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <wux-white-space />
+    <div class="shift_container_CSSCM">
+      <wux-row gutter='10'>
+        <wux-col span='5' push='1'>
+          <button
+            class='button_new_CSSCM'
+            @click="leftButtonClicked"
+            :disabled="subjectsOnScreen <= 1"
+          >{{1 >= subjectsOnScreen ? "Disabled" : "View left"}}
+          </button>
+        </wux-col>
+        <wux-col span="5" push='1'>
+          <button
+            class='button_new_CSSCM'
+            @click="rightButtonClicked"
+            :disabled="subjectsOnScreen >= subjects.length - 1"
+          >{{subjectsOnScreen >= subjects.length - 1 ? "Disabled" : "View right"}}
+          </button>
+        </wux-col>
+      </wux-row>
+    </div>
   </div>
 </template>
 
@@ -377,6 +431,18 @@
           this.selectClear();
         }
       },
+      leftButtonClicked() {
+        if (this.subjectsOnScreen > 1) {
+          this.subjectsOnScreen -= 1;
+        }
+        this.selectClear();
+      },
+      rightButtonClicked() {
+        if (this.subjectsOnScreen <= this.subjects.length - 1) {
+          this.subjectsOnScreen += 1;
+        }
+        this.selectClear();
+      },
       popupCloseHandler() {
         // important that clear is before setting data to '' because of watch
         this.selectClear();
@@ -664,6 +730,15 @@
   max-width:100%;
   overflow-x:hidden;
 }
+.shift_container_CSSCM{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 160rpx;
+  background: rgba(255,255,255,0.4);
+  margin-bottom: 20rpx;
+}
 .map_popup_CSSCM{
   position: fixed;
   z-index: 999;
@@ -750,33 +825,20 @@
   transform: translate(-50%, -50%);
   color: #264436;
 }
-.button_delete_CSSCM{
-  background-color: white;
-  width: 100%;
-  padding: 8rpx;
-  border-radius: 8px;
-  font-weight: bold;
-  color: #f44336;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 75%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
-  // box-shadow: 0 2px 4px 0 rgba(38, 156, 54, 0.2), 0 3px 10px 0 rgba(38, 156, 54, 0.4);
-}
 .button_new_CSSCM{
+  margin-top: 30rpx;
   background-color: #f4cf6c;
+  padding: 10rpx;
   width: 100%;
-  padding: 8rpx;
   border-radius: 8px;
   font-weight: bold;
   color: #264436;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 75%;
+  font-size: 85%;
+  // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.4);
-  // box-shadow: 0 2px 4px 0 rgba(38, 156, 54, 0.2), 0 3px 10px 0 rgba(38, 156, 54, 0.4);
 }
 .info_icon_CSSCM{
   width: 50px;
