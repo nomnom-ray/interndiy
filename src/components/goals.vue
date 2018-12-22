@@ -12,19 +12,19 @@
         :title="'In subject ' + (subjectIndex) + ': ' + subject.summary"
         :name="subjectIndex"
       >
-        <div
+        <!-- <div
           v-if='subject.concepts.length === 0'
           style='color:grey;text-align:center;font-size:83%'
         >
           No goals in this subject.
-        </div>        
+        </div>         -->
         <app-goal-cards
           v-if="concept.question != ''"
           :key='conceptIndex'
           v-for='(concept, conceptIndex) in subject.concepts'
           :propConcept='concept'
           :propConceptIndex='conceptIndex'
-          :propSubjectIndex='SubjectIndex'
+          :propSubjectIndex='subjectIndex'
         >
         </app-goal-cards>
       </wux-accordion>

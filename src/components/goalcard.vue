@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!arrowLeftShow"
     class="card_undone_CSSG"
   >
     <div style="font-weight: bold;text-align:center;padding: 10rpx 0 0 0">Goal</div>
@@ -19,9 +20,56 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: ['propConcept', 'propConceptIndex', 'propSubjectIndex'],
   computed: {
+    ...mapGetters({
+      subjects: 'subjects',
+      relations: 'relations',
+    }),
+    // showrelation() {
+    //   console.log(this.relations);
+    //   console.log(this.conceptParent);
+    // },
+    arrowLeftShow() {
+      // left arrow is visible when: 1) concept id of a last kid; 2) id is of a mid subject
+      if (this.conceptFirst && (this.conceptIncludeKid && !this.conceptParent)) {
+        return true;
+      }
+      return false;
+    },
+    conceptFirst() {
+      // smallest concept ID in any subject: first concept
+      // console.log(this.propSubject, 'conceptFirst', this.subjects[this.propSubject]);
+      // console.log(this.subjects[this.propSubject].concepts[0].id);
+      if (this.subjects[this.propSubjectIndex] &&
+        this.propConcept.id <= this.subjects[this.propSubjectIndex].concepts[0].id) {
+        return true;
+      }
+      return false;
+    },
+    conceptIncludeKid() {
+      // concepts[0] of kid with non-biggest subject ID < concepts.len: mid-kid w concept
+      // concepts[0] of kid with non-biggest subject ID = concepts.len: mid kid
+      const kidCheck = this.relations
+        .find(kinship => kinship.kids.find(kid => kid.id === this.propSubjectIndex));
+      if (kidCheck) {
+        return true;
+      }
+      return false;
+    },
+    conceptParent() {
+      // a parent concept: concept w kids
+      const parentRecord = this.relations
+        .find(element => element.parentId.subject.id === this.propSubjectIndex &&
+        element.parentId.concept.id === this.propConcept.id);
+      if (parentRecord) {
+        return true;
+      }
+      return false;
+    },
   },
 };
 </script>

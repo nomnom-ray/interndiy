@@ -3,6 +3,7 @@ const state = {
   conceptsSelected: [],
   subjects: [],
   conceptsCount: [],
+  relations: [],
 };
 
 const mutations = {
@@ -52,6 +53,10 @@ const mutations = {
   // eslint-disable-next-line
   CONCEPTSCOUNT_INIT(state, payload) {
     state.conceptsCount = payload;
+  },
+  // eslint-disable-next-line
+  RELATIONS_UPDATE(state, payload) {
+    state.relations = payload;
   },
   // eslint-disable-next-line
   SUBJECTS_SET(state, payload) {
@@ -153,12 +158,16 @@ const actions = {
   subjectsUpdate: ({ commit }, payload) => {
     commit('SUBJECTS_UPDATE', payload);
   },
+  relationsUpdate: ({ commit }, payload) => {
+    commit('RELATIONS_UPDATE', payload);
+  },
 };
 
 const getters = {
   subjects: () => state.subjects,
   conceptsSelected: () => state.conceptsSelected,
   conceptsCount: () => state.conceptsCount,
+  relations: () => state.relations,
 };
 
 const localStorageAPI = {

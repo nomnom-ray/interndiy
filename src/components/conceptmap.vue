@@ -310,6 +310,9 @@
                 subjectRelationsStored.push(subjectKin);
               }
               that.subjectRelations = subjectRelationsStored;
+
+              // TODO: update behavior store`
+              that.relationsUpdate(that.subjectRelations);
             }
           } catch (err) {
             // eslint-disable-next-line
@@ -345,6 +348,9 @@
       //       content: this.conceptDescription,
       //     });
       //   }
+      // },
+      // TODO: watch for relation
+      // subjectRelations() {
       // },
       subjectSummary() {
         if (this.subjectPopupShow) {
@@ -382,6 +388,7 @@
         subjectsId: 'subjectsId',
         subjectsInit: 'subjectsInit',
         subjectsUpdate: 'subjectsUpdate',
+        relationsUpdate: 'relationsUpdate',
       }),
       subjectPopupToShow(subjectIndex) {
         if (subjectIndex === 0 || subjectIndex === 2) {
@@ -413,6 +420,9 @@
           //   console.log('set', type, ': ', res);
           // },
         });
+
+        // TODO: update behavior store
+        this.relationsUpdate(relations);
       },
       colClickedHandler(colClicked) {
         if (colClicked === 1) {
