@@ -61,10 +61,10 @@ export default {
       return false;
     },
     conceptParent() {
-      // a parent concept: concept w kids
+      console.log(this.relations);
       const parentRecord = this.relations
-        .find(element => element.parentId.subject.id === this.propSubjectIndex &&
-        element.parentId.concept.id === this.propConcept.id);
+        .find(element => element.parent.subject.id === this.propSubjectIndex &&
+        element.parent.concept.id === this.propConcept.id);
       if (parentRecord) {
         return true;
       }

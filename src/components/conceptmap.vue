@@ -44,6 +44,7 @@
               Subject {{subject.id}}: Tap to add a summary statement.
             </div>
             <div
+              style="padding:0 16rpx 0 16rpx;"
               v-else-if="subject.id != 0 && subjectIndex === 1 && subject.summary !== ''"
             >
               {{subject.id}}) {{subject.summary}}
@@ -742,6 +743,7 @@
 }
 .shift_container_CSSCM{
   position: fixed;
+  z-index: 9999;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -837,6 +839,7 @@
 }
 .button_new_CSSCM{
   margin-top: 30rpx;
+  z-index: 9999;
   background-color: #f4cf6c;
   padding: 10rpx;
   width: 100%;

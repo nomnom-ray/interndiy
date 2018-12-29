@@ -22,7 +22,7 @@
   <wux-white-space />
   <wux-white-space />
 
-  <van-cell-group>
+  <!-- <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
       <span style='padding:0 20rpx 0 0'>1-on-1 tutorial</span>
@@ -42,12 +42,12 @@
     </div>
   </wux-wing-blank>
   <wux-white-space />
-  <wux-white-space />
+  <wux-white-space /> -->
 
   <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 2. Ask for project story</span>
+      <span style='padding:0 20rpx 0 0'>Step 2. Ask for a project story</span>
       <van-tag v-if="storyValue === ''" type="danger">Empty</van-tag>
       <van-tag v-else type="success">Saved</van-tag>
     </view>

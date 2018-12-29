@@ -1,6 +1,6 @@
 <template>
   <div>
-  <van-cell-group>
+  <!-- <van-cell-group>
   <van-cell>
     <view slot="title">
       <span style='padding:0 20rpx 0 0'>1-on-1 tutorial</span>
@@ -20,7 +20,7 @@
     </div>
   </wux-wing-blank>
   <wux-white-space />
-  <wux-white-space />
+  <wux-white-space /> -->
 
   <van-cell-group>
   <van-cell value="Go to tab" is-link @click='tab2Handle'>
