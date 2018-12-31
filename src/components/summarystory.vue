@@ -15,7 +15,7 @@
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
       Never leave your evaluation as a last-day-surprise.
-      Make it clear with your supervisor that you expect
+      Make it clear with your supervisors that you expect
       an Outstanding if expectations are made and met.
     </div>
   </wux-wing-blank>
@@ -58,8 +58,8 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
-      All your effort at work is built on the alignment with your supervisor.
-      Simply summarize your work environment is the best way to
+      All your effort at work is built on the alignment with your supervisors.
+      Simply summarize your responsibility at work is the best way to
       extract the essential things that can impact you.
     </div>
   </wux-wing-blank>
@@ -69,7 +69,7 @@
   <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 3. Empathize with your user</span>
+      <span style='padding:0 20rpx 0 0'>Step 3. Empathize with stakeholder</span>
       <van-tag v-if="objectiveResult === ''" type="danger">Empty</van-tag>
       <van-tag v-else type="success">Saved</van-tag>
     </view>
@@ -80,12 +80,8 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
-      <!-- Work knowing that your effort is spend justifiably on the
-      <span style='text-decoration: underline;'> planned offering</span>.
-      Find out about the user expectation sets your direction, scope, and endgame. -->
-      Work knowing that your effort is spent justifiably on things
-      that matter.
-      Find out about the user expectation will set your direction, scope, and endgame.
+      Your responsibility is easy to understand when broken down into finer topics.
+      Find out about the stakeholder expectation will set the direction, scope, and endgame.
     </div>
   </wux-wing-blank>
   <wux-white-space />
@@ -105,13 +101,22 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSS'>
       <span style='font-weight:bold'>Why?</span>
-      Work is easy when you have a step-by-step understanding of the
-      <span style='text-decoration: underline;'> planned offering.</span>
+      Breakng down a big picture is accomplished in a step-by-step way.
       Make the first step an action that will lead the 
-      <span style='text-decoration: underline;'> planned offering </span>
-      to deliver its value to your user.
+      <span style='text-decoration: underline;'>planned offering</span>
+      to deliver its value to your stakeholders.
     </div>
   </wux-wing-blank>
+  <wux-white-space />
+  <wux-white-space />
+
+  <van-cell-group>
+  <van-cell>
+    <view slot="title">
+      <span style='padding:0 20rpx 0 0'>Step 5. Move onto Tab 2</span>
+    </view>
+  </van-cell>
+  </van-cell-group>
   <wux-white-space />
   <wux-white-space />
   </div>

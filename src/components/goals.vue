@@ -9,7 +9,7 @@
         v-if="subject.id != 0"
         :key="subjectIndex"
         v-for='(subject, subjectIndex) in subjects'
-        :title="'In subject ' + (subjectIndex) + ': ' + subject.summary"
+        :title="'In topic ' + (subjectIndex) + ': ' + subject.summary"
         :name="subjectIndex"
       >
         <!-- <div

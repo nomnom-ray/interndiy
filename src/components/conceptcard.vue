@@ -12,7 +12,7 @@
       class='button_subject_CSSCC'
       :disabled="topAddDisable | resultBottomDisable"
       @click="subjectHandle"
-    >{{ (topAddDisable | resultBottomDisable) ? 'Disabled' : 'Create new subject &#x27A1;' }}
+    >{{ (topAddDisable | resultBottomDisable) ? 'Disabled' : 'Create new topic &#x27A1;' }}
     </button>
     <button
       v-if="conceptIsClicked"
@@ -44,7 +44,7 @@
         <div v-else>
           <div v-if='!questionTextShow'>
             <div style='padding:24rpx 0 0 0;text-decoration: underline'>
-              Characteristic of this step
+              What happens at this step?
             </div>
             <textarea
               class='popup_description_CSSCC'
@@ -126,23 +126,23 @@
       }),
       subjectHandle() {
         this.$root.$emit('newSubject');
-        // this.saveHandle(this.propConcept.id);
-        this.conceptIsClicked = false;
+        this.saveHandle(this.propConcept.id);
+        // this.conceptIsClicked = false;
       },
       topHandle() {
         this.$root.$emit('addTop');
-        // this.saveHandle(this.propConcept.id);
-        this.conceptIsClicked = false;
+        this.saveHandle(this.propConcept.id);
+        // this.conceptIsClicked = false;
       },
       bottomHandle() {
         this.$root.$emit('addBottom');
-        // this.saveHandle(this.propConcept.id);
-        this.conceptIsClicked = false;
+        this.saveHandle(this.propConcept.id);
+        // this.conceptIsClicked = false;
       },
       deleteHandle() {
         this.$root.$emit('deleteConcept');
-        // this.saveHandle(this.propConcept.id);
-        this.conceptIsClicked = false;
+        this.saveHandle(this.propConcept.id);
+        // this.conceptIsClicked = false;
       },
       cardClicked(idClicked, subjectClicked, subjectIndex) {
         if (subjectIndex === 0 || subjectIndex === 2) {

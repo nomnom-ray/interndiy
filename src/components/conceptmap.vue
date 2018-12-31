@@ -9,9 +9,9 @@
       @close="popupCloseHandler()"
       position='top'
     >
-      <wux-divider position="left" :text="'Subject summary (' + subjectSummary.length + '/200)'" />
+      <wux-divider position="left" :text="'Topic summary (' + subjectSummary.length + '/200)'" />
       <wux-wing-blank size="large">
-        <div class="placeholder_CSSCM">Instruction: note the theme of this subject column <span style='font-weight:bold'>after</span> there is sufficient details.</div>
+        <div class="placeholder_CSSCM">Info: summarize the theme of this topic column <span style='font-weight:bold'>after</span> there is sufficient details.</div>
         <textarea
           v-if='pageActive === 3 && subjectPopupShow'
           class="popup_summary_CSSCM"
@@ -41,7 +41,7 @@
             @click='subjectPopupToShow(subjectIndex), subjectSelected=subject.id'
           >
             <div class='summary_empty_CSSCM' v-if="subject.id != 0 && subjectIndex === 1 && subject.summary === ''">
-              Subject {{subject.id}}: Tap to add a summary statement.
+              Topic {{subject.id}}: Tap to add a summary statement.
             </div>
             <div
               style="padding:0 16rpx 0 16rpx;"

@@ -17,7 +17,7 @@
       <van-tab title="Tab 1. Story">
         <app-project-story></app-project-story>
       </van-tab>
-      <van-tab title="Tab 2. Character">
+      <van-tab title="Tab 2. Topics">
         <app-conceptmap></app-conceptmap>
       </van-tab>
       <van-tab title="Tab 3. Goals">

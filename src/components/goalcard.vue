@@ -61,7 +61,6 @@ export default {
       return false;
     },
     conceptParent() {
-      console.log(this.relations);
       const parentRecord = this.relations
         .find(element => element.parent.subject.id === this.propSubjectIndex &&
         element.parent.concept.id === this.propConcept.id);

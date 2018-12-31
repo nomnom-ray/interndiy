@@ -12,7 +12,7 @@
     <wux-white-space />
       <div v-if='evaluatorTips' @click="evaluatorTips = false" class='instruction_CSSPS'>
         <wux-wing-blank size="large">
-          <span style='font-weight:bold'>Info: </span> your supervisor is whomever that will give you the term evaluation.
+          <span style='font-weight:bold'>Info: </span> your supervisor is whomever gives you the term evaluation.
         </wux-wing-blank>
       </div>
     <wux-white-space v-if='evaluatorTips' />
@@ -62,21 +62,21 @@
     <div v-if="storyTips" @click="storyTips = false" class='instruction_CSSPS'>
       <wux-wing-blank size="large">
         <span style='font-weight:bold'>Info: </span>
-        Make sure you are not confined to only co-op responsibilities.
-        Ask your supervisor to describe your job like a full-time member of the team:
+        ask your supervisor to describe your job like a full-time member of the team.
+        Use our story as a template:
         <wux-white-space />
         <div style='color:grey;'>
           <div style='padding: 0 0 8rpx 0'>
-            We are <span style='border-bottom: 1px solid grey'>a design team</span> (i.e. your role).
+            We are <span style='border-bottom: 1px solid grey'>a product design team</span> (i.e. your role).
           </div>
           <div style='padding: 0 0 8rpx 0'>
-            we are <span style='border-bottom: 1px solid grey'>creating a co-op assistance app</span> (i.e. your work)
-            to <span style='border-bottom: 1px solid grey'>reduce the amount of 1-on-1 tutorials</span> (i.e. your goal).
+            we are <span style='border-bottom: 1px solid grey'>creating an app</span> (i.e. your work)
+            to <span style='border-bottom: 1px solid grey'>make training co-op students easy for supervisors</span> (i.e. your goal).
           </div>
           <div style='padding: 0 0 8rpx 0'>
-            When the goal is reached, <span style='border-bottom: 1px solid grey'>the student support team</span> (i.e. your stakeholder)
-            of <span style='border-bottom: 1px solid grey'>The Zero21 Company</span> (i.e. existing offering)
-            will <span style='border-bottom: 1px solid grey'>assist more students</span> (i.e. value of your work).
+            When the goal is reached, <span style='border-bottom: 1px solid grey'>the Co-op Education program</span> (i.e. your stakeholder)
+            of <span style='border-bottom: 1px solid grey'>University of Waterloo</span> (i.e. existing offering)
+            will <span style='border-bottom: 1px solid grey'>become much better than competing universities</span> (i.e. value of your work).
           </div>
         </div>
       </wux-wing-blank>
@@ -118,7 +118,7 @@
         <button
           class='button_new_CSSPS'
           @click="storySavedHandle"
-        >Confirm your story
+        >Confirm story
         </button>
       </wux-wing-blank>
       <wux-white-space />
@@ -232,7 +232,7 @@
 
     <div class='divider_container_CSSPS'>
       <div class='divider_content_CSSPS'>
-        <wux-divider position="left" text="3. Empathize with your user" />
+        <wux-divider position="left" text="3. Empathize with stakeholder" />
       </div>
       <div class='divider_icon_CSSPS'>
         <button @click="resultTips = !resultTips" class='button_new_CSSPS'>info</button>
@@ -241,18 +241,19 @@
     <wux-white-space />
     <div v-if='resultTips' @click="resultTips = false" class='instruction_CSSPS'>
       <wux-wing-blank size="large">
-        <span style='font-weight:bold'>Info: </span>like the underlined example, the planned offering is the existing offering including your goal:
+        <span style='font-weight:bold'>Info: </span>the planned offering is the existing offering adding your goal.
+        Use our planned offering (underlined) as a template:
         <wux-white-space />
         <div style='color:grey;'>
-        Due to <span style='text-decoration: underline;'>The Zero21 Company with a reduced need for 1-on-1 tutorials</span> (i.e. the planned offering),
-        the student support team can assist more students.
+        Due to <span style='text-decoration: underline;'>UWaterloo making training co-op students easy for supervisors</span> (i.e. the planned offering),
+        the Co-op Education program can become much better than competing universities.
         </div>
       </wux-wing-blank>
     </div>
     <wux-white-space v-if='resultTips' />
     <wux-white-space v-if='resultTips' />
     <div class="title_container_CSSPS">
-      User story
+      Stakeholder story
     </div>
     <wux-white-space />
       <div
@@ -277,7 +278,7 @@
         <button
           class='button_new_CSSPS'
           @click="resultSavedHandle"
-        >Confirm user story
+        >Confirm story
         </button>
       </wux-wing-blank>
       <wux-white-space />
@@ -314,12 +315,11 @@
     <wux-white-space />
     <div v-if='triggerTips' @click="triggerTips = false" class='instruction_CSSPS'>
       <wux-wing-blank size="large">
-        <span style='font-weight:bold'>Info: </span> ask your supervisor to describe,
-        <span style='border-bottom: 1px solid grey'>in steps,</span>
-        how the planned offering delivers value to the user. Write the first step here:
+        <span style='font-weight:bold'>Info: </span> ask your supervisor to describe, in steps,
+        how the planned offering delivers value to the stakeholder. Write the first step using our story as a template:
         <wux-white-space />
         <div style='color:grey'>
-          A student opens up the Zero21 co-op assistance app.
+          A student opens up the InternDIY app.
         </div>
       </wux-wing-blank>
     </div>

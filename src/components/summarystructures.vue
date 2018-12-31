@@ -1,51 +1,11 @@
 <template>
   <div>
   <van-cell-group>
-  <van-cell value="Tap to edit" is-link @click='tab2Handle'>
-    <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 1. Identitfy performance metric</span>
-      <van-tag v-if="true" type="danger">Empty</van-tag>
-      <van-tag v-else type="success">Saved</van-tag>
-    </view>
-  </van-cell>
-  </van-cell-group>
-  <wux-white-space />
-
-  <wux-wing-blank size="large">
-    <div class='instruction_CSSSSTR'>
-      <span style='font-weight:bold'>Why?</span>
-        placeholder
-    </div>
-  </wux-wing-blank>
-  <wux-white-space />
-  <wux-white-space />
-<!-- 
-  <van-cell-group>
   <van-cell>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>1-on-1 tutorial</span>
-      <van-tag v-if="true" type="danger">Undone</van-tag>
-      <van-tag v-else type="success">Done</van-tag>
-    </view>
-  </van-cell>
-  </van-cell-group>
-  <wux-white-space />
-
-  <wux-wing-blank size="large">
-    <div class='instruction_CSSSTR'>
-      <span style='font-weight:bold'>Why?</span>
-        placeholder
-    </div>
-  </wux-wing-blank>
-  <wux-white-space />
-  <wux-white-space />
-
-  <van-cell-group>
-  <van-cell value="Tap to edit" is-link @click='tab2Handle'>
-    <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 2. Grasp current strategy</span>
-      <van-tag v-if="true" type="danger">Empty</van-tag>
-      <van-tag v-else type="success">Saved</van-tag>
+      <span style='padding:0 20rpx 0 0'>Revisit and communicate</span>
+      <!-- <van-tag v-if="true" type="danger">Empty</van-tag>
+      <van-tag v-else type="success">Saved</van-tag> -->
     </view>
   </van-cell>
   </van-cell-group>
@@ -54,37 +14,19 @@
   <wux-wing-blank size="large">
     <div class='instruction_CSSSSTR'>
       <span style='font-weight:bold'>Why?</span>
-        placeholder
+      This list of goals is created as a project orientation to get you caught up at work
+      and start your assignment with your work-term report in mind. The goals will change over time.
+      You should revisit Tab 2 to catch errors and correct the gaps in your knowledge. 
     </div>
   </wux-wing-blank>
   <wux-white-space />
   <wux-white-space />
-
-  <van-cell-group>
-  <van-cell value="Tap to edit" is-link @click='tab2Handle'>
-    <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 3. Annotate key points</span>
-      <van-tag v-if="true" type="danger">Empty</van-tag>
-      <van-tag v-else type="success">Saved</van-tag>
-    </view>
-  </van-cell>
-  </van-cell-group>
-  <wux-white-space />
-
-  <wux-wing-blank size="large">
-    <div class='instruction_CSSSSTR'>
-      <span style='font-weight:bold'>Why?</span>
-        placeholder
-    </div>
-  </wux-wing-blank>
-  <wux-white-space />
-  <wux-white-space /> -->
-
   </div>
 </template>
 
 <script>
 // import { mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   computed: {
@@ -92,12 +34,12 @@ export default {
   //  }),
   },
   methods: {
-    // ...mapActions({
-    //   pageActiveUpdate: 'pageActiveUpdate',
-    // }),
-    // tab2Handle() {
-    //   this.pageActiveUpdate(3);
-    // },
+    ...mapActions({
+      pageActiveUpdate: 'pageActiveUpdate',
+    }),
+    tab3Handle() {
+      this.pageActiveUpdate(4);
+    },
   },
 };
 </script>

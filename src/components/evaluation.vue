@@ -3,6 +3,11 @@
   >
     <wux-white-space />
     <wux-white-space />
+
+    <div
+      style="text-align:center;width:100%;font-weight:bold"
+    >Under Construction</div>
+
     <div
       class="form_title_CSSE"
     >Student Performance Evaluation</div>
@@ -21,7 +26,7 @@
     <div
       class="cell_title_CSSE"
     >Ability to learn</div>
-    <wux-radio-group name="interest" :value="scoreInterest" @change="changeInterest">
+    <wux-radio-group name="interest" :value="scoreLearn" @change="changeLearn">
         <wux-radio class="cell_label_CSSE" title="Sometimes slow to become proficient at new tasks or work processes" value="1" />
         <wux-radio class="cell_label_CSSE" title="Quick to become proficient at new tasks" value="2" />
         <wux-radio class="cell_label_CSSE" title="Exceeds expectations in the complexity and difficulty of work they are able to successfully complete" value="3" />
@@ -30,7 +35,7 @@
     <div
       class="cell_title_CSSE"
     >Quality of work</div>
-    <wux-radio-group name="interest" :value="scoreInterest" @change="changeInterest">
+    <wux-radio-group name="interest" :value="scoreQuality" @change="changeQuality">
         <wux-radio class="cell_label_CSSE" title="Work does not meet expectations, has more than the expected number of errors" value="1" />
         <wux-radio class="cell_label_CSSE" title="Work is usually very thorough and well done, few errors" value="2" />
         <wux-radio class="cell_label_CSSE" title="Work is always very thorough and of excellent quality, few if any errors" value="3" />
@@ -40,7 +45,7 @@
     <div
       class="cell_title_CSSE"
     >Interpersonal Communication</div>
-    <wux-radio-group name="interest" :value="scoreInterest" @change="changeInterest">
+    <wux-radio-group name="interest" :value="scoreCommunication" @change="changeCommunication">
         <wux-radio class="cell_label_CSSE" title="Displays inconsistent listening skills and is reluctant to seek input from others" value="1" />
         <wux-radio class="cell_label_CSSE" title="Interactions with others demonstrate acceptable listening skills and the ability to sometimes seek the opinions, ideas, and expertise of others" value="2" />
         <wux-radio class="cell_label_CSSE" title="Interactions with others demonstrate exceptional active listening skills and the ability to proactively seek the opinions, ideas, and expertise of others" value="3" />
@@ -120,11 +125,23 @@ export default {
   data() {
     return {
       scoreInterest: '3',
+      scoreLearn: '3',
+      scoreQuality: '3',
+      scoreCommunication: '3',
     };
   },
   methods: {
     changeInterest(e) {
       this.scoreInterest = e.mp.detail.value;
+    },
+    changeLearn(e) {
+      this.scoreLearn = e.mp.detail.value;
+    },
+    changeQuality(e) {
+      this.scoreQuality = e.mp.detail.value;
+    },
+    changeCommunication(e) {
+      this.scoreCommunication = e.mp.detail.value;
     },
   },
 };
@@ -133,7 +150,7 @@ export default {
 
 <style lang="scss" scoped>
 .checkbox_CSSE{
-  position: static;
+  position: stachangeQuality;
 }
 .cell_label_CSSE{
   font-size: 85%;

@@ -1,6 +1,6 @@
 <template>
   <div>
-  <van-cell-group>
+  <!-- <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab2Handle'>
     <view slot="title">
       <span style='padding:0 20rpx 0 0'>1) outro</span>
@@ -9,12 +9,12 @@
     </view>
   </van-cell>
   </van-cell-group>
-  <wux-white-space />
+  <wux-white-space /> -->
 
   <wux-wing-blank size="large">
     <div class='instruction_CSSSO'>
-      <span style='font-weight:bold'>Why?</span>
-        placeholder
+      <span style='font-weight:bold'>Under construction: </span>
+        you will be able to submit your co-op evaluation directly from the InternDIY app.
     </div>
   </wux-wing-blank>
   <wux-white-space />
