@@ -61,9 +61,12 @@ export default {
       return false;
     },
     conceptParent() {
+      if (!this.relations.parentId) {
+        return false;
+      }
       const parentRecord = this.relations
-        .find(element => element.parent.subject.id === this.propSubjectIndex &&
-        element.parent.concept.id === this.propConcept.id);
+        .find(element => element.parentId.subject.id === this.propSubjectIndex &&
+        element.parentId.concept.id === this.propConcept.id);
       if (parentRecord) {
         return true;
       }

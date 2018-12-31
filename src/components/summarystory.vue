@@ -47,7 +47,7 @@
   <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 2. Ask for a project story</span>
+      <span style='padding:0 20rpx 0 0'>Step 2. Find the essentials</span>
       <van-tag v-if="storyValue === ''" type="danger">Empty</van-tag>
       <van-tag v-else type="success">Saved</van-tag>
     </view>
@@ -69,7 +69,7 @@
   <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 3. Empathize with stakeholder</span>
+      <span style='padding:0 20rpx 0 0'>Step 3. Find the endgame</span>
       <van-tag v-if="objectiveResult === ''" type="danger">Empty</van-tag>
       <van-tag v-else type="success">Saved</van-tag>
     </view>
@@ -90,7 +90,7 @@
   <van-cell-group>
   <van-cell value="Tap to edit" is-link @click='tab1Handle'>
     <view slot="title">
-      <span style='padding:0 20rpx 0 0'>Step 4. Imagine the planned offering</span>
+      <span style='padding:0 20rpx 0 0'>Step 4. Start the Topics</span>
       <van-tag v-if="trigger === ''" type="danger">Empty</van-tag>
       <van-tag v-else type="success">Saved</van-tag>
     </view>

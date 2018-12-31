@@ -126,8 +126,10 @@
       }),
       subjectHandle() {
         this.$root.$emit('newSubject');
-        this.saveHandle(this.propConcept.id);
-        // this.conceptIsClicked = false;
+        this.descriptionSaveHandle();
+        this.questionSaveHandle();
+        // this.saveHandle(this.propConcept.id);
+        this.conceptIsClicked = false;
       },
       topHandle() {
         this.$root.$emit('addTop');
@@ -141,8 +143,7 @@
       },
       deleteHandle() {
         this.$root.$emit('deleteConcept');
-        this.saveHandle(this.propConcept.id);
-        // this.conceptIsClicked = false;
+        this.conceptIsClicked = false;
       },
       cardClicked(idClicked, subjectClicked, subjectIndex) {
         if (subjectIndex === 0 || subjectIndex === 2) {
@@ -164,8 +165,6 @@
         this.questionSaveHandle();
         this.conceptIsClicked = false;
         this.questionTextShow = false;
-        // this.descriptionLocal = '';
-        // this.questionLocal = '';
         const index = this.conceptsSelected.map(element => element.conceptId).indexOf(idClicked);
         this.conceptsDeselect(index);
       },
@@ -495,7 +494,7 @@
       position: absolute;
       border-style: solid;
       border-width: 24px 0 24px 14px;
-      border-color: transparent #eff1f7;
+      border-color: transparent #fafafc;
       display: block;
       width: 0;
       z-index: 99;
@@ -591,7 +590,7 @@
       position: absolute;
       border-style: solid;
       border-width: 14px 24px 0;
-      border-color: #eff1f7 transparent;
+      border-color: #fafafc transparent;
       display: block;
       width: 0;
       z-index: 99;

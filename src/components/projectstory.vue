@@ -134,7 +134,7 @@
               v-model='storyRoleLocal'
               :maxlength="200"
               auto-height
-              cursor-spacing='20'
+              cursor-spacing='40'
               placeholder='Tap here to type.'
             >
             </textarea>
@@ -151,7 +151,7 @@
               v-model='storyWorkLocal'
               :maxlength="200"
               auto-height
-              cursor-spacing='20'
+              cursor-spacing='40'
               placeholder='Tap here to type.'
             >
             </textarea>
@@ -168,7 +168,7 @@
               v-model='storyGoalLocal'
               :maxlength="200"
               auto-height
-              cursor-spacing='20'
+              cursor-spacing='40'
               placeholder='Tap here to type.'
             >
             </textarea>
@@ -185,7 +185,7 @@
               v-model='storyUserLocal'
               :maxlength="200"
               auto-height
-              cursor-spacing='20'
+              cursor-spacing='40'
               placeholder='Tap here to type.'
             >
             </textarea>
@@ -202,7 +202,7 @@
               v-model='storySystemLocal'
               :maxlength="200"
               auto-height
-              cursor-spacing='20'
+              cursor-spacing='40'
               placeholder='Tap here to type.'
             >
             </textarea>
@@ -219,7 +219,7 @@
               v-model='storyValueLocal'
               :maxlength="200"
               auto-height
-              cursor-spacing='20'
+              cursor-spacing='40'
               placeholder='Tap here to type.'
             >
             </textarea>
@@ -294,7 +294,7 @@
               v-model='objectiveResultLocal'
               :maxlength="200"
               auto-height
-              cursor-spacing='20'
+              cursor-spacing='40'
               placeholder='Tap here to type.'
             >
             </textarea>
@@ -677,7 +677,8 @@ export default {
   display: table-cell;
   vertical-align: middle;
   // padding: 0 10rpx 0 0;
-  color: #d10202;
+  // color: #d10202;
+  font-weight: bold;
   font-size: 85%;
   width: 18%;
 }
