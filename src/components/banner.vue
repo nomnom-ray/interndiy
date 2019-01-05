@@ -16,8 +16,8 @@
       </wux-col>
       <wux-col span='7' push='3'>
         <div class='info_content_CSSB'>
-          <span style='font-weight:bold;color:#264436;font-size:110%'>Unprepared for co-op?</span>
-          We help you fit in at work; easiest Outstanding, ever!
+          <span style='font-weight:bold;color:#264436;font-size:110%'>Nervous working with a new team?</span>
+          We help you find the right questions to ask!
         </div>
       </wux-col>
     </wux-row>
@@ -25,8 +25,8 @@
     <wux-row>
       <wux-col span='7' push='1'>
         <div class='info_content_CSSB'>
-          <span style='font-weight:bold;color:#264436;font-size:110%'>Work-term report?</span>
-          We organize your writing material from day 1!
+          <span style='font-weight:bold;color:#264436;font-size:110%'>Afraid of looking like an amateur?</span>
+          We help you find the gaps in your understanding!
         </div>
           <!-- <img
             class="ray_CSSB"
@@ -57,14 +57,13 @@
       </wux-col>
       <wux-col span='7' push='3'>
         <div class='info_content_CSSB'>
-          Your data is only on this device!
-          Message us directly if you cannot
-          have company data on here, either.
+          <span style='font-weight:bold;color:#264436;font-size:110%'>Can't have company data on this device?</span>
+          This guide teaches logic. You can work through it on paper!
         </div>
       </wux-col>
     </wux-row>
     <div class="name_container_CSSB">
-      <span style='font-weight:bold;color:#264436'>Zero21</span> Co-op Guide
+      <span style='font-weight:bold;color:#264436'>InternDIY</span> Co-op Guide
     </div>
     <wux-white-space />
     <wux-wing-blank body-style="margin-left:180rpx;margin-right:180rpx">

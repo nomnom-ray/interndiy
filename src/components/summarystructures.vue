@@ -16,7 +16,7 @@
       <span style='font-weight:bold'>Why?</span>
       This list of goals is created as a project orientation to get you caught up at work
       and start your assignment with your work-term report in mind. The goals will change over time.
-      You should revisit Tab 2 to catch errors and correct the gaps in your knowledge. 
+      You should revisit Tab 2 to catch errors and mend the gaps in your knowledge. 
     </div>
   </wux-wing-blank>
   <wux-white-space />

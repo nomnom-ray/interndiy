@@ -46,7 +46,7 @@
     <div class='instruction_CSSSB'>
       <span style='font-weight:bold'>Why?</span>
       This is a step-by-step break-down of the big picture of your role. You can use this as a guide to
-      find topics for question and discuss with your team. 
+      find topics for question to discuss with your team. 
     </div>
   </wux-wing-blank>
   <wux-white-space />
@@ -68,13 +68,13 @@
       <span style='font-weight:bold'>How?</span>
       Tap on a card to create a new topic, and describe in steps
       for a topic related to this card. Iterate until there are enough
-      topics to capture your responsibilities.
+      topics to capture the scope of your work.
     </div>
     <wux-white-space />
     <div class='instruction_CSSSB'>
       <span style='font-weight:bold'>Why?</span>
-        Some of these topics contain the scope of your co-op responsibilities in the big picture.
-        You can use its connection to the big picture to find work that you prefer.
+        Some of these topics are your co-op responsibilities.
+        You can use its connection to the big picture to negotiate for work that you prefer.
     </div>
   </wux-wing-blank>
   <wux-white-space />

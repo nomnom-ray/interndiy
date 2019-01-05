@@ -29,13 +29,13 @@
     <wux-wing-blank size="large">
     <div v-if="stepActive === 0" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Story"</span>
-      summarizes your work before breaking it down into definitive tasks.</div>
+      summarizes your work before breaking it down into definitive goals.</div>
     <div v-if="stepActive === 1" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Topics"</span>
-      contains a step-by-step visualization of the direction, scope, and endgame of your work.</div>
+      contain a step-by-step visualization of the direction, scope, and endgame of your work.</div>
     <div v-if="stepActive === 2" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Goals"</span>
-      is the collection of expectations in your responsibilities.</div>
+      are the collection of expectations in your work.</div>
     <div v-if="stepActive === 3" class='instruction_CSSSU'>
       <span style='font-weight:bold'>"Evaluation"</span>
       is your superviors' rubric to assess your co-op term.</div>

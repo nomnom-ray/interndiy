@@ -177,7 +177,8 @@
         <wux-white-space />
         <div class='input_container_CSSPS'>
           <div class='input_content_CSSPS'>
-            User
+            Stake-
+            holder
           </div>
           <div class='input_text_CSSPS'>
             <textarea

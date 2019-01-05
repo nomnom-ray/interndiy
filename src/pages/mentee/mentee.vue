@@ -1,11 +1,11 @@
 <template>
-  <!-- <div v-if='bannerLocal'>
+  <div v-if='bannerLocal'>
     <app-banner
     :propBannerHide='bannerLocal'
     ></app-banner>
-  </div> -->
-  <!-- <div v-else> -->
-  <div>
+  </div>
+  <div v-else>
+  <!-- <div> -->
     <!-- <button @click='pageActive += 1'>ADD TAB</button> -->
     <!-- search for flex in tabs css; there are 2 enteries changed to 31% width -->
     <van-tabs :active="pageActiveLocal || 1" @change="pageChange">

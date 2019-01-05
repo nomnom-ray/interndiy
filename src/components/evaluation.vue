@@ -8,7 +8,7 @@
       style="text-align:center;width:100%;font-weight:bold"
     >Under Construction</div>
 
-    <div
+    <!-- <div
       class="form_title_CSSE"
     >Student Performance Evaluation</div>
     <wux-white-space />
@@ -73,7 +73,7 @@
         @click='clearAll'
       >Submit to UWaterloo
       </button>
-    </wux-wing-blank>
+    </wux-wing-blank> -->
 
     <wux-white-space />
     <wux-white-space />
